@@ -1,0 +1,10 @@
+{
+  "files": {
+    "main.js": "/react-firebase/build/static/js/main.bc7f1fc4.js",
+    "index.html": "/react-firebase/build/index.html",
+    "main.bc7f1fc4.js.map": "/react-firebase/build/static/js/main.bc7f1fc4.js.map"
+  },
+  "entrypoints": [
+    "static/js/main.bc7f1fc4.js"
+  ]
+}
