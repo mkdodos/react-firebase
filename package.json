@@ -15,12 +15,14 @@
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/mkdodos/react-firebase/issues"
-  }, 
+  },
   "homepage": "react-firebase/build",
   "dependencies": {
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-scripts": "^5.0.1"
+    "react-scripts": "^5.0.1",
+    "semantic-ui-css": "^2.5.0",
+    "semantic-ui-react": "^2.1.5"
   },
   "browserslist": {
     "production": [
