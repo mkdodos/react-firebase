@@ -3,6 +3,7 @@ import { Button, TabPane, Tab } from 'semantic-ui-react';
 import { db } from '../../utils/firebase';
 import Stat from './stat/index';
 import Transaction from './transaction';
+import GroupView from './transaction/components/GroupView';
 
 
 export default function Index() {
@@ -91,6 +92,18 @@ export default function Index() {
               loading={loading}
               setLoading={setLoading}
             />
+          </TabPane>
+        </>
+      ),
+    },
+    {
+      menuItem: '金額依日期統計',
+      render: () => (
+        <>
+          <TabPane>
+            <GroupView rows={transactionRows}/>
+              
+           
           </TabPane>
         </>
       ),
