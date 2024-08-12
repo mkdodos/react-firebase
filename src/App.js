@@ -16,20 +16,28 @@ const Permission = {
 };
 
 export default function App() {
-  // https://wei-docusaurus-vercel.vercel.app/docs/React/Package/React-Protected-Routes
-  // const user = { login: true, permission: ['User'] };
-  const user = { login: true, permission: ['Admin'] };
-  // const user = { login: true };
+  // const user = localStorage.getItem('user');
+  // let user =JSON.parse(localStorage.getItem('user'));
+
+  let user=localStorage.getItem('user');
+  if(user){
+    user = JSON.parse(user);
+    user = { ...user, permission: ['Admin'] };
+  }
+
+  
+  // const user = { login: false, permission: ['Admin'] };
+  // const user = { login: true, permission: ['Admin'] };
   return (
     <Container>
       <BrowserRouter>
         <Navbar />
         <Routes>
+          <Route path="/" element={<Login />} />
           <Route path="/login" element={<Login />} />
 
           {/* 受保謢的路由 */}
           {/* 權限為管理員才能查看 */}
-
           <Route
             element={
               <ProtectedRoutes user={user} Permission={[Permission.Admin]} />
@@ -49,9 +57,6 @@ export default function App() {
           >
             <Route path="/maya" element={<Maya />} />
           </Route>
-
-          {/* <Route path="/stock" element={<Stock />} /> */}
-          {/* <Route path="/maya" element={<Maya />} /> */}
         </Routes>
       </BrowserRouter>
     </Container>
