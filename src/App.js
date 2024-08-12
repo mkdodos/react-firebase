@@ -35,16 +35,17 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/stock" element={<Stock />} />
 
           {/* 受保謢的路由 */}
           {/* 權限為管理員才能查看 */}
-          <Route
+          {/* <Route
             element={
               <ProtectedRoutes user={user} Permission={[Permission.Admin]} />
             }
           >
             <Route path="/stock" element={<Stock />} />
-          </Route>
+          </Route> */}
 
           {/* 權限為管理員和使用者都能查看 */}
           <Route
