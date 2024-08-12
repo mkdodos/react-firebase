@@ -4,13 +4,13 @@ import { Link, useNavigate } from 'react-router-dom';
 
 export default function Navbar() {
   // 取得 user 值
-  let user=localStorage.getItem('user');
-  if(user){
-    user = JSON.parse(user);
-  }
+  // let user=localStorage.getItem('user');
+  // if(user){
+  //   user = JSON.parse(user);
+  // }
   
 
-  console.log(user);
+  // console.log(user);
   const navigate = useNavigate();
 
   // 登出
@@ -32,11 +32,11 @@ export default function Navbar() {
         <Menu.Item as={Link} to="/stock">
           Stock
         </Menu.Item>
-        {user && (
+        {/* {user && (
           <Menu.Item onClick={handleLogout}>            
             <Icon name="sign-out" />
           </Menu.Item>
-        )}
+        )} */}
       </Menu>
     </div>
   );

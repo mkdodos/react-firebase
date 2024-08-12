@@ -7,7 +7,7 @@ import Login from './pages/Login';
 import Maya from './pages/Maya';
 import Stock from './pages/Stock';
 
-import ProtectedRoutes from './utils/ProtectedRoutes';
+// import ProtectedRoutes from './utils/ProtectedRoutes';
 
 // 使用者權限
 const Permission = {
@@ -19,11 +19,11 @@ export default function App() {
   // const user = localStorage.getItem('user');
   // let user =JSON.parse(localStorage.getItem('user'));
 
-  let user=localStorage.getItem('user');
-  if(user){
-    user = JSON.parse(user);
-    user = { ...user, permission: ['Admin'] };
-  }
+  // let user=localStorage.getItem('user');
+  // if(user){
+  //   user = JSON.parse(user);
+  //   user = { ...user, permission: ['Admin'] };
+  // }
 
   
   // const user = { login: false, permission: ['Admin'] };
@@ -36,6 +36,7 @@ export default function App() {
           <Route path="/" element={<Login />} />
           <Route path="/login" element={<Login />} />
           <Route path="/stock" element={<Stock />} />
+          <Route path="/maya" element={<Maya />} />
 
           {/* 受保謢的路由 */}
           {/* 權限為管理員才能查看 */}
@@ -48,7 +49,7 @@ export default function App() {
           </Route> */}
 
           {/* 權限為管理員和使用者都能查看 */}
-          <Route
+          {/* <Route
             element={
               <ProtectedRoutes
                 user={user}
@@ -57,7 +58,7 @@ export default function App() {
             }
           >
             <Route path="/maya" element={<Maya />} />
-          </Route>
+          </Route> */}
         </Routes>
       </BrowserRouter>
     </Container>
