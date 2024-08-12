@@ -33,8 +33,7 @@ export default function Navbar() {
           Stock
         </Menu.Item>
         {user && (
-          <Menu.Item onClick={handleLogout}>
-            {user.email}
+          <Menu.Item onClick={handleLogout}>            
             <Icon name="sign-out" />
           </Menu.Item>
         )}

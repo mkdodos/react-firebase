@@ -4,7 +4,12 @@ import { db } from '../../../utils/firebase';
 import TableView from './components/TableView';
 import EditForm from './components/EditForm';
 
-export default function Index({ statRows, setStatRows, handleRowClick,transactionRows }) {
+export default function Index({
+  statRows,
+  setStatRows,
+  handleRowClick,
+  transactionRows,
+}) {
   useEffect(() => {
     setStatRows(cals());
   }, [transactionRows]);
@@ -60,6 +65,7 @@ export default function Index({ statRows, setStatRows, handleRowClick,transactio
         qtys: sumQty,
         avgCost: avgCost,
         bonus: bonus,
+        bonusColor: bonus > 0 ? 'red' : 'green',
         bonusPercent: bonus / sum,
       };
     });
@@ -68,7 +74,7 @@ export default function Index({ statRows, setStatRows, handleRowClick,transactio
       cost: allCost,
       bonus: allBonus,
       price: allPrice,
-      bonusPercent:allBonus/allCost
+      bonusPercent: allBonus / allCost,
     });
     return temp;
   };
@@ -165,8 +171,6 @@ export default function Index({ statRows, setStatRows, handleRowClick,transactio
   const handleChange = (e) => {
     setRow({ ...row, [e.target.name]: e.target.value });
   };
-
-  
 
   return (
     <div>

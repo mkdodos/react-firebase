@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Button } from 'semantic-ui-react';
+import { Table, Button, Label } from 'semantic-ui-react';
 
 export default function TableView({
   rows,
@@ -8,6 +8,10 @@ export default function TableView({
   allStockAmt,
   handleRowClick,
 }) {
+  const style1 = {
+    color: 'red',
+  };
+
   return (
     <div>
       <Table unstackable striped>
@@ -23,7 +27,7 @@ export default function TableView({
               成本<br></br>
               {Math.round(allStockAmt.cost)}
             </Table.HeaderCell>
-           
+
             <Table.HeaderCell width={1}>
               損益
               <br></br>
@@ -53,10 +57,13 @@ export default function TableView({
                 </Table.Cell>
                 <Table.Cell>{Math.round(row.totalPrice)}</Table.Cell>
                 <Table.Cell>{Math.round(row.totalCost)}</Table.Cell>
-               
-                <Table.Cell>{Math.round(row.bonus)}</Table.Cell>
+
+                <Table.Cell style={{ color: row.bonusColor }}>
+                  { row.bonus>0 && '+'}
+                  {Math.round(row.bonus)}
+                </Table.Cell>
                 <Table.Cell>
-                  {Math.round(row.bonusPercent * 10000) / 100} %
+                  <Label basic size='large' color={row.bonusColor}>{Math.round(row.bonusPercent * 10000) / 100} %</Label>
                 </Table.Cell>
                 {/* <Table.Cell>{row.bonusPercent*100}</Table.Cell> */}
                 <Table.Cell>{row.qtys} 股</Table.Cell>
