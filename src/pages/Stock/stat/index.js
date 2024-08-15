@@ -11,7 +11,13 @@ export default function Index({
   transactionRows,
 }) {
   useEffect(() => {
-    setStatRows(cals());
+    let data = cals();
+    // 依報酬率排序
+    data.sort((a, b) => {
+      return a.bonusPercent > b.bonusPercent ? 1 : -1;
+    });
+    // console.log(cals());
+    setStatRows(data);
   }, [transactionRows]);
 
   //  firebase 文件集合名稱

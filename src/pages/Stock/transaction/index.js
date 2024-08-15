@@ -8,7 +8,9 @@ export default function Index({
   transactionRows,
   setTransactionRows,
   statRows,
-  handleShowAll
+  handleShowAll,
+  tableOpen,
+  setTableOpen
 }) {
   /********** 變數 ************/
   // 欄位
@@ -101,6 +103,10 @@ export default function Index({
         rows={transactionRows}
         handleEdit={handleEdit}
         handleAdd={handleAdd}
+        open={tableOpen}
+        setOpen={setTableOpen}
+
+      
       />
       <EditForm
         statRows={statRows}

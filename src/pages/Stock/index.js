@@ -5,7 +5,6 @@ import Stat from './stat/index';
 import Transaction from './transaction';
 import GroupView from './transaction/components/GroupView';
 
-
 export default function Index() {
   const [loading, setLoading] = useState(false);
 
@@ -16,6 +15,9 @@ export default function Index() {
   const [transactionRows, setTransactionRows] = useState([]);
   // 交易資料複本(篩選用)
   const [transactionRowsCopy, setTransactionRowsCopy] = useState([]);
+
+  // 交易資料 Modal
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     fetchStatData();
@@ -53,11 +55,10 @@ export default function Index() {
   // stat 股票列 , 取得該列的股票名稱
   // 篩選出該股票交易明細
   const handleStatRowClick = (row) => {
-    // console.log(row.name)
     setTransactionRows(
       transactionRowsCopy.filter((obj) => obj.name == row.name)
     );
-    // console.log(transactionRowsCopy)
+    setOpen(true);
   };
 
   // 篩選後,需要顯示全部資料時,可按
@@ -76,6 +77,17 @@ export default function Index() {
             transactionRows={transactionRows}
             handleRowClick={handleStatRowClick}
           />
+
+          <Transaction
+            handleShowAll={handleShowAll}
+            statRows={statRows}
+            transactionRows={transactionRows}
+            setTransactionRows={setTransactionRows}
+            loading={loading}
+            setLoading={setLoading}
+            tableOpen={open}
+            setTableOpen={setOpen}
+          />
         </TabPane>
       ),
     },
@@ -91,6 +103,8 @@ export default function Index() {
               setTransactionRows={setTransactionRows}
               loading={loading}
               setLoading={setLoading}
+              tableOpen={open}
+              setTableOpen={setOpen}
             />
           </TabPane>
         </>
@@ -101,9 +115,7 @@ export default function Index() {
       render: () => (
         <>
           <TabPane>
-            <GroupView rows={transactionRows}/>
-              
-           
+            <GroupView rows={transactionRows} />
           </TabPane>
         </>
       ),
