@@ -13,9 +13,14 @@ export default function Index({
   useEffect(() => {
     let data = cals();
     // 依報酬率排序
-    data.sort((a, b) => {
-      return a.bonusPercent > b.bonusPercent ? 1 : -1;
-    });
+    // data.sort((a, b) => {
+    //   return a.bonusPercent > b.bonusPercent ? 1 : -1;
+    // });
+
+    // 依股票代號排序
+    // data.sort((a, b) => {
+    //   return a.stockId > b.stockId ? 1 : -1;
+    // });
     // console.log(cals());
     setStatRows(data);
   }, [transactionRows]);
@@ -182,6 +187,7 @@ export default function Index({
     <div>
       <TableView
         rows={statRows}
+        setStatRows={setStatRows}
         handleEdit={handleEdit}
         handleAdd={handleAdd}
         allStockAmt={allStockAmt}

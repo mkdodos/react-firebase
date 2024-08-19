@@ -3,9 +3,9 @@ import { Modal, Button, Form } from 'semantic-ui-react';
 
 export default function EditForm({
   open,
-  setOpen,  
+  setOpen,
   handleChange,
-  row, 
+  row,
   handleSave,
   handleDelete,
 }) {
@@ -17,9 +17,18 @@ export default function EditForm({
         open={open}
         closeIcon
       >
-        <Modal.Header>Select a Photo</Modal.Header>
+        <Modal.Header>編輯</Modal.Header>
         <Modal.Content>
           <Form>
+            <Form.Field>
+              <label>股票代號</label>
+              <input
+                type="text"
+                name="stockId"
+                value={row.stockId}
+                onChange={handleChange}
+              />
+            </Form.Field>
             <Form.Field>
               <label>股票名稱</label>
               <input

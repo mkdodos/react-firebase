@@ -29,8 +29,15 @@ export default function Index() {
     const data = snapshot.docs.map((doc) => {
       return { ...doc.data(), id: doc.id };
     });
+
+    // 依股票代號排序
+    data.sort((a, b) => {
+      return a.stockId > b.stockId ? 1 : -1;
+    });
+
+
     setStatRows(data);
-    console.log(data);
+    console.log('Lv1');
   };
 
   const fetchTransactionData = async () => {
@@ -45,7 +52,7 @@ export default function Index() {
       return a.date < b.date ? 1 : -1;
     });
 
-    console.log(data);
+    // console.log(data);
     setTransactionRows(data);
     setTransactionRowsCopy(data);
     setLoading(true);
