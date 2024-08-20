@@ -184,7 +184,7 @@ export default function Index({
   };
 
   return (
-    <div>
+    <>
       <TableView
         rows={statRows}
         setStatRows={setStatRows}
@@ -202,6 +202,6 @@ export default function Index({
         handleDelete={handleDelete}
         handleChange={handleChange}
       />
-    </div>
+    </>
   );
 }

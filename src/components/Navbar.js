@@ -24,7 +24,7 @@ export default function Navbar() {
   }
 
   return (
-    <div>
+    <>
       <Menu color="blue" widths={6} pointing secondary>
         <Menu.Item as={Link} to="/maya">
           Maya
@@ -38,6 +38,6 @@ export default function Navbar() {
           </Menu.Item>
         )} */}
       </Menu>
-    </div>
+    </>
   );
 }

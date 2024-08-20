@@ -10,6 +10,7 @@ export default function EditForm({
   handleSave,
   handleDelete,
   statRows,
+  rowIndex,
 }) {
   // console.log(stockRows);
 
@@ -23,14 +24,14 @@ export default function EditForm({
   // const options = [{ text: 'A', value: 'A', key: 'A' }];
 
   return (
-    <div>
+    <>
       <Modal
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
         open={open}
         closeIcon
       >
-        <Modal.Header>Select a Photo</Modal.Header>
+        <Modal.Header>交易記錄</Modal.Header>
         <Modal.Content>
           <Form>
             <Form.Field>
@@ -43,8 +44,9 @@ export default function EditForm({
               />
             </Form.Field>
             <Form.Field>
-            <label>股票名稱</label>
+              <label>股票名稱</label>
               <Form.Select
+                selection
                 placeholder="名稱"
                 fluid
                 options={stockOptions}
@@ -71,18 +73,20 @@ export default function EditForm({
                 onChange={handleChange}
               />
             </Form.Field>
-           
           </Form>
         </Modal.Content>
         <Modal.Actions>
-          <Button primary onClick={handleSave}>
+          <Button floated='left' primary onClick={handleSave}>
             儲存
           </Button>
-          <Button floated="left" color="red" onClick={handleDelete}>
-            刪除
-          </Button>
+
+          {rowIndex !== -1 && (
+            <Button  color="red" onClick={handleDelete}>
+              刪除
+            </Button>
+          )}
         </Modal.Actions>
       </Modal>
-    </div>
+    </>
   );
 }

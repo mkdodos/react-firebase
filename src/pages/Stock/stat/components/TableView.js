@@ -34,9 +34,9 @@ export default function TableView({
   };
 
   return (
-    <div>
+    <>
      
-      <Table sortable unstackable striped>
+      <Table sortable striped>
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell
@@ -118,6 +118,6 @@ export default function TableView({
           })}
         </Table.Body>
       </Table>
-    </div>
+    </>
   );
 }

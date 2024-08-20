@@ -10,7 +10,7 @@ export default function EditForm({
   handleDelete,
 }) {
   return (
-    <div>
+    <>
       <Modal
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
@@ -58,6 +58,6 @@ export default function EditForm({
           </Button>
         </Modal.Actions>
       </Modal>
-    </div>
+    </>
   );
 }

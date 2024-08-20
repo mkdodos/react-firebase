@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, TabPane, Tab } from 'semantic-ui-react';
+import { Button, TabPane, Tab, Modal, Table } from 'semantic-ui-react';
 import { db } from '../../utils/firebase';
 import Stat from './stat/index';
 import Transaction from './transaction';
@@ -34,7 +34,6 @@ export default function Index() {
     data.sort((a, b) => {
       return a.stockId > b.stockId ? 1 : -1;
     });
-
 
     setStatRows(data);
     console.log('Lv1');
@@ -85,16 +84,32 @@ export default function Index() {
             handleRowClick={handleStatRowClick}
           />
 
-          <Transaction
-            handleShowAll={handleShowAll}
-            statRows={statRows}
-            transactionRows={transactionRows}
-            setTransactionRows={setTransactionRows}
-            loading={loading}
-            setLoading={setLoading}
-            tableOpen={open}
-            setTableOpen={setOpen}
-          />
+          <Modal
+            onClose={() => {
+              setOpen(false);
+              handleShowAll();
+            }}
+            onOpen={() => setOpen(true)}
+            open={open}
+            closeIcon
+          >
+            <Modal.Header>交易明細</Modal.Header>
+            <Modal.Content>
+              <Transaction
+                handleShowAll={handleShowAll}
+                statRows={statRows}
+                transactionRows={transactionRows}
+                setTransactionRows={setTransactionRows}
+                loading={loading}
+                setLoading={setLoading}
+                tableOpen={open}
+                setTableOpen={setOpen}
+              />
+            </Modal.Content>
+            {/* <Modal.Actions>
+              <Button onClick={handleShowAll}>全部</Button>
+            </Modal.Actions> */}
+          </Modal>
         </TabPane>
       ),
     },
@@ -129,9 +144,15 @@ export default function Index() {
     },
   ];
 
+  const handleTabChange = (e, data) => {
+    // if (data.activeIndex == 1) {
+    //   setOpen(true);
+    // }
+  };
+
   return (
     <>
-      <Tab panes={panes} />
+      <Tab panes={panes} onTabChange={handleTabChange} />
     </>
   );
 }

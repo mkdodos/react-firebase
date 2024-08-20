@@ -93,11 +93,12 @@ export default function Index({
 
   // 修改股票名稱下拉選項值
   const handleStockNameChange = (e, { value }) => {
+    console.log(value)
     setRow({ ...row, name: value });
   };
 
   return (
-    <div>
+    <>
       <TableView
         handleShowAll={handleShowAll}
         rows={transactionRows}
@@ -113,11 +114,12 @@ export default function Index({
         open={open}
         setOpen={setOpen}
         row={row}
+        rowIndex={rowIndex}
         handleSave={handleSave}
         handleDelete={handleDelete}
         handleChange={handleChange}
         handleStockNameChange={handleStockNameChange}
       />
-    </div>
+    </>
   );
 }
