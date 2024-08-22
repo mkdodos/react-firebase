@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './pages/Login';
 import Maya from './pages/Maya';
 import Stock from './pages/Stock';
+import Money from './pages/Money'
 
 // import ProtectedRoutes from './utils/ProtectedRoutes';
 
@@ -37,6 +38,7 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/stock" element={<Stock />} />
           <Route path="/maya" element={<Maya />} />
+          <Route path="/money" element={<Money />} />
 
           {/* 受保謢的路由 */}
           {/* 權限為管理員才能查看 */}
