@@ -34,7 +34,8 @@ export default function App() {
       <BrowserRouter>
         <Navbar />
         <Routes>
-          <Route path="/" element={<Login />} />
+        <Route path="/react-firebase/build" element={<Money />} />
+          <Route path="/" element={<Stock />} />
           <Route path="/login" element={<Login />} />
           <Route path="/stock" element={<Stock />} />
           <Route path="/maya" element={<Maya />} />

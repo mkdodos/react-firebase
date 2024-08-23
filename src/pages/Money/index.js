@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { db } from '../../utils/firebase';
 import TableView from './components/TableView';
 import EditForm from './components/EditForm';
+import SearchBar from './components/SearchBar';
 
 export default function index() {
   // 預設物件
@@ -14,6 +15,9 @@ export default function index() {
   // 物件資料集合
   const [rows, setRows] = useState([]);
 
+  // 物件資料集合(搜尋用)
+  const [rowsCopy, setRowsCopy] = useState([]);
+
   // 編輯列
   const [row, setRow] = useState(defaultRow);
 
@@ -23,6 +27,12 @@ export default function index() {
   // 表單開關
   const [open, setOpen] = useState(false);
 
+  // 載入中
+  const [loading, setLoading] = useState(false);
+
+  // 搜尋
+  const [search, setSearch] = useState({ name: '世烽' });
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -30,11 +40,18 @@ export default function index() {
   // const url = 'http://localhost:8888/pdo-echoway/salary/salaryBasic/read.php';
 
   const fetchData = async () => {
-    const snapshot = await db.collection('wedding2022').orderBy('id').get();
+    setLoading(true);
+    const snapshot = await db
+      .collection('wedding2022')
+      .orderBy('id')
+      .limit(10)
+      .get();
     const data = snapshot.docs.map((doc) => {
       return { ...doc.data(), id: doc.id };
     });
     setRows(data);
+    setRowsCopy(data);
+    setLoading(false);
     console.log(data);
   };
 
@@ -82,8 +99,27 @@ export default function index() {
     setOpen(false);
   };
 
+  // 查詢
+  const handleQuery = () => {
+    // let data = rows.slice();
+    if (search.name != '') {
+      // rowsCopy.filter((obj) => obj.name == search.name);
+      setRows(rowsCopy.filter((obj) => obj.name == search.name));
+    } else {
+      setRows(rowsCopy);
+    }
+
+    // console.log(data);
+  };
+
   return (
     <div>
+      <SearchBar
+        loading={loading}
+        handleQuery={handleQuery}
+        search={search}
+        setSearch={setSearch}
+      />
       <EditForm
         open={open}
         setOpen={setOpen}
