@@ -5,6 +5,7 @@ import { db } from '../../utils/firebase';
 import TableView from './components/TableView';
 import EditForm from './components/EditForm';
 import SearchBar from './components/SearchBar';
+import { Button } from 'semantic-ui-react';
 
 export default function index() {
   // 預設物件
@@ -33,6 +34,9 @@ export default function index() {
   // 搜尋
   const [search, setSearch] = useState({ name: '世烽' });
 
+  // 分頁
+  // 記錄最後一筆 ID
+  const [lastDoc,setLastDoc]=useState('');
   useEffect(() => {
     fetchData();
   }, []);
@@ -44,7 +48,7 @@ export default function index() {
     const snapshot = await db
       .collection('wedding2022')
       .orderBy('id')
-      .limit(10)
+      .limit(15)
       .get();
     const data = snapshot.docs.map((doc) => {
       return { ...doc.data(), id: doc.id };
@@ -52,7 +56,15 @@ export default function index() {
     setRows(data);
     setRowsCopy(data);
     setLoading(false);
-    console.log(data);
+
+    // 最後一筆
+    const lastDoc = snapshot.docs[snapshot.docs.length - 1];
+
+
+    setLastDoc(lastDoc);
+
+
+    console.log(lastDoc);
   };
 
   const handleAdd = () => {
@@ -101,19 +113,45 @@ export default function index() {
 
   // 查詢
   const handleQuery = () => {
-    // let data = rows.slice();
     if (search.name != '') {
-      // rowsCopy.filter((obj) => obj.name == search.name);
-      setRows(rowsCopy.filter((obj) => obj.name == search.name));
+      setRows(rowsCopy.filter((obj) => obj.name.includes(search.name)));
     } else {
       setRows(rowsCopy);
     }
-
-    // console.log(data);
   };
+
+  const handleMore =async ()=>{
+
+    setLoading(true);
+    const snapshot = await db
+      .collection('wedding2022')
+      .orderBy('id')
+      .startAfter(lastDoc)
+      .limit(5)
+      .get();
+    const data = snapshot.docs.map((doc) => {
+      return { ...doc.data(), id: doc.id };
+    });
+    // console.log(data)
+    setRows([...rows,...data]);
+    // setRowsCopy(data);
+    setLoading(false);
+
+    // 最後一筆
+    // const lastDoc = snapshot.docs[snapshot.docs.length - 1];
+
+
+    setLastDoc(snapshot.docs[snapshot.docs.length - 1])
+
+
+    // console.log(lastDoc);
+
+
+  }
 
   return (
     <div>
+      <Button onClick={handleMore}>More</Button>
       <SearchBar
         loading={loading}
         handleQuery={handleQuery}
