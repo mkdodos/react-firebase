@@ -6,6 +6,8 @@ import TableView from './components/TableView';
 import EditForm from './components/EditForm';
 import SearchBar from './components/SearchBar';
 import { Button } from 'semantic-ui-react';
+import ScrollTopButton from '../../components/ScrollTopButton';
+import MoreButton from './components/MoreButton';
 
 export default function index() {
   // 預設物件
@@ -120,7 +122,7 @@ export default function index() {
     }
   };
 
-  const handleMore =async ()=>{
+  const handleMoreData =async ()=>{
 
     setLoading(true);
     const snapshot = await db
@@ -151,7 +153,7 @@ export default function index() {
 
   return (
     <div>
-      <Button onClick={handleMore}>More</Button>
+      
       <SearchBar
         loading={loading}
         handleQuery={handleQuery}
@@ -167,6 +169,9 @@ export default function index() {
         handleDelete={handleDelete}
       />
       <TableView rows={rows} handleAdd={handleAdd} handleEdit={handleEdit} />
+      <MoreButton handleMoreData={handleMoreData}/>
+      {/* <Button floated='right' color='teal' onClick={handleMore}>More</Button> */}
+      <ScrollTopButton/>
     </div>
   );
 }
