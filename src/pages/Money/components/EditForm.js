@@ -17,18 +17,49 @@ export default function EditForm({
         open={open}
         closeIcon
       >
-        <Modal.Header>Select a Photo</Modal.Header>
+        <Modal.Header>編輯</Modal.Header>
         <Modal.Content>
           <Form>
             <Form.Field>
               <label>姓名</label>
               <input
                 type="text"
-                name="empName"
-                value={row.empName}
+                name="name"
+                value={row.name}
                 onChange={handleChange}
               />
             </Form.Field>
+            <Form.Group>
+            <Form.Field>
+              <label>參加人數</label>
+              <input
+                type="number"
+                name="people_qty"
+                value={row.people_qty}
+                onChange={handleChange}
+              />
+            </Form.Field>
+            <Form.Field>
+              <label>金額</label>
+              <input
+                type="number"
+                name="amount"
+                value={row.amount}
+                onChange={handleChange}
+              />
+            </Form.Field>
+            </Form.Group>
+
+            <Form.Field>
+              <label>備註</label>
+              <input
+                type="text"
+                name="note"
+                value={row.note}
+                onChange={handleChange}
+              />
+            </Form.Field>
+            
           </Form>
         </Modal.Content>
         <Modal.Actions>

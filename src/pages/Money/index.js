@@ -8,6 +8,7 @@ import SearchBar from './components/SearchBar';
 import { Button } from 'semantic-ui-react';
 import ScrollTopButton from '../../components/ScrollTopButton';
 import MoreButton from './components/MoreButton';
+import SearchRange from './components/SearchRange';
 
 export default function index() {
   // 預設物件
@@ -34,11 +35,14 @@ export default function index() {
   const [loading, setLoading] = useState(false);
 
   // 搜尋
-  const [search, setSearch] = useState({ name: '世烽' });
+  const [search, setSearch] = useState({ name: '',from:'',to:'' });
+
+  // 總筆數
+  const [rowsCount, setRowsCount] = useState(0);
 
   // 分頁
   // 記錄最後一筆 ID
-  const [lastDoc,setLastDoc]=useState('');
+  const [lastDoc, setLastDoc] = useState('');
   useEffect(() => {
     fetchData();
   }, []);
@@ -59,12 +63,14 @@ export default function index() {
     setRowsCopy(data);
     setLoading(false);
 
+    const snapshotAll = await db.collection('wedding2022').get();
+
+    setRowsCount(snapshotAll.size);
+
     // 最後一筆
     const lastDoc = snapshot.docs[snapshot.docs.length - 1];
 
-
     setLastDoc(lastDoc);
-
 
     console.log(lastDoc);
   };
@@ -122,8 +128,7 @@ export default function index() {
     }
   };
 
-  const handleMoreData =async ()=>{
-
+  const handleMoreData = async () => {
     setLoading(true);
     const snapshot = await db
       .collection('wedding2022')
@@ -135,30 +140,46 @@ export default function index() {
       return { ...doc.data(), id: doc.id };
     });
     // console.log(data)
-    setRows([...rows,...data]);
+    setRows([...rows, ...data]);
+    setRowsCopy([...rowsCopy, ...data]);
     // setRowsCopy(data);
     setLoading(false);
 
     // 最後一筆
     // const lastDoc = snapshot.docs[snapshot.docs.length - 1];
 
-
-    setLastDoc(snapshot.docs[snapshot.docs.length - 1])
-
+    setLastDoc(snapshot.docs[snapshot.docs.length - 1]);
 
     // console.log(lastDoc);
+  };
 
+  const handleQueryRange = async ()=>{
+    // console.log(search.from)
+    // console.log(search.to)
+    setLoading(true);
+    const snapshot = await db
+      .collection('wedding2022')      
+      .where('people_qty','>=',search.from)
+      .where('people_qty','<=',search.to)
+      .limit(20)      
+      .get();
+    const data = snapshot.docs.map((doc) => {
+      return { ...doc.data(), id: doc.id };
+    });
+    setRows(data)
+    setLoading(false)
 
   }
 
   return (
     <div>
-      
+      <SearchRange search={search} setSearch={setSearch} handleQueryRange={handleQueryRange}/>
       <SearchBar
         loading={loading}
         handleQuery={handleQuery}
         search={search}
         setSearch={setSearch}
+        rowsCount={rowsCount}
       />
       <EditForm
         open={open}
@@ -169,9 +190,9 @@ export default function index() {
         handleDelete={handleDelete}
       />
       <TableView rows={rows} handleAdd={handleAdd} handleEdit={handleEdit} />
-      <MoreButton handleMoreData={handleMoreData}/>
+      <MoreButton handleMoreData={handleMoreData} />
       {/* <Button floated='right' color='teal' onClick={handleMore}>More</Button> */}
-      <ScrollTopButton/>
+      <ScrollTopButton />
     </div>
   );
 }
