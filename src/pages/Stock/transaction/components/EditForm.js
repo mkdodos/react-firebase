@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Modal, Button, Form } from 'semantic-ui-react';
+import SelectSold from './SelectSold';
 
 export default function EditForm({
   open,
@@ -11,12 +12,21 @@ export default function EditForm({
   handleDelete,
   statRows,
   rowIndex,
+  isSold,
+  setIsSold,
+  handleSold
 }) {
   // console.log(stockRows);
+
+  
 
   const stockOptions = statRows.map((obj) => {
     return { key: obj.name, text: obj.name, value: obj.name };
   });
+
+  const handleItemClick = () => {
+    setIsSold(!isSold);
+  };
 
   // console.log(stockOptions);
 
@@ -34,6 +44,13 @@ export default function EditForm({
         <Modal.Header>交易記錄</Modal.Header>
         <Modal.Content>
           <Form>
+            <Form.Field>
+              <SelectSold
+                handleItemClick={handleItemClick}
+                isSold={isSold}
+                setIsSold={setIsSold}
+              />
+            </Form.Field>
             <Form.Field>
               <label>日期</label>
               <input
@@ -54,8 +71,8 @@ export default function EditForm({
                 onChange={handleStockNameChange}
               />
             </Form.Field>
-
             <Form.Field>
+              {/* <button onClick={() => handleSold(row.qty)}>賣出</button> */}
               <label>股數</label>
               <input
                 type="number"
@@ -64,8 +81,9 @@ export default function EditForm({
                 onChange={handleChange}
               />
             </Form.Field>
+
             <Form.Field>
-              <label>購入單價</label>
+              <label>單價</label>
               <input
                 type="number"
                 name="cost"
@@ -76,12 +94,12 @@ export default function EditForm({
           </Form>
         </Modal.Content>
         <Modal.Actions>
-          <Button floated='left' primary onClick={handleSave}>
+          <Button floated="left" primary onClick={handleSave}>
             儲存
           </Button>
 
           {rowIndex !== -1 && (
-            <Button  color="red" onClick={handleDelete}>
+            <Button color="red" onClick={handleDelete}>
               刪除
             </Button>
           )}

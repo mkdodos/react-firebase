@@ -6,11 +6,13 @@ import EditForm from './components/EditForm';
 
 export default function Index({
   transactionRows,
+  transactionRowsCopy,
   setTransactionRows,
+  setTransactionRowsCopy,
   statRows,
   handleShowAll,
   tableOpen,
-  setTableOpen
+  setTableOpen,
 }) {
   /********** 變數 ************/
   // 欄位
@@ -31,6 +33,9 @@ export default function Index({
   // firebase 文件集合名稱
   const colName = 'stockTransaction';
 
+  // 買進賣出
+  const [isSold, setIsSold] = useState(false);
+
   /********** 方法 ************/
   const handleAdd = () => {
     setOpen(true);
@@ -42,11 +47,24 @@ export default function Index({
   const handleSave = () => {
     // 依照有編輯列索引值決定做新增或修改
     if (rowIndex == -1) {
+      console.log(isSold);
+
+      const rowCopy = row;
+      if (isSold) {
+        rowCopy.qty = rowCopy.qty*-1; 
+        // setRow({ ...row, qty: row.qty * -100 });
+      }
+
+      
+      // row.qty = row.qty*-1; 
+      // console.log(row);
+      // return;
       db.collection(colName)
-        .add(row)
+        .add(rowCopy)
         .then((docRef) => {
           // 將編輯列加入資料陣列
-          setTransactionRows([...transactionRows, { ...row, id: docRef.id }]);
+          setTransactionRows([{ ...rowCopy, id: docRef.id }, ...transactionRows]);
+          setTransactionRowsCopy([{ ...rowCopy, id: docRef.id }, ...transactionRowsCopy]);
         });
     } else {
       // 修改表格中編輯列的值
@@ -58,6 +76,7 @@ export default function Index({
           const tempRows = transactionRows.slice();
           Object.assign(tempRows[rowIndex], row);
           setTransactionRows(tempRows);
+          // setTransactionRowsCopy(tempRows);
           setRowIndex(-1);
         });
     }
@@ -75,6 +94,7 @@ export default function Index({
       .delete()
       .then(() => {
         setTransactionRows(transactionRows.filter((obj) => obj.id != row.id));
+        setTransactionRowsCopy(transactionRowsCopy.filter((obj) => obj.id != row.id));
         setOpen(false);
       });
   };
@@ -88,13 +108,26 @@ export default function Index({
 
   // 修改欄位值
   const handleChange = (e) => {
-    setRow({ ...row, [e.target.name]: e.target.value });
+    const name = e.target.name;
+    let value = e.target.value;
+
+    // if (name == 'qty') {
+    //   value = value * -1;
+    // }
+
+    // console.log(value);
+    setRow({ ...row, [name]: value });
   };
 
   // 修改股票名稱下拉選項值
   const handleStockNameChange = (e, { value }) => {
-    console.log(value)
+    console.log(value);
     setRow({ ...row, name: value });
+  };
+
+  const handleSold = (value) => {
+    setRow({ ...row, qty: value * -1 });
+    console.log('sold');
   };
 
   return (
@@ -106,14 +139,15 @@ export default function Index({
         handleAdd={handleAdd}
         open={tableOpen}
         setOpen={setTableOpen}
-
-      
       />
       <EditForm
+        isSold={isSold}
+        setIsSold={setIsSold}
         statRows={statRows}
         open={open}
         setOpen={setOpen}
         row={row}
+        handleSold={handleSold}
         rowIndex={rowIndex}
         handleSave={handleSave}
         handleDelete={handleDelete}

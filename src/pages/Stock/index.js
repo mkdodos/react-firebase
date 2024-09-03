@@ -100,6 +100,7 @@ export default function Index() {
                 statRows={statRows}
                 transactionRows={transactionRows}
                 setTransactionRows={setTransactionRows}
+                setTransactionRowsCopy={setTransactionRowsCopy}
                 loading={loading}
                 setLoading={setLoading}
                 tableOpen={open}
@@ -123,6 +124,8 @@ export default function Index() {
               statRows={statRows}
               transactionRows={transactionRows}
               setTransactionRows={setTransactionRows}
+              transactionRowsCopy={transactionRowsCopy}
+              setTransactionRowsCopy={setTransactionRowsCopy}
               loading={loading}
               setLoading={setLoading}
               tableOpen={open}

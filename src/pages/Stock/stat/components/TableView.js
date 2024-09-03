@@ -35,7 +35,6 @@ export default function TableView({
 
   return (
     <>
-     
       <Table sortable striped>
         <Table.Header>
           <Table.Row>
@@ -46,18 +45,28 @@ export default function TableView({
             >
               股票代號
             </Table.HeaderCell>
-            <Table.HeaderCell width={2}>股票名稱</Table.HeaderCell>
+            <Table.HeaderCell>股票名稱</Table.HeaderCell>
 
-            <Table.HeaderCell width={1}>
+            <Table.HeaderCell
+              sorted={column == 'totalPrice' ? direction : null}
+              onClick={() => handleSort('totalPrice')}
+              width={1}
+            >
               市值<br></br>
               {Math.round(allStockAmt.price)}
             </Table.HeaderCell>
-            <Table.HeaderCell width={1}>
+            <Table.HeaderCell
+              sorted={column == 'totalCost' ? direction : null}
+              onClick={() => handleSort('totalCost')}
+            >
               成本<br></br>
               {Math.round(allStockAmt.cost)}
             </Table.HeaderCell>
 
-            <Table.HeaderCell width={1}>
+            <Table.HeaderCell
+              sorted={column == 'bonus' ? direction : null}
+              onClick={() => handleSort('bonus')}
+            >
               損益
               <br></br>
               {Math.round(allStockAmt.bonus)}
@@ -70,7 +79,13 @@ export default function TableView({
             >
               {Math.round(allStockAmt.bonusPercent * 10000) / 100} %
             </Table.HeaderCell>
-            <Table.HeaderCell width={1}>股數</Table.HeaderCell>
+            <Table.HeaderCell
+              sorted={column == 'qtys' ? direction : null}
+              width={2}
+              onClick={() => handleSort('qtys')}
+            >
+              股數
+            </Table.HeaderCell>
             <Table.HeaderCell width={1}>平均成本</Table.HeaderCell>
             <Table.HeaderCell width={1}>現價</Table.HeaderCell>
 
