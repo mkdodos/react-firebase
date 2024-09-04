@@ -7,6 +7,7 @@ import Login from './pages/Login';
 import Maya from './pages/Maya';
 import Stock from './pages/Stock';
 import Money from './pages/Money'
+import Demo from './pages/Demo'
 
 // import ProtectedRoutes from './utils/ProtectedRoutes';
 
@@ -34,12 +35,13 @@ export default function App() {
       <BrowserRouter>
         <Navbar />
         <Routes>
-        <Route path="/react-firebase/build" element={<Money />} />
+        {/* <Route path="/react-firebase/build" element={<Money />} /> */}
           <Route path="/" element={<Stock />} />
           <Route path="/login" element={<Login />} />
           <Route path="/stock" element={<Stock />} />
           <Route path="/maya" element={<Maya />} />
           <Route path="/money" element={<Money />} />
+          <Route path="/demo" element={<Demo />} />
 
           {/* 受保謢的路由 */}
           {/* 權限為管理員才能查看 */}
