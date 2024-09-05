@@ -18,21 +18,60 @@ export default function EditForm() {
       name: 'birth',
       label: '生日',
     },
+    {
+      type: 'text',
+      name: 'addr',
+      label: '地址',
+    },
   ];
+
+  // 組合每一列 group
+  const formGroups = (columnsPerRow) => {
+    const groups = [];
+    for (let i = 0; i < columns.length; i++) {
+      if (i % columnsPerRow == 0)
+        groups.push(
+          <Form.Group widths={columnsPerRow} key={i}>{formFields(i, columnsPerRow)}</Form.Group>
+        );
+    }
+    return groups;
+  };
+
+  // 組合 group 中的 field
+  const formFields = (index, columnsPerRow) => {
+    let fields = [];
+    columns.slice(index, index + columnsPerRow).map((col, index) => {
+      fields.push(
+        <Form.Field key={index}>
+          <label>{col.label}</label>
+          <input type={col.type} name={col.name} />
+        </Form.Field>
+      );
+    });
+    return fields;
+  };
+
+  // console.log(formGroups())
 
   return (
     <Form>
-      {columns.map((col, index) => {
+      {formGroups(2)}
+      {/* {columns.map((col, index) => {
         return (
           <Form.Field key={index}>
             <label>{col.label}</label>
             <input type={col.type} name={col.name} />
           </Form.Field>
         );
-      })}
+      })} */}
 
-      {/* <label>姓名</label>
-        <input type="text" name="empName" /> */}
+      {/* <Form.Group widths={2}>
+        <Form.Field>
+          <Form.Input></Form.Input>
+          <label>姓名</label>
+          <input type="text" name="empName" />
+        </Form.Field>
+      </Form.Group> */}
     </Form>
   );
 }
