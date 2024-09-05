@@ -7,34 +7,25 @@ import axios from 'axios';
 import EditForm from './components/EditForm';
 import schema from './data/schema.json';
 
+
+
 export default function index() {
+  
+
+
   const [rows, setRows] = useState([]);
   // 文件集合名稱
-  // const colName = 'stockTransaction';
-  const colName = 'balances';
+  const colName = 'stockTransaction';
+  // const colName = 'balances';
   // const colName = 'cates';
   const columns = schema.tables.find((t) => t.table == colName).columns;
 
   // 表單開關
   const [open, setOpen] = useState(false);
-
-  // 預設物件
-  // const defaultRow = {
-  //   empName: '',
-  //   basicAmt: '',
-  // };
-
-  const defaultRow = {};
-
-  // 編輯列
-  const [row, setRow] = useState(defaultRow);
-
-  // 編輯列索引
-  const [rowIndex, setRowIndex] = useState(-1);
+ 
 
   useEffect(() => {
-    fetchFirebase();
-    columns.map((col) => (defaultRow[col.name] = ''));
+    fetchFirebase();   
   }, []);
 
   const fetchFirebase = async () => {
@@ -43,21 +34,33 @@ export default function index() {
       return { ...doc.data(), id: doc.id };
     });
     setRows(data);
+    // console.log(data);
+  };
+
+  const fetchAccess = () => {
+    const url = `http://localhost:8888/pdo-echoway/expense/read.php`;
+    axios
+      .get(url)
+      .then(function (response) {
+        // handle success
+        console.log(response.data);
+        setRows(response.data);
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      })
+      .finally(function () {
+        // always executed
+      });
   };
 
   const handleAdd = () => {
     setOpen(true);
   };
 
-  // 按下編輯鈕
-  const handleEdit = (editedRow, index) => {
-    setOpen(true);
-    setRow(editedRow);
-    setRowIndex(index);
-  };
-
-  const handleSave = () => {
-    console.log(row);
+  const handleEdit = () => {
+    console.log('edit');
   };
 
   return (
@@ -70,12 +73,10 @@ export default function index() {
       >
         <Modal.Header>標題</Modal.Header>
         <Modal.Content>
-          <EditForm row={row} setRow={setRow} columns={columns} />
+          <EditForm columns={columns} />
         </Modal.Content>
         <Modal.Actions>
-          <Button primary onClick={handleSave}>
-            儲存
-          </Button>
+          <Button primary>儲存</Button>
           <Button floated="left" color="red">
             刪除
           </Button>
@@ -84,6 +85,7 @@ export default function index() {
 
       <TableViewEdit
         rows={rows}
+       
         handleAdd={handleAdd}
         handleEdit={handleEdit}
         columns={columns}

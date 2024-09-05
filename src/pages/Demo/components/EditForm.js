@@ -2,41 +2,7 @@ import React from 'react';
 import { Form } from 'semantic-ui-react';
 import schema from '../data/schema.json';
 
-export default function EditForm({columns}) {
-  // console.log(schema)
-  // const columns = schema.tables[0].columns
-  // const columns = schema.tables[1].columns
-  // const colName = "stocks"
-  // const colName = "cates"
-  // const columns = schema.tables.find((t) => t.table == colName).columns;
-  // const columns = [
-  //   {
-  //     type: 'text',
-  //     name: 'empName',
-  //     label: '姓名',
-  //   },
-  //   {
-  //     type: 'number',
-  //     name: 'amt',
-  //     label: '金額',
-  //   },
-  //   {
-  //     type: 'date',
-  //     name: 'birth',
-  //     label: '生日',
-  //   },
-  //   {
-  //     type: 'text',
-  //     name: 'addr',
-  //     label: '地址',
-  //   },
-  //   {
-  //     type: 'text',
-  //     name: 'note',
-  //     label: '備註',
-  //   },
-  // ];
-
+export default function EditForm({ columns, row, setRow }) {
   // 組合每一列 group
   const formGroups = (columnsPerRow) => {
     const groups = [];
@@ -51,6 +17,12 @@ export default function EditForm({columns}) {
     return groups;
   };
 
+  const handleChange = (e) => {
+    setRow({ ...row, [e.target.name]: e.target.value });
+
+    // console.log('change')
+  };
+
   // 組合 group 中的 field
   const formFields = (index, columnsPerRow) => {
     let fields = [];
@@ -58,7 +30,12 @@ export default function EditForm({columns}) {
       fields.push(
         <Form.Field key={index}>
           <label>{col.label}</label>
-          <input type={col.type} name={col.name} />
+          <input
+            type={col.type}
+            name={col.name}
+            value={row[col.name]}
+            onChange={handleChange}
+          />
         </Form.Field>
       );
     });

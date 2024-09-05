@@ -4,7 +4,7 @@ import { Table, Button } from 'semantic-ui-react';
 export default function TableViewEdit({ rows,columns, loading,handleAdd, handleEdit }) {
   // const columns = Object.keys(obj);
 
-  console.log(columns)
+  // console.log(columns)
 
   return (
     <>
