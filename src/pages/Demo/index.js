@@ -5,33 +5,38 @@ import TableView from './components/TableView';
 import TableViewEdit from './components/TableViewEdit';
 import axios from 'axios';
 import EditForm from './components/EditForm';
+import schema from './data/schema.json';
+
+
 
 export default function index() {
+  // const columns = schema.tables[0].columns 
+ 
+
+
+
   const [rows, setRows] = useState([]);
   // 文件集合名稱
-  // const colName = 'stocks';
-  const colName = 'balances';
+  const colName = 'stockTransaction';
+  // const colName = 'balances';
+  // const colName = 'cates';
+
+
+  const columns = schema.tables.find((t) => t.table == colName).columns;
+
 
   // 表單開關
   const [open, setOpen] = useState(false);
 
   // 傳給 TableView
   // 欄位 key 為顯示內容 ,  value 為顯示標題
-  const obj = {
-    dateField: '日期',
-    itemName: '項目',
-    amt: '支出',
-    qty: '股數',
-  };
-
   // const obj = {
-  //   date: '日期',
-  //   title: '項目',
-  //   expense: '支出',
-  //   cate: '類別',
-  //   type: '類型',
-
+  //   dateField: '日期',
+  //   itemName: '項目',
+  //   amt: '支出',
+  //   qty: '股數',
   // };
+
 
   useEffect(() => {
     fetchFirebase();
@@ -44,7 +49,7 @@ export default function index() {
       return { ...doc.data(), id: doc.id };
     });
     setRows(data);
-    console.log(data);
+    // console.log(data);
   };
 
   const fetchAccess = () => {
@@ -83,7 +88,7 @@ export default function index() {
       >
         <Modal.Header>標題</Modal.Header>
         <Modal.Content>
-          <EditForm />
+          <EditForm columns={columns} />
         </Modal.Content>
         <Modal.Actions>
           <Button primary>儲存</Button>
@@ -95,9 +100,10 @@ export default function index() {
 
       <TableViewEdit
         rows={rows}
-        obj={obj}
+       
         handleAdd={handleAdd}
         handleEdit={handleEdit}
+        columns={columns}
       />
       {/* <TableView rows={rows} obj={obj} /> */}
     </>

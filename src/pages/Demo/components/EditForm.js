@@ -1,29 +1,41 @@
 import React from 'react';
 import { Form } from 'semantic-ui-react';
+import schema from '../data/schema.json';
 
-export default function EditForm() {
-  const columns = [
-    {
-      type: 'text',
-      name: 'empName',
-      label: '姓名',
-    },
-    {
-      type: 'number',
-      name: 'amt',
-      label: '金額',
-    },
-    {
-      type: 'date',
-      name: 'birth',
-      label: '生日',
-    },
-    {
-      type: 'text',
-      name: 'addr',
-      label: '地址',
-    },
-  ];
+export default function EditForm({columns}) {
+  // console.log(schema)
+  // const columns = schema.tables[0].columns
+  // const columns = schema.tables[1].columns
+  // const colName = "stocks"
+  // const colName = "cates"
+  // const columns = schema.tables.find((t) => t.table == colName).columns;
+  // const columns = [
+  //   {
+  //     type: 'text',
+  //     name: 'empName',
+  //     label: '姓名',
+  //   },
+  //   {
+  //     type: 'number',
+  //     name: 'amt',
+  //     label: '金額',
+  //   },
+  //   {
+  //     type: 'date',
+  //     name: 'birth',
+  //     label: '生日',
+  //   },
+  //   {
+  //     type: 'text',
+  //     name: 'addr',
+  //     label: '地址',
+  //   },
+  //   {
+  //     type: 'text',
+  //     name: 'note',
+  //     label: '備註',
+  //   },
+  // ];
 
   // 組合每一列 group
   const formGroups = (columnsPerRow) => {
@@ -31,7 +43,9 @@ export default function EditForm() {
     for (let i = 0; i < columns.length; i++) {
       if (i % columnsPerRow == 0)
         groups.push(
-          <Form.Group widths={columnsPerRow} key={i}>{formFields(i, columnsPerRow)}</Form.Group>
+          <Form.Group widths={columnsPerRow} key={i}>
+            {formFields(i, columnsPerRow)}
+          </Form.Group>
         );
     }
     return groups;
@@ -51,27 +65,5 @@ export default function EditForm() {
     return fields;
   };
 
-  // console.log(formGroups())
-
-  return (
-    <Form>
-      {formGroups(2)}
-      {/* {columns.map((col, index) => {
-        return (
-          <Form.Field key={index}>
-            <label>{col.label}</label>
-            <input type={col.type} name={col.name} />
-          </Form.Field>
-        );
-      })} */}
-
-      {/* <Form.Group widths={2}>
-        <Form.Field>
-          <Form.Input></Form.Input>
-          <label>姓名</label>
-          <input type="text" name="empName" />
-        </Form.Field>
-      </Form.Group> */}
-    </Form>
-  );
+  return <Form>{formGroups(2)}</Form>;
 }

@@ -1,0 +1,70 @@
+{
+  "tables": [
+    
+    
+    {
+      "table": "balances",
+      "columns": [
+        {
+          "name": "date",
+          "label": "日期",
+          "type": "date"
+        },
+        {
+          "name": "title",
+          "label": "項目",
+          "type": "text"
+        },
+        {
+          "name": "expense",
+          "label": "支出",
+          "type": "number"
+        }
+        
+      ]
+    },
+    
+    {
+      "table": "cates",
+      "columns": [
+        {
+          "name": "name",
+          "label": "類別",
+          "type": "text"
+        },
+        {
+          "name": "prior",
+          "label": "順序",
+          "type": "number"
+        }
+        
+      ]
+    },
+    {
+      "table": "stockTransaction",
+      "columns": [
+        {
+          "name": "date",
+          "label": "日期",
+          "type": "date"
+        },
+       
+        {
+          "name": "name",
+          "label": "名稱",
+          "type": "text"
+        },
+        {
+          "name": "qty",
+          "label": "股數",
+          "type": "number"
+        },
+        {
+          "name": "cost",
+          "label": "金額",
+          "type": "number"
+        }
+      ]
+    }
+  ]
+}

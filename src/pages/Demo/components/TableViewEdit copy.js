@@ -1,18 +1,16 @@
 import React, { useState } from 'react';
 import { Table, Button } from 'semantic-ui-react';
 
-export default function TableViewEdit({ rows,columns, loading,handleAdd, handleEdit }) {
-  // const columns = Object.keys(obj);
-
-  console.log(columns)
+export default function TableViewEdit({ rows,columns, obj,loading,handleAdd, handleEdit }) {
+  const columns = Object.keys(obj);
 
   return (
     <>
       <Table celled unstackable>
         <Table.Header>
           <Table.Row>
-            {columns.map((col, index) => {
-              return <Table.HeaderCell key={index}>{col.label}</Table.HeaderCell>;
+            {columns.map((k, index) => {
+              return <Table.HeaderCell key={index}>{obj[k]}</Table.HeaderCell>;
             })}
             <Table.HeaderCell width={2}>
               <Button primary onClick={handleAdd} loading={loading}>
@@ -27,7 +25,7 @@ export default function TableViewEdit({ rows,columns, loading,handleAdd, handleE
             return (
               <Table.Row key={row.id}>
                 {columns.map((col,index) => {
-                  return <Table.Cell key={index}>{row[col.name]}</Table.Cell>;
+                  return <Table.Cell key={index}>{row[col]}</Table.Cell>;
                 })}
 
                 <Table.Cell>
