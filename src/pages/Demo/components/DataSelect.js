@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Dropdown } from 'semantic-ui-react';
+import { Button, Dropdown, Form } from 'semantic-ui-react';
 
 export default function DataSelect({ setTable, handleTableQuery }) {
   const options = [
@@ -18,6 +18,11 @@ export default function DataSelect({ setTable, handleTableQuery }) {
       text: '存股',
       value: 'stockTransaction',
     },
+    {
+      key: '4',
+      text: '測試',
+      value: 'test',
+    },
   ];
 
   const handleChange = (e, { value }) => {
@@ -26,12 +31,20 @@ export default function DataSelect({ setTable, handleTableQuery }) {
 
   return (
     <>
-      <Dropdown
-        onChange={handleChange}
-        placeholder="選擇資料"
-        options={options}
-      />
-      <Button onClick={handleTableQuery}>查詢</Button>
+      <Form>
+        <Form.Group>
+          <Form.Field>
+            <Dropdown
+              onChange={handleChange}
+              placeholder="選擇資料"
+              options={options}
+            />
+          </Form.Field>
+          <Form.Field>
+            <Button onClick={handleTableQuery}>查詢</Button>
+          </Form.Field>
+        </Form.Group>
+      </Form>
     </>
   );
 }

@@ -8,10 +8,12 @@ import EditForm from './components/EditForm';
 import schema from './data/schema.json';
 import DataSelect from './components/DataSelect';
 
+import { createDoc, deleteDoc } from './data/firestore';
+
 export default function index() {
   const [rows, setRows] = useState([]);
   // 文件集合名稱
-  const [table, setTable] = useState('');
+  const [table, setTable] = useState('test');
   const [columns, setColumns] = useState([]);
   // 表單開關
   const [open, setOpen] = useState(false);
@@ -24,7 +26,9 @@ export default function index() {
   const [rowIndex, setRowIndex] = useState(-1);
 
   useEffect(() => {
-    // fetchFirebase();
+    setColumns(schema.tables.find((t) => t.table == table).columns);
+    fetchFirebase();
+
     // columns.map((col) => (defaultRow[col.name] = ''));
   }, []);
 
@@ -36,7 +40,7 @@ export default function index() {
   };
 
   const fetchFirebase = async () => {
-    const snapshot = await db.collection(table).limit(10).get();
+    const snapshot = await db.collection(table).limit(3).get();
     const data = snapshot.docs.map((doc) => {
       return { ...doc.data(), id: doc.id };
     });
@@ -46,6 +50,25 @@ export default function index() {
 
   const handleAdd = () => {
     setOpen(true);
+    setRow(defaultRow);
+    setRowIndex(-1);
+  };
+
+  const handleCreate = async () => {
+    // 將編輯列加入資料陣列
+    const id = await createDoc(table, row);
+    setRows([{ ...row, id }, ...rows]);
+
+    console.log(id);
+
+    // 關閉編輯視窗
+    setOpen(false);
+  };
+
+  const handleDelete = () => {
+    setRows(rows.filter((obj) => obj.id != row.id));
+    setOpen(false);
+    deleteDoc(table, row.id);
   };
 
   // 按下編輯鈕
@@ -56,7 +79,11 @@ export default function index() {
   };
 
   const handleSave = () => {
-    console.log(row);
+    // 依照有編輯列索引值決定做新增或修改
+    if (rowIndex == -1) {
+      handleCreate();
+    } else {
+    }
   };
 
   return (
@@ -74,13 +101,18 @@ export default function index() {
       >
         <Modal.Header>標題</Modal.Header>
         <Modal.Content>
-          <EditForm row={row} setRow={setRow} columns={columns} />
+          <EditForm
+            row={row}
+            setRow={setRow}
+            handleDelete={handleDelete}
+            columns={columns}
+          />
         </Modal.Content>
         <Modal.Actions>
           <Button primary onClick={handleSave}>
             儲存
           </Button>
-          <Button floated="left" color="red">
+          <Button floated="left" color="red" onClick={handleDelete}>
             刪除
           </Button>
         </Modal.Actions>

@@ -2,6 +2,25 @@
   "tables": [
     
     
+
+    {
+      "table": "test",
+      "columns": [
+        {
+          "name": "name",
+          "label": "類別",
+          "type": "text"
+        },
+        {
+          "name": "prior",
+          "label": "順序",
+          "type": "number"
+        }
+        
+      ]
+    },
+
+
     {
       "table": "balances",
       "columns": [
