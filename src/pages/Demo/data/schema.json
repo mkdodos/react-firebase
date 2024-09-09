@@ -1,6 +1,7 @@
 {
   "tables": [
     {
+      "id": 1,
       "table": "maya",
       "columns": [
         {
@@ -27,6 +28,7 @@
     },
 
     {
+      "id": 2,
       "table": "test",
       "columns": [
         {
@@ -43,12 +45,18 @@
     },
 
     {
+      "id": 3,
       "table": "balances",
       "columns": [
         {
           "name": "date",
           "label": "日期",
           "type": "date"
+        },
+        {
+          "name": "cate",
+          "label": "類別",
+          "type": "text"
         },
         {
           "name": "title",
@@ -64,6 +72,7 @@
     },
 
     {
+      "id": 4,
       "table": "cates",
       "columns": [
         {
@@ -79,6 +88,36 @@
       ]
     },
     {
+      "id": 5,
+      "table": "stockStat",
+      "columns": [
+        {
+          "name": "stockId",
+          "label": "代號",
+          "type": "text"
+        },
+        {
+          "name": "name",
+          "label": "名稱",
+          "type": "text"
+        },
+      
+
+        {
+          "name": "price",
+          "label": "價格",
+          "type": "number"
+        },
+
+        {
+          "name": "qtys",
+          "label": "股數",
+          "type": "number"
+        }
+      ]
+    },
+    {
+      "id": 6,
       "table": "stockTransaction",
       "columns": [
         {
