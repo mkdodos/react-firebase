@@ -8,7 +8,7 @@ import EditForm from './components/EditForm';
 import schema from './data/schema.json';
 import DataSelect from './components/DataSelect';
 
-import { createDoc, deleteDoc } from './data/firestore';
+import { createDoc, deleteDoc, updateDoc } from './data/firestore';
 
 export default function index() {
   const [rows, setRows] = useState([]);
@@ -25,6 +25,10 @@ export default function index() {
   // 編輯列索引
   const [rowIndex, setRowIndex] = useState(-1);
 
+
+  // 取幾筆資料
+  const docsLimit = 5;
+
   useEffect(() => {
     setColumns(schema.tables.find((t) => t.table == table).columns);
     fetchFirebase();
@@ -40,7 +44,7 @@ export default function index() {
   };
 
   const fetchFirebase = async () => {
-    const snapshot = await db.collection(table).limit(3).get();
+    const snapshot = await db.collection(table).limit(docsLimit).get();
     const data = snapshot.docs.map((doc) => {
       return { ...doc.data(), id: doc.id };
     });
@@ -78,11 +82,24 @@ export default function index() {
     setRowIndex(index);
   };
 
+  const handleUpdate = () => {
+    console.log('update');
+
+    updateDoc(table, row.id, row);
+    // 修改表格中編輯列的值
+    const tempRows = rows.slice();
+    Object.assign(tempRows[rowIndex], row);
+    setRows(tempRows);
+    setRowIndex(-1);
+    setOpen(false);
+  };
+
   const handleSave = () => {
     // 依照有編輯列索引值決定做新增或修改
     if (rowIndex == -1) {
       handleCreate();
     } else {
+      handleUpdate();
     }
   };
 

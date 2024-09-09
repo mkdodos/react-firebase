@@ -12,7 +12,9 @@ const createDoc = async (table, row) => {
 
 const readDoc = () => {};
 
-const updateDoc = () => {};
+const updateDoc = (table, id, row) => {
+  db.collection(table).doc(id).update(row);
+};
 
 const deleteDoc = (table, id) => {
   db.collection(table).doc(id).delete();

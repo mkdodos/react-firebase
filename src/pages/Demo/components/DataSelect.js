@@ -23,6 +23,11 @@ export default function DataSelect({ setTable, handleTableQuery }) {
       text: '測試',
       value: 'test',
     },
+    {
+      key: '5',
+      text: '瑪雅',
+      value: 'maya',
+    },
   ];
 
   const handleChange = (e, { value }) => {
