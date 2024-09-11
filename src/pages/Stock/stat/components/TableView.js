@@ -35,7 +35,7 @@ export default function TableView({
 
   return (
     <>
-      <Table sortable striped>
+      <Table sortable striped unstackable>
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell

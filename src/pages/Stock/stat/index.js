@@ -4,6 +4,8 @@ import { db } from '../../../utils/firebase';
 import TableView from './components/TableView';
 import EditForm from './components/EditForm';
 
+import StockPrice from './components/StockPrice';
+
 export default function Index({
   statRows,
   setStatRows,
@@ -12,16 +14,7 @@ export default function Index({
 }) {
   useEffect(() => {
     let data = cals();
-    // 依報酬率排序
-    // data.sort((a, b) => {
-    //   return a.bonusPercent > b.bonusPercent ? 1 : -1;
-    // });
-
-    // 依股票代號排序
-    // data.sort((a, b) => {
-    //   return a.stockId > b.stockId ? 1 : -1;
-    // });
-    // console.log(cals());
+    
     setStatRows(data);
   }, [transactionRows]);
 
@@ -185,6 +178,7 @@ export default function Index({
 
   return (
     <>
+      <StockPrice />
       <TableView
         rows={statRows}
         setStatRows={setStatRows}
