@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu, Icon } from 'semantic-ui-react';
+import { Menu, Dropdown } from 'semantic-ui-react';
 import { Link, useNavigate } from 'react-router-dom';
 
 export default function Navbar() {
@@ -8,7 +8,6 @@ export default function Navbar() {
   // if(user){
   //   user = JSON.parse(user);
   // }
-  
 
   // console.log(user);
   const navigate = useNavigate();
@@ -32,6 +31,21 @@ export default function Navbar() {
         <Menu.Item as={Link} to="/stock">
           Stock
         </Menu.Item>
+        {/* <Menu.Item as={Link} to="/demo">
+          Demo
+        </Menu.Item> */}
+
+        <Dropdown text="Demo" item>
+          <Dropdown.Menu>
+            <Dropdown.Item as={Link} to="/demo">
+              Demo
+            </Dropdown.Item>
+            <Dropdown.Item as={Link} to="/demo1">
+              Demo1
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+
         {/* {user && (
           <Menu.Item onClick={handleLogout}>            
             <Icon name="sign-out" />

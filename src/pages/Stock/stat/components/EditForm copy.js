@@ -39,33 +39,6 @@ export default function EditForm({
               />
             </Form.Field>
             <Form.Field>
-              <label>總金額</label>
-              <input
-                name="amt"
-                type="number"
-                value={row.amt}
-                onChange={handleChange}
-              />
-            </Form.Field>
-            <Form.Field>
-              <label>股數</label>
-              <input
-                name="qyts"
-                type="number"
-                value={row.qtys}
-                onChange={handleChange}
-              />
-            </Form.Field>
-            {/* <Form.Field>
-              <label>平均價格</label>
-              <input
-                name="avgPrice"
-                type="number"
-                value={row.avgPrice}
-                onChange={handleChange}
-              />
-            </Form.Field> */}
-            <Form.Field>
               <label>現價</label>
               <input
                 type="number"

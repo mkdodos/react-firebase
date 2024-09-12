@@ -5,6 +5,7 @@ import TableView from './components/TableView';
 import EditForm from './components/EditForm';
 
 import StockPrice from './components/StockPrice';
+import GridView from './components/GridView';
 
 export default function Index({
   statRows,
@@ -179,6 +180,7 @@ export default function Index({
   return (
     <>
       <StockPrice />
+      <GridView rows={statRows}/>
       <TableView
         rows={statRows}
         setStatRows={setStatRows}

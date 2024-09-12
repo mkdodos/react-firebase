@@ -51,20 +51,38 @@ export default function Index({
 
       const rowCopy = row;
       if (isSold) {
-        rowCopy.qty = rowCopy.qty*-1; 
+        rowCopy.qty = rowCopy.qty * -1;
         // setRow({ ...row, qty: row.qty * -100 });
       }
 
-      
-      // row.qty = row.qty*-1; 
+      // row.qty = row.qty*-1;
       // console.log(row);
       // return;
       db.collection(colName)
         .add(rowCopy)
         .then((docRef) => {
+          // 該筆股票資料 stockStat
+          db.collection('stockStat')
+            .where('name', '==', rowCopy.name)
+            .get()
+            .then((snapshot) => {
+              // console.log(snapshot.docs[0].data());
+              console.log(snapshot.docs[0].id);
+
+              // const qty = snapshot.
+              // 更新總股數
+              // db.collection('stockStat').doc(rowCopy.id).update(qtys);
+            });
+
           // 將編輯列加入資料陣列
-          setTransactionRows([{ ...rowCopy, id: docRef.id }, ...transactionRows]);
-          setTransactionRowsCopy([{ ...rowCopy, id: docRef.id }, ...transactionRowsCopy]);
+          setTransactionRows([
+            { ...rowCopy, id: docRef.id },
+            ...transactionRows,
+          ]);
+          setTransactionRowsCopy([
+            { ...rowCopy, id: docRef.id },
+            ...transactionRowsCopy,
+          ]);
         });
     } else {
       // 修改表格中編輯列的值
@@ -94,7 +112,9 @@ export default function Index({
       .delete()
       .then(() => {
         setTransactionRows(transactionRows.filter((obj) => obj.id != row.id));
-        setTransactionRowsCopy(transactionRowsCopy.filter((obj) => obj.id != row.id));
+        setTransactionRowsCopy(
+          transactionRowsCopy.filter((obj) => obj.id != row.id)
+        );
         setOpen(false);
       });
   };

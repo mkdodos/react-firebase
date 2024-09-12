@@ -13,7 +13,7 @@ import { createDoc, deleteDoc, updateDoc } from './data/firestore';
 export default function index() {
   const [rows, setRows] = useState([]);
   // 文件集合名稱
-  const [table, setTable] = useState('test');
+  const [table, setTable] = useState('stockStat');
   const [columns, setColumns] = useState([]);
   // 表單開關
   const [open, setOpen] = useState(false);

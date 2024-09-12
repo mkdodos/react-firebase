@@ -101,17 +101,20 @@
           "label": "名稱",
           "type": "text"
         },
-      
-
         {
-          "name": "price",
-          "label": "價格",
+          "name": "totalCost",
+          "label": "總成本",
           "type": "number"
         },
-
+       
+        
         {
           "name": "qtys",
           "label": "股數",
+          "type": "number"
+        },{
+          "name": "price",
+          "label": "現價",
           "type": "number"
         }
       ]
