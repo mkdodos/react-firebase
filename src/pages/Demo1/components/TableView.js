@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import { Table,Button } from 'semantic-ui-react';
+import { Table, Button } from 'semantic-ui-react';
 
-export default function TableView({ rows, columns,handleEdit }) {
- 
-
+export default function TableView({ rows, columns, handleEdit,handleAdd,loading }) {
   return (
     <>
       <Table celled unstackable>
@@ -12,12 +10,16 @@ export default function TableView({ rows, columns,handleEdit }) {
             {columns.map((col, index) => {
               return <Table.HeaderCell>{col.label}</Table.HeaderCell>;
             })}
-            <Table.HeaderCell>#</Table.HeaderCell>
+            <Table.HeaderCell>
+              <Button primary onClick={handleAdd} loading={loading}>
+                新增
+              </Button>
+            </Table.HeaderCell>
           </Table.Row>
         </Table.Header>
 
         <Table.Body>
-          {rows.map((row,index) => {
+          {rows.map((row, index) => {
             return (
               <Table.Row key={row.id}>
                 {columns.map((col) => {

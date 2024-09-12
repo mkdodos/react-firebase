@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { readDocs } from '../data/firestore';
+import { readDocs, createDoc, updateDoc, deleteDoc } from '../data/firestore';
 import TableView from '../components/TableView';
 import EditForm from '../components/EditForm';
 import schema from '../data/schema.json';
-import { Modal } from 'semantic-ui-react';
+import { Modal, Button } from 'semantic-ui-react';
 
 export default function index() {
-  const table = 'stockStat';
+  const table = 'master';
   const [rows, setRows] = useState([]);
 
+  // 載入中
+  const [loading, setLoading] = useState(false);
   // 表單開關
   const [open, setOpen] = useState(false);
   // 預設物件
@@ -21,13 +23,35 @@ export default function index() {
   const columns = schema.tables.find((t) => t.table == table).columns;
 
   const fetchData = async () => {
+    setLoading(true);
     let result = await readDocs(table);
-    setRows(result);
+
+    // 計算各項欄位
+
+    const data = result.map((obj) => {
+      const { costs, qtys, nowPrice } = obj;
+
+      return {
+        ...obj,
+        avgPrice: costs / qtys, //平均成本
+        amt: qtys * nowPrice, //市值
+        bonus: qtys * nowPrice - costs, //損益
+      };
+    });
+
+    setRows(data);
+    setLoading(false);
   };
 
   useEffect(() => {
     fetchData();
   }, []);
+
+  const handleAdd = () => {
+    setOpen(true);
+    setRow(defaultRow);
+    setRowIndex(-1);
+  };
 
   // 按下編輯鈕
   const handleEdit = (editedRow, index) => {
@@ -36,11 +60,54 @@ export default function index() {
     setRowIndex(index);
   };
 
+  const handleCreate = async () => {
+    // 將編輯列加入資料陣列
+    const id = await createDoc(table, row);
+    setRows([{ ...row, id }, ...rows]);
+
+    console.log(id);
+
+    // 關閉編輯視窗
+    setOpen(false);
+  };
+
+  const handleDelete = () => {
+    setRows(rows.filter((obj) => obj.id != row.id));
+    setOpen(false);
+    deleteDoc(table, row.id);
+  };
+
+  const handleUpdate = () => {
+    console.log('update');
+
+    updateDoc(table, row.id, row);
+    // 修改表格中編輯列的值
+    const tempRows = rows.slice();
+    Object.assign(tempRows[rowIndex], row);
+    setRows(tempRows);
+    setRowIndex(-1);
+    setOpen(false);
+  };
+
+  const handleSave = () => {
+    // 依照有編輯列索引值決定做新增或修改
+    if (rowIndex == -1) {
+      handleCreate();
+    } else {
+      handleUpdate();
+    }
+  };
+
   return (
     <div>
-      Master
-      <TableView rows={rows} columns={columns} handleEdit={handleEdit} />
-     
+      <TableView
+        loading={loading}
+        rows={rows}
+        columns={columns}
+        handleAdd={handleAdd}
+        handleEdit={handleEdit}
+      />
+
       <Modal
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
@@ -49,24 +116,17 @@ export default function index() {
       >
         <Modal.Header>標題</Modal.Header>
         <Modal.Content>
-          <EditForm
-            row={row}
-            setRow={setRow}           
-            columns={columns}
-          />
+          <EditForm row={row} setRow={setRow} columns={columns} />
         </Modal.Content>
         <Modal.Actions>
-          {/* <Button primary onClick={handleSave}>
+          <Button primary onClick={handleSave}>
             儲存
           </Button>
           <Button floated="left" color="red" onClick={handleDelete}>
             刪除
-          </Button> */}
+          </Button>
         </Modal.Actions>
       </Modal>
-     
-     
-      
     </div>
   );
 }

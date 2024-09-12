@@ -2,10 +2,10 @@
   "tables": [
     {
       "id": 1,
-      "table": "stockStat",
+      "table": "master",
       "columns": [
         {
-          "name": "stockId",
+          "name": "stockNo",
           "label": "代號",
           "type": "text"
         },
@@ -25,16 +25,32 @@
           "label": "總股數",
           "type": "number"
         },
+
+        {
+          "name": "avgPrice",
+          "label": "平均價格",
+          "type": "number"
+        },
         {
           "name": "nowPrice",
           "label": "現價",
+          "type": "number"
+        },
+        {
+          "name": "amt",
+          "label": "市值",
+          "type": "number"
+        },
+        {
+          "name": "bonus",
+          "label": "損益",
           "type": "number"
         }
       ]
     },
     {
       "id": 2,
-      "table": "stockTransaction",
+      "table": "detail",
       "columns": [
         {
           "name": "transDate",
