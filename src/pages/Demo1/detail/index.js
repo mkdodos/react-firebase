@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { readDocs,createDoc,updateDoc,deleteDoc } from '../data/firestore';
 import TableView from '../components/TableView';
-import EditForm from '../components/EditForm';
+import EditForm from './components/EditForm';
 import schema from '../data/schema.json';
 import { Modal,Button } from 'semantic-ui-react';
 

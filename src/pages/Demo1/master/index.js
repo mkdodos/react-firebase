@@ -26,9 +26,16 @@ export default function index() {
     setLoading(true);
     let result = await readDocs(table);
 
-    // 計算各項欄位
+    const data = calColumns(result);
 
-    const data = result.map((obj) => {
+    setRows(data);
+    setLoading(false);
+  };
+
+  // 計算各項欄位
+
+  const calColumns = (data) => {
+    return data.map((obj) => {
       const { costs, qtys, nowPrice } = obj;
 
       return {
@@ -38,9 +45,6 @@ export default function index() {
         bonus: qtys * nowPrice - costs, //損益
       };
     });
-
-    setRows(data);
-    setLoading(false);
   };
 
   useEffect(() => {
@@ -63,9 +67,10 @@ export default function index() {
   const handleCreate = async () => {
     // 將編輯列加入資料陣列
     const id = await createDoc(table, row);
-    setRows([{ ...row, id }, ...rows]);
 
-    console.log(id);
+    const data = calColumns([{ ...row, id }, ...rows]);
+
+    setRows(data);
 
     // 關閉編輯視窗
     setOpen(false);
@@ -78,13 +83,16 @@ export default function index() {
   };
 
   const handleUpdate = () => {
-    console.log('update');
-
     updateDoc(table, row.id, row);
     // 修改表格中編輯列的值
     const tempRows = rows.slice();
     Object.assign(tempRows[rowIndex], row);
-    setRows(tempRows);
+
+    const data = calColumns(tempRows);
+
+    setRows(data);
+
+    // setRows(tempRows);
     setRowIndex(-1);
     setOpen(false);
   };

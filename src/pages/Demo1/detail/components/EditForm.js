@@ -1,8 +1,7 @@
 import React from 'react';
 import { Form } from 'semantic-ui-react';
-import schema from '../data/schema.json';
 
-import StockDropdown from './StockDropdown';
+import StockDropdown from '../../components/StockDropdown';
 
 export default function EditForm({ columns, row, setRow }) {
   console.log(columns);
@@ -23,8 +22,10 @@ export default function EditForm({ columns, row, setRow }) {
 
   const handleChange = (e) => {
     setRow({ ...row, [e.target.name]: e.target.value });
+  };
 
-    // console.log('change')
+  const handleDropdownChange = (e, { value }) => {
+    setRow({ ...row, stockName: value });
   };
 
   // 組合 group 中的 field
@@ -48,7 +49,12 @@ export default function EditForm({ columns, row, setRow }) {
   };
 
   return (
-    <Form>      
+    <Form>
+      <StockDropdown
+        value={row.stockName}
+        name="stockName"
+        handleChange={handleDropdownChange}
+      />
       {formGroups(2)}
     </Form>
   );

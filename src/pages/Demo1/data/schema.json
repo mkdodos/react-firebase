@@ -7,34 +7,40 @@
         {
           "name": "stockNo",
           "label": "代號",
-          "type": "text"
+          "type": "text",
+          "editable":"true"
         },
         {
           "name": "stockName",
           "label": "名稱",
-          "type": "text"
+          "type": "text",
+          "editable":"true"
         },
         {
           "name": "costs",
           "label": "總成本",
-          "type": "number"
+          "type": "number",
+          "editable":"true"
         },
 
         {
           "name": "qtys",
           "label": "總股數",
-          "type": "number"
+          "type": "number",
+          "editable":"true"
         },
 
         {
           "name": "avgPrice",
           "label": "平均價格",
           "type": "number"
+         
         },
         {
           "name": "nowPrice",
           "label": "現價",
-          "type": "number"
+          "type": "number",
+          "editable":"true"
         },
         {
           "name": "amt",
@@ -55,22 +61,26 @@
         {
           "name": "transDate",
           "label": "交易日",
-          "type": "date"
+          "type": "date",
+          "editable":"true"
         },
         {
           "name": "stockName",
           "label": "股票名稱",
-          "type": "text"
+          "type": "text",
+          "editable":"true"
         },
         {
           "name": "qty",
           "label": "股數",
-          "type": "number"
+          "type": "number",
+          "editable":"true"
         },
         {
           "name": "price",
           "label": "單價",
-          "type": "number"
+          "type": "number",
+          "editable":"true"
         }
       ]
     }
