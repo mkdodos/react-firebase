@@ -68,7 +68,9 @@
           "name": "stockName",
           "label": "股票名稱",
           "type": "text",
-          "editable":"true"
+          "editable":"true",
+          "editType":"dropdown"
+
         },
         {
           "name": "qty",

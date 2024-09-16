@@ -8,7 +8,7 @@ export default function TableView({ rows, columns, handleEdit,handleAdd,loading 
         <Table.Header>
           <Table.Row>
             {columns.map((col, index) => {
-              return <Table.HeaderCell>{col.label}</Table.HeaderCell>;
+              return <Table.HeaderCell key={index}>{col.label}</Table.HeaderCell>;
             })}
             <Table.HeaderCell>
               <Button primary onClick={handleAdd} loading={loading}>
@@ -22,8 +22,8 @@ export default function TableView({ rows, columns, handleEdit,handleAdd,loading 
           {rows.map((row, index) => {
             return (
               <Table.Row key={row.id}>
-                {columns.map((col) => {
-                  return <Table.Cell>{row[col.name]}</Table.Cell>;
+                {columns.map((col,index) => {
+                  return <Table.Cell key={index}>{row[col.name]}</Table.Cell>;
                 })}
                 <Table.Cell>
                   <Button onClick={() => handleEdit(row, index)}>編輯</Button>

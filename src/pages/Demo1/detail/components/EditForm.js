@@ -33,29 +33,30 @@ export default function EditForm({ columns, row, setRow }) {
     let fields = [];
     columns.slice(index, index + columnsPerRow).map((col, index) => {
       if (!col.editable) return;
-      fields.push(
-        <Form.Field key={index}>
-          <label>{col.label}</label>
-          <input
-            type={col.type}
-            name={col.name}
-            value={row[col.name]}
-            onChange={handleChange}
+      if (col.editType == 'dropdown') {
+        fields.push(
+          <StockDropdown key={index}
+            value={row.stockName}
+            name="stockName"
+            handleChange={handleDropdownChange}
           />
-        </Form.Field>
-      );
+        );
+      } else {
+        fields.push(
+          <Form.Field key={index}>
+            <label>{col.label}</label>
+            <input
+              type={col.type}
+              name={col.name}
+              value={row[col.name]}
+              onChange={handleChange}
+            />
+          </Form.Field>
+        );
+      }
     });
     return fields;
   };
 
-  return (
-    <Form>
-      <StockDropdown
-        value={row.stockName}
-        name="stockName"
-        handleChange={handleDropdownChange}
-      />
-      {formGroups(2)}
-    </Form>
-  );
+  return <Form>{formGroups(2)}</Form>;
 }

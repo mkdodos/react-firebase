@@ -6,7 +6,7 @@
   "scripts": {
     "start123": "react-scripts start",
     "build": "react-scripts build",
-    "start": "set PORT=3030 && react-scripts start"
+    "start": "set PORT=3001 && react-scripts start"
   },
   "repository": {
     "type": "git",

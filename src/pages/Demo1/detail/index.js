@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { readDocs,createDoc,updateDoc,deleteDoc } from '../data/firestore';
+import { readDocs, createDoc, updateDoc, deleteDoc } from '../data/firestore';
 import TableView from '../components/TableView';
 import EditForm from './components/EditForm';
 import schema from '../data/schema.json';
-import { Modal,Button } from 'semantic-ui-react';
+import { Modal, Button } from 'semantic-ui-react';
 
-export default function index() {
+export default function index({ masterRows }) {
+  const masterTable = 'master';
   const table = 'detail';
   const [rows, setRows] = useState([]);
 
@@ -21,8 +22,6 @@ export default function index() {
   const [rowIndex, setRowIndex] = useState(-1);
 
   const columns = schema.tables.find((t) => t.table == table).columns;
-
- 
 
   const fetchData = async () => {
     setLoading(true);
@@ -53,7 +52,20 @@ export default function index() {
     const id = await createDoc(table, row);
     setRows([{ ...row, id }, ...rows]);
 
-    console.log(id);
+    // 更新主表
+    const masterStock = masterRows.find(
+      (obj) => obj.stockName == row.stockName
+    );
+    // 主表 id
+    const masterId = masterStock.id;
+    // 原數量
+    const qtys = Number(masterStock.qtys);
+    // 新增數量
+    const addedQty = Number(row.qty);
+
+    updateDoc(masterTable, masterId, {
+      qtys: qtys + addedQty,
+    });
 
     // 關閉編輯視窗
     setOpen(false);
@@ -63,6 +75,20 @@ export default function index() {
     setRows(rows.filter((obj) => obj.id != row.id));
     setOpen(false);
     deleteDoc(table, row.id);
+
+    // 更新主表
+    const masterStock = masterRows.find(
+      (obj) => obj.stockName == row.stockName
+    );
+    // 主表 id
+    const masterId = masterStock.id;
+    // 原數量
+    const qtys = Number(masterStock.qtys);
+    // 變動數量
+    const qty = Number(row.qty);
+    updateDoc(masterTable, masterId, {
+      qtys: qtys - qty,
+    });
   };
 
   const handleUpdate = () => {
@@ -104,12 +130,7 @@ export default function index() {
       >
         <Modal.Header>標題</Modal.Header>
         <Modal.Content>
-          <EditForm
-            row={row}
-            setRow={setRow}
-            columns={columns}          
-            
-          />
+          <EditForm row={row} setRow={setRow} columns={columns} />
         </Modal.Content>
         <Modal.Actions>
           <Button primary onClick={handleSave}>
