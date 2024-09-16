@@ -26,8 +26,8 @@ export default function index() {
 
   return (
     <div>
-      <Master />
-      <Detail masterRows={masterRows} />
+      <Master masterRows={masterRows} />
+      <Detail masterRows={masterRows} setMasterRows={setMasterRows} />
     </div>
   );
 }

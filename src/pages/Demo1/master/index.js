@@ -5,8 +5,9 @@ import EditForm from '../components/EditForm';
 import schema from '../data/schema.json';
 import { Modal, Button } from 'semantic-ui-react';
 
-export default function index() {
+export default function index({masterRows}) {
   const table = 'master';
+  // const rows = masterRows;
   const [rows, setRows] = useState([]);
 
   // 載入中
@@ -48,7 +49,7 @@ export default function index() {
   };
 
   useEffect(() => {
-    fetchData();
+    // fetchData();
   }, []);
 
   const handleAdd = () => {
@@ -110,7 +111,7 @@ export default function index() {
     <div>
       <TableView
         loading={loading}
-        rows={rows}
+        rows={masterRows}
         columns={columns}
         handleAdd={handleAdd}
         handleEdit={handleEdit}
