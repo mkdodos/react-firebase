@@ -5,7 +5,7 @@ import EditForm from './components/EditForm';
 import schema from '../data/schema.json';
 import { Modal, Button } from 'semantic-ui-react';
 
-export default function index({ masterRows,setMasterRows }) {
+export default function index({ masterRows, setMasterRows }) {
   const masterTable = 'master';
   const table = 'detail';
   const [rows, setRows] = useState([]);
@@ -65,27 +65,36 @@ export default function index({ masterRows,setMasterRows }) {
 
     updateDoc(masterTable, masterId, {
       qtys: qtys + addedQty,
+      costs: row.qty * row.price,
     });
 
-     // 找出該股票所在列索引
-     const masterIndex = masterRows.findIndex(obj=>obj.id==masterId);
-    //  複製該列資料
-    const editedMasterRow = masterRows[masterIndex];
-
-    editedMasterRow.qtys += addedQty;
-
-
-    const tempRows = masterRows.slice();
-    Object.assign(tempRows[masterIndex],editedMasterRow)
-    
-    setMasterRows(tempRows)
-    // setMasterRows([])
-
     // console.log(editedMasterRow)
-    console.log(tempRows)
+
+    updateMasterRow(masterStock, 'plus');
+
+    // console.log(tempRows);
 
     // 關閉編輯視窗
     setOpen(false);
+  };
+
+  const updateMasterRow = (masterStock, op) => {
+    // 更新主表表格
+    const masterIndex = masterRows.findIndex((obj) => obj.id == masterStock.id);
+    const editedMasterRow = masterRows[masterIndex];
+    if (op == 'plus') {
+      editedMasterRow.qtys = Number(editedMasterRow.qtys) + Number(row.qty);
+      editedMasterRow.costs =
+        Number(editedMasterRow.costs) + row.qty * row.price;
+    } else {
+      editedMasterRow.qtys = Number(editedMasterRow.qtys) - Number(row.qty);
+      editedMasterRow.costs =
+        Number(editedMasterRow.costs) - row.qty * row.price;
+    }
+
+    const tempRows = masterRows.slice();
+    Object.assign(tempRows[masterIndex], editedMasterRow);
+    setMasterRows(tempRows);
   };
 
   const handleDelete = () => {
@@ -93,24 +102,24 @@ export default function index({ masterRows,setMasterRows }) {
     setOpen(false);
     deleteDoc(table, row.id);
 
-    // 更新主表
+    // 原數量
+    // const qtys = Number(masterStock.qtys);
+    // 變動數量
+    // const addedQty = Number(row.qty);
+    // 變動資料庫
+
+    // 主表列
     const masterStock = masterRows.find(
       (obj) => obj.stockName == row.stockName
     );
     // 主表 id
     const masterId = masterStock.id;
-    // 原數量
-    const qtys = Number(masterStock.qtys);
-    // 變動數量
-    const qty = Number(row.qty);
-    // 變動資料庫
+
     updateDoc(masterTable, masterId, {
-      qtys: qtys - qty,
+      qtys: Number(masterStock.qtys) - Number(row.qty),
     });
-    // 更新主表表格
 
-   
-
+    updateMasterRow(masterStock);
   };
 
   const handleUpdate = () => {
