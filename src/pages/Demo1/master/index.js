@@ -5,7 +5,7 @@ import EditForm from '../components/EditForm';
 import schema from '../data/schema.json';
 import { Modal, Button } from 'semantic-ui-react';
 
-export default function index({masterRows}) {
+export default function index({ masterRows, setMasterRows }) {
   const table = 'master';
   // const rows = masterRows;
   const [rows, setRows] = useState([]);
@@ -39,9 +39,14 @@ export default function index({masterRows}) {
     return data.map((obj) => {
       const { costs, qtys, nowPrice } = obj;
 
+      let avgPrice = costs / qtys;
+      if (qtys == 0) {
+        avgPrice = 0;
+      }
+
       return {
         ...obj,
-        avgPrice: costs / qtys, //平均成本
+        avgPrice, //平均價格
         amt: qtys * nowPrice, //市值
         bonus: qtys * nowPrice - costs, //損益
       };
@@ -86,13 +91,16 @@ export default function index({masterRows}) {
   const handleUpdate = () => {
     updateDoc(table, row.id, row);
     // 修改表格中編輯列的值
-    const tempRows = rows.slice();
+    // const tempRows = rows.slice();
+    const tempRows = masterRows.slice();
+    console.log(tempRows);
     Object.assign(tempRows[rowIndex], row);
 
     const data = calColumns(tempRows);
 
-    setRows(data);
+    // setRows(data);
 
+    setMasterRows(data);
     // setRows(tempRows);
     setRowIndex(-1);
     setOpen(false);

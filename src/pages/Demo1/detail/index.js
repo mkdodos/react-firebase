@@ -5,6 +5,7 @@ import EditForm from './components/EditForm';
 import schema from '../data/schema.json';
 import { Modal, Button } from 'semantic-ui-react';
 
+// 明細
 export default function index({ masterRows, setMasterRows }) {
   const masterTable = 'master';
   const table = 'detail';
@@ -15,7 +16,7 @@ export default function index({ masterRows, setMasterRows }) {
   // 表單開關
   const [open, setOpen] = useState(false);
   // 預設物件
-  const defaultRow = {};
+  const defaultRow = {qty:''};
   // 編輯列
   const [row, setRow] = useState(defaultRow);
   // 編輯列索引
