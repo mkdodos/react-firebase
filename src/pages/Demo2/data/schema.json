@@ -22,9 +22,6 @@
           "type": "number",
           "editable": "true"
         }
-       
-
-        
       ]
     },
     {
@@ -55,6 +52,11 @@
           "label": "單價",
           "type": "number",
           "editable": "true"
+        },
+        {
+          "name": "amt",
+          "label": "小計",
+          "type": "number"
         }
       ]
     }
