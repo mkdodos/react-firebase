@@ -9,6 +9,7 @@ import Stock from './pages/Stock';
 import Money from './pages/Money'
 import Demo from './pages/Demo'
 import Demo1 from './pages/Demo1'
+import Demo2 from './pages/Demo2'
 
 // import ProtectedRoutes from './utils/ProtectedRoutes';
 
@@ -44,6 +45,7 @@ export default function App() {
           <Route path="/money" element={<Money />} />
           <Route path="/demo" element={<Demo />} />
           <Route path="/demo1" element={<Demo1 />} />
+          <Route path="/demo2" element={<Demo2 />} />
 
           {/* 受保謢的路由 */}
           {/* 權限為管理員才能查看 */}
