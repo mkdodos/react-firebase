@@ -54,67 +54,40 @@ export default function index() {
   /***********      編輯相關     ************/
   /******************************************/
 
-  // 表單開關
-  const [open, setOpen] = useState(false);
+  
   // 預設物件
   const defaultRow = {};
   // 編輯列預設值
   detailColumns.map((obj) => {
     defaultRow[obj.name] = '';
   });
-  // 編輯列
-  const [row, setRow] = useState(defaultRow);
-  // 編輯列索引
-  const [rowIndex, setRowIndex] = useState(-1);
 
-  // const handleAdd = () => {
-  //   setOpen(true);
-  //   setRow(defaultRow);
-  //   setRowIndex(-1);
-  // };
-
-  // 按下編輯鈕
-  // const handleEdit = (editedRow, index) => {
-  //   setOpen(true);
-  //   setRow(editedRow);
-  //   setRowIndex(index);
-  // };
-
-  const handleEdit = (row, index) => {
-    dispatch({ type: 'EDIT', row, index });
-  };
-
-  const handleDelete = () => {
-    deleteDoc(detailTable, row.id);
-    setDetailRows(detailRows.filter((obj) => obj.id != row.id));
-    setOpen(false);
+  const handleDelete = () => {   
+    deleteDoc(detailTable, state.row.id);
+    setDetailRows(detailRows.filter((obj) => obj.id != state.row.id));
+    dispatch({ type: 'DELETE' });
   };
 
   const handleCreate = async () => {
     setLoading(true);
-    const id = await createDoc(detailTable, row);
-    const data = detailNewData([{ ...row, id }, ...detailRows]);
+    const id = await createDoc(detailTable, state.row);
+    const data = detailNewData([{ ...state.row, id }, ...detailRows]);
     setDetailRows(data);
     setLoading(false);
-    setOpen(false);
+
+    dispatch({ type: 'CREATE' });
   };
 
   const handleUpdate = () => {
     setLoading(true);
-    // updateDoc(detailTable, row.id, row);
+    updateDoc(detailTable, state.row.id, state.row);
     // 修改表格中編輯列的值
     const tempRows = detailRows.slice();
-    Object.assign(tempRows[rowIndex], row);
+    Object.assign(tempRows[state.rowIndex], state.row);
     const data = detailNewData(tempRows);
     setDetailRows(data);
-    // setRowIndex(-1);
     setLoading(false);
-
     dispatch({ type: 'UPDATE' });
-
-    console.log(state)
-
-    // setOpen(false);
   };
 
   const handleSave = () => {
@@ -136,13 +109,12 @@ export default function index() {
   const [state, dispatch] = useReducer(detailReducer, {
     open: false,
     row: defaultRow,
+    defaultRow,
     rowIndex: -1,
   });
 
   return (
     <>
-      <Button onClick={() => dispatch({ type: 'ADD' })}>abc</Button>
-      {state.open}
       <TableView columns={masterColumns} rows={masterRows} />
       <TableView
         columns={detailColumns}
@@ -156,7 +128,6 @@ export default function index() {
 
       <Modal
         onClose={() => dispatch({ type: 'CLOSE' })}
-        // onOpen={() => setOpen(true)}
         open={state.open}
         closeIcon
       >
