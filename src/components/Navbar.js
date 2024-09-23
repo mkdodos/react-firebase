@@ -49,6 +49,9 @@ export default function Navbar() {
             <Dropdown.Item as={Link} to="/demo3">
               Demo3
             </Dropdown.Item>
+            <Dropdown.Item as={Link} to="/demo4">
+              Demo4
+            </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
 
