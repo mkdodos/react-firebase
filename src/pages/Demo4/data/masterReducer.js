@@ -1,22 +1,12 @@
 import { readDocs, createDoc, updateDoc, deleteDoc } from '../data/firestore';
 
-const handleCreate = async (row) => {
-  const id = await createDoc('master', row);
-  return id;
-};
-
-
-
-export const masterReducer =async  (state, action) => {
+export const masterReducer = async (state, action) => {
   switch (action.type) {
     // 載入資料
     case 'LOAD':
       let result = await readDocs('master');
 
-    // let result = readDocs('master');
-      // console.log(result);
       return { ...state, data: result };
-    // return { data: [{id:'1', stockName: '長榮' }] };
 
     case 'ADD':
       console.log('ADD');
@@ -28,6 +18,7 @@ export const masterReducer =async  (state, action) => {
       };
     case 'EDIT':
       const { row, index } = action.payload;
+      // console.log(index);
       return { ...state, open: true, row, rowIndex: index };
 
     case 'CHANGE':
@@ -37,29 +28,37 @@ export const masterReducer =async  (state, action) => {
         row: { ...state.row, [action.payload.name]: action.payload.value },
       };
     case 'CREATE':
-      // const id = handleCreate(state.row);
-
       const id = await createDoc('master', state.row);
 
-      console.log(id);
+      let data = state.data.slice();
+      data.unshift({ ...state.row, id });
 
       return {
         ...state,
+        data,
         open: false,
         rowIndex: -1,
       };
 
     case 'UPDATE':
+      updateDoc('master', state.row.id, state.row);
+      const tempRows = state.data.slice();
+      Object.assign(tempRows[state.rowIndex], state.row);
       return {
         ...state,
         open: false,
-        // row: action.payload.row,
+        data: tempRows,
         rowIndex: -1,
       };
 
     case 'DELETE':
+      deleteDoc('master', state.row.id);
+      // setDetailRows(detailRows.filter((obj) => obj.id != state.row.id));
+      // const data  = state.data.filter((obj) => obj.id != state.row.id);
+
       return {
         ...state,
+        data: state.data.filter((obj) => obj.id != state.row.id),
         open: false,
         rowIndex: -1,
       };

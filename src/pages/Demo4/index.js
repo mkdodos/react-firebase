@@ -11,7 +11,7 @@ import MasterEditForm from './components/MasterEditForm';
 
 export default function index() {
   // 主表名稱
-  const masterTable = 'master';
+  const masterTable = 'master3';
   // 明細表名稱
   const detailTable = 'detail';
 
@@ -65,11 +65,7 @@ export default function index() {
     defaultRow[obj.name] = '';
   });
 
-  const handleDelete = () => {
-    deleteDoc(detailTable, state.row.id);
-    setDetailRows(detailRows.filter((obj) => obj.id != state.row.id));
-    dispatch({ type: 'DELETE' });
-  };
+  
 
   const handleCreate = async () => {
     setLoading(true);
@@ -143,11 +139,9 @@ export default function index() {
     return [state, dispatchState];
   }
 
-
   // 參考此篇, 讓 reducer 可以使用 async function
-  
-  // https://stackoverflow.com/questions/53146795/react-usereducer-async-data-fetch
 
+  // https://stackoverflow.com/questions/53146795/react-usereducer-async-data-fetch
 
   // function useAsyncReducer(reducer, initState) {
   //   const [state, setState] = useState(initState),
@@ -185,10 +179,15 @@ export default function index() {
 
   return (
     <>
+      {/* {state.rowIndex} */}
+      {/**************  主表 ************/}
       <TableView
         columns={masterColumns}
         rows={masterState.data}
         handleAdd={() => masterDispatch({ type: 'ADD' })}
+        handleEdit={(row, index) =>
+          masterDispatch({ type: 'EDIT', payload: { row, index } })
+        }
       />
 
       <Modal
@@ -196,7 +195,7 @@ export default function index() {
         open={masterState.open}
         closeIcon
       >
-        <Modal.Header>標題</Modal.Header>
+        <Modal.Header>主表編輯</Modal.Header>
         <Modal.Content>
           <MasterEditForm
             row={masterState.row}
@@ -213,16 +212,26 @@ export default function index() {
         <Modal.Actions>
           <Button
             primary
-            onClick={() => masterDispatch({ type: 'CREATE' })}
+            onClick={() =>
+              masterDispatch({
+                type: masterState.rowIndex == -1 ? 'CREATE' : 'UPDATE',
+              })
+            }
             loading={loading}
           >
             儲存
           </Button>
-          <Button floated="left" color="red" onClick={handleDelete}>
+          <Button
+            floated="left"
+            color="red"
+            onClick={() => masterDispatch({ type: 'DELETE' })}
+          >
             刪除
           </Button>
         </Modal.Actions>
       </Modal>
+
+      {/**********************  明細*************** */}
 
       <TableView
         columns={detailColumns}
@@ -251,7 +260,11 @@ export default function index() {
           <Button primary onClick={handleSave} loading={loading}>
             儲存
           </Button>
-          <Button floated="left" color="red" onClick={handleDelete}>
+          <Button
+            floated="left"
+            color="red"
+            onClick={() => dispatch({ type: 'DELETE' })}
+          >
             刪除
           </Button>
         </Modal.Actions>
