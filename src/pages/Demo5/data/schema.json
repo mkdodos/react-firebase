@@ -59,22 +59,6 @@
           "type": "number"
         }
       ]
-    },
-
-    {
-      "id": 3,
-      "table": "master3",
-      "columns": [
-        {
-          "name": "stockNo",
-          "label": "代號",
-          "type": "text",
-          "editable": "true"
-        }
-        
-      ]
     }
-
-
   ]
 }

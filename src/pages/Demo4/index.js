@@ -11,7 +11,7 @@ import MasterEditForm from './components/MasterEditForm';
 
 export default function index() {
   // 主表名稱
-  const masterTable = 'master3';
+  const masterTable = 'master';
   // 明細表名稱
   const detailTable = 'detail';
 
@@ -65,8 +65,6 @@ export default function index() {
     defaultRow[obj.name] = '';
   });
 
-  
-
   const handleCreate = async () => {
     setLoading(true);
     const id = await createDoc(detailTable, state.row);
@@ -105,12 +103,21 @@ export default function index() {
     });
   };
 
+
   // 預設物件
   const masterDefaultRow = {};
   // 編輯列預設值
   masterColumns.map((obj) => {
     masterDefaultRow[obj.name] = '';
   });
+
+
+  const [row, setRow] = useState(masterDefaultRow);
+  const handleChangeMaster = (e) => {
+    setRow({ ...row, [e.target.name]: e.target.value });
+  };
+
+  
 
   // const [masterState, masterDispatch] = useReducer(masterReducer, {
   //   data: [],
@@ -138,6 +145,13 @@ export default function index() {
       dispatchState = async (action) => setState(await reducer(state, action));
     return [state, dispatchState];
   }
+
+  const [state, dispatch] = useReducer(detailReducer, {
+    open: false,
+    row: defaultRow,
+    defaultRow,
+    rowIndex: -1,
+  });
 
   // 參考此篇, 讓 reducer 可以使用 async function
 
@@ -170,13 +184,6 @@ export default function index() {
 
   // console.log(masterState.row);
 
-  const [state, dispatch] = useReducer(detailReducer, {
-    open: false,
-    row: defaultRow,
-    defaultRow,
-    rowIndex: -1,
-  });
-
   return (
     <>
       {/* {state.rowIndex} */}
@@ -185,6 +192,7 @@ export default function index() {
         columns={masterColumns}
         rows={masterState.data}
         handleAdd={() => masterDispatch({ type: 'ADD' })}
+        // handleAdd={() => dispatch({ type: 'ADD' })}
         handleEdit={(row, index) =>
           masterDispatch({ type: 'EDIT', payload: { row, index } })
         }
@@ -198,14 +206,15 @@ export default function index() {
         <Modal.Header>主表編輯</Modal.Header>
         <Modal.Content>
           <MasterEditForm
-            row={masterState.row}
-            handleChange={(e) => {
-              console.log('change');
-              masterDispatch({
-                type: 'CHANGE',
-                payload: { name: e.target.name, value: e.target.value },
-              });
-            }}
+            // row={masterState.row}
+            row={row}
+            handleChange={handleChangeMaster}
+            // handleChange={(e) => {
+            //   masterDispatch({
+            //     type: 'CHANGE',
+            //     payload: { name: e.target.name, value: e.target.value },
+            //   });
+            // }}
             columns={masterColumns}
           />
         </Modal.Content>

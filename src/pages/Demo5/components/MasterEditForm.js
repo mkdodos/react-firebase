@@ -1,8 +1,7 @@
 import React from 'react';
 import { Form } from 'semantic-ui-react';
 
-export default function MasterEditForm({ columns, row, setRow,handleChange }) {
- 
+export default function MasterEditForm({ columns, row, handleChange }) {
   // 組合每一列 group
   const formGroups = (columnsPerRow) => {
     const groups = [];
@@ -16,8 +15,6 @@ export default function MasterEditForm({ columns, row, setRow,handleChange }) {
     }
     return groups;
   };
-
- 
 
   // 組合 group 中的 field
   const formFields = (index, columnsPerRow) => {

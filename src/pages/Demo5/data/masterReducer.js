@@ -4,7 +4,9 @@ export const masterReducer = async (state, action) => {
   switch (action.type) {
     // 載入資料
     case 'LOAD':
-      let result = await readDocs('master');
+      let result = await readDocs(state.table);
+
+      console.log(result);
 
       return { ...state, data: result };
 
@@ -17,21 +19,22 @@ export const masterReducer = async (state, action) => {
         row: { ...state.defaultRow, transDate: today },
       };
     case 'EDIT':
-      const { row, index } = action.payload;
-      // console.log(index);
-      return { ...state, open: true, row, rowIndex: index };
+      const { index } = action.payload;
+
+      return { ...state, open: true, rowIndex: index };
 
     case 'CHANGE':
-      console.log(action.payload)
+      console.log(action.payload);
       return {
         ...state,
-        row: { ...state.row, [action.payload.name]: action.payload.value }
+        row: { ...state.row, [action.payload.name]: action.payload.value },
       };
     case 'CREATE':
-      const id = await createDoc('master', state.row);
+      const createdRow = action.payload.row;
+      const id = await createDoc('master', createdRow);
 
       let data = state.data.slice();
-      data.unshift({ ...state.row, id });
+      data.unshift({ ...createdRow, id });
 
       return {
         ...state,
@@ -41,9 +44,10 @@ export const masterReducer = async (state, action) => {
       };
 
     case 'UPDATE':
-      updateDoc('master', state.row.id, state.row);
+      const updatedRow = action.payload.row;
+      updateDoc('master', updatedRow.id, updatedRow);
       const tempRows = state.data.slice();
-      Object.assign(tempRows[state.rowIndex], state.row);
+      Object.assign(tempRows[state.rowIndex], updatedRow);
       return {
         ...state,
         open: false,
@@ -52,13 +56,13 @@ export const masterReducer = async (state, action) => {
       };
 
     case 'DELETE':
-      deleteDoc('master', state.row.id);
-      // setDetailRows(detailRows.filter((obj) => obj.id != state.row.id));
-      // const data  = state.data.filter((obj) => obj.id != state.row.id);
+      const deletdRow = action.payload.row;
+      console.log(deletdRow);
+      deleteDoc('master', deletdRow.id);
 
       return {
         ...state,
-        data: state.data.filter((obj) => obj.id != state.row.id),
+        data: state.data.filter((obj) => obj.id != deletdRow.id),
         open: false,
         rowIndex: -1,
       };
