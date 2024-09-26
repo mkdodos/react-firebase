@@ -1,14 +1,29 @@
 import { readDocs, createDoc, updateDoc, deleteDoc } from '../data/firestore';
 
 export const masterReducer = async (state, action) => {
+  // 計算欄位
+  const genNewData = (data) => {
+    const newData = data.map((obj) => {
+      const { qtys, price, costs } = obj;
+
+      return {
+        ...obj,
+        amt: Math.round(qtys * price), // 總市值
+        avgCost: Math.round((costs / qtys) * 100) / 100, //平均成本
+        bonus: Math.round(qtys * price - costs), //損益
+        roi: Math.round(((qtys * price - costs) / costs) * 10000) / 100 + ' %', //報酬率
+      };
+    });
+
+    return newData;
+  };
+
   switch (action.type) {
     // 載入資料
     case 'LOAD':
       let result = await readDocs(state.table);
 
-      console.log(result);
-
-      return { ...state, data: result };
+      return { ...state, data: genNewData(result) };
 
     case 'ADD':
       console.log('ADD');
@@ -38,7 +53,7 @@ export const masterReducer = async (state, action) => {
 
       return {
         ...state,
-        data,
+        data: genNewData(data),
         open: false,
         rowIndex: -1,
       };
@@ -48,10 +63,11 @@ export const masterReducer = async (state, action) => {
       updateDoc('master', updatedRow.id, updatedRow);
       const tempRows = state.data.slice();
       Object.assign(tempRows[state.rowIndex], updatedRow);
+
       return {
         ...state,
         open: false,
-        data: tempRows,
+        data: genNewData(tempRows),
         rowIndex: -1,
       };
 
