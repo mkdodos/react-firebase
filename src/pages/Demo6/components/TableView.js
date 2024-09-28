@@ -7,6 +7,7 @@ export default function TableView({
   handleEdit,
   handleAdd,
   loading,
+  dispatch,
 }) {
   // 針對不同欄位做不同顯示
   const genColumn = (row, column, index) => {
@@ -39,7 +40,14 @@ export default function TableView({
           <Table.Row>
             {columns.map((col, index) => {
               return (
-                <Table.HeaderCell key={index}>{col.label}</Table.HeaderCell>
+                <Table.HeaderCell
+                  onClick={() =>
+                    dispatch({ type: 'SORT', payload: { column: col.name } })
+                  }
+                  key={index}
+                >
+                  {col.label}
+                </Table.HeaderCell>
               );
             })}
             <Table.HeaderCell>
@@ -59,7 +67,7 @@ export default function TableView({
                     <Table.Cell key={index}>
                       {genColumn(row, column, index)}
                     </Table.Cell>
-                  );                  
+                  );
                 })}
                 <Table.Cell>
                   <Button onClick={() => handleEdit(row, index)}>編輯</Button>

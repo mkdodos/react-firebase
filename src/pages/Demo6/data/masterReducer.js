@@ -11,7 +11,7 @@ export const masterReducer = async (state, action) => {
         amt: Math.round(qtys * price), // 總市值
         avgCost: Math.round((costs / qtys) * 100) / 100, //平均成本
         bonus: Math.round(qtys * price - costs), //損益
-        roi: Math.round(((qtys * price - costs) / costs) * 10000) / 100 , //報酬率
+        roi: Math.round(((qtys * price - costs) / costs) * 10000) / 100, //報酬率
       };
     });
 
@@ -19,22 +19,44 @@ export const masterReducer = async (state, action) => {
   };
 
   switch (action.type) {
+    // 排序
+    case 'SORT':
+      let direction = 'ascending';
+      let sortedData = state.data;
+      const columnName = action.payload.column;
+
+      if (state.column == columnName) {
+        direction = state.direction == 'ascending' ? 'descending' : 'ascending';
+        sortedData = state.data.slice().reverse();
+      } else {
+        direction = 'ascending';
+        sortedData = state.data.slice().sort((a, b) => {
+          return a[columnName] * 1 > b[columnName] * 1 ? 1 : -1;
+        });
+      }
+
+      return {
+        ...state,
+        data: sortedData,
+        column: action.payload.column,
+        direction,
+      };
+
     // 載入資料
     case 'LOAD':
       let result = await readDocs(state.table);
-
       return { ...state, data: genNewData(result) };
 
-    case 'ADD':      
+    case 'ADD':
       return {
         ...state,
         open: true,
-        rowIndex:-1,
+        rowIndex: -1,
         row: { ...state.defaultRow },
       };
+
     case 'EDIT':
       const { index } = action.payload;
-
       return { ...state, open: true, rowIndex: index };
 
     case 'CHANGE':
@@ -43,6 +65,7 @@ export const masterReducer = async (state, action) => {
         ...state,
         row: { ...state.row, [action.payload.name]: action.payload.value },
       };
+
     case 'CREATE':
       const createdRow = action.payload.row;
       const id = await createDoc('master', createdRow);

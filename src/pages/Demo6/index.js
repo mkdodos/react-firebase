@@ -38,6 +38,8 @@ export default function index() {
     open: false,
     // defaultRow: masterDefaultRow,
     rowIndex: -1,
+    column: null,
+    direction: 'ascending',
   };
 
   // 此函數為參考網路,功能為讓 reducer 可以處理 async function
@@ -70,6 +72,7 @@ export default function index() {
           masterDispatch({ type: 'EDIT', payload: { index } });
           setRow(row);
         }}
+        dispatch={masterDispatch}
       />
 
       <Modal
