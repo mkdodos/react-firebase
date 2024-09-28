@@ -8,6 +8,7 @@ export default function TableView({
   handleAdd,
   loading,
   dispatch,
+  state,
 }) {
   // 針對不同欄位做不同顯示
   const genColumn = (row, column, index) => {
@@ -35,12 +36,14 @@ export default function TableView({
 
   return (
     <>
-      <Table celled unstackable>
+   
+      <Table celled unstackable sortable>
         <Table.Header>
           <Table.Row>
             {columns.map((col, index) => {
               return (
                 <Table.HeaderCell
+                  sorted={state.column == col.name ? state.direction : null}
                   onClick={() =>
                     dispatch({ type: 'SORT', payload: { column: col.name } })
                   }

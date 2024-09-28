@@ -73,6 +73,7 @@ export default function index() {
           setRow(row);
         }}
         dispatch={masterDispatch}
+        state={masterState}
       />
 
       <Modal
