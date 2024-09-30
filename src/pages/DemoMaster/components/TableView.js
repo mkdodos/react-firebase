@@ -49,7 +49,7 @@ export default function TableView({
                   }
                   key={index}
                 >
-                  {col.label} 
+                  {col.label} {total[col.name]}
                 </Table.HeaderCell>
               );
             })}

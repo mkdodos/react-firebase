@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { masterReducer } from './data/reducer';
+import { masterReducer } from './data/masterReducer';
 import schema from './data/schema.json';
 import TableView from './components/TableView';
-import MasterEditForm from './components/EditForm';
+import MasterEditForm from './components/MasterEditForm';
 import { Modal, Button } from 'semantic-ui-react';
 
 export default function index() {
@@ -12,33 +12,42 @@ export default function index() {
   };
 
   // 主表名稱
-  const table = 'detail';
+  const masterTable = 'master';
   // 主表欄位
-  const columns = getColumns(table);
+  const masterColumns = getColumns(masterTable);
 
-  // 欄位預設值
-  const defaultRow = {};
-
-  columns.map((obj) => {
-    defaultRow[obj.name] = '';
+  // 編輯
+  // 預設物件
+  const masterDefaultRow = {};
+  // 合計列預設值
+  const masterDefaultTotal = {};
+ 
+  
+  masterColumns.map((obj) => {
+    masterDefaultRow[obj.name] = '';
+    masterDefaultTotal[obj.name] = '';
   });
+
+ 
+
 
   // 原本 row 放在 useAsyncReducer 會出現無法輸入中文的問題
   // 將其獨立出來處理
-  const [row, setRow] = useState(defaultRow);
+  const [row, setRow] = useState(masterDefaultRow);
   const handleChangeMaster = (e) => {
     setRow({ ...row, [e.target.name]: e.target.value });
   };
 
   // 預設資料物件
   const masterInitState = {
-    table,
+    table: masterTable,
     data: [],
     open: false,
     loading: true,
     rowIndex: -1,
     column: null, // 標題列點選排序欄位
     direction: 'ascending',
+    total: masterDefaultTotal, // 各項合計
   };
 
   // 此函數為參考網路,功能為讓 reducer 可以處理 async function
@@ -61,14 +70,11 @@ export default function index() {
   return (
     <>
       <TableView
-        columns={columns}
+        columns={masterColumns}
         rows={masterState.data}
         handleAdd={() => {
           masterDispatch({ type: 'ADD' });
-          setRow({
-            ...defaultRow,
-            transDate: new Date().toISOString().substring(0, 10),
-          });
+          setRow(masterDefaultRow);
         }}
         handleEdit={(row, index) => {
           masterDispatch({ type: 'EDIT', payload: { index } });
@@ -87,7 +93,7 @@ export default function index() {
         <Modal.Content>
           <MasterEditForm
             row={row}
-            columns={columns}
+            columns={masterColumns}
             handleChange={handleChangeMaster}
           />
         </Modal.Content>

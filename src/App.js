@@ -14,6 +14,7 @@ import Demo3 from './pages/Demo3'
 import Demo4 from './pages/Demo4'
 import Demo5 from './pages/Demo5'
 import Demo6 from './pages/Demo6'
+import DemoMaster from './pages/DemoMaster'
 
 // import ProtectedRoutes from './utils/ProtectedRoutes';
 
@@ -54,6 +55,7 @@ export default function App() {
           <Route path="/demo4" element={<Demo4 />} />
           <Route path="/demo5" element={<Demo5 />} />
           <Route path="/demo6" element={<Demo6 />} />
+          <Route path="/demo-master" element={<DemoMaster />} />
 
           {/* 受保謢的路由 */}
           {/* 權限為管理員才能查看 */}
