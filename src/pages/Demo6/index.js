@@ -19,10 +19,17 @@ export default function index() {
   // 編輯
   // 預設物件
   const masterDefaultRow = {};
-  // 編輯列預設值
+  // 合計列預設值
+  const masterDefaultTotal = {};
+ 
+  
   masterColumns.map((obj) => {
     masterDefaultRow[obj.name] = '';
+    masterDefaultTotal[obj.name] = '';
   });
+
+ 
+
 
   // 原本 row 放在 useAsyncReducer 會出現無法輸入中文的問題
   // 將其獨立出來處理
@@ -36,10 +43,11 @@ export default function index() {
     table: masterTable,
     data: [],
     open: false,
-    // defaultRow: masterDefaultRow,
+    loading: true,
     rowIndex: -1,
-    column: null,
+    column: null, // 標題列點選排序欄位
     direction: 'ascending',
+    total: masterDefaultTotal, // 各項合計
   };
 
   // 此函數為參考網路,功能為讓 reducer 可以處理 async function

@@ -5,8 +5,7 @@ export default function TableView({
   rows,
   columns,
   handleEdit,
-  handleAdd,
-  loading,
+  handleAdd,  
   dispatch,
   state,
 }) {
@@ -34,22 +33,23 @@ export default function TableView({
     }
   };
 
+  const { direction, loading, column,total } = state;
+
   return (
     <>
-   
       <Table celled unstackable sortable>
         <Table.Header>
           <Table.Row>
             {columns.map((col, index) => {
               return (
                 <Table.HeaderCell
-                  sorted={state.column == col.name ? state.direction : null}
+                  sorted={column == col.name ? direction : null}
                   onClick={() =>
                     dispatch({ type: 'SORT', payload: { column: col.name } })
                   }
                   key={index}
                 >
-                  {col.label}
+                  {col.label} {total[col.name]}
                 </Table.HeaderCell>
               );
             })}

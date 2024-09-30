@@ -6,6 +6,8 @@ export const masterReducer = async (state, action) => {
     const newData = data.map((obj) => {
       const { qtys, price, costs } = obj;
 
+      // const totalRow =
+
       return {
         ...obj,
         amt: Math.round(qtys * price), // 總市值
@@ -16,6 +18,29 @@ export const masterReducer = async (state, action) => {
     });
 
     return newData;
+  };
+
+  // 計算合計
+  const genTotalData = (data) => {
+    const totalRow = { qtys: 0, costs: 0, bonus: 0,amt:0 };
+
+    data.map((obj) => {
+      // totalRow.qtys += Number(obj.qtys);
+      totalRow.costs += Number(obj.costs);
+      totalRow.bonus += Number(obj.bonus);
+      totalRow.amt += Number(obj.amt);
+
+      // console.log(obj)
+    });
+
+    totalRow.roi = totalRow.bonus / totalRow.costs;
+    return {
+      // qtys: totalRow.qtys,
+      costs: totalRow.costs,
+      amt: totalRow.amt,
+      bonus: totalRow.bonus,
+      roi: Math.round(totalRow.roi * 10000) / 100,
+    };
   };
 
   switch (action.type) {
@@ -45,7 +70,13 @@ export const masterReducer = async (state, action) => {
     // 載入資料
     case 'LOAD':
       let result = await readDocs(state.table);
-      return { ...state, data: genNewData(result) };
+      return {
+        ...state,
+        data: genNewData(result),
+        loading: false,
+        // total: { qtys: 100, costs: 200,bonus:300 },
+        total: genTotalData(genNewData(result)),
+      };
 
     case 'ADD':
       return {
