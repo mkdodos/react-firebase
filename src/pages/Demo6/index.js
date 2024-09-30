@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { masterReducer } from './data/reducer';
+import { reducer } from './data/reducer';
 import schema from './data/schema.json';
 import TableView from './components/TableView';
 import MasterEditForm from './components/EditForm';
@@ -30,6 +30,11 @@ export default function index() {
     setRow({ ...row, [e.target.name]: e.target.value });
   };
 
+  const handleStockChange = (e, { value }) => {
+   
+    setRow({ ...row, stockName: value });
+  };
+
   // 預設資料物件
   const masterInitState = {
     table,
@@ -49,7 +54,7 @@ export default function index() {
   }
 
   const [masterState, masterDispatch] = useAsyncReducer(
-    masterReducer,
+    reducer,
     masterInitState
   );
 
@@ -89,6 +94,7 @@ export default function index() {
             row={row}
             columns={columns}
             handleChange={handleChangeMaster}
+            handleStockChange={handleStockChange}
           />
         </Modal.Content>
         <Modal.Actions>

@@ -1,14 +1,32 @@
 import { readDocs, createDoc, updateDoc, deleteDoc } from './firestore';
 
-export const masterReducer = async (state, action) => {
+export const reducer = async (state, action) => {
+  const table = state.table;
+
+  // 計算欄位
+  const genNewData = (data) => {
+    const newData = data.map((obj) => {
+      const { qty, price } = obj;
+
+      // const totalRow =
+
+      return {
+        ...obj,
+        amt: qty * price,
+      };
+    });
+
+    return newData;
+  };
+
   switch (action.type) {
     // 載入資料
     case 'LOAD':
       let result = await readDocs(state.table);
-      console.log(result);
+      // console.log(result);
       return {
         ...state,
-        data: result,
+        data: genNewData(result),
         loading: false,
       };
     // 新增
@@ -55,7 +73,7 @@ export const masterReducer = async (state, action) => {
 
     case 'CREATE':
       const createdRow = action.payload.row;
-      const id = await createDoc('master', createdRow);
+      const id = await createDoc(table, createdRow);
 
       let data = state.data.slice();
       data.unshift({ ...createdRow, id });
@@ -69,9 +87,11 @@ export const masterReducer = async (state, action) => {
 
     case 'UPDATE':
       const updatedRow = action.payload.row;
-      updateDoc('master', updatedRow.id, updatedRow);
+      updateDoc(table, updatedRow.id, updatedRow);
       const tempRows = state.data.slice();
       Object.assign(tempRows[state.rowIndex], updatedRow);
+
+      console.log(updatedRow)
 
       return {
         ...state,
@@ -83,7 +103,7 @@ export const masterReducer = async (state, action) => {
     case 'DELETE':
       const deletdRow = action.payload.row;
       console.log(deletdRow);
-      deleteDoc('master', deletdRow.id);
+      deleteDoc(table, deletdRow.id);
 
       return {
         ...state,
