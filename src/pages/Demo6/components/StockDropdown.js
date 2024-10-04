@@ -10,7 +10,7 @@ export default function StockDropdown({ onChange,value }) {
   const [options, setOptions] = useState([]);
 
   const readDocs = async (table) => {
-    const snapshot = await db.collection(table).limit(10).orderBy('stockName').get();
+    const snapshot = await db.collection(table).limit(20).orderBy('stockName').get();
     const data = snapshot.docs.map((doc) => {
       const stockName = doc.data().stockName;
       // console.log(stockName);

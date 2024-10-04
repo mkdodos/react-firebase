@@ -22,25 +22,16 @@ export const masterReducer = async (state, action) => {
 
   // 計算合計
   const genTotalData = (data) => {
-    const totalRow = { qtys: 0, costs: 0, bonus: 0,amt:0 };
+    const totalRow = { qtys: 0, costs: 0, bonus: 0, amt: 0 };
 
     data.map((obj) => {
-      // totalRow.qtys += Number(obj.qtys);
       totalRow.costs += Number(obj.costs);
       totalRow.bonus += Number(obj.bonus);
       totalRow.amt += Number(obj.amt);
-
-      // console.log(obj)
     });
 
-    totalRow.roi = totalRow.bonus / totalRow.costs;
-    return {
-      // qtys: totalRow.qtys,
-      costs: totalRow.costs,
-      amt: totalRow.amt,
-      bonus: totalRow.bonus,
-      roi: Math.round(totalRow.roi * 10000) / 100,
-    };
+    totalRow.roi = Math.round((totalRow.bonus / totalRow.costs) * 10000) / 100;
+    return totalRow;
   };
 
   switch (action.type) {

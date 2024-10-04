@@ -18,9 +18,12 @@ export default function index() {
 
   // 欄位預設值
   const defaultRow = {};
+  // 合計列預設值
+  const defaultTotal = {};
 
   columns.map((obj) => {
     defaultRow[obj.name] = '';
+    defaultTotal[obj.name] = '';
   });
 
   // 原本 row 放在 useAsyncReducer 會出現無法輸入中文的問題
@@ -31,7 +34,6 @@ export default function index() {
   };
 
   const handleStockChange = (e, { value }) => {
-   
     setRow({ ...row, stockName: value });
   };
 
@@ -44,6 +46,7 @@ export default function index() {
     rowIndex: -1,
     column: null, // 標題列點選排序欄位
     direction: 'ascending',
+    total: defaultTotal, // 各項合計
   };
 
   // 此函數為參考網路,功能為讓 reducer 可以處理 async function

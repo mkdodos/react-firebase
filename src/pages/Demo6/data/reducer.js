@@ -12,11 +12,26 @@ export const reducer = async (state, action) => {
 
       return {
         ...obj,
-        amt: qty * price,
+        amt: Math.round(qty * price),
       };
     });
 
     return newData;
+  };
+
+  // 計算合計
+  const genTotalData = (data) => {
+    const totalRow = { amt: 0 };
+
+    data.map((obj) => {
+      totalRow.amt += Number(obj.amt);
+    });
+
+    return totalRow;
+
+    // return {
+    //   amt: totalRow.amt,
+    // };
   };
 
   switch (action.type) {
@@ -28,6 +43,7 @@ export const reducer = async (state, action) => {
         ...state,
         data: genNewData(result),
         loading: false,
+        total: genTotalData(genNewData(result)),
       };
     // 新增
     case 'ADD':
@@ -91,7 +107,7 @@ export const reducer = async (state, action) => {
       const tempRows = state.data.slice();
       Object.assign(tempRows[state.rowIndex], updatedRow);
 
-      console.log(updatedRow)
+      console.log(updatedRow);
 
       return {
         ...state,
