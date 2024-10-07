@@ -1,11 +1,12 @@
 import React from 'react';
 import { Table, Button, Label } from 'semantic-ui-react';
+import { NavLink } from 'react-router-dom';
 
 export default function TableView({
   rows,
   columns,
   handleEdit,
-  handleAdd,  
+  handleAdd,
   dispatch,
   state,
 }) {
@@ -14,6 +15,13 @@ export default function TableView({
     let color = 'green';
     if (row[column.name] > 0) color = 'red';
     switch (column.name) {
+      case 'stockName':
+        return (
+          <NavLink to={'/demo-detail/' + row[column.name]}>
+            {row[column.name]}
+          </NavLink>
+        );
+
       case 'bonus':
         return (
           <Label size="large" color={color} basic>
@@ -33,7 +41,7 @@ export default function TableView({
     }
   };
 
-  const { direction, loading, column,total } = state;
+  const { direction, loading, column, total } = state;
 
   return (
     <>
