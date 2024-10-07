@@ -13,30 +13,12 @@ import Demo2 from './pages/Demo2'
 import Demo3 from './pages/Demo3'
 import Demo4 from './pages/Demo4'
 import Demo5 from './pages/Demo5'
-import Demo6 from './pages/Demo6'
 import DemoMaster from './pages/DemoMaster'
+import DemoDetail from './pages/DemoDetail'
 
-// import ProtectedRoutes from './utils/ProtectedRoutes';
-
-// 使用者權限
-const Permission = {
-  User: 'User',
-  Admin: 'Admin',
-};
 
 export default function App() {
-  // const user = localStorage.getItem('user');
-  // let user =JSON.parse(localStorage.getItem('user'));
-
-  // let user=localStorage.getItem('user');
-  // if(user){
-  //   user = JSON.parse(user);
-  //   user = { ...user, permission: ['Admin'] };
-  // }
-
   
-  // const user = { login: false, permission: ['Admin'] };
-  // const user = { login: true, permission: ['Admin'] };
   return (
     <Container>
       <BrowserRouter>
@@ -54,7 +36,8 @@ export default function App() {
           <Route path="/demo3" element={<Demo3 />} />
           <Route path="/demo4" element={<Demo4 />} />
           <Route path="/demo5" element={<Demo5 />} />
-          <Route path="/demo6" element={<Demo6 />} />
+          <Route path="/demo-detail" element={<DemoDetail />} />
+          <Route path="/demo-detail/:stockName" element={<DemoDetail />} />
           <Route path="/demo-master" element={<DemoMaster />} />
 
           {/* 受保謢的路由 */}

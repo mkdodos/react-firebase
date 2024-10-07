@@ -10,11 +10,12 @@ export default function StockDropdown({ onChange,value }) {
   const [options, setOptions] = useState([]);
 
   const readDocs = async (table) => {
-    const snapshot = await db.collection(table).limit(20).orderBy('stockName').get();
+    const snapshot = await db.collection(table).limit(20).orderBy('stockNo').get();
     const data = snapshot.docs.map((doc) => {
+      const stockNo = doc.data().stockNo;
       const stockName = doc.data().stockName;
       // console.log(stockName);
-      return { key: stockName, text: stockName, value: stockName };
+      return { key: stockName, text:stockNo+' '+stockName, value: stockName };
     });
 
     setOptions(data);
@@ -31,6 +32,7 @@ export default function StockDropdown({ onChange,value }) {
       <label>股票名稱</label>
       <Form.Select
         selection
+        search
         placeholder="名稱"
         fluid
         options={options}

@@ -1,4 +1,10 @@
-import { readDocs, createDoc, updateDoc, deleteDoc } from './firestore';
+import {
+  readDocs,
+  createDoc,
+  updateDoc,
+  deleteDoc,
+  readDocsByStockName,
+} from './firestore';
 
 export const reducer = async (state, action) => {
   const table = state.table;
@@ -37,8 +43,15 @@ export const reducer = async (state, action) => {
   switch (action.type) {
     // 載入資料
     case 'LOAD':
-      let result = await readDocs(state.table);
-      // console.log(result);
+      // 依有無傳股票名稱取得不同資料
+      let result = [];
+      if (state.search.stockName) {
+        result = await readDocsByStockName(state.table, state.search.stockName);
+      } else {
+        result = await readDocs(state.table);
+      }
+
+      console.log(state.search.stockName);
       return {
         ...state,
         data: genNewData(result),
