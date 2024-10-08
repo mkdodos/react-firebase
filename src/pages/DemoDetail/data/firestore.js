@@ -2,6 +2,18 @@ import { db } from '../../../utils/firebase';
 
 const createDoc = async (table, row) => {
   const docRef = await db.collection(table).add(row);
+
+  // 更新主表股數
+  const masterDoc = await db
+    .collection('master')
+    .where('stockName', '==', row.stockName)
+    .get();
+
+  const id = masterDoc.docs[0].id;
+  const qtys = masterDoc.docs[0].data().qtys;
+
+  updateDoc('master', id, { qtys: Number(qtys) + Number(row.qty) }); 
+
   return docRef.id;
 };
 

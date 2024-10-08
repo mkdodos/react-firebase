@@ -28,17 +28,16 @@ export const reducer = async (state, action) => {
 
   // 計算合計
   const genTotalData = (data) => {
-    const totalRow = { amt: 0 };
+    const totalRow = { amt: 0,qty:0 };
 
     data.map((obj) => {
       totalRow.amt += Number(obj.amt);
+      totalRow.qty += Number(obj.qty);
     });
 
     return totalRow;
 
-    // return {
-    //   amt: totalRow.amt,
-    // };
+   
   };
 
   switch (action.type) {
@@ -121,7 +120,7 @@ export const reducer = async (state, action) => {
       const id = await createDoc(table, createdRow);
 
       let data = state.data.slice();
-      data.unshift({ ...createdRow, id });
+      data.unshift({ ...createdRow, id });      
 
       return {
         ...state,
