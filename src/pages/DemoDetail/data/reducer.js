@@ -4,6 +4,7 @@ import {
   updateDoc,
   deleteDoc,
   readDocsByStockName,
+  readDocsByTransDate,
 } from './firestore';
 
 export const reducer = async (state, action) => {
@@ -41,6 +42,21 @@ export const reducer = async (state, action) => {
   };
 
   switch (action.type) {
+    // 查詢
+    case 'SEARCH':
+      console.log(action.payload.date);
+
+      let dateResult = await readDocsByTransDate(
+        state.table,
+        action.payload.date
+      );
+
+      return {
+        ...state,
+        data: genNewData(dateResult),
+        total: genTotalData(genNewData(dateResult)),
+      };
+
     // 載入資料
     case 'LOAD':
       // 依有無傳股票名稱取得不同資料

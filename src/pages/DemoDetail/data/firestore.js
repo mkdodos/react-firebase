@@ -16,7 +16,19 @@ const readDocs = async (table) => {
 const readDocsByStockName = async (table, stockName) => {
   const snapshot = await db
     .collection(table)
-    .where('stockName', '==', stockName)    
+    .where('stockName', '==', stockName)
+    .get();
+  const data = snapshot.docs.map((doc) => {
+    return { ...doc.data(), id: doc.id };
+  });
+  return data;
+};
+
+// 依交易日期查詢
+const readDocsByTransDate = async (table, transDate) => {
+  const snapshot = await db
+    .collection(table)
+    .where('transDate', '==', transDate)
     .get();
   const data = snapshot.docs.map((doc) => {
     return { ...doc.data(), id: doc.id };
@@ -32,4 +44,11 @@ const deleteDoc = (table, id) => {
   db.collection(table).doc(id).delete();
 };
 
-export { createDoc, readDocs, updateDoc, deleteDoc,readDocsByStockName };
+export {
+  createDoc,
+  readDocs,
+  updateDoc,
+  deleteDoc,
+  readDocsByStockName,
+  readDocsByTransDate,
+};

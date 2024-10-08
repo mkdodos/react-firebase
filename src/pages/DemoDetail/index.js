@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { reducer } from './data/reducer';
 import schema from './data/schema.json';
+import SearchBar from './components/SearchBar';
 import TableView from './components/TableView';
 import MasterEditForm from './components/EditForm';
-import { Modal, Button } from 'semantic-ui-react';
+import { Modal, Button, Search } from 'semantic-ui-react';
 import { useParams } from 'react-router-dom';
 
 export default function index() {
   let { stockName } = useParams();
- 
+
   // 欄位資料
   const getColumns = (table) => {
     return schema.tables.find((t) => t.table == table).columns;
@@ -50,7 +51,7 @@ export default function index() {
     column: null, // 標題列點選排序欄位
     direction: 'ascending',
     total: defaultTotal, // 各項合計
-    search: {stockName},
+    search: { stockName },
   };
 
   // 此函數為參考網路,功能為讓 reducer 可以處理 async function
@@ -72,6 +73,7 @@ export default function index() {
 
   return (
     <>
+      <SearchBar dispatch={masterDispatch} />
       <TableView
         columns={columns}
         rows={masterState.data}
