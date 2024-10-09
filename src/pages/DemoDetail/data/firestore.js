@@ -3,16 +3,21 @@ import { db } from '../../../utils/firebase';
 const createDoc = async (table, row) => {
   const docRef = await db.collection(table).add(row);
 
-  // 更新主表股數
+  // 更新主表
   const masterDoc = await db
     .collection('master')
     .where('stockName', '==', row.stockName)
     .get();
 
   const id = masterDoc.docs[0].id;
+  // 股數
   const qtys = masterDoc.docs[0].data().qtys;
-
-  updateDoc('master', id, { qtys: Number(qtys) + Number(row.qty) }); 
+  // 成本
+  const costs = masterDoc.docs[0].data().costs;
+  updateDoc('master', id, {
+    qtys: Number(qtys) + Number(row.qty),
+    costs: Number(costs) + row.qty * row.price,
+  });
 
   return docRef.id;
 };

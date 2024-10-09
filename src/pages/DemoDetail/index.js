@@ -3,7 +3,7 @@ import { reducer } from './data/reducer';
 import schema from './data/schema.json';
 import SearchBar from './components/SearchBar';
 import TableView from './components/TableView';
-import MasterEditForm from './components/EditForm';
+import EditForm from './components/EditForm';
 import { Modal, Button, Search } from 'semantic-ui-react';
 import { useParams } from 'react-router-dom';
 
@@ -33,13 +33,24 @@ export default function index() {
   // 原本 row 放在 useAsyncReducer 會出現無法輸入中文的問題
   // 將其獨立出來處理
   const [row, setRow] = useState(defaultRow);
-  const handleChangeMaster = (e) => {
+
+
+  // 買進賣出
+  const [isSold, setIsSold] = useState(false);
+
+
+  const handleInputChange = (e) => {
     setRow({ ...row, [e.target.name]: e.target.value });
   };
 
   const handleStockChange = (e, { value }) => {
     setRow({ ...row, stockName: value });
   };
+
+
+  
+
+
 
   // 預設資料物件
   const masterInitState = {
@@ -99,11 +110,13 @@ export default function index() {
       >
         <Modal.Header>主表編輯</Modal.Header>
         <Modal.Content>
-          <MasterEditForm
+          <EditForm
             row={row}
             columns={columns}
-            handleChange={handleChangeMaster}
+            handleInputChange={handleInputChange}
             handleStockChange={handleStockChange}
+            isSold={isSold}
+            setIsSold={setIsSold}
           />
         </Modal.Content>
         <Modal.Actions>
@@ -112,7 +125,7 @@ export default function index() {
             onClick={() =>
               masterDispatch({
                 type: masterState.rowIndex == -1 ? 'CREATE' : 'UPDATE',
-                payload: { row },
+                payload: { row,isSold },
               })
             }
           >
