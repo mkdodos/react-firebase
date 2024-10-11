@@ -21,7 +21,8 @@
         {
           "name": "amt",
           "label": "總市值",
-          "type": "number"
+          "type": "number",
+          "viewable":"true"
           
         },
 
@@ -36,7 +37,8 @@
         {
           "name": "bonus",
           "label": "損益",
-          "type": "number"
+          "type": "number",
+          "viewable":"true"
         },
 
         {
@@ -57,13 +59,15 @@
           "name": "price",
           "label": "昨收價",
           "type": "number",
-          "editable": "true"
+          "editable": "true",
+          "viewable":"true"
           
         },
         {
           "name": "roi",
           "label": "報酬率",
-          "type": "number"
+          "type": "number",
+          "viewable":"true"
          
         },
         {

@@ -13,7 +13,7 @@ export default function TableView({
   // 針對不同欄位做不同顯示
   const genColumn = (row, column, index) => {
     let color = 'green';
-    if (row[column.name] > 0) color = 'red';
+    if (row[column.name] > 0) color = 'pink';
     switch (column.name) {
       case 'stockName':
         return (
@@ -24,8 +24,8 @@ export default function TableView({
 
       case 'bonus':
         return (
-          <Label size="large" color={color} basic>
-            $ {row[column.name]}
+          <Label size="large" color={color} >
+             {row[column.name]}
           </Label>
         );
 
