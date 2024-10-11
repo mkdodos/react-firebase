@@ -62,9 +62,15 @@ export const reducer = async (state, action) => {
         result = await readDocsByStockName(state.table, state.search.stockName);
       } else {
         result = await readDocs(state.table);
+        
       }
 
-      console.log(state.search.stockName);
+      // 日期排序
+      result.sort((a, b) => {
+        return a.transDate < b.transDate ? 1 : -1;
+      });
+
+      // console.log(state.search.stockName);
       return {
         ...state,
         data: genNewData(result),
@@ -84,6 +90,7 @@ export const reducer = async (state, action) => {
       let direction = 'ascending';
       let sortedData = state.data;
       const columnName = action.payload.column;
+      const columnType = action.payload.type;
 
       if (state.column == columnName) {
         direction = state.direction == 'ascending' ? 'descending' : 'ascending';
@@ -91,7 +98,11 @@ export const reducer = async (state, action) => {
       } else {
         direction = 'ascending';
         sortedData = state.data.slice().sort((a, b) => {
-          return a[columnName] * 1 > b[columnName] * 1 ? 1 : -1;
+          // 數字欄位
+          if (columnType == 'number')
+            return a[columnName] * 1 > b[columnName] * 1 ? 1 : -1;
+          // 其他欄位
+          return a[columnName] > b[columnName] ? 1 : -1;
         });
       }
 
@@ -118,8 +129,6 @@ export const reducer = async (state, action) => {
       const isSold = action.payload.isSold;
       if (isSold) createdRow.qty = createdRow.qty * -1;
       const id = await createDoc(table, createdRow);
-
-      
 
       let data = state.data.slice();
       data.unshift({ ...createdRow, id });

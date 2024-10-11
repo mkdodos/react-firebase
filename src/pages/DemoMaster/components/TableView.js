@@ -53,7 +53,7 @@ export default function TableView({
                 <Table.HeaderCell
                   sorted={column == col.name ? direction : null}
                   onClick={() =>
-                    dispatch({ type: 'SORT', payload: { column: col.name } })
+                    dispatch({ type: 'SORT', payload: { column: col.name,type:col.type } })
                   }
                   key={index}
                 >

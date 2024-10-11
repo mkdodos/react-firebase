@@ -65,44 +65,25 @@
           "label": "報酬率",
           "type": "number"
          
-        }
-      ]
-    },
-    {
-      "id": 2,
-      "table": "detail",
-      "columns": [
+        },
         {
-          "name": "transDate",
-          "label": "交易日",
+          "name": "fromDate",
+          "label": "開始日",
           "type": "date",
+          "viewable":"true",
           "editable": "true"
+         
         },
         {
-          "name": "stockName",
-          "label": "股票名",
-          "type": "text",
-          "editable": "true",
-          "editType": "dropdown"
-        },
-        {
-          "name": "qty",
-          "label": "股數",
-          "type": "number",
+          "name": "toDate",
+          "label": "結束日",
+          "type": "date",
+          "viewable":"true",
           "editable": "true"
-        },
-        {
-          "name": "price",
-          "label": "單價",
-          "type": "number",
-          "editable": "true"
-        },
-        {
-          "name": "amt",
-          "label": "小計",
-          "type": "number"
+         
         }
       ]
     }
+    
   ]
 }

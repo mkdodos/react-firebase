@@ -33,7 +33,7 @@ const readDocs = async (table) => {
 const readDocsByStockName = async (table, stockName) => {
   const snapshot = await db
     .collection(table)
-    .where('stockName', '==', stockName)
+    .where('stockName', '==', stockName)    
     .get();
   const data = snapshot.docs.map((doc) => {
     return { ...doc.data(), id: doc.id };

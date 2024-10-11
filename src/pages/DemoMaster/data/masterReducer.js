@@ -6,7 +6,7 @@ export const masterReducer = async (state, action) => {
     const newData = data.map((obj) => {
       const { qtys, price, costs } = obj;
 
-      // const totalRow =
+      obj.costs = Math.round(obj.costs);
 
       return {
         ...obj,
@@ -30,6 +30,7 @@ export const masterReducer = async (state, action) => {
       totalRow.amt += Number(obj.amt);
     });
 
+    totalRow.costs = Math.round(totalRow.costs);
     totalRow.roi = Math.round((totalRow.bonus / totalRow.costs) * 10000) / 100;
     return totalRow;
   };
@@ -40,6 +41,7 @@ export const masterReducer = async (state, action) => {
       let direction = 'ascending';
       let sortedData = state.data;
       const columnName = action.payload.column;
+      const columnType = action.payload.type;
 
       if (state.column == columnName) {
         direction = state.direction == 'ascending' ? 'descending' : 'ascending';
@@ -47,7 +49,11 @@ export const masterReducer = async (state, action) => {
       } else {
         direction = 'ascending';
         sortedData = state.data.slice().sort((a, b) => {
-          return a[columnName] * 1 > b[columnName] * 1 ? 1 : -1;
+          // 數字欄位
+          if (columnType == 'number')
+            return a[columnName] * 1 > b[columnName] * 1 ? 1 : -1;
+          // 其他欄位
+          return a[columnName] > b[columnName] ? 1 : -1;
         });
       }
 
@@ -61,6 +67,9 @@ export const masterReducer = async (state, action) => {
     // 載入資料
     case 'LOAD':
       let result = await readDocs(state.table);
+
+      
+
       return {
         ...state,
         data: genNewData(result),
