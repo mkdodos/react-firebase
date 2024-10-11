@@ -22,7 +22,7 @@ export const masterReducer = async (state, action) => {
 
   // 計算合計
   const genTotalData = (data) => {
-    const totalRow = { qtys: 0, costs: 0, bonus: 0, amt: 0 };
+    const totalRow = { costs: 0, bonus: 0, amt: 0 };
 
     data.map((obj) => {
       totalRow.costs += Number(obj.costs);

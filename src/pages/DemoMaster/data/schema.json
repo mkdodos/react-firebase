@@ -15,19 +15,22 @@
           "name": "stockName",
           "label": "股票名稱",
           "type": "text",
-          "editable": "true"
+          "editable": "true",
+          "viewable":"true"
         },
         {
           "name": "amt",
           "label": "總市值",
           "type": "number"
+          
         },
 
         {
           "name": "costs",
           "label": "總成本",
           "type": "number",
-          "editable": "true"
+          "editable": "true",
+          "viewable":"true"
         },
 
         {
@@ -38,26 +41,30 @@
 
         {
           "name": "qtys",
-          "label": "總股數",
+          "label": "股數",
           "type": "number",
-          "editable": "true"
+          "editable": "true",
+          "viewable":"true"
         },
 
         {
           "name": "avgCost",
           "label": "平均成本",
-          "type": "number"
+          "type": "number",
+          "viewable":"true"
         },
         {
           "name": "price",
           "label": "昨收價",
           "type": "number",
           "editable": "true"
+          
         },
         {
           "name": "roi",
           "label": "報酬率",
           "type": "number"
+         
         }
       ]
     },

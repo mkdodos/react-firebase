@@ -116,9 +116,10 @@ export const reducer = async (state, action) => {
     case 'CREATE':
       const createdRow = action.payload.row;
       const isSold = action.payload.isSold;
+      if (isSold) createdRow.qty = createdRow.qty * -1;
       const id = await createDoc(table, createdRow);
 
-      if (isSold) createdRow.qty = createdRow.qty * -1;
+      
 
       let data = state.data.slice();
       data.unshift({ ...createdRow, id });
@@ -148,7 +149,7 @@ export const reducer = async (state, action) => {
     case 'DELETE':
       const deletdRow = action.payload.row;
       console.log(deletdRow);
-      deleteDoc(table, deletdRow.id);
+      deleteDoc(table, deletdRow);
 
       return {
         ...state,

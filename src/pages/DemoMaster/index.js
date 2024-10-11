@@ -8,7 +8,9 @@ import { Modal, Button } from 'semantic-ui-react';
 export default function index() {
   // 欄位資料
   const getColumns = (table) => {
-    return schema.tables.find((t) => t.table == table).columns;
+    let columns = schema.tables.find((t) => t.table == table).columns; 
+    columns=columns.filter(col=>col.viewable)
+    return columns;
   };
 
   // 主表名稱
