@@ -4,7 +4,7 @@ export const masterReducer = async (state, action) => {
   // 計算欄位
   const genNewData = (data) => {
     const newData = data.map((obj) => {
-      const { qtys, price, costs } = obj;
+      const { qtys, price, costs, outQtys } = obj;
 
       obj.costs = Math.round(obj.costs);
 
@@ -14,6 +14,8 @@ export const masterReducer = async (state, action) => {
         avgCost: Math.round((costs / qtys) * 100) / 100, //平均成本
         bonus: Math.round(qtys * price - costs), //損益
         roi: Math.round(((qtys * price - costs) / costs) * 10000) / 100, //報酬率
+
+        leftQtys: qtys - outQtys,
       };
     });
 
@@ -67,8 +69,6 @@ export const masterReducer = async (state, action) => {
     // 載入資料
     case 'LOAD':
       let result = await readDocs(state.table);
-
-      
 
       return {
         ...state,

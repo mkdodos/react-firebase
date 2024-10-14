@@ -15,8 +15,6 @@ export const reducer = async (state, action) => {
     const newData = data.map((obj) => {
       const { qty, price } = obj;
 
-      // const totalRow =
-
       return {
         ...obj,
         amt: Math.round(qty * price),
@@ -28,9 +26,24 @@ export const reducer = async (state, action) => {
 
   // 計算合計
   const genTotalData = (data) => {
-    const totalRow = { amt: 0, qty: 0 };
+    const totalRow = {
+      amt: 0,
+      qty: 0,
+      inQtys: 0,
+      outQtys: 0,
+      inAmt: 0,
+      outAmt: 0,
+    };
 
     data.map((obj) => {
+      if (obj.qty > 0) {
+        totalRow.inQtys += Number(obj.qty);
+        totalRow.inAmt += Number(obj.amt);
+      }
+      if (obj.qty < 0) {
+        totalRow.outQtys += Number(obj.qty*-1);
+        totalRow.outAmt += Number(obj.amt*-1);
+      }
       totalRow.amt += Number(obj.amt);
       totalRow.qty += Number(obj.qty);
     });
@@ -62,7 +75,6 @@ export const reducer = async (state, action) => {
         result = await readDocsByStockName(state.table, state.search.stockName);
       } else {
         result = await readDocs(state.table);
-        
       }
 
       // 日期排序

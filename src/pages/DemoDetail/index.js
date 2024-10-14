@@ -23,7 +23,7 @@ export default function index() {
   // 欄位預設值
   const defaultRow = {};
   // 合計列預設值
-  const defaultTotal = {};
+  const defaultTotal = {inQtys:0,outQtys:0,inAmt:0,outAmt:0};
 
   columns.map((obj) => {
     defaultRow[obj.name] = '';

@@ -43,9 +43,22 @@
 
         {
           "name": "qtys",
-          "label": "股數",
+          "label": "買入股數",
           "type": "number",
           "editable": "true",
+          "viewable":"true"
+        },
+        {
+          "name": "outQtys",
+          "label": "賣出股數",
+          "type": "number",
+          "editable": "true",
+          "viewable":"true"
+        },
+        {
+          "name": "leftQtys",
+          "label": "剩餘股數",
+          "type": "number",          
           "viewable":"true"
         },
 

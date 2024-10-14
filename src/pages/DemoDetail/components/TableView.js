@@ -5,7 +5,7 @@ export default function TableView({
   rows,
   columns,
   handleEdit,
-  handleAdd,  
+  handleAdd,
   dispatch,
   state,
 }) {
@@ -33,7 +33,7 @@ export default function TableView({
     }
   };
 
-  const { direction, loading, column,total } = state;
+  const { direction, loading, column, total } = state;
 
   return (
     <>
@@ -50,6 +50,22 @@ export default function TableView({
                   key={index}
                 >
                   {col.label} {total[col.name]}
+                  {col.name == 'qty' && (
+                    <>
+                      <br></br>
+                      <Label color='teal'>
+                        {total.inQtys}-{total.outQtys}
+                      </Label>
+                    </>
+                  )}
+                 {col.name == 'amt' && (
+                    <>
+                      <br></br>
+                      <Label>
+                        {total.inAmt}-{total.outAmt}
+                      </Label>
+                    </>
+                  )}
                 </Table.HeaderCell>
               );
             })}
