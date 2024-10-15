@@ -14,10 +14,33 @@ const createDoc = async (table, row) => {
   const qtys = masterDoc.docs[0].data().qtys;
   // 成本
   const costs = masterDoc.docs[0].data().costs;
+
+  const masterRow = {
+    qtys,
+    costs,
+    // soldAmt,
+    // soldQtys
+  };
+
+ 
+  masterRow.qtys = Number(qtys) + Number(row.qty); 
+  masterRow.costs = Number(costs) + row.qty * row.price; 
+
+  console.log(masterRow)
+ 
+ 
+
   updateDoc('master', id, {
-    qtys: Number(qtys) + Number(row.qty),
-    costs: Number(costs) + row.qty * row.price,
+    ...masterRow,
   });
+
+  // updateDoc('master', id, {
+  //   qtys: Number(qtys) + Number(row.qty),
+  //   // 賣掉時原成本不用更新
+  //   // 加到一個新欄位,名稱取為已售金額
+
+  //   costs: Number(costs) + row.qty * row.price,
+  // });
 
   return docRef.id;
 };
@@ -33,7 +56,7 @@ const readDocs = async (table) => {
 const readDocsByStockName = async (table, stockName) => {
   const snapshot = await db
     .collection(table)
-    .where('stockName', '==', stockName)    
+    .where('stockName', '==', stockName)
     .get();
   const data = snapshot.docs.map((doc) => {
     return { ...doc.data(), id: doc.id };

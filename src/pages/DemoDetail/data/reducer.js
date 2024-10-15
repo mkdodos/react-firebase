@@ -153,8 +153,16 @@ export const reducer = async (state, action) => {
       let data = state.data.slice();
       data.unshift({ ...createdRow, id });
 
+      const masterRow = state.masterRow;
+
+      masterRow.qtys = Number(masterRow.qtys) + Number(createdRow.qty);
+      masterRow.costs = masterRow.costs + createdRow.qty * createdRow.price;
+
+      // console.log(state.masterRow);
+
       return {
         ...state,
+        masterRow,
         data: genNewData(data),
         open: false,
         rowIndex: -1,
@@ -177,11 +185,17 @@ export const reducer = async (state, action) => {
 
     case 'DELETE':
       const deletdRow = action.payload.row;
-      console.log(deletdRow);
+      // console.log(deletdRow);
       deleteDoc(table, deletdRow);
+
+      const afterDeletedRow = state.masterRow;
+
+      afterDeletedRow.costs =
+        afterDeletedRow.costs - deletdRow.qty * deletdRow.price;
 
       return {
         ...state,
+        masterRow: afterDeletedRow,
         data: state.data.filter((obj) => obj.id != deletdRow.id),
         open: false,
         rowIndex: -1,

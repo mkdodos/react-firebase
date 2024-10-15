@@ -53,10 +53,12 @@ export default function TableView({
           <Table.Row>
             <Table.HeaderCell>市值</Table.HeaderCell>
             <Table.HeaderCell>成本</Table.HeaderCell>
+            <Table.HeaderCell>股數</Table.HeaderCell>
           </Table.Row>
           <Table.Row>
             <Table.HeaderCell>{masterRow.amt}</Table.HeaderCell>
             <Table.HeaderCell>{masterRow.costs}</Table.HeaderCell>
+            <Table.HeaderCell>{masterRow.qtys}</Table.HeaderCell>
           </Table.Row>
           <Table.Row>
             {columns.map((col, index) => {

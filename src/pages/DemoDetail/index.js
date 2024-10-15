@@ -56,7 +56,7 @@ export default function index() {
     direction: 'ascending',
     total: defaultTotal, // 各項合計
     search: { stockName },
-    masterRow: null, // 對應該筆主表資料
+    masterRow: {amt:0,costs:0,qtys:0}, // 對應該筆主表資料
   };
 
   // 此函數為參考網路,功能為讓 reducer 可以處理 async function

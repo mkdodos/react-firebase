@@ -8,7 +8,8 @@
           "name": "stockNo",
           "label": "代號",
           "type": "text",
-          "editable": "true"
+          "editable": "true",
+          "viewable":"true"
         },
 
         {
