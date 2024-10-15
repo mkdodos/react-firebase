@@ -41,8 +41,8 @@ export const reducer = async (state, action) => {
         totalRow.inAmt += Number(obj.amt);
       }
       if (obj.qty < 0) {
-        totalRow.outQtys += Number(obj.qty*-1);
-        totalRow.outAmt += Number(obj.amt*-1);
+        totalRow.outQtys += Number(obj.qty * -1);
+        totalRow.outAmt += Number(obj.amt * -1);
       }
       totalRow.amt += Number(obj.amt);
       totalRow.qty += Number(obj.qty);
@@ -82,9 +82,17 @@ export const reducer = async (state, action) => {
         return a.transDate < b.transDate ? 1 : -1;
       });
 
-      // console.log(state.search.stockName);
+      const masterData = await readDocsByStockName(
+        'master',
+        state.search.stockName
+      );
+
+      console.log(masterData[0]);
+
+      // , masterRow: { name: 'master' }
       return {
         ...state,
+        masterRow: masterData[0],
         data: genNewData(result),
         loading: false,
         total: genTotalData(genNewData(result)),

@@ -33,12 +33,31 @@ export default function TableView({
     }
   };
 
-  const { direction, loading, column, total } = state;
+  const { direction, loading, column, total, masterRow } = state;
 
+  const masterTableRow = () => {
+    return (
+      <>
+        <Table.Row>
+          <Table.HeaderCell>abc</Table.HeaderCell>
+        </Table.Row>
+      </>
+    );
+  };
+
+  // console.log(masterRow.name)
   return (
     <>
       <Table celled unstackable sortable>
         <Table.Header>
+          <Table.Row>
+            <Table.HeaderCell>市值</Table.HeaderCell>
+            <Table.HeaderCell>成本</Table.HeaderCell>
+          </Table.Row>
+          <Table.Row>
+            <Table.HeaderCell>{masterRow.amt}</Table.HeaderCell>
+            <Table.HeaderCell>{masterRow.costs}</Table.HeaderCell>
+          </Table.Row>
           <Table.Row>
             {columns.map((col, index) => {
               return (
@@ -53,12 +72,12 @@ export default function TableView({
                   {col.name == 'qty' && (
                     <>
                       <br></br>
-                      <Label color='teal'>
+                      <Label color="teal">
                         {total.inQtys}-{total.outQtys}
                       </Label>
                     </>
                   )}
-                 {col.name == 'amt' && (
+                  {col.name == 'amt' && (
                     <>
                       <br></br>
                       <Label>

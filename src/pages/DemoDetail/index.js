@@ -23,7 +23,7 @@ export default function index() {
   // 欄位預設值
   const defaultRow = {};
   // 合計列預設值
-  const defaultTotal = {inQtys:0,outQtys:0,inAmt:0,outAmt:0};
+  const defaultTotal = { inQtys: 0, outQtys: 0, inAmt: 0, outAmt: 0 };
 
   columns.map((obj) => {
     defaultRow[obj.name] = '';
@@ -34,10 +34,8 @@ export default function index() {
   // 將其獨立出來處理
   const [row, setRow] = useState(defaultRow);
 
-
   // 買進賣出
   const [isSold, setIsSold] = useState(false);
-
 
   const handleInputChange = (e) => {
     setRow({ ...row, [e.target.name]: e.target.value });
@@ -46,11 +44,6 @@ export default function index() {
   const handleStockChange = (e, { value }) => {
     setRow({ ...row, stockName: value });
   };
-
-
-  
-
-
 
   // 預設資料物件
   const masterInitState = {
@@ -63,6 +56,7 @@ export default function index() {
     direction: 'ascending',
     total: defaultTotal, // 各項合計
     search: { stockName },
+    masterRow: null, // 對應該筆主表資料
   };
 
   // 此函數為參考網路,功能為讓 reducer 可以處理 async function
@@ -87,7 +81,7 @@ export default function index() {
       <SearchBar dispatch={masterDispatch} />
       <TableView
         columns={columns}
-        rows={masterState.data}
+        rows={masterState.data}       
         handleAdd={() => {
           masterDispatch({ type: 'ADD' });
           setRow({
@@ -125,7 +119,7 @@ export default function index() {
             onClick={() =>
               masterDispatch({
                 type: masterState.rowIndex == -1 ? 'CREATE' : 'UPDATE',
-                payload: { row,isSold },
+                payload: { row, isSold },
               })
             }
           >
