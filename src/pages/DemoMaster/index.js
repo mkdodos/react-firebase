@@ -1,56 +1,30 @@
-import React, { useState, useEffect } from 'react';
-import { masterReducer } from './data/masterReducer';
+import React, { useState,useEffect } from 'react';
 import schema from './data/schema.json';
 import TableView from './components/TableView';
-import MasterEditForm from './components/MasterEditForm';
-import { Modal, Button } from 'semantic-ui-react';
+import EditForm from './components/EditForm';
+import { reducer } from './data/reducer';
 
 export default function index() {
-  // 欄位資料
-  const getColumns = (table) => {
-    let columns = schema.tables.find((t) => t.table == table).columns; 
-    columns=columns.filter(col=>col.viewable)
+  // 資料表和欄位
+  // console.log(schema);
+
+  // 欄位資料(篩選屬性為可視欄位)
+  const getColumns = () => {
+    let columns = schema.columns;
+    columns = columns.filter((col) => col.viewable);
     return columns;
   };
 
-  // 主表名稱
-  const masterTable = 'master';
-  // 主表欄位
-  const masterColumns = getColumns(masterTable);
-
-  // 編輯
-  // 預設物件
-  const masterDefaultRow = {};
-  // 合計列預設值
-  const masterDefaultTotal = {};
- 
-  
-  masterColumns.map((obj) => {
-    masterDefaultRow[obj.name] = '';
-    masterDefaultTotal[obj.name] = '';
-  });
-
- 
-
-
-  // 原本 row 放在 useAsyncReducer 會出現無法輸入中文的問題
-  // 將其獨立出來處理
-  const [row, setRow] = useState(masterDefaultRow);
-  const handleChangeMaster = (e) => {
-    setRow({ ...row, [e.target.name]: e.target.value });
-  };
+  // 表格和表單所需的欄位資料
+  const columns = getColumns();
 
   // 預設資料物件
-  const masterInitState = {
-    table: masterTable,
+  const initState = {
+    table: 'master',
     data: [],
-    open: false,
-    loading: true,
-    rowIndex: -1,
-    column: null, // 標題列點選排序欄位
-    direction: 'ascending',
-    total: masterDefaultTotal, // 各項合計
   };
+
+  // 讀取資料
 
   // 此函數為參考網路,功能為讓 reducer 可以處理 async function
   function useAsyncReducer(reducer, initState) {
@@ -59,67 +33,21 @@ export default function index() {
     return [state, dispatchState];
   }
 
-  const [masterState, masterDispatch] = useAsyncReducer(
-    masterReducer,
-    masterInitState
-  );
+  const [state, dispatch] = useAsyncReducer(reducer, initState);
+
+
+  
 
   useEffect(() => {
     // 讀取資料
-    masterDispatch({ type: 'LOAD' });
+    dispatch({ type: 'LOAD' });
+    
   }, []);
 
   return (
     <>
-      <TableView
-        columns={masterColumns}
-        rows={masterState.data}
-        handleAdd={() => {
-          masterDispatch({ type: 'ADD' });
-          setRow(masterDefaultRow);
-        }}
-        handleEdit={(row, index) => {
-          masterDispatch({ type: 'EDIT', payload: { index } });
-          setRow(row);
-        }}
-        dispatch={masterDispatch}
-        state={masterState}
-      />
-
-      <Modal
-        onClose={() => masterDispatch({ type: 'CLOSE' })}
-        open={masterState.open}
-        closeIcon
-      >
-        <Modal.Header>主表編輯</Modal.Header>
-        <Modal.Content>
-          <MasterEditForm
-            row={row}
-            columns={masterColumns}
-            handleChange={handleChangeMaster}
-          />
-        </Modal.Content>
-        <Modal.Actions>
-          <Button
-            primary
-            onClick={() =>
-              masterDispatch({
-                type: masterState.rowIndex == -1 ? 'CREATE' : 'UPDATE',
-                payload: { row },
-              })
-            }
-          >
-            儲存
-          </Button>
-          <Button
-            floated="left"
-            color="red"
-            onClick={() => masterDispatch({ type: 'DELETE', payload: { row } })}
-          >
-            刪除
-          </Button>
-        </Modal.Actions>
-      </Modal>
+      <TableView columns={columns} rows={state.data} />
+      <EditForm columns={columns} />
     </>
   );
 }
