@@ -3,6 +3,7 @@ import schema from './data/schema.json';
 import TableView from './components/TableView';
 import EditForm from './components/EditForm';
 import { reducer } from './data/reducer';
+import { Modal, Button } from 'semantic-ui-react';
 
 export default function index() {
   // 資料表和欄位
@@ -53,11 +54,13 @@ export default function index() {
   // 將其獨立出來處理
   const [row, setRow] = useState(defaultRow);
 
-
   const handleInputChange = (e) => {
     setRow({ ...row, [e.target.name]: e.target.value });
   };
 
+  const handleStockChange = (e, { value }) => {
+    setRow({ ...row, stockName: value });
+  };
 
   return (
     <>
@@ -71,12 +74,54 @@ export default function index() {
             transDate: new Date().toISOString().substring(0, 10),
           });
         }}
+        handleEdit={(row, index) => {
+          dispatch({ type: 'EDIT', payload: { index } });
+          setRow(row);
+        }}
       />
-      <EditForm
+
+      <Modal
+        onClose={() => dispatch({ type: 'CLOSE' })}
+        open={state.open}
+        closeIcon
+      >
+        <Modal.Header>編輯</Modal.Header>
+        <Modal.Content>
+          <EditForm
+            row={row}
+            columns={columns}
+            handleInputChange={handleInputChange}
+            handleStockChange={handleStockChange}
+          />
+        </Modal.Content>
+        <Modal.Actions>
+          <Button
+            primary
+            onClick={() =>
+              dispatch({
+                type: state.rowIndex == -1 ? 'CREATE' : 'UPDATE',
+                payload: { row },
+              })
+            }
+          >
+            儲存
+          </Button>
+          <Button
+            floated="left"
+            color="red"
+            onClick={() => dispatch({ type: 'DELETE', payload: { row } })}
+          >
+            刪除
+          </Button>
+        </Modal.Actions>
+      </Modal>
+
+      {/* <EditForm
         columns={columns}
         row={row}
         handleInputChange={handleInputChange}
-      />
+        handleStockChange={handleStockChange}
+      /> */}
     </>
   );
 }

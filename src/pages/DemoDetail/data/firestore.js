@@ -13,12 +13,27 @@ const readDocs = async (table) => {
   return data;
 };
 
+const readDocsByStockName = async (table, stockName) => {
+  const snapshot = await db
+    .collection(table)
+    .where('stockName', '==', stockName)
+    .get();
+  const data = snapshot.docs.map((doc) => {
+    return { ...doc.data(), id: doc.id };
+  });
+  return data;
+};
+
 const updateDoc = (table, id, row) => {
   db.collection(table).doc(id).update(row);
 };
 
-const deleteDoc = (table, id) => {
-  db.collection(table).doc(id).delete();
+const deleteDoc = async (table, row) => {
+  await db.collection(table).doc(row.id).delete();
 };
 
-export { createDoc, readDocs, updateDoc, deleteDoc };
+// const deleteDoc = (table, id) => {
+//   db.collection(table).doc(id).delete();
+// };
+
+export { createDoc, readDocs, updateDoc, deleteDoc, readDocsByStockName };

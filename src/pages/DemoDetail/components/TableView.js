@@ -30,13 +30,14 @@ export default function TableView({
         {rows.map((row, index) => {
           return (
             <Table.Row key={row.id}>
+              <Table.Cell>
+                <Button onClick={() => handleEdit(row, index)}>編輯</Button>
+              </Table.Cell>
               {columns.map((column, index) => {
                 return <Table.Cell key={index}>{row[column.name]}</Table.Cell>;
               })}
 
-              <Table.Cell>
-                <Button onClick={() => handleEdit(row, index)}>編輯</Button>
-              </Table.Cell>
+             
             </Table.Row>
           );
         })}

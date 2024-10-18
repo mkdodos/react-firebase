@@ -1,7 +1,8 @@
 import React from 'react';
 import { Form } from 'semantic-ui-react';
+import StockDropdown from './StockDropdown';
 
-export default function EditForm({ columns, row, handleInputChange }) {
+export default function EditForm({ columns, row, handleInputChange, handleStockChange }) {
   // 組合每一列 group
   const formGroups = (columnsPerRow) => {
     const groups = [];
@@ -21,17 +22,30 @@ export default function EditForm({ columns, row, handleInputChange }) {
     let fields = [];
     columns.slice(index, index + columnsPerRow).map((col, index) => {
       if (!col.editable) return;
-      fields.push(
-        <Form.Field key={index}>
-          <label>{col.label}</label>
-          <Form.Input
-            type={col.type}
-            name={col.name}
-            value={row[col.name]}
-            onChange={handleInputChange}
+
+      if (col.name == 'stockName') {
+        // 股票名稱下拉選單
+        fields.push(
+          <StockDropdown
+            key={index}
+            value={row.stockName}
+            onChange={handleStockChange}
           />
-        </Form.Field>
-      );
+        );
+      } else {
+        // 文字輸入框
+        fields.push(
+          <Form.Field key={index}>
+            <label>{col.label}</label>
+            <Form.Input
+              type={col.type}
+              name={col.name}
+              value={row[col.name]}
+              onChange={handleInputChange}
+            />
+          </Form.Field>
+        );
+      }
     });
     return fields;
   };
