@@ -19,7 +19,7 @@ export default function index() {
   // 表格和表單所需的欄位資料
   const columns = getColumns();
 
-  console.log(columns);
+  // console.log(columns);
 
   // 預設資料物件
   const initState = {

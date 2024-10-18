@@ -47,7 +47,7 @@ export default function index() {
   return (
     <>
       <TableView columns={columns} rows={state.data} />
-      <EditForm columns={columns} />
+      {/* <EditForm columns={columns} /> */}
     </>
   );
 }

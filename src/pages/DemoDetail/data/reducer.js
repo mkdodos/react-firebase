@@ -32,9 +32,23 @@ export const reducer = async (state, action) => {
       const createdRow = action.payload.row;
       let data = state.data.slice();
 
-      const id = await createDoc(table, createdRow);
+      // 主表資料
+      let masterData = await readDocsByStockName(
+        'master',
+        createdRow.stockName
+      );
+      const masterId = masterData[0].id;
+      const masterQtys = masterData[0].qtys;
+      const qtys = Number(masterQtys) + Number(createdRow.inQty);
 
+      // 明細餘股
+      createdRow.qtys = qtys;
+
+      const id = await createDoc(table, createdRow);
       data.unshift({ ...createdRow, id });
+
+      // 更新主表餘股
+      updateDoc('master', masterId, { qtys: qtys });
 
       return {
         ...state,
@@ -48,9 +62,23 @@ export const reducer = async (state, action) => {
       const { index } = action.payload;
       return { ...state, open: true, rowIndex: index };
 
+    // 更新
+    case 'UPDATE':
+      const updatedRow = action.payload.row;
+      updateDoc(table, updatedRow.id, updatedRow);
+      const tempRows = state.data.slice();
+      Object.assign(tempRows[state.rowIndex], updatedRow);
+
+      return {
+        ...state,
+        open: false,
+        data: tempRows,
+        rowIndex: -1,
+      };
+
     // 刪除
     case 'DELETE':
-      console.log('de')
+      console.log('de');
       const deletdRow = action.payload.row;
       deleteDoc(table, deletdRow);
 

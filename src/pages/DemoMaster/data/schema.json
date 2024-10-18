@@ -1,4 +1,4 @@
-{ 
+{
   "table": "master2",
   "columns": [
     {
@@ -26,15 +26,8 @@
     },
 
     {
-      "name": "inQtys",
-      "label": "買入股數",
-      "type": "number",
-      "editable": "true",
-      "viewable": "true"
-    },
-    {
-      "name": "outQtys",
-      "label": "賣出股數",
+      "name": "qtys",
+      "label": "股數",
       "type": "number",
       "editable": "true",
       "viewable": "true"

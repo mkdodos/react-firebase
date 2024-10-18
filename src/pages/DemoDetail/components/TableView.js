@@ -8,7 +8,7 @@ export default function TableView({
   loading,
   handleEdit,
 }) {
-  console.log(rows);
+  // console.log(rows);
   return (
     <Table celled unstackable sortable>
       <Table.Header>
