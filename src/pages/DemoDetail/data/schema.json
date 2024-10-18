@@ -40,7 +40,7 @@
     },
     {
       "name": "qtys",
-      "label": "累計股數",
+      "label": "餘股",
       "type": "number",
       "editable": "true",
       "viewable":"true"
@@ -62,8 +62,7 @@
     {
       "name": "avgCost",
       "label": "平均成本",
-      "type": "number",
-      "editable": "true",
+      "type": "number",      
       "viewable":"true"
     },
     {
@@ -76,8 +75,7 @@
     {
       "name": "bonus",
       "label": "損益",
-      "type": "number",
-      "editable": "true",
+      "type": "number",     
       "viewable":"true"
     }
     

@@ -5,10 +5,18 @@ export const reducer = async (state, action) => {
     // 載入資料
     case 'LOAD':
       let result = await readDocs(state.table);
-      console.log(result)
+      console.log(result);
       return {
         ...state,
         data: result,
+      };
+
+    // 新增
+    case 'ADD':
+      return {
+        ...state,
+        open: true,
+        rowIndex: -1,
       };
   }
 };
