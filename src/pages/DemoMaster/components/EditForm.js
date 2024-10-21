@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form } from 'semantic-ui-react';
 
-export default function EditForm({ columns, row, handleChange }) {
+export default function EditForm({ columns, row, handleInputChange }) {
   // 組合每一列 group
   const formGroups = (columnsPerRow) => {
     const groups = [];
@@ -28,7 +28,10 @@ export default function EditForm({ columns, row, handleChange }) {
             type={col.type}
             name={col.name}
             
-            onChange={handleChange}
+            value={row[col.name]}
+            onChange={handleInputChange}
+
+           
           />
         </Form.Field>
       );

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Table, Button, Label } from 'semantic-ui-react';
 
-export default function TableView({ columns, rows }) {
-  console.log(rows);
+export default function TableView({ columns, rows,handleEdit,handleAdd,loading }) {
+  // console.log(rows);
   return (
     <Table celled unstackable sortable>
       <Table.Header>
@@ -10,6 +10,11 @@ export default function TableView({ columns, rows }) {
           {columns.map((col, index) => {
             return <Table.HeaderCell key={index}>{col.label}</Table.HeaderCell>;
           })}
+          <Table.HeaderCell>
+              <Button primary onClick={handleAdd} loading={loading}>
+                新增
+              </Button>
+            </Table.HeaderCell>
         </Table.Row>
       </Table.Header>
 
@@ -20,6 +25,9 @@ export default function TableView({ columns, rows }) {
               {columns.map((column, index) => {
                 return <Table.Cell key={index}>{row[column.name]}</Table.Cell>;
               })}
+               <Table.Cell>
+                  <Button onClick={() => handleEdit(row, index)}>編輯</Button>
+                </Table.Cell>
             </Table.Row>
           );
         })}

@@ -1,8 +1,9 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import schema from './data/schema.json';
 import TableView from './components/TableView';
 import EditForm from './components/EditForm';
 import { reducer } from './data/reducer';
+import { Modal, Button } from 'semantic-ui-react';
 
 export default function index() {
   // 資料表和欄位
@@ -35,18 +36,84 @@ export default function index() {
 
   const [state, dispatch] = useAsyncReducer(reducer, initState);
 
-
-  
-
   useEffect(() => {
     // 讀取資料
     dispatch({ type: 'LOAD' });
-    
   }, []);
+
+  // 欄位預設值
+  const defaultRow = {};
+
+  columns.map((obj) => {
+    defaultRow[obj.name] = '';
+  });
+
+  // 原本 row 放在 useAsyncReducer 會出現無法輸入中文的問題
+  // 將其獨立出來處理
+  const [row, setRow] = useState(defaultRow);
+
+  const handleInputChange = (e) => {
+    setRow({ ...row, [e.target.name]: e.target.value });
+  };
+
+  const handleStockChange = (e, { value }) => {
+    setRow({ ...row, stockName: value });
+  };
 
   return (
     <>
-      <TableView columns={columns} rows={state.data} />
+      <TableView
+        columns={columns}
+        rows={state.data}
+        handleAdd={() => {
+          dispatch({ type: 'ADD' });
+          setRow({
+            ...defaultRow,
+            fromDate: new Date().toISOString().substring(0, 10),
+          });
+        }}
+        handleEdit={(row, index) => {
+          dispatch({ type: 'EDIT', payload: { index } });
+          setRow(row);
+        }}
+      />
+
+      <Modal
+        onClose={() => dispatch({ type: 'CLOSE' })}
+        open={state.open}
+        closeIcon
+      >
+        <Modal.Header>編輯</Modal.Header>
+        <Modal.Content>
+          <EditForm
+            row={row}
+            columns={columns}
+            handleInputChange={handleInputChange}
+            handleStockChange={handleStockChange}
+          />
+        </Modal.Content>
+        <Modal.Actions>
+          <Button
+            primary
+            onClick={() =>
+              dispatch({
+                type: state.rowIndex == -1 ? 'CREATE' : 'UPDATE',
+                payload: { row },
+              })
+            }
+          >
+            儲存
+          </Button>
+          <Button
+            floated="left"
+            color="red"
+            onClick={() => dispatch({ type: 'DELETE', payload: { row } })}
+          >
+            刪除
+          </Button>
+        </Modal.Actions>
+      </Modal>
+
       {/* <EditForm columns={columns} /> */}
     </>
   );
