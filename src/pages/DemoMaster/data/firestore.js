@@ -6,7 +6,7 @@ const createDoc = async (table, row) => {
 };
 
 const readDocs = async (table) => {
-  const snapshot = await db.collection(table).limit(30).get();
+  const snapshot = await db.collection(table).orderBy('stockNo').limit(30).get();
   const data = snapshot.docs.map((doc) => {
     return { ...doc.data(), id: doc.id };
   });

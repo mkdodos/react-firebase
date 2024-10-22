@@ -65,6 +65,8 @@ export default function index() {
       <TableView
         columns={columns}
         rows={state.data}
+        state={state}
+        dispatch={dispatch}
         handleAdd={() => {
           dispatch({ type: 'ADD' });
           setRow({

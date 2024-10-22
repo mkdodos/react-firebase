@@ -12,9 +12,18 @@ export const reducer = async (state, action) => {
   switch (action.type) {
     // 載入資料
     case 'LOAD':
-      // let result = await readDocs(state.table);
-      let result = await readDocsByStockName(table, 'test');
-      console.log(result);
+      let result = [];
+
+      if (state.search.stockName) {
+        result = await readDocsByStockName(state.table, state.search.stockName);
+      } else {
+        result = await readDocs(state.table);
+      }
+
+      result.sort((a, b) => {
+        return a.transDate < b.transDate ? 1 : -1;
+      });
+
       return {
         ...state,
         data: result,
@@ -41,9 +50,7 @@ export const reducer = async (state, action) => {
       const masterQtys = masterData[0].qtys;
       const qtys = Number(masterQtys) + Number(createdRow.inQty);
 
-      // 明細餘股
       createdRow.qtys = qtys;
-
       const id = await createDoc(table, createdRow);
       data.unshift({ ...createdRow, id });
 
@@ -79,12 +86,23 @@ export const reducer = async (state, action) => {
     // 刪除
     case 'DELETE':
       console.log('de');
-      const deletdRow = action.payload.row;
-      deleteDoc(table, deletdRow);
+      const deletedRow = action.payload.row;
+      deleteDoc(table, deletedRow);
+
+      // 主表資料
+      let delMasterData = await readDocsByStockName(
+        'master',
+        deletedRow.stockName
+      );
+
+      // 更新主表餘股
+      updateDoc('master', delMasterData[0].id, {
+        qtys: Number(delMasterData[0].qtys) - Number(deletedRow.inQty),
+      });
 
       return {
         ...state,
-        data: state.data.filter((obj) => obj.id != deletdRow.id),
+        data: state.data.filter((obj) => obj.id != deletedRow.id),
         open: false,
         rowIndex: -1,
       };

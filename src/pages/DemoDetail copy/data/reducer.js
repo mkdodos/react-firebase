@@ -72,7 +72,12 @@ export const reducer = async (state, action) => {
       // 依有無傳股票名稱取得不同資料
       let result = [];
       if (state.search.stockName) {
-        result = await readDocsByStockName(state.table, state.search.stockName);
+        if(state.search){
+          result = await readDocsByStockName(state.table, state.search.stockName);
+        }else{
+          result = await readDocs(state.table);
+        }
+       
       } else {
         result = await readDocs(state.table);
       }

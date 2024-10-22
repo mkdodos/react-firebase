@@ -3,6 +3,39 @@ import { readDocs, createDoc, updateDoc, deleteDoc } from './firestore';
 export const reducer = async (state, action) => {
   const table = state.table;
   switch (action.type) {
+    
+    
+     // 排序
+     case 'SORT':
+      let direction = 'ascending';
+      let sortedData = state.data;
+      const columnName = action.payload.column;
+      const columnType = action.payload.type;
+
+      if (state.column == columnName) {
+        direction = state.direction == 'ascending' ? 'descending' : 'ascending';
+        sortedData = state.data.slice().reverse();
+      } else {
+        direction = 'ascending';
+        sortedData = state.data.slice().sort((a, b) => {
+          // 數字欄位
+          if (columnType == 'number')
+            return a[columnName] * 1 > b[columnName] * 1 ? 1 : -1;
+          // 其他欄位
+          return a[columnName] > b[columnName] ? 1 : -1;
+        });
+      }
+
+      return {
+        ...state,
+        data: sortedData,
+        column: action.payload.column,
+        direction,
+      };
+
+
+    
+    
     // 載入資料
     case 'LOAD':
       let result = await readDocs(state.table);

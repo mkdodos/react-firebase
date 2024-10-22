@@ -4,6 +4,8 @@ import TableView from './components/TableView';
 import EditForm from './components/EditForm';
 import { reducer } from './data/reducer';
 import { Modal, Button } from 'semantic-ui-react';
+import { useParams } from 'react-router-dom';
+
 
 export default function index() {
   // 資料表和欄位
@@ -19,12 +21,16 @@ export default function index() {
   // 表格和表單所需的欄位資料
   const columns = getColumns();
 
-  // console.log(columns);
+  // 網址列參數
+  let { stockName } = useParams();
+
+  console.log(stockName)
 
   // 預設資料物件
   const initState = {
     table: 'detail',
     data: [],
+    search: { stockName },
   };
 
   // 讀取資料
