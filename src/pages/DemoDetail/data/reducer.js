@@ -48,14 +48,20 @@ export const reducer = async (state, action) => {
       );
       const masterId = masterData[0].id;
       const masterQtys = masterData[0].qtys;
+      const masterCosts = masterData[0].costs;
       const qtys = Number(masterQtys) + Number(createdRow.inQty);
+      // 累加成本
+      const costs =
+        Number(masterCosts) +
+        Number(createdRow.inQty) * Number(createdRow.price);
 
       createdRow.qtys = qtys;
+      createdRow.inAmt = costs;
       const id = await createDoc(table, createdRow);
       data.unshift({ ...createdRow, id });
 
       // 更新主表餘股
-      updateDoc('master', masterId, { qtys: qtys });
+      updateDoc('master', masterId, { qtys: qtys, costs: costs });
 
       return {
         ...state,
@@ -95,9 +101,12 @@ export const reducer = async (state, action) => {
         deletedRow.stockName
       );
 
-      // 更新主表餘股
+      // 更新主表
       updateDoc('master', delMasterData[0].id, {
         qtys: Number(delMasterData[0].qtys) - Number(deletedRow.inQty),
+        costs:
+          Number(delMasterData[0].costs) -
+          Number(deletedRow.inQty) * Number(deletedRow.price),
       });
 
       return {
