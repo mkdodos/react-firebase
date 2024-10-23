@@ -1,5 +1,5 @@
 {
-  "table": "master2",
+  "table": "master",
   "columns": [
     {
       "name": "stockNo",
@@ -24,13 +24,28 @@
       "editable": "true",
       "viewable": "true"
     },
-
     {
-      "name": "qtys",
-      "label": "股數",
+      "name": "soldAmt",
+      "label": "已售金額",
       "type": "number",
       "editable": "true",
       "viewable": "true"
+    },
+
+    {
+      "name": "qtys",
+      "label": "餘股",
+      "type": "number",
+      "editable": "true",
+      "viewable": "true"
+    },
+
+    {
+      "name": "avgCost",
+      "label": "平均成本",
+      "type": "number",
+      "viewable":"true"
+      
     },
 
     {

@@ -2,11 +2,37 @@ import { readDocs, createDoc, updateDoc, deleteDoc } from './firestore';
 
 export const reducer = async (state, action) => {
   const table = state.table;
+
+
+
+  // 計算欄位
+  const calColumns = (data) => {
+    const newData = data.map((obj) => {
+      const { qtys, price, costs, outQtys } = obj;
+      obj.costs = Math.round(obj.costs);
+
+      let avgCost = 0 ;
+
+      if(qtys>0){
+        avgCost =  Math.round((costs / qtys) * 100) / 100 //平均成本
+      }
+      return {
+        ...obj,
+        amt: Math.round(qtys * price), // 總市值
+        avgCost,
+        // avgCost: Math.round((costs / qtys) * 100) / 100, //平均成本
+        bonus: Math.round(qtys * price - costs), //損益
+        roi: Math.round(((qtys * price - costs) / costs) * 10000) / 100, //報酬率
+        leftQtys: qtys - outQtys,
+      };
+    });
+    return newData;
+  };
+
+
   switch (action.type) {
-    
-    
-     // 排序
-     case 'SORT':
+    // 排序
+    case 'SORT':
       let direction = 'ascending';
       let sortedData = state.data;
       const columnName = action.payload.column;
@@ -33,16 +59,14 @@ export const reducer = async (state, action) => {
         direction,
       };
 
-
-    
-    
     // 載入資料
     case 'LOAD':
       let result = await readDocs(state.table);
       // console.log(result);
       return {
         ...state,
-        data: result,
+        data: calColumns(result),
+        // data: result,
       };
 
     // 新增

@@ -6,7 +6,6 @@ import { reducer } from './data/reducer';
 import { Modal, Button } from 'semantic-ui-react';
 import { useParams } from 'react-router-dom';
 
-
 export default function index() {
   // 資料表和欄位
   // console.log(schema);
@@ -24,7 +23,7 @@ export default function index() {
   // 網址列參數
   let { stockName } = useParams();
 
-  console.log(stockName)
+  // console.log(stockName);
 
   // 預設資料物件
   const initState = {
@@ -54,6 +53,7 @@ export default function index() {
 
   columns.map((obj) => {
     defaultRow[obj.name] = '';
+    defaultRow.stockName = stockName;
   });
 
   // 原本 row 放在 useAsyncReducer 會出現無法輸入中文的問題
@@ -67,6 +67,11 @@ export default function index() {
   const handleStockChange = (e, { value }) => {
     setRow({ ...row, stockName: value });
   };
+
+
+  // 買進賣出
+  const [isSold, setIsSold] = useState(false);
+
 
   return (
     <>
@@ -98,6 +103,8 @@ export default function index() {
             columns={columns}
             handleInputChange={handleInputChange}
             handleStockChange={handleStockChange}
+            isSold={isSold}
+            setIsSold={setIsSold}
           />
         </Modal.Content>
         <Modal.Actions>

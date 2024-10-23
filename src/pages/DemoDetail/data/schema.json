@@ -42,42 +42,25 @@
       "name": "qtys",
       "label": "餘股",
       "type": "number",
-      "editable": "true",
+      
       "viewable":"true"
     },
     {
       "name": "inAmt",
       "label": "累計購入金額",
       "type": "number",
-      "editable": "true",
+      
       "viewable":"true"
     },
     {
       "name": "outAmt",
       "label": "累計售出金額",
       "type": "number",
-      "editable": "true",
-      "viewable":"true"
-    },
-    {
-      "name": "avgCost",
-      "label": "平均成本",
-      "type": "number",      
-      "viewable":"true"
-    },
-    {
-      "name": "nowPrice",
-      "label": "現價",
-      "type": "number",
-      "editable": "true",
-      "viewable":"true"
-    },
-    {
-      "name": "bonus",
-      "label": "損益",
-      "type": "number",     
+     
       "viewable":"true"
     }
+    
+    
     
   ]
 }

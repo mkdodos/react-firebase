@@ -21,7 +21,7 @@ export default function index() {
 
   // 預設資料物件
   const initState = {
-    table: 'master',
+    table: schema.table,
     data: [],
   };
 

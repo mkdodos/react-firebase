@@ -49,40 +49,19 @@ export const reducer = async (state, action) => {
       const masterId = masterData[0].id;
       const masterQtys = masterData[0].qtys;
       const masterCosts = masterData[0].costs;
-      const masterSoldAmt = masterData[0].soldAmt;
+      const qtys = Number(masterQtys) + Number(createdRow.inQty);
+      // 累加成本
+      const costs =
+        Number(masterCosts) +
+        Number(createdRow.inQty) * Number(createdRow.price);
 
-      let qtys = 0;
-      let amt = 0;
-      // 針對買進或賣出做不同處理
-      if (createdRow.inQty) {
-        console.log('in');
-
-        qtys = Number(masterQtys) + Number(createdRow.inQty);
-        // 累加成本
-        amt =
-          Number(masterCosts) +
-          Number(createdRow.inQty) * Number(createdRow.price);
-
-        createdRow.qtys = qtys;
-        createdRow.inAmt = amt;
-        // 更新主表餘股
-        updateDoc('master', masterId, { qtys: qtys, costs: amt });
-      } else {
-        console.log('out');
-        qtys = Number(masterQtys) - Number(createdRow.outQty);
-        // 累加已售金額
-        amt =
-          Number(masterSoldAmt) +
-          Number(createdRow.outQty) * Number(createdRow.price);
-
-        createdRow.qtys = qtys;
-        createdRow.outAmt = amt;
-        // 更新主表餘股
-        updateDoc('master', masterId, { qtys: qtys, soldAmt: amt });
-      }
-
+      createdRow.qtys = qtys;
+      createdRow.inAmt = costs;
       const id = await createDoc(table, createdRow);
       data.unshift({ ...createdRow, id });
+
+      // 更新主表餘股
+      updateDoc('master', masterId, { qtys: qtys, costs: costs });
 
       return {
         ...state,
