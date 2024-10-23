@@ -39,32 +39,25 @@
       "viewable":"true"
     },
     {
-      "name": "amt",
-      "label": "小計",
-      "type": "number",
-      "editable": "true",
-      "viewable":"true"
-    },
-    {
       "name": "qtys",
       "label": "餘股",
-      "type": "number"
+      "type": "number",
       
-      
+      "viewable":"true"
     },
     {
       "name": "inAmt",
       "label": "累計購入金額",
-      "type": "number"
+      "type": "number",
       
-      
+      "viewable":"true"
     },
     {
       "name": "outAmt",
       "label": "累計售出金額",
-      "type": "number"
+      "type": "number",
      
-      
+      "viewable":"true"
     }
     
     

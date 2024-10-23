@@ -9,6 +9,28 @@ import {
 export const reducer = async (state, action) => {
   const table = state.table;
 
+  // 計算欄位
+  const calColumns = (data) => {
+    const newData = data.map((obj) => {
+      const { inQty,outQty, price } = obj;
+
+      let amt = 0 ;
+
+      if(inQty){
+        amt  =  Math.round(inQty * price)
+      }else{
+        amt  =  Math.round(outQty * price)
+      }
+
+
+      return {
+        ...obj,
+        amt, // 小計
+      };
+    });
+    return newData;
+  };
+
   switch (action.type) {
     // 載入資料
     case 'LOAD':
@@ -26,7 +48,7 @@ export const reducer = async (state, action) => {
 
       return {
         ...state,
-        data: result,
+        data:calColumns(result),
       };
 
     // 新增

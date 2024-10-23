@@ -3,32 +3,33 @@ import { readDocs, createDoc, updateDoc, deleteDoc } from './firestore';
 export const reducer = async (state, action) => {
   const table = state.table;
 
-
-
   // 計算欄位
   const calColumns = (data) => {
     const newData = data.map((obj) => {
-      const { qtys, price, costs, outQtys } = obj;
+      const { qtys, price, costs, outQtys, soldAmt } = obj;
       obj.costs = Math.round(obj.costs);
 
-      let avgCost = 0 ;
+      let avgCost = 0;
 
-      if(qtys>0){
-        avgCost =  Math.round((costs / qtys) * 100) / 100 //平均成本
+      if (qtys > 0) {
+        avgCost = Math.round(((costs - soldAmt) / qtys) * 100) / 100; //損益平衡價
       }
+
+      let bonus = (price - avgCost) * qtys;
+
       return {
         ...obj,
         amt: Math.round(qtys * price), // 總市值
         avgCost,
-        // avgCost: Math.round((costs / qtys) * 100) / 100, //平均成本
-        bonus: Math.round(qtys * price - costs), //損益
+        bonus,
+        //
+        // bonus: Math.round(qtys * price - costs), //損益
         roi: Math.round(((qtys * price - costs) / costs) * 10000) / 100, //報酬率
         leftQtys: qtys - outQtys,
       };
     });
     return newData;
   };
-
 
   switch (action.type) {
     // 排序

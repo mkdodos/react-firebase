@@ -42,7 +42,7 @@
 
     {
       "name": "avgCost",
-      "label": "平均成本",
+      "label": "損益平衡價",
       "type": "number",
       "viewable":"true"
       
@@ -51,6 +51,13 @@
     {
       "name": "price",
       "label": "現價",
+      "type": "number",
+      "editable": "true",
+      "viewable": "true"
+    },
+    {
+      "name": "bonus",
+      "label": "未實現損益",
       "type": "number",
       "editable": "true",
       "viewable": "true"
