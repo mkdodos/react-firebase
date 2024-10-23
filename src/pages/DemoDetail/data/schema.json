@@ -41,8 +41,7 @@
     {
       "name": "amt",
       "label": "小計",
-      "type": "number",
-      "editable": "true",
+      "type": "number",      
       "viewable":"true"
     },
     {

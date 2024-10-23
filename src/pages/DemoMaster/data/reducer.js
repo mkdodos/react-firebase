@@ -15,7 +15,7 @@ export const reducer = async (state, action) => {
         avgCost = Math.round(((costs - soldAmt) / qtys) * 100) / 100; //損益平衡價
       }
 
-      let bonus = (price - avgCost) * qtys;
+      let bonus = Math.round((price - avgCost) * qtys);
 
       return {
         ...obj,

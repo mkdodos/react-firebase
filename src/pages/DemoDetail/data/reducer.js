@@ -12,16 +12,15 @@ export const reducer = async (state, action) => {
   // 計算欄位
   const calColumns = (data) => {
     const newData = data.map((obj) => {
-      const { inQty,outQty, price } = obj;
+      const { inQty, outQty, price } = obj;
 
-      let amt = 0 ;
+      let amt = 0;
 
-      if(inQty){
-        amt  =  Math.round(inQty * price)
-      }else{
-        amt  =  Math.round(outQty * price)
+      if (inQty) {
+        amt = Math.round(inQty * price);
+      } else {
+        amt = Math.round(outQty * price);
       }
-
 
       return {
         ...obj,
@@ -48,7 +47,7 @@ export const reducer = async (state, action) => {
 
       return {
         ...state,
-        data:calColumns(result),
+        data: calColumns(result),
       };
 
     // 新增
@@ -108,7 +107,7 @@ export const reducer = async (state, action) => {
 
       return {
         ...state,
-        data,
+        data:calColumns(data),
         open: false,
         rowIndex: -1,
       };
@@ -144,13 +143,25 @@ export const reducer = async (state, action) => {
         deletedRow.stockName
       );
 
-      // 更新主表
-      updateDoc('master', delMasterData[0].id, {
-        qtys: Number(delMasterData[0].qtys) - Number(deletedRow.inQty),
-        costs:
-          Number(delMasterData[0].costs) -
-          Number(deletedRow.inQty) * Number(deletedRow.price),
-      });
+      // 針對買進或賣出做主表不同處理
+
+      if (deletedRow.inQty) {
+        // 買進
+        updateDoc('master', delMasterData[0].id, {
+          qtys: Number(delMasterData[0].qtys) - Number(deletedRow.inQty),
+          costs:
+            Number(delMasterData[0].costs) -
+            Number(deletedRow.inQty) * Number(deletedRow.price),
+        });
+      } else {
+        // 賣出
+        updateDoc('master', delMasterData[0].id, {
+          qtys: Number(delMasterData[0].qtys) + Number(deletedRow.outQty),
+          soldAmt:
+            Number(delMasterData[0].soldAmt) -
+            Number(deletedRow.outQty) * Number(deletedRow.price),
+        });
+      }
 
       return {
         ...state,
