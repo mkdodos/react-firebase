@@ -62,6 +62,12 @@
       "editable": "true",
       "viewable": "true"
     },
+    {
+      "name": "roi",
+      "label": "報酬率",
+      "type": "number",      
+      "viewable": "true"
+    },
 
     {
       "name": "fromDate",

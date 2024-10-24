@@ -15,7 +15,13 @@ export const reducer = async (state, action) => {
         avgCost = Math.round(((costs - soldAmt) / qtys) * 100) / 100; //損益平衡價
       }
 
-      let bonus = Math.round((price - avgCost) * qtys);
+      // 依是否全部售完做不同損益計算
+      let bonus = 0;
+      if (qtys == 0) {
+        bonus = soldAmt - costs;
+      } else {
+        bonus = Math.round((price - avgCost) * qtys);
+      }
 
       return {
         ...obj,
@@ -24,7 +30,8 @@ export const reducer = async (state, action) => {
         bonus,
         //
         // bonus: Math.round(qtys * price - costs), //損益
-        roi: Math.round(((qtys * price - costs) / costs) * 10000) / 100, //報酬率
+        roi: Math.round((bonus / costs) * 10000) / 100,
+        // roi: Math.round(((qtys * price - costs) / costs) * 10000) / 100, //報酬率
         leftQtys: qtys - outQtys,
       };
     });
@@ -67,7 +74,7 @@ export const reducer = async (state, action) => {
       return {
         ...state,
         data: calColumns(result),
-        // data: result,
+        loading: false,
       };
 
     // 新增

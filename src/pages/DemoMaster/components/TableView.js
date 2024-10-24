@@ -1,6 +1,7 @@
 import React from 'react';
 import { Table, Button, Label } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
+import numberFormat from '../../../utils/numberFormat';
 
 export default function TableView({
   columns,
@@ -8,7 +9,7 @@ export default function TableView({
   handleEdit,
   handleAdd,
   state,
-  dispatch
+  dispatch,
 }) {
   // 針對不同欄位做不同顯示
   const genColumn = (row, column, index) => {
@@ -29,6 +30,11 @@ export default function TableView({
           </Label>
         );
 
+      case 'costs':
+        return numberFormat(row[column.name]);
+      case 'soldAmt':
+        return numberFormat(row[column.name]);
+
       case 'roi':
         return (
           <Label size="large" color={color} basic>
@@ -40,7 +46,6 @@ export default function TableView({
         return row[column.name];
     }
   };
-
 
   const { direction, loading, column, total } = state;
 
@@ -60,7 +65,7 @@ export default function TableView({
                 }
                 key={index}
               >
-                {col.label} 
+                {col.label}
               </Table.HeaderCell>
             );
             // return <Table.HeaderCell key={index}>{col.label}</Table.HeaderCell>;

@@ -23,6 +23,7 @@ export default function index() {
   const initState = {
     table: schema.table,
     data: [],
+    loading:true
   };
 
   // 讀取資料
@@ -63,6 +64,7 @@ export default function index() {
   return (
     <>
       <TableView
+       
         columns={columns}
         rows={state.data}
         state={state}

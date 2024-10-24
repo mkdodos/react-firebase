@@ -82,7 +82,7 @@ export const reducer = async (state, action) => {
         // 累加成本
         amt =
           Number(masterCosts) +
-          Number(createdRow.inQty) * Number(createdRow.price);
+          Math.round(Number(createdRow.inQty) * Number(createdRow.price));
 
         createdRow.qtys = qtys;
         createdRow.inAmt = amt;
@@ -94,7 +94,7 @@ export const reducer = async (state, action) => {
         // 累加已售金額
         amt =
           Number(masterSoldAmt) +
-          Number(createdRow.outQty) * Number(createdRow.price);
+          Math.round(Number(createdRow.outQty) * Number(createdRow.price));
 
         createdRow.qtys = qtys;
         createdRow.outAmt = amt;
@@ -107,7 +107,7 @@ export const reducer = async (state, action) => {
 
       return {
         ...state,
-        data:calColumns(data),
+        data: calColumns(data),
         open: false,
         rowIndex: -1,
       };
@@ -151,7 +151,7 @@ export const reducer = async (state, action) => {
           qtys: Number(delMasterData[0].qtys) - Number(deletedRow.inQty),
           costs:
             Number(delMasterData[0].costs) -
-            Number(deletedRow.inQty) * Number(deletedRow.price),
+            Math.round(Number(deletedRow.inQty) * Number(deletedRow.price)),
         });
       } else {
         // 賣出
@@ -159,7 +159,7 @@ export const reducer = async (state, action) => {
           qtys: Number(delMasterData[0].qtys) + Number(deletedRow.outQty),
           soldAmt:
             Number(delMasterData[0].soldAmt) -
-            Number(deletedRow.outQty) * Number(deletedRow.price),
+            Math.round(Number(deletedRow.outQty) * Number(deletedRow.price)),
         });
       }
 
