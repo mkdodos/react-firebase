@@ -2,6 +2,9 @@ import React from 'react';
 import { Form } from 'semantic-ui-react';
 
 export default function EditForm({ columns, row, handleInputChange }) {
+  // 篩選可編輯欄位
+  columns = columns.filter((col) => col.editable);
+
   // 組合每一列 group
   const formGroups = (columnsPerRow) => {
     const groups = [];
@@ -20,18 +23,15 @@ export default function EditForm({ columns, row, handleInputChange }) {
   const formFields = (index, columnsPerRow) => {
     let fields = [];
     columns.slice(index, index + columnsPerRow).map((col, index) => {
-      if (!col.editable) return;
+      // if (!col.editable) return;
       fields.push(
         <Form.Field key={index}>
           <label>{col.label}</label>
           <Form.Input
             type={col.type}
             name={col.name}
-            
             value={row[col.name]}
             onChange={handleInputChange}
-
-           
           />
         </Form.Field>
       );

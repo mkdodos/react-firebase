@@ -4,6 +4,7 @@ import TableView from './components/TableView';
 import EditForm from './components/EditForm';
 import { reducer } from './data/reducer';
 import { Modal, Button } from 'semantic-ui-react';
+import StockPrice from './components/StockPrice';
 
 export default function index() {
   // 資料表和欄位
@@ -23,7 +24,7 @@ export default function index() {
   const initState = {
     table: schema.table,
     data: [],
-    loading:true
+    loading: true,
   };
 
   // 讀取資料
@@ -63,8 +64,8 @@ export default function index() {
 
   return (
     <>
+      <StockPrice />
       <TableView
-       
         columns={columns}
         rows={state.data}
         state={state}

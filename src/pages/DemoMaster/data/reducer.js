@@ -115,7 +115,7 @@ export const reducer = async (state, action) => {
       return {
         ...state,
         open: false,
-        data: tempRows,
+        data: calColumns(tempRows),
         rowIndex: -1,
       };
 
