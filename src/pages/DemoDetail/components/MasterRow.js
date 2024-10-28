@@ -16,11 +16,38 @@ export default function MasterRow({ data, stockName }) {
         querySnapshot.forEach((doc) => {
           cities.push(doc.data());
         });
-        setRow(cities[0]);
+        // setRow(cities[0]);
+        setRow(calColumns(cities[0]));
         console.log(cities);
         // console.log('Current cities in CA: ', cities.join(', '));
       });
   }, []);
+
+  // 計算欄位
+  const calColumns = (obj) => {
+    const { qtys, price, costs, outQtys, soldAmt } = obj;
+
+    let avgCost = 0;
+
+    if (qtys > 0) {
+      avgCost = Math.round(((costs - soldAmt) / qtys) * 100) / 100; //損益平衡價
+    }
+
+    // 依是否全部售完做不同損益計算
+    let bonus = 0;
+    if (qtys == 0) {
+      bonus = soldAmt - costs;
+    } else {
+      bonus = Math.round((price - avgCost) * qtys);
+    }
+
+    return {
+      ...obj,
+      avgCost,
+      bonus,
+      roi: Math.round((bonus / costs) * 10000) / 100,
+    };
+  };
 
   // 欄位資料(篩選屬性為可視欄位)
   const getColumns = () => {
