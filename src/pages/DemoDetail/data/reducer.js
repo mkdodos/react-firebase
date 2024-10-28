@@ -35,6 +35,12 @@ export const reducer = async (state, action) => {
     case 'LOAD':
       let result = [];
 
+      // 載入主表資料
+      const masterResult = await readDocsByStockName(
+        'master',
+        state.search.stockName
+      );
+
       if (state.search.stockName) {
         result = await readDocsByStockName(state.table, state.search.stockName);
       } else {
@@ -45,9 +51,12 @@ export const reducer = async (state, action) => {
         return a.transDate < b.transDate ? 1 : -1;
       });
 
+      console.log(masterResult[0])
+
       return {
         ...state,
         data: calColumns(result),
+        masterData: masterResult[0],
       };
 
     // 新增

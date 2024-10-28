@@ -5,6 +5,7 @@ import EditForm from './components/EditForm';
 import { reducer } from './data/reducer';
 import { Modal, Button } from 'semantic-ui-react';
 import { useParams } from 'react-router-dom';
+import MasterRow from './components/MasterRow';
 
 export default function index() {
   // 資料表和欄位
@@ -30,6 +31,7 @@ export default function index() {
     table: 'detail',
     data: [],
     search: { stockName },
+    masterData: null,
   };
 
   // 讀取資料
@@ -45,7 +47,9 @@ export default function index() {
 
   useEffect(() => {
     // 讀取資料
+    // dispatch({ type: 'LOAD_MASTER' });
     dispatch({ type: 'LOAD' });
+    
   }, []);
 
   // 欄位預設值
@@ -68,13 +72,12 @@ export default function index() {
     setRow({ ...row, stockName: value });
   };
 
-
   // 買進賣出
   const [isSold, setIsSold] = useState(false);
 
-
   return (
     <>
+      <MasterRow data={state.masterData} stockName={stockName} />
       <TableView
         columns={columns}
         rows={state.data}
