@@ -7,7 +7,7 @@ import {
 } from './firestore';
 
 export const reducer = async (state, action) => {
-  // const table = state.table;
+  const table = state.table;
 
   // 計算欄位
   const calColumns = (data) => {
@@ -30,56 +30,40 @@ export const reducer = async (state, action) => {
     return newData;
   };
 
-  let result = [];
-
   switch (action.type) {
     // 載入資料
     case 'LOAD':
-      
+      let result = [];
+
       let masterResult = [];
+
       // 載入主表資料
-      // if (state.search.stockName) {
-      //   masterResult = await readDocsByStockName(
-      //     'master',
-      //     state.search.stockName
-      //   );
-      // }
+      if (state.search.stockName) {
+        masterResult = await readDocsByStockName(
+          'master',
+          state.search.stockName
+        );
+      }
 
-      masterResult = await readDocsByStockName(
-        'master',
-        state.search.stockName
-      );
-
-      result = await readDocsByStockName(state.table, state.search.stockName);
       // console.log(state.search.stockName);
-      // if (state.search.stockName != undefined) {
-      //   result = await readDocsByStockName(state.table, state.search.stockName);
-      // } else {
-      //   result = await readDocs(state.table);
-      // }
+      if (state.search.stockName!=undefined) {
+        result = await readDocsByStockName(state.table, state.search.stockName);
+      } else {
+        result = await readDocs(state.table);
+      }
+
+      // result = await readDocs(state.table);
 
       result.sort((a, b) => {
         return a.transDate < b.transDate ? 1 : -1;
       });
 
+      // console.log(masterResult[0]);
+
       return {
         ...state,
         data: calColumns(result),
         masterData: masterResult[0],
-      };
-
-    case 'LOAD123':
-      console.log('load123');
-      result = await readDocs(state.table);
-     
-      // result.sort((a, b) => {
-      //   return a.transDate < b.transDate ? 1 : -1;
-      // });
-
-      return {
-        ...state,
-        data: calColumns(result),
-        masterData: [],
       };
 
     // 新增

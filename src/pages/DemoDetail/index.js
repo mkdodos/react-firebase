@@ -48,9 +48,19 @@ export default function index() {
   useEffect(() => {
     // 讀取資料
     // dispatch({ type: 'LOAD_MASTER' });
-    dispatch({ type: 'LOAD' });
-    
-  }, []);
+
+    if (stockName) {
+      console.log('a');
+    } else {
+      console.log('b');
+    }
+    // dispatch({ type: 'LOAD' });
+    if (stockName) {
+      dispatch({ type: 'LOAD' });
+    } else {
+      dispatch({ type: 'LOAD123' });
+    }
+  }, [stockName]);
 
   // 欄位預設值
   const defaultRow = {};
@@ -77,7 +87,9 @@ export default function index() {
 
   return (
     <>
-      <MasterRow data={state.masterData} stockName={stockName} />
+      {/* {stockName} */}
+      {stockName && <MasterRow data={state.masterData} stockName={stockName} />}
+
       <TableView
         columns={columns}
         rows={state.data}
@@ -94,7 +106,7 @@ export default function index() {
         }}
       />
 
-      <Modal
+      {/* <Modal
         onClose={() => dispatch({ type: 'CLOSE' })}
         open={state.open}
         closeIcon
@@ -130,14 +142,7 @@ export default function index() {
             刪除
           </Button>
         </Modal.Actions>
-      </Modal>
-
-      {/* <EditForm
-        columns={columns}
-        row={row}
-        handleInputChange={handleInputChange}
-        handleStockChange={handleStockChange}
-      /> */}
+      </Modal> */}
     </>
   );
 }

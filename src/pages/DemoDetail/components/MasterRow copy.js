@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import schema from '../../DemoMaster/data/schema.json';
-import { Table, Statistic } from 'semantic-ui-react';
+import { Table } from 'semantic-ui-react';
 
 import { db } from '../../../utils/firebase';
 import StockDropdown from './StockDropdown';
@@ -62,31 +62,26 @@ export default function MasterRow({ data, stockName }) {
   // console.log(data);
   return (
     <div>
-     
-        <Statistic size="small">
-          <Statistic.Value>{row.qtys}</Statistic.Value>
-          <Statistic.Label>餘股</Statistic.Label>
-        </Statistic>
-        <Statistic size="small">
-          <Statistic.Value>{row.avgCost}</Statistic.Value>
-          <Statistic.Label>損益平衡價</Statistic.Label>
-        </Statistic>
-        <Statistic size="small">
-          <Statistic.Value>{row.price}</Statistic.Value>
-          <Statistic.Label>現價</Statistic.Label>
-        </Statistic>
-        <Statistic color={row.bonus > 0 ? 'red' : 'green'}>
-          <Statistic.Value>{row.bonus}</Statistic.Value>
-          <Statistic.Label>預估損益</Statistic.Label>
-        </Statistic>
+      <Table celled unstackable sortable>
+        <Table.Header>
+          <Table.Row>
+            {columns.map((col, index) => {
+              return (
+                <Table.HeaderCell key={index}>{col.label}</Table.HeaderCell>
+              );
+            })}
+          </Table.Row>
+        </Table.Header>
 
-        <Statistic color={row.roi > 0 ? 'red' : 'green'}>
-          <Statistic.Value>{row.roi}</Statistic.Value>
-          <Statistic.Label>報酬率</Statistic.Label>
-        </Statistic>
-      
-
-     
+        <Table.Body>
+          <Table.Row>
+            {data &&
+              columns.map((column, index) => {
+                return <Table.Cell key={index}>{row[column.name]}</Table.Cell>;
+              })}
+          </Table.Row>
+        </Table.Body>
+      </Table>
     </div>
   );
 }
