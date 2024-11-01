@@ -34,7 +34,7 @@ export default function TableView({
               if (col.name == 'amt')
                 return (
                   <Table.HeaderCell key={index}>
-                    {total.amt > 0 ? '$ ' + numberFormat(total.amt) : '小計'}
+                    {total.amt == 0 ? '小計' : '$ ' + numberFormat(total.amt)}
                   </Table.HeaderCell>
                 );
 

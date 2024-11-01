@@ -7,7 +7,7 @@ import {
 } from './firestore';
 
 export const reducer = async (state, action) => {
-  // const table = state.table;
+  const table = state.table;
 
   // 計算欄位
   const calColumns = (data) => {
@@ -42,7 +42,11 @@ export const reducer = async (state, action) => {
     };
 
     data.map((obj) => {
-      totalRow.amt += Number(obj.amt);
+      if (obj.inQty) {
+        totalRow.amt += Number(obj.amt);
+      } else {
+        totalRow.amt -= Number(obj.amt);
+      }
     });
 
     return totalRow;

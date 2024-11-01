@@ -109,7 +109,7 @@ export default function index() {
         }}
       />
 
-      {/* <Modal
+      <Modal
         onClose={() => dispatch({ type: 'CLOSE' })}
         open={state.open}
         closeIcon
@@ -145,7 +145,7 @@ export default function index() {
             刪除
           </Button>
         </Modal.Actions>
-      </Modal> */}
+      </Modal>
     </>
   );
 }
