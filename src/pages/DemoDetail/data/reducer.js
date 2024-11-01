@@ -30,20 +30,43 @@ export const reducer = async (state, action) => {
     return newData;
   };
 
+  // 計算合計
+  const calTotalData = (data) => {
+    const totalRow = {
+      amt: 0,
+      qty: 0,
+      inQtys: 0,
+      outQtys: 0,
+      inAmt: 0,
+      outAmt: 0,
+    };
+
+    data.map((obj) => {
+      totalRow.amt += Number(obj.amt);
+    });
+
+    return totalRow;
+  };
+
   let result = [];
 
   switch (action.type) {
+    case 'FILTER':
+      const date = action.payload.value;
+
+      const newData = state.data.filter((obj) => obj.transDate == date);
+
+      return {
+        ...state,
+        data: newData,
+        total: calTotalData(newData),
+      };
+
     // 載入資料
-    case 'LOAD':
-      
+
+    case 'LOAD_BY_NAME':
       let masterResult = [];
       // 載入主表資料
-      // if (state.search.stockName) {
-      //   masterResult = await readDocsByStockName(
-      //     'master',
-      //     state.search.stockName
-      //   );
-      // }
 
       masterResult = await readDocsByStockName(
         'master',
@@ -51,12 +74,6 @@ export const reducer = async (state, action) => {
       );
 
       result = await readDocsByStockName(state.table, state.search.stockName);
-      // console.log(state.search.stockName);
-      // if (state.search.stockName != undefined) {
-      //   result = await readDocsByStockName(state.table, state.search.stockName);
-      // } else {
-      //   result = await readDocs(state.table);
-      // }
 
       result.sort((a, b) => {
         return a.transDate < b.transDate ? 1 : -1;
@@ -68,10 +85,10 @@ export const reducer = async (state, action) => {
         masterData: masterResult[0],
       };
 
-    case 'LOAD123':
-      console.log('load123');
+    case 'LOAD':
+      // console.log('load123');
       result = await readDocs(state.table);
-     
+
       // result.sort((a, b) => {
       //   return a.transDate < b.transDate ? 1 : -1;
       // });
@@ -80,6 +97,7 @@ export const reducer = async (state, action) => {
         ...state,
         data: calColumns(result),
         masterData: [],
+        total: { amt: 0 },
       };
 
     // 新增

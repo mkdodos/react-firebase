@@ -30,6 +30,7 @@ export default function index() {
   const initState = {
     table: 'detail',
     data: [],
+    total: { amt: 0 },
     search: { stockName },
     masterData: null,
   };
@@ -56,9 +57,9 @@ export default function index() {
     }
     // dispatch({ type: 'LOAD' });
     if (stockName) {
-      dispatch({ type: 'LOAD' });
+      dispatch({ type: 'LOAD_BY_NAME' });
     } else {
-      dispatch({ type: 'LOAD123' });
+      dispatch({ type: 'LOAD' });
     }
   }, [stockName]);
 
@@ -93,6 +94,8 @@ export default function index() {
       <TableView
         columns={columns}
         rows={state.data}
+        dispatch={dispatch}
+        total={state.total}
         handleAdd={() => {
           dispatch({ type: 'ADD' });
           setRow({
