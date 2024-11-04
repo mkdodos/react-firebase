@@ -25,8 +25,8 @@ export default function TableView({
 
       case 'bonus':
         return (
-          <Label size="large" color={color}>
-            {row[column.name]}
+          <Label size="large" basic color={color}>
+            ${numberFormat(row[column.name])}
           </Label>
         );
 
@@ -37,7 +37,7 @@ export default function TableView({
 
       case 'roi':
         return (
-          <Label size="large" color={color} basic>
+          <Label size="large" color={color} >
             {row[column.name]} %
           </Label>
         );

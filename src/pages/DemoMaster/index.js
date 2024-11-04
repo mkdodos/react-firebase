@@ -3,8 +3,9 @@ import schema from './data/schema.json';
 import TableView from './components/TableView';
 import EditForm from './components/EditForm';
 import { reducer } from './data/reducer';
-import { Modal, Button } from 'semantic-ui-react';
+import { Modal, Button, Form, Statistic } from 'semantic-ui-react';
 import StockPrice from './components/StockPrice';
+import numberFormat from '../../utils/numberFormat';
 
 export default function index() {
   // 資料表和欄位
@@ -25,6 +26,7 @@ export default function index() {
     table: schema.table,
     data: [],
     loading: true,
+    total: { bonus: 0 }, // 損益合計
   };
 
   // 讀取資料
@@ -62,9 +64,59 @@ export default function index() {
     setRow({ ...row, stockName: value });
   };
 
+  // 用一個 state 記錄目前是已結束或未結束
+  // 依此顯示不同按鈕
+
+  // 預設未結束
+  const [isEnd, setIsEnd] = useState(false);
+
+  const handleBtnClickEnd = () => {
+    dispatch({ type: 'LOAD_NOT_END' });
+    setIsEnd(false);
+  };
+
+  const handleBtnClickNotEnd = () => {
+    dispatch({ type: 'LOAD_END' });
+    setIsEnd(true);
+  };
+
   return (
     <>
-      <StockPrice />
+      <Form>
+        <Form.Group>
+          {isEnd ? (
+            <Form.Field>
+              <Button loading={state.loading} onClick={handleBtnClickEnd}>
+                已結束
+              </Button>
+            </Form.Field>
+          ) : (
+            <Form.Field>
+              <Button
+                loading={state.loading}
+                color="teal"
+                onClick={handleBtnClickNotEnd}
+              >
+                未結束
+              </Button>
+            </Form.Field>
+          )}
+
+          <Form.Field>
+            <StockPrice />
+          </Form.Field>
+          <Form.Field>
+            <Statistic
+              color={state.total.bonus > 0 ? 'red' : 'green'}
+              size="tiny"
+            >
+              <Statistic.Value>${numberFormat(state.total.bonus)}</Statistic.Value>
+              <Statistic.Label>損益</Statistic.Label>
+            </Statistic>
+          </Form.Field>
+        </Form.Group>
+      </Form>
+
       <TableView
         columns={columns}
         rows={state.data}

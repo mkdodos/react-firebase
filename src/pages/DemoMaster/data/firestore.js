@@ -13,6 +13,26 @@ const readDocs = async (table) => {
   return data;
 };
 
+
+
+const readDocsEnd = async (table) => {
+  const snapshot = await db.collection(table).where('toDate','!=','').limit(30).get();
+  const data = snapshot.docs.map((doc) => {
+    return { ...doc.data(), id: doc.id };
+  });
+  return data;
+};
+
+
+const readDocsNotEnd = async (table) => {
+  const snapshot = await db.collection(table).where('toDate','==','').limit(30).get();
+  const data = snapshot.docs.map((doc) => {
+    return { ...doc.data(), id: doc.id };
+  });
+  return data;
+};
+
+
 const updateDoc = (table, id, row) => {
   db.collection(table).doc(id).update(row);
 };
@@ -23,4 +43,5 @@ const deleteDoc =async (table, row) => {
   await db.collection(table).doc(row.id).delete();
 };
 
-export { createDoc, readDocs, updateDoc, deleteDoc };
+export { createDoc, readDocs,readDocsNotEnd,readDocsEnd, updateDoc, deleteDoc };
+

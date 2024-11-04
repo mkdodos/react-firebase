@@ -1,4 +1,11 @@
-import { readDocs, createDoc, updateDoc, deleteDoc } from './firestore';
+import {
+  readDocs,
+  readDocsNotEnd,
+  readDocsEnd,
+  createDoc,
+  updateDoc,
+  deleteDoc,
+} from './firestore';
 
 export const reducer = async (state, action) => {
   const table = state.table;
@@ -38,6 +45,16 @@ export const reducer = async (state, action) => {
     return newData;
   };
 
+  // 計算合計
+  const calTotal = (data) => {
+    // const { bonus } = data;
+    let sum = 0;
+    data.map((obj) => {
+      return (sum += Number(obj.bonus));
+    });
+    return sum;
+  };
+
   switch (action.type) {
     // 排序
     case 'SORT':
@@ -69,11 +86,38 @@ export const reducer = async (state, action) => {
 
     // 載入資料
     case 'LOAD':
-      let result = await readDocs(state.table);
+      // let result = await readDocs(table);
+      let result = await readDocsNotEnd(table);
+
       // console.log(result);
+
       return {
         ...state,
         data: calColumns(result),
+        loading: false,
+        total: { bonus: calTotal(calColumns(result)) },
+       
+      };
+
+    // 載入資料
+    case 'LOAD_END':
+      // let result = await readDocs(table);
+      // let result = await readDocsEnd(table);
+
+      return {
+        ...state,
+        data: calColumns(await readDocsEnd(table)),
+        loading: false,
+      };
+
+    // 載入資料
+    case 'LOAD_NOT_END':
+      // let result = await readDocs(table);
+      // let result = await readDocsEnd(table);
+
+      return {
+        ...state,
+        data: calColumns(await readDocsNotEnd(table)),
         loading: false,
       };
 
