@@ -94,10 +94,10 @@ export default function index() {
             <Form.Field>
               <Button
                 loading={state.loading}
-                color="teal"
+                color="olive"
                 onClick={handleBtnClickNotEnd}
               >
-                未結束
+                進行中
               </Button>
             </Form.Field>
           )}
@@ -111,7 +111,7 @@ export default function index() {
               size="tiny"
             >
               <Statistic.Value>${numberFormat(state.total.bonus)}</Statistic.Value>
-              <Statistic.Label>損益</Statistic.Label>
+              <Statistic.Label>預估損益</Statistic.Label>
             </Statistic>
           </Form.Field>
         </Form.Group>

@@ -13,10 +13,14 @@ const readDocs = async (table) => {
   return data;
 };
 
-const readDocsByStockName = async (table, stockName) => {
+const readDocsByStockName = async (table, stockName,fromDate,toDate) => {
+  console.log(String(fromDate))
   const snapshot = await db
     .collection(table)
     .where('stockName', '==', stockName)
+    // .where('transDate', '>=', '2024-11-04')
+    .where('transDate', '>=', String(fromDate))
+    .where('transDate', '<=', String(toDate))
     .get();
   const data = snapshot.docs.map((doc) => {
     return { ...doc.data(), id: doc.id };

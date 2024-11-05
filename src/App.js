@@ -38,6 +38,9 @@ export default function App() {
           <Route path="/demo5" element={<Demo5 />} />
           <Route path="/demo-detail" element={<DemoDetail />} />
           <Route path="/demo-detail/:stockName" element={<DemoDetail />} />
+          <Route path="/demo-detail/:stockName/fromDate/:fromDate" element={<DemoDetail />} />
+          <Route path="/demo-detail/:stockName/fromDate/:fromDate/toDate" element={<DemoDetail />} />
+          <Route path="/demo-detail/:stockName/fromDate/:fromDate/toDate/:toDate" element={<DemoDetail />} />
           <Route path="/demo-master" element={<DemoMaster />} />
 
           {/* 受保謢的路由 */}

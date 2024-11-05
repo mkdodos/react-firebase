@@ -57,7 +57,7 @@
     },
     {
       "name": "bonus",
-      "label": "未實現損益",
+      "label": "預估損益",
       "type": "number",
       "editable": "true",
       "viewable": "true"

@@ -22,7 +22,8 @@ export default function index() {
   const columns = getColumns();
 
   // 網址列參數
-  let { stockName } = useParams();
+  // let { stockName } = useParams();
+  let { stockName, fromDate,toDate } = useParams();
 
   // console.log(stockName);
 
@@ -31,7 +32,7 @@ export default function index() {
     table: 'detail',
     data: [],
     total: { amt: 0 },
-    search: { stockName },
+    search: { stockName, fromDate,toDate }, // 網址列參數做為 search 值
     masterData: null,
   };
 
@@ -89,7 +90,11 @@ export default function index() {
   return (
     <>
       {/* {stockName} */}
-      {stockName && <MasterRow data={state.masterData} stockName={stockName} />}
+      {stockName && <MasterRow data={state.masterData}
+       stockName={stockName} 
+       fromDate={fromDate}
+       toDate={toDate}
+       />}
 
       <TableView
         columns={columns}

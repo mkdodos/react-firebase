@@ -5,12 +5,17 @@ import { Table, Statistic } from 'semantic-ui-react';
 import { db } from '../../../utils/firebase';
 import StockDropdown from './StockDropdown';
 
-export default function MasterRow({ data, stockName }) {
+export default function MasterRow({ data, stockName,fromDate,toDate }) {
   const [row, setRow] = useState([]);
+
+  // console.log(fromDate)
 
   useEffect(() => {
     db.collection('master')
       .where('stockName', '==', stockName)
+      .where('fromDate', '==', fromDate)
+      // .where('toDate', '<=', toDate)
+      // .where('fromDate', '==', '2024-11-01')
       .onSnapshot((querySnapshot) => {
         var cities = [];
         querySnapshot.forEach((doc) => {

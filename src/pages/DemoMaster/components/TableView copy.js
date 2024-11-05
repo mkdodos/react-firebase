@@ -19,34 +19,12 @@ export default function TableView({
       case 'stockName':
         // 連至該股票的明細頁
         // 以股名為條件會包含已結束的明細也出現
-        // 需要增加開始結束日條件,(>=開始日 and <=結束日)
-        // 進行中的資料沒有結束日,則以>=開始日
-        // 先判斷有無結束
-        // 有 :　>=開始日 and <=結束日
-        // 無 :  >=開始日
-        // 產生不同路由,取得相關條件資料
-        //  <Route path="/demo-detail/:stockName" element={<DemoDetail />} />
-
+        // 需要增加開始結束日條件
         return (
-          <NavLink
-            to={
-              '/demo-detail/' +
-              row[column.name] +
-              '/fromDate/' +
-              row.fromDate +
-              '/toDate/' +
-              row.toDate
-            }
-          >
+          <NavLink to={'/demo-detail/' + row[column.name]}>
             {row[column.name]}
           </NavLink>
         );
-
-      // return (
-      //   <NavLink to={'/demo-detail/' + row[column.name]}>
-      //     {row[column.name]}{row.toDate}
-      //   </NavLink>
-      // );
 
       case 'bonus':
         return (
@@ -62,7 +40,7 @@ export default function TableView({
 
       case 'roi':
         return (
-          <Label size="large" color={color}>
+          <Label size="large" color={color} >
             {row[column.name]} %
           </Label>
         );

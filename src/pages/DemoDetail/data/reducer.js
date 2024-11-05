@@ -77,7 +77,12 @@ export const reducer = async (state, action) => {
         state.search.stockName
       );
 
-      result = await readDocsByStockName(state.table, state.search.stockName);
+      result = await readDocsByStockName(
+        state.table,
+        state.search.stockName,
+        state.search.fromDate,
+        state.search.toDate
+      );
 
       result.sort((a, b) => {
         return a.transDate < b.transDate ? 1 : -1;
