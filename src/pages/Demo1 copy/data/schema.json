@@ -1,0 +1,90 @@
+{
+  "tables": [
+    {
+      "id": 1,
+      "table": "master",
+      "columns": [
+        {
+          "name": "stockNo",
+          "label": "代號",
+          "type": "text",
+          "editable":"true"
+        },
+        {
+          "name": "stockName",
+          "label": "名稱",
+          "type": "text",
+          "editable":"true"
+        },
+        {
+          "name": "costs",
+          "label": "總成本",
+          "type": "number",
+          "editable":"true"
+        },
+
+        {
+          "name": "qtys",
+          "label": "總股數",
+          "type": "number",
+          "editable":"true"
+        },
+
+        {
+          "name": "avgPrice",
+          "label": "平均價格",
+          "type": "number"
+         
+        },
+        {
+          "name": "nowPrice",
+          "label": "現價",
+          "type": "number",
+          "editable":"true"
+        },
+        {
+          "name": "amt",
+          "label": "市值",
+          "type": "number"
+        },
+        {
+          "name": "bonus",
+          "label": "損益",
+          "type": "number"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "table": "detail",
+      "columns": [
+        {
+          "name": "transDate",
+          "label": "交易日",
+          "type": "date",
+          "editable":"true"
+        },
+        {
+          "name": "stockName",
+          "label": "股票名稱",
+          "type": "text",
+          "editable":"true",
+          "editType":"dropdown"
+
+        },
+        {
+          "name": "qty",
+          "label": "股數",
+          "type": "number",
+          "editable":"true"
+        },
+        {
+          "name": "price",
+          "label": "單價",
+          "type": "number",
+          "editable":"true"
+        }
+      ]
+    }
+  ]
+}

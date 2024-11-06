@@ -1,49 +1,27 @@
-import React, { useEffect, useState } from 'react';
-import { readDocs, createDoc, updateDoc, deleteDoc } from './data/firestore';
-import Master from './master';
-import Detail from './detail';
+import React, { useState, useEffect } from 'react';
+import schema from './data/schema.json';
+import useAsyncReducer from './functions/asyncReducer';
+import { reducer } from './data/reducer';
+import TableView from './components/TableView';
 
 export default function index() {
-  const masterTable = 'master';
+  // 預設資料物件
+  const initState = {
+    table: schema.table, //資料表名稱
+    data: [], //資料
+    loading:true //載入中
+  };
 
-  // 主表資料
-  const [masterRows, setMasterRows] = useState([]);
-
-  // 載入中
-  const [loading, setLoading] = useState(false);
+  const [state, dispatch] = useAsyncReducer(reducer, initState);
 
   useEffect(() => {
-    fetchData();
+    // 讀取資料
+    dispatch({ type: 'LOAD' });
   }, []);
-
-  const fetchData = async () => {
-    setLoading(true);
-    let result = await readDocs(masterTable);
-    
-    setMasterRows(calColumns(result));
-    setLoading(false);
-  };
-
-  // 計算各項欄位
-
-  const calColumns = (data) => {
-    return data.map((obj) => {
-      const { costs, qtys, nowPrice } = obj;
-
-      return {
-        ...obj,
-        avgPrice: costs / qtys, //平均成本
-        amt: qtys * nowPrice, //市值
-        bonus: qtys * nowPrice - costs, //損益
-      };
-    });
-  };
-
-
+  
   return (
     <div>
-      <Master masterRows={masterRows} setMasterRows={setMasterRows} />
-      <Detail masterRows={masterRows} setMasterRows={setMasterRows} />
+      <TableView columns={schema.columns} state={state} />
     </div>
   );
 }
