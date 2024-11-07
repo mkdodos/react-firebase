@@ -1,4 +1,4 @@
-import { readDocs, createDoc, updateDoc ,deleteDoc } from './firestore';
+import { readDocs, createDoc, updateDoc, deleteDoc } from './firestore';
 
 export const reducer = async (state, action) => {
   // 資料表名稱
@@ -63,5 +63,9 @@ export const reducer = async (state, action) => {
         open: false,
         rowIndex: -1,
       };
+
+    // 關閉表單
+    case 'CLOSE':
+      return { ...state, open: false };
   }
 };

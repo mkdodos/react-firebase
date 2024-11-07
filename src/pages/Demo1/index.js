@@ -4,13 +4,14 @@ import useAsyncReducer from './functions/asyncReducer';
 import { reducer } from './data/reducer';
 import TableView from './components/TableView';
 import EditForm from './components/EditForm';
+import StockDropdown from './components/StockDropdown';
 
 export default function index() {
   // 預設資料物件
   const initState = {
     data: [], //資料
     loading: true, //載入中
-    rowIndex: -1, //編輯列索引    
+    rowIndex: -1, //編輯列索引
   };
 
   const [state, dispatch] = useAsyncReducer(reducer, initState);
@@ -48,6 +49,7 @@ export default function index() {
 
   return (
     <div>
+      <StockDropdown />
       <EditForm
         columns={columns}
         row={row}
@@ -57,7 +59,7 @@ export default function index() {
       />
       <TableView
         columns={columns}
-        state={state}        
+        state={state}
         handleAdd={handleAdd}
         handleEdit={handleEdit}
       />

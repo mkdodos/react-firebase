@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Button } from 'semantic-ui-react';
+import { Form, Button,Modal } from 'semantic-ui-react';
 
 export default function EditForm({ columns, state, dispatch, row, setRow }) {
   // 組合每一列 group
@@ -42,27 +42,36 @@ export default function EditForm({ columns, state, dispatch, row, setRow }) {
 
   return (
     <>
-      <Form>{formGroups(2)}</Form>
-
-      <Button
-        floated="left"
-        color="red"
-        onClick={() => dispatch({ type: 'DELETE', payload: { row } })}
+      <Modal
+        onClose={() => dispatch({ type: 'CLOSE' })}
+        open={state.open}
+        closeIcon
       >
-        刪除
-      </Button>
-
-      <Button
-        primary
-        onClick={() =>
-          dispatch({
-            type: state.rowIndex == -1 ? 'CREATE' : 'UPDATE',
-            payload: { row },
-          })
-        }
-      >
-        儲存
-      </Button>
+        <Modal.Header>編輯</Modal.Header>
+        <Modal.Content>
+          <Form>{formGroups(2)}</Form>
+        </Modal.Content>
+        <Modal.Actions>
+          <Button
+            primary
+            onClick={() =>
+              dispatch({
+                type: state.rowIndex == -1 ? 'CREATE' : 'UPDATE',
+                payload: { row },
+              })
+            }
+          >
+            儲存
+          </Button>
+          <Button
+            floated="left"
+            color="red"
+            onClick={() => dispatch({ type: 'DELETE', payload: { row } })}
+          >
+            刪除
+          </Button>
+        </Modal.Actions>
+      </Modal>
     </>
   );
 }
