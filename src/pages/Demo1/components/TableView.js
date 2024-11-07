@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
 import { Table, Button } from 'semantic-ui-react';
 
-export default function TableView({ state, columns, handleEdit, handleAdd }) {
+export default function TableView({
+  state,
+  columns, 
+  handleAdd,
+  handleEdit
+}) {
   const { data, loading } = state;
 
   return (

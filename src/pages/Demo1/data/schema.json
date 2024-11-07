@@ -1,5 +1,4 @@
-{
-  "table": "master",
+{  
   "columns": [
     {
       "name": "stockNo",
@@ -8,11 +7,17 @@
       "editable": "true",
       "viewable": "true"
     },
-
     {
       "name": "stockName",
       "label": "股票名稱",
       "type": "text",
+      "editable": "true",
+      "viewable": "true"
+    },
+    {
+      "name": "costs",
+      "label": "成本",
+      "type": "number",
       "editable": "true",
       "viewable": "true"
     }

@@ -1,12 +1,7 @@
-import React from 'react';
-import { Form } from 'semantic-ui-react';
-import schema from '../data/schema.json';
+import React, { useState } from 'react';
+import { Form, Button } from 'semantic-ui-react';
 
-import StockDropdown from './StockDropdown';
-
-export default function EditForm({ columns, row, setRow }) {
-  console.log(columns);
-
+export default function EditForm({ columns, state, dispatch, row, setRow }) {
   // 組合每一列 group
   const formGroups = (columnsPerRow) => {
     const groups = [];
@@ -23,8 +18,6 @@ export default function EditForm({ columns, row, setRow }) {
 
   const handleChange = (e) => {
     setRow({ ...row, [e.target.name]: e.target.value });
-
-    // console.log('change')
   };
 
   // 組合 group 中的 field
@@ -48,8 +41,28 @@ export default function EditForm({ columns, row, setRow }) {
   };
 
   return (
-    <Form>      
-      {formGroups(2)}
-    </Form>
+    <>
+      <Form>{formGroups(2)}</Form>
+
+      <Button
+        floated="left"
+        color="red"
+        onClick={() => dispatch({ type: 'DELETE', payload: { row } })}
+      >
+        刪除
+      </Button>
+
+      <Button
+        primary
+        onClick={() =>
+          dispatch({
+            type: state.rowIndex == -1 ? 'CREATE' : 'UPDATE',
+            payload: { row },
+          })
+        }
+      >
+        儲存
+      </Button>
+    </>
   );
 }
