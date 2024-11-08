@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Button,Modal } from 'semantic-ui-react';
+import { Form, Button, Modal } from 'semantic-ui-react';
 import StockDropdown from './StockDropdown';
 
 export default function EditForm({ columns, state, dispatch, row, setRow }) {
@@ -23,33 +23,19 @@ export default function EditForm({ columns, state, dispatch, row, setRow }) {
     setRow({ ...row, [e.target.name]: e.target.value });
   };
 
-  const handleStockChange = (e, {value}) => {
-    // console.log(e.value)
-    console.log(e.target.innerText)
-    setRow({ ...row, stockNo: value });
+  const handleStockChange = (e, obj) => {
+    // 下拉選項由股票代碼+空白+股票名稱組成
+    // 用空白分隔函數取得股票名稱
+    const str = e.target.innerText;
+    const words = str.split(' ');
+    // 分別寫入股票代碼和股票名稱二個值
+    setRow({ ...row, stockNo: obj.value, stockName: words[1] });
   };
 
   // 組合 group 中的 field
   const formFields = (index, columnsPerRow) => {
     let fields = [];
     columns.slice(index, index + columnsPerRow).map((col, index) => {
-      // if (!col.editable) return;
-      // 這樣寫的話,會出現有位置空白
-      // 改成在一開始就篩選出全部可編輯欄位
-      // fields.push(
-      //   <Form.Field key={index}>
-      //     <label>{col.label}</label>
-      //     <input
-      //       type={col.type}
-      //       name={col.name}
-      //       value={row[col.name]}
-      //       onChange={handleChange}
-      //     />
-      //   </Form.Field>
-      // );
-
-
-
       if (col.name == 'stockName') {
         // 股票名稱下拉選單
         fields.push(
@@ -73,8 +59,6 @@ export default function EditForm({ columns, state, dispatch, row, setRow }) {
           </Form.Field>
         );
       }
-
-
     });
     return fields;
   };

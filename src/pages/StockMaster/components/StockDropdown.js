@@ -9,7 +9,7 @@ export default function StockDropdown({ onChange,name,value }) {
     const snapshot = await db.collection('stockBasic').get();
     const data = snapshot.docs.map((doc) => {
       const { stockName,stockNo } = doc.data();
-      return { key: stockNo, text: stockName, value: stockNo };
+      return { key: stockNo, text:stockNo+' '+stockName, value: stockNo };
     });
     setOptions(data);
   };
@@ -21,6 +21,7 @@ export default function StockDropdown({ onChange,name,value }) {
       <label>股票名稱</label>
       <Form.Select
         selection
+        search
         placeholder="名稱"
         fluid
         options={options}
