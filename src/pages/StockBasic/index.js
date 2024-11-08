@@ -4,7 +4,6 @@ import useAsyncReducer from './functions/asyncReducer';
 import { reducer } from './data/reducer';
 import TableView from './components/TableView';
 import EditForm from './components/EditForm';
-import StockDropdown from './components/StockDropdown';
 
 export default function index() {
   // 預設資料物件
