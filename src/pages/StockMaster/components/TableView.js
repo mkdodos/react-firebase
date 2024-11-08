@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { Table, Button } from 'semantic-ui-react';
 
 export default function TableView({
-  rows,
-  columns,
-  handleEdit,
+  state,
+  columns, 
   handleAdd,
-  loading,
+  handleEdit
 }) {
+  const { data, loading } = state;
+
   return (
     <>
       <Table celled unstackable>
@@ -27,7 +28,7 @@ export default function TableView({
         </Table.Header>
 
         <Table.Body>
-          {rows.map((row, index) => {
+          {data.map((row, index) => {
             return (
               <Table.Row key={row.id}>
                 {columns.map((col, index) => {

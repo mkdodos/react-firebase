@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Button,Modal } from 'semantic-ui-react';
+import StockDropdown from './StockDropdown';
 
 export default function EditForm({ columns, state, dispatch, row, setRow }) {
   // 篩選可編輯欄位
@@ -18,8 +19,14 @@ export default function EditForm({ columns, state, dispatch, row, setRow }) {
     return groups;
   };
 
-  const handleChange = (e) => {
+  const handleInputChange = (e) => {
     setRow({ ...row, [e.target.name]: e.target.value });
+  };
+
+  const handleStockChange = (e, {value}) => {
+    // console.log(e.value)
+    console.log(e.target.innerText)
+    setRow({ ...row, stockNo: value });
   };
 
   // 組合 group 中的 field
@@ -29,17 +36,45 @@ export default function EditForm({ columns, state, dispatch, row, setRow }) {
       // if (!col.editable) return;
       // 這樣寫的話,會出現有位置空白
       // 改成在一開始就篩選出全部可編輯欄位
-      fields.push(
-        <Form.Field key={index}>
-          <label>{col.label}</label>
-          <input
-            type={col.type}
-            name={col.name}
-            value={row[col.name]}
-            onChange={handleChange}
+      // fields.push(
+      //   <Form.Field key={index}>
+      //     <label>{col.label}</label>
+      //     <input
+      //       type={col.type}
+      //       name={col.name}
+      //       value={row[col.name]}
+      //       onChange={handleChange}
+      //     />
+      //   </Form.Field>
+      // );
+
+
+
+      if (col.name == 'stockName') {
+        // 股票名稱下拉選單
+        fields.push(
+          <StockDropdown
+            key={index}
+            value={row.stockNo}
+            onChange={handleStockChange}
           />
-        </Form.Field>
-      );
+        );
+      } else {
+        // 文字輸入框
+        fields.push(
+          <Form.Field key={index}>
+            <label>{col.label}</label>
+            <Form.Input
+              type={col.type}
+              name={col.name}
+              value={row[col.name]}
+              onChange={handleInputChange}
+            />
+          </Form.Field>
+        );
+      }
+
+
     });
     return fields;
   };
@@ -53,7 +88,7 @@ export default function EditForm({ columns, state, dispatch, row, setRow }) {
       >
         <Modal.Header>編輯</Modal.Header>
         <Modal.Content>
-          <Form>{formGroups(2)}</Form>
+          <Form>{formGroups(3)}</Form>
         </Modal.Content>
         <Modal.Actions>
           <Button

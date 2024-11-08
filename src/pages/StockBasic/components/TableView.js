@@ -1,14 +1,23 @@
 import React, { useState } from 'react';
 import { Table, Button } from 'semantic-ui-react';
 
-export default function TableView({ rows, columns, handleEdit,handleAdd,loading }) {
+export default function TableView({
+  state,
+  columns, 
+  handleAdd,
+  handleEdit
+}) {
+  const { data, loading } = state;
+
   return (
     <>
       <Table celled unstackable>
         <Table.Header>
           <Table.Row>
             {columns.map((col, index) => {
-              return <Table.HeaderCell key={index}>{col.label}</Table.HeaderCell>;
+              return (
+                <Table.HeaderCell key={index}>{col.label}</Table.HeaderCell>
+              );
             })}
             <Table.HeaderCell>
               <Button primary onClick={handleAdd} loading={loading}>
@@ -19,10 +28,10 @@ export default function TableView({ rows, columns, handleEdit,handleAdd,loading 
         </Table.Header>
 
         <Table.Body>
-          {rows.map((row, index) => {
+          {data.map((row, index) => {
             return (
               <Table.Row key={row.id}>
-                {columns.map((col,index) => {
+                {columns.map((col, index) => {
                   return <Table.Cell key={index}>{row[col.name]}</Table.Cell>;
                 })}
                 <Table.Cell>

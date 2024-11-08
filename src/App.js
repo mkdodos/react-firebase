@@ -6,25 +6,23 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './pages/Login';
 import Maya from './pages/Maya';
 import Stock from './pages/Stock';
-import Money from './pages/Money'
-import Demo from './pages/Demo'
-import Demo1 from './pages/Demo1'
-import Demo2 from './pages/Demo2'
-import Demo3 from './pages/Demo3'
-import Demo4 from './pages/Demo4'
-import Demo5 from './pages/Demo5'
-import DemoMaster from './pages/DemoMaster'
-import DemoDetail from './pages/DemoDetail'
-
+import Money from './pages/Money';
+import Demo from './pages/Demo';
+import Demo1 from './pages/Demo1';
+import StockBasic from './pages/StockBasic';
+import StockMaster from './pages/StockMaster';
+import Demo4 from './pages/Demo4';
+import Demo5 from './pages/Demo5';
+import DemoMaster from './pages/DemoMaster';
+import DemoDetail from './pages/DemoDetail';
 
 export default function App() {
-  
   return (
     <Container>
       <BrowserRouter>
         <Navbar />
         <Routes>
-        {/* <Route path="/react-firebase/build" element={<Money />} /> */}
+          {/* <Route path="/react-firebase/build" element={<Money />} /> */}
           <Route path="/" element={<Stock />} />
           <Route path="/login" element={<Login />} />
           <Route path="/stock" element={<Stock />} />
@@ -32,15 +30,24 @@ export default function App() {
           <Route path="/money" element={<Money />} />
           <Route path="/demo" element={<Demo />} />
           <Route path="/demo1" element={<Demo1 />} />
-          <Route path="/demo2" element={<Demo2 />} />
-          <Route path="/demo3" element={<Demo3 />} />
+          <Route path="/stock-basic" element={<StockBasic />} />
+          <Route path="/stock-master" element={<StockMaster />} />
           <Route path="/demo4" element={<Demo4 />} />
           <Route path="/demo5" element={<Demo5 />} />
           <Route path="/demo-detail" element={<DemoDetail />} />
           <Route path="/demo-detail/:stockName" element={<DemoDetail />} />
-          <Route path="/demo-detail/:stockName/fromDate/:fromDate" element={<DemoDetail />} />
-          <Route path="/demo-detail/:stockName/fromDate/:fromDate/toDate" element={<DemoDetail />} />
-          <Route path="/demo-detail/:stockName/fromDate/:fromDate/toDate/:toDate" element={<DemoDetail />} />
+          <Route
+            path="/demo-detail/:stockName/fromDate/:fromDate"
+            element={<DemoDetail />}
+          />
+          <Route
+            path="/demo-detail/:stockName/fromDate/:fromDate/toDate"
+            element={<DemoDetail />}
+          />
+          <Route
+            path="/demo-detail/:stockName/fromDate/:fromDate/toDate/:toDate"
+            element={<DemoDetail />}
+          />
           <Route path="/demo-master" element={<DemoMaster />} />
 
           {/* 受保謢的路由 */}

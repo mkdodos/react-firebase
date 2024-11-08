@@ -6,20 +6,16 @@ export default function StockDropdown({ handleChange,name,value }) {
   const [options, setOptions] = useState([]);
 
   const fetchData = async () => {
-    const snapshot = await db.collection('master').get();
+    const snapshot = await db.collection('stockBasic').get();
     const data = snapshot.docs.map((doc) => {
-      const { stockName } = doc.data();
-      return { key: stockName, text: stockName, value: stockName };
+      const { stockName,stockNo } = doc.data();
+      return { key: stockNo, text: stockName, value: stockNo };
     });
     setOptions(data);
   };
 
   fetchData()
-
-  // const stockOptions = statRows.map((obj) => {
-  //   return { key: obj.name, text: obj.name, value: obj.name };
-  // });
-
+ 
   return (
     <Form.Field>
       <label>股票名稱</label>

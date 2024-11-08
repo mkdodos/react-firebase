@@ -37,10 +37,7 @@ export default function index() {
 
   const handleAdd = () => {
     dispatch({ type: 'ADD' });
-    setRow({
-      ...defaultRow,
-      fromDate: new Date().toISOString().substring(0, 10),
-    });
+    setRow(defaultRow);
   };
 
   const handleEdit = (row, index) => {
@@ -50,7 +47,6 @@ export default function index() {
 
   return (
     <div>
-      <StockDropdown />
       <EditForm
         columns={columns}
         row={row}
