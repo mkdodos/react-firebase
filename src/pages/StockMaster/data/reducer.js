@@ -10,13 +10,44 @@ export const reducer = async (state, action) => {
 
   let data = state.data.slice();
 
+  // 計算欄位
+
+  const calColumns = (data) => {
+    const newData = data.map((obj) => {
+      const { qtys, price, costs, outQtys, soldAmt } = obj;
+      obj.costs = Math.round(obj.costs);
+      //損益平衡價(成本-已售金額)/餘股
+      let avgCost = 0;
+      if (qtys > 0) {
+        avgCost = Math.round(((costs - soldAmt) / qtys) * 100) / 100; 
+      }
+      // 依是否全部售完做不同損益計算
+      let bonus = 0;
+      if (qtys == 0) {
+        bonus = soldAmt - costs;
+      } else {
+        bonus = Math.round((price - avgCost) * qtys);
+      }
+
+      return {
+        ...obj,
+        amt: Math.round(qtys * price), // 總市值
+        avgCost,
+        bonus,
+        roi: Math.round((bonus / costs) * 10000) / 100,
+        leftQtys: qtys - outQtys,
+      };
+    });
+    return newData;
+  };
+
   // 執行相關動作
   switch (action.type) {
     // 載入資料
     case 'LOAD':
       return {
         ...state,
-        data: await readDocs(table),
+        data: calColumns(await readDocs(table)),
         loading: false,
       };
 
@@ -34,7 +65,7 @@ export const reducer = async (state, action) => {
       data.unshift({ ...row, id });
       return {
         ...state,
-        data,
+        data:calColumns(data),
         open: false,
         rowIndex: -1,
       };
@@ -50,7 +81,7 @@ export const reducer = async (state, action) => {
       return {
         ...state,
         open: false,
-        data: data,
+        data: calColumns(data),
         rowIndex: -1,
       };
 

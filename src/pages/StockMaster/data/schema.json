@@ -57,8 +57,7 @@
     {
       "name": "bonus",
       "label": "預估損益",
-      "type": "number",
-      "editable": "true",
+      "type": "number",    
       "viewable": "true"
     },
     {
