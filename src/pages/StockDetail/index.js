@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import schema from './data/schema.json';
-import useAsyncReducer from './functions/asyncReducer';
+import useAsyncReducer from '../../utils/asyncReducer';
 import { reducer } from './data/reducer';
 import TableView from './components/TableView';
 import EditForm from './components/EditForm';
-import StockDropdown from './components/StockDropdown';
 
 export default function index() {
   // 預設資料物件
@@ -30,6 +29,8 @@ export default function index() {
   columns.map((obj) => {
     defaultRow[obj.name] = '';
   });
+
+  defaultRow.transDate = new Date().toISOString().substring(0, 10);
 
   // 原本 row 放在 useAsyncReducer 會出現無法輸入中文的問題
   // 將其獨立出來處理

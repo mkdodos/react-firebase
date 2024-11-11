@@ -2,7 +2,7 @@ import { readDocs, createDoc, updateDoc, deleteDoc } from './firestore';
 
 export const reducer = async (state, action) => {
   // 資料表名稱
-  const table = 'stockMaster';
+  const table = 'stockDetail';
 
   // 編輯列
   const row = action.payload?.row;
@@ -11,31 +11,21 @@ export const reducer = async (state, action) => {
   let data = state.data.slice();
 
   // 計算欄位
-
   const calColumns = (data) => {
     const newData = data.map((obj) => {
-      const { qtys, price, costs, outQtys, soldAmt } = obj;
-      obj.costs = Math.round(obj.costs);
-      //損益平衡價(成本-已售金額)/餘股
-      let avgCost = 0;
-      if (qtys > 0) {
-        avgCost = Math.round(((costs - soldAmt) / qtys) * 100) / 100;
-      }
-      // 依是否全部售完做不同損益計算
-      let bonus = 0;
-      if (qtys == 0) {
-        bonus = soldAmt - costs;
+      const { inQty, outQty, price } = obj;
+
+      let amt = 0;
+
+      if (inQty) {
+        amt = Math.round(inQty * price);
       } else {
-        bonus = Math.round((price - avgCost) * qtys);
+        amt = Math.round(outQty * price);
       }
 
       return {
         ...obj,
-        amt: Math.round(qtys * price), // 總市值
-        avgCost,
-        bonus,
-        roi: Math.round((bonus / costs) * 10000) / 100,
-        leftQtys: qtys - outQtys,
+        amt, // 小計
       };
     });
     return newData;

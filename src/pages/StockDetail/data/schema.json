@@ -1,0 +1,48 @@
+{
+  "columns": [
+    {
+      "name": "stockName",
+      "label": "股票名",
+      "type": "text",
+      "editable": "true",
+      "editType": "dropdown",
+      "viewable": "true"
+    },
+    {
+      "name": "transDate",
+      "label": "交易日",
+      "type": "date",
+      "editable": "true",
+      "viewable": "true"
+    },
+
+    {
+      "name": "inQty",
+      "label": "買入股數",
+      "type": "number",
+      "editable": "true",
+      "viewable": "true"
+    },
+    {
+      "name": "outQty",
+      "label": "賣出股數",
+      "type": "number",
+      "editable": "true",
+      "viewable": "true"
+    },
+    {
+      "name": "price",
+      "label": "單價",
+      "type": "number",
+      "editable": "true",
+      "viewable": "true"
+    },
+    {
+      "name": "amt",
+      "label": "小計",
+      "type": "number",
+      "viewable": "true"
+    }  
+   
+  ]
+}
