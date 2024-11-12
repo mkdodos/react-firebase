@@ -1,10 +1,26 @@
 import React, { useState } from 'react';
-import { Form, Button, Modal } from 'semantic-ui-react';
+import { Form, Button, Modal,Menu } from 'semantic-ui-react';
 import StockDropdown from './StockDropdown';
 
-export default function EditForm({ columns, state, dispatch, row, setRow }) {
+export default function EditForm({
+  columns,
+  state,
+  dispatch,
+  row,
+  setRow,
+  isSold,
+  setIsSold,
+}) {
   // 篩選可編輯欄位
   columns = columns.filter((col) => col.editable);
+
+
+
+  // 點選買進或賣出後,只顯示買進或賣出欄位
+  if (isSold) columns = columns.filter((col) => col.name != 'inQty');
+  else columns = columns.filter((col) => col.name != 'outQty');
+
+
   // 組合每一列 group
   const formGroups = (columnsPerRow) => {
     const groups = [];
@@ -72,7 +88,24 @@ export default function EditForm({ columns, state, dispatch, row, setRow }) {
       >
         <Modal.Header>編輯</Modal.Header>
         <Modal.Content>
-          <Form>{formGroups(3)}</Form>
+          <Menu secondary pointing widths={2}>
+            <Menu.Item
+              active={!isSold}
+              color="teal"
+              onClick={() => setIsSold(false)}
+            >
+              買進
+            </Menu.Item>
+            <Menu.Item
+              active={isSold}
+              color="orange"
+              onClick={() => setIsSold(true)}
+            >
+              賣出
+            </Menu.Item>
+          </Menu>
+
+          <Form>{formGroups(2)}</Form>
         </Modal.Content>
         <Modal.Actions>
           <Button

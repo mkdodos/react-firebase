@@ -44,7 +44,17 @@ export default function index() {
   const handleEdit = (row, index) => {
     dispatch({ type: 'EDIT', payload: { index } });
     setRow(row);
+    // 編輯時,依原資料為買進或賣出,設定 isSold 的值
+    // 這樣編輯表單的 MenuItem 才能正確顯示
+    if (row.inQty) {
+      setIsSold(false);
+    } else {
+      setIsSold(true);
+    }
   };
+
+  // 買進賣出
+  const [isSold, setIsSold] = useState(false);
 
   return (
     <div>
@@ -54,6 +64,8 @@ export default function index() {
         setRow={setRow}
         state={state}
         dispatch={dispatch}
+        isSold={isSold}
+        setIsSold={setIsSold}
       />
       <TableView
         columns={columns}

@@ -1,4 +1,12 @@
-import { readDocs, createDoc, updateDoc, deleteDoc } from './firestore';
+import {
+  readDocs,
+  updateMaster,
+  createDoc,
+  updateDoc,
+  deleteDoc,
+} from './firestore';
+
+
 
 export const reducer = async (state, action) => {
   // 資料表名稱
@@ -81,6 +89,8 @@ export const reducer = async (state, action) => {
     case 'CREATE':
       const id = await createDoc(table, row);
       data.unshift({ ...row, id });
+      // 更新主表(從 master 找出同名股票且無結束日)
+      console.log(await updateMaster(row));
       return {
         ...state,
         data: calColumns(data),
