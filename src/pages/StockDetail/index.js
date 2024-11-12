@@ -4,6 +4,7 @@ import useAsyncReducer from '../../utils/asyncReducer';
 import { reducer } from './data/reducer';
 import TableView from './components/TableView';
 import EditForm from './components/EditForm';
+import { Link } from 'react-router-dom';
 
 export default function index() {
   // 預設資料物件
@@ -58,6 +59,8 @@ export default function index() {
 
   return (
     <div>
+      <Link to="/stock-master">StockMaster</Link>
+
       <EditForm
         columns={columns}
         row={row}

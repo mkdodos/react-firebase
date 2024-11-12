@@ -8,6 +8,7 @@ const readDocs = async (table) => {
   return data;
 };
 
+// 更新主表
 const updateMaster = async (row) => {
   const { stockName, inQty, outQty, price } = row;
   const snapshot = await db
@@ -17,9 +18,17 @@ const updateMaster = async (row) => {
     .get();
   const id = snapshot.docs[0].id;
   const data = snapshot.docs[0].data();
-  const costs = data.costs + inQty * price;
+  const costs = Number(data.costs) + inQty * price;
+  const soldAmt = Number(data.soldAmt) + outQty * price;
+  let qtys = 0
+  if(inQty){
+    qtys = Number(data.qtys) + Number(inQty);
+  }else{
+    qtys = Number(data.qtys) - Number(outQty);
+  }
+  
 
-  await db.collection('stockMaster').doc(id).update({ costs });
+  await db.collection('stockMaster').doc(id).update({ costs, soldAmt, qtys });
 
   return id;
 };
