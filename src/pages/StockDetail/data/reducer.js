@@ -6,8 +6,6 @@ import {
   deleteDoc,
 } from './firestore';
 
-
-
 export const reducer = async (state, action) => {
   // 資料表名稱
   const table = 'stockDetail';
@@ -90,7 +88,7 @@ export const reducer = async (state, action) => {
       const id = await createDoc(table, row);
       data.unshift({ ...row, id });
       // 更新主表(從 master 找出同名股票且無結束日)
-      console.log(await updateMaster(row));
+      console.log(await updateMaster(row, 'created'));
       return {
         ...state,
         data: calColumns(data),
@@ -115,7 +113,8 @@ export const reducer = async (state, action) => {
 
     // 刪除
     case 'DELETE':
-      deleteDoc(table, row);
+      await deleteDoc(table, row);
+      await updateMaster(row, 'deleted');
       return {
         ...state,
         data: state.data.filter((obj) => obj.id != row.id),

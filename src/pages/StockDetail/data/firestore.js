@@ -9,7 +9,7 @@ const readDocs = async (table) => {
 };
 
 // 更新主表
-const updateMaster = async (row) => {
+const updateMaster = async (row, op) => {
   const { stockName, inQty, outQty, price } = row;
   const snapshot = await db
     .collection('stockMaster')
@@ -18,15 +18,31 @@ const updateMaster = async (row) => {
     .get();
   const id = snapshot.docs[0].id;
   const data = snapshot.docs[0].data();
-  const costs = Number(data.costs) + inQty * price;
-  const soldAmt = Number(data.soldAmt) + outQty * price;
-  let qtys = 0
-  if(inQty){
-    qtys = Number(data.qtys) + Number(inQty);
-  }else{
-    qtys = Number(data.qtys) - Number(outQty);
+  let costs = Number(data.costs) + inQty * price;
+  let soldAmt = Number(data.soldAmt) + outQty * price;
+  let qtys = 0;
+
+  // 判斷是新增或刪除做不同處理
+
+  switch (op) {
+    case 'created':
+      if (inQty) {
+        qtys = Number(data.qtys) + Number(inQty);
+       
+      } else {
+        qtys = Number(data.qtys) - Number(outQty);
+      }
+      break;
+    case 'deleted':
+      if (inQty) {
+        qtys = Number(data.qtys) - Number(inQty);
+        costs = Number(data.costs) - inQty * price;
+      } else {
+        qtys = Number(data.qtys) + Number(outQty);
+        soldAmt = Number(data.soldAmt) - outQty * price;
+      }
+      break;
   }
-  
 
   await db.collection('stockMaster').doc(id).update({ costs, soldAmt, qtys });
 
