@@ -12,39 +12,34 @@ export default function TableView({
 }) {
   const { data, loading, direction, column } = state;
 
+  const handleDateClick = (date) => {
+    dispatch({ type: 'FILTER', payload: { date } });
+    console.log(date);
+  };
+
   // 針對不同欄位做不同顯示
   const genColumn = (row, column) => {
-    let color = 'green';
-    if (row[column.name] > 0) color = 'pink';
     switch (column.name) {
-      case 'bonus':
+      case 'amt':
+        return numberFormat(row[column.name]);
+      case 'price':
+        return numberFormat(row[column.name]);
+      case 'transDate':
         return (
-          <Label size="large" basic color={color}>
-            ${numberFormat(row[column.name])}
+          <Label onClick={() => handleDateClick(row.transDate)} size="large">
+            {row[column.name]}
           </Label>
         );
-
-      case 'costs':
-        return numberFormat(row[column.name]);
-      case 'soldAmt':
-        return numberFormat(row[column.name]);
-      case 'avgCost':
-        return numberFormat(row[column.name]);
-
-      case 'roi':
-        return (
-          <Label size="large" color={color}>
-            {row[column.name]} %
-          </Label>
-        );
-
       default:
         return row[column.name];
     }
   };
 
+  console.log(state);
+
   return (
     <>
+      <Button onClick={() => dispatch({ type: 'LOAD' })}>全部</Button>
       <Table celled unstackable sortable>
         <Table.Header>
           <Table.Row>
@@ -61,6 +56,9 @@ export default function TableView({
                   }
                 >
                   {col.label}
+                  {/* 合計 */}
+                  <br />
+                  {col.name == 'amt' && state.total.amt}
                 </Table.HeaderCell>
               );
             })}

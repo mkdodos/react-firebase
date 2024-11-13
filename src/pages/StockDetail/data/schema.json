@@ -1,6 +1,13 @@
 {
   "columns": [
     {
+      "name": "transDate",
+      "label": "交易日",
+      "type": "date",
+      "editable": "true",
+      "viewable": "true"
+    },
+    {
       "name": "stockName",
       "label": "股票名",
       "type": "text",
@@ -8,13 +15,7 @@
       "editType": "dropdown",
       "viewable": "true"
     },
-    {
-      "name": "transDate",
-      "label": "交易日",
-      "type": "date",
-      "editable": "true",
-      "viewable": "true"
-    },
+  
 
     {
       "name": "inQty",

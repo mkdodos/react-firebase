@@ -13,6 +13,7 @@ export default function index() {
     loading: true, //載入中
     rowIndex: -1, //編輯列索引
     open: false, //顯示編輯表單
+    total: {amt:0}, //各欄合計
   };
 
   const [state, dispatch] = useAsyncReducer(reducer, initState);

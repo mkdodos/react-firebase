@@ -37,8 +37,34 @@ export const reducer = async (state, action) => {
     return newData;
   };
 
+  // 計算合計
+  const calTotal = (data) => {
+    let sum = 0;
+    data.map((obj) => {
+      sum += obj.amt;
+    });
+    console.log(sum);
+    return {
+      amt: sum,
+    };
+  };
+
   // 執行相關動作
   switch (action.type) {
+
+
+    // 日期篩選
+    case 'FILTER':
+      const date = action.payload.date;
+      const filteredData = state.data.filter((obj) => obj.transDate == date);
+
+      return {
+        ...state,
+        data: filteredData,
+        total: calTotal(filteredData),
+      };
+
+
     // 排序
     case 'SORT':
       let direction = 'ascending';
@@ -69,9 +95,12 @@ export const reducer = async (state, action) => {
 
     // 載入資料
     case 'LOAD':
+      const loadedDocs = await readDocs(table);
+      const caltedData = calColumns(loadedDocs);
       return {
         ...state,
-        data: calColumns(await readDocs(table)),
+        data: caltedData,
+        total: calTotal(caltedData),
         loading: false,
       };
 
