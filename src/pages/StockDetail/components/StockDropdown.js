@@ -6,7 +6,7 @@ export default function StockDropdown({ onChange,name,value }) {
   const [options, setOptions] = useState([]);
 
   const fetchData = async () => {
-    const snapshot = await db.collection('stockBasic').get();
+    const snapshot = await db.collection('stockBasic').orderBy('stockNo').get();
     const data = snapshot.docs.map((doc) => {
       const { stockName,stockNo } = doc.data();
       return { key: stockNo, text:stockNo+' '+stockName, value: stockNo };

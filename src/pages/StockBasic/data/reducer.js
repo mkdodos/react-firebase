@@ -1,4 +1,4 @@
-import { readDocs, createDoc, updateDoc, deleteDoc } from './firestore';
+import { readDocs, createDoc, updateDoc, deleteDoc,readAndCreate } from './firestore';
 
 export const reducer = async (state, action) => {
   // 資料表名稱
@@ -22,6 +22,7 @@ export const reducer = async (state, action) => {
 
     // 新增
     case 'ADD':
+      // readAndCreate()
       return {
         ...state,
         open: true,

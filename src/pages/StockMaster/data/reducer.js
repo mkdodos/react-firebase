@@ -100,6 +100,7 @@ export const reducer = async (state, action) => {
 
     // 編輯
     case 'EDIT':
+      // console.log(state)
       return { ...state, open: true, rowIndex: index };
 
     // 更新

@@ -40,12 +40,15 @@ export const reducer = async (state, action) => {
   // 計算合計
   const calTotal = (data) => {
     let sum = 0;
+    let inQtys = 0;
     data.map((obj) => {
       sum += obj.amt;
+      inQtys+=Number(obj.inQty)
     });
-    console.log(sum);
+    // console.log(sum);
     return {
       amt: sum,
+      inQty:inQtys
     };
   };
 

@@ -58,7 +58,7 @@ export default function TableView({
                   {col.label}
                   {/* 合計 */}
                   <br />
-                  {col.name == 'amt' && state.total.amt}
+                  {state.total[col.name]}
                 </Table.HeaderCell>
               );
             })}
