@@ -35,6 +35,20 @@ export default function TableView({
     }
   };
 
+  // 合計列
+  const totalRow = (columns) => {
+    return columns.map((col, index) => {
+      return (
+        <Table.HeaderCell key={index}>
+          {col.name == 'transDate' && (
+            <Button onClick={() => dispatch({ type: 'LOAD' })}>載入全部</Button>
+          )}
+          {state.total[col.name]}
+        </Table.HeaderCell>
+      );
+    });
+  };
+
   return (
     <>
       <Table celled unstackable sortable>
@@ -54,18 +68,26 @@ export default function TableView({
                 >
                   {col.label}
                   {/* 合計 */}
-                  <br />
-                  {state.total[col.name]}
+                  {/* <br />
+                  {state.total[col.name]} */}
                 </Table.HeaderCell>
               );
             })}
+            <Table.HeaderCell>
+              {/* <Button primary onClick={handleAdd} loading={loading}>
+                新增
+              </Button> */}
+            </Table.HeaderCell>
+          </Table.Row>
+          <Table.Row>
+            {totalRow(columns)}
             <Table.HeaderCell>
               <Button primary onClick={handleAdd} loading={loading}>
                 新增
               </Button>
             </Table.HeaderCell>
           </Table.Row>
-          <Table.Row>
+          {/* <Table.Row>
             <Table.HeaderCell>
               <Button onClick={() => dispatch({ type: 'LOAD' })}>全部</Button>
             </Table.HeaderCell>
@@ -75,7 +97,7 @@ export default function TableView({
             <Table.HeaderCell></Table.HeaderCell>
             <Table.HeaderCell></Table.HeaderCell>
             <Table.HeaderCell></Table.HeaderCell>
-          </Table.Row>
+          </Table.Row> */}
         </Table.Header>
 
         <Table.Body>
