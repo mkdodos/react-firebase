@@ -1,5 +1,6 @@
 import {
   readDocs,
+  readDocsByStockName,
   updateMaster,
   createDoc,
   updateDoc,
@@ -43,19 +44,17 @@ export const reducer = async (state, action) => {
     let inQtys = 0;
     data.map((obj) => {
       sum += obj.amt;
-      inQtys+=Number(obj.inQty)
+      inQtys += Number(obj.inQty);
     });
     // console.log(sum);
     return {
       amt: sum,
-      inQty:inQtys
+      inQty: inQtys,
     };
   };
 
   // 執行相關動作
   switch (action.type) {
-
-
     // 日期篩選
     case 'FILTER':
       const date = action.payload.date;
@@ -66,7 +65,6 @@ export const reducer = async (state, action) => {
         data: filteredData,
         total: calTotal(filteredData),
       };
-
 
     // 排序
     case 'SORT':
@@ -98,7 +96,27 @@ export const reducer = async (state, action) => {
 
     // 載入資料
     case 'LOAD':
-      const loadedDocs = await readDocs(table);
+      let loadedDocs = [];
+
+      const stockName = state.search.stockName;
+      const fromDate = state.search.fromDate;
+      // const toDate = state.search.toDate;
+      const toDate = state.search.toDate ? state.search.toDate : '';
+
+      // 有傳股票名
+      if (stockName) {
+        loadedDocs = await readDocsByStockName(
+          table,
+          stockName,
+          fromDate,
+          toDate
+        );
+      }
+      // 沒傳股票名
+      else {
+        loadedDocs = await readDocs(table);
+      }
+
       const caltedData = calColumns(loadedDocs);
       return {
         ...state,

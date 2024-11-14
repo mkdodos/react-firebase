@@ -4,16 +4,20 @@ import useAsyncReducer from '../../utils/asyncReducer';
 import { reducer } from './data/reducer';
 import TableView from './components/TableView';
 import EditForm from './components/EditForm';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 export default function index() {
+  // 網址列參數  
+  let { stockName, fromDate, toDate } = useParams(); 
+
   // 預設資料物件
   const initState = {
     data: [], //資料
     loading: true, //載入中
     rowIndex: -1, //編輯列索引
     open: false, //顯示編輯表單
-    total: {amt:0,inQty:0}, //各欄合計
+    total: { amt: 0, inQty: 0 }, //各欄合計
+    search: { stockName, fromDate,toDate }, // 傳網址列參數做為篩選值
   };
 
   const [state, dispatch] = useAsyncReducer(reducer, initState);

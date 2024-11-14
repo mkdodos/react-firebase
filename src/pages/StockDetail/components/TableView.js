@@ -35,11 +35,8 @@ export default function TableView({
     }
   };
 
-  console.log(state);
-
   return (
     <>
-      <Button onClick={() => dispatch({ type: 'LOAD' })}>全部</Button>
       <Table celled unstackable sortable>
         <Table.Header>
           <Table.Row>
@@ -67,6 +64,17 @@ export default function TableView({
                 新增
               </Button>
             </Table.HeaderCell>
+          </Table.Row>
+          <Table.Row>
+            <Table.HeaderCell>
+              <Button onClick={() => dispatch({ type: 'LOAD' })}>全部</Button>
+            </Table.HeaderCell>
+            <Table.HeaderCell></Table.HeaderCell>
+            <Table.HeaderCell></Table.HeaderCell>
+            <Table.HeaderCell></Table.HeaderCell>
+            <Table.HeaderCell></Table.HeaderCell>
+            <Table.HeaderCell></Table.HeaderCell>
+            <Table.HeaderCell></Table.HeaderCell>
           </Table.Row>
         </Table.Header>
 

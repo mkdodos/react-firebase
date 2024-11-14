@@ -34,6 +34,15 @@ export default function App() {
           <Route path="/stock-basic" element={<StockBasic />} />
           <Route path="/stock-master" element={<StockMaster />} />
           <Route path="/stock-detail" element={<StockDetail />} />
+          {/* 依有無結束日設定不同路由 */}
+          <Route
+            path="/stock-detail/:stockName/fromDate/:fromDate/toDate"
+            element={<StockDetail />}
+          />
+          <Route
+            path="/stock-detail/:stockName/fromDate/:fromDate/toDate/:toDate"
+            element={<StockDetail />}
+          />
           <Route path="/demo4" element={<Demo4 />} />
           <Route path="/demo5" element={<Demo5 />} />
           <Route path="/demo-detail" element={<DemoDetail />} />
