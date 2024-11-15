@@ -27,7 +27,8 @@ export const reducer = async (state, action) => {
       if (inQty) {
         amt = Math.round(inQty * price);
       } else {
-        amt = Math.round(outQty * price);
+        // 賣出金額用負數表示
+        amt = Math.round(outQty * price * -1);
       }
 
       return {
@@ -40,15 +41,16 @@ export const reducer = async (state, action) => {
 
   // 計算合計
   const calTotal = (data) => {
-    let sum = 0;
+    let amt = 0; //小計
     let inQtys = 0;
     data.map((obj) => {
-      sum += obj.amt;
+      amt += obj.amt;
+
       inQtys += Number(obj.inQty);
     });
     // console.log(sum);
     return {
-      amt: sum,
+      amt,
       inQty: inQtys,
     };
   };

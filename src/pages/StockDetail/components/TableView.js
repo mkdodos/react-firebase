@@ -18,15 +18,24 @@ export default function TableView({
   };
 
   // 針對不同欄位做不同顯示
-  const genColumn = (row, column) => {
+  const genColumn = (row, column, prevRow) => {
     switch (column.name) {
       case 'amt':
         return numberFormat(row[column.name]);
       case 'price':
         return numberFormat(row[column.name]);
       case 'transDate':
+        // 和前一筆相同時用灰色顯示
+        const prev = prevRow?.transDate;
+        const isSame = row[column.name] == prev;
+        if (isSame) return <Label size="large">{row[column.name]}</Label>;
+
         return (
-          <Label onClick={() => handleDateClick(row.transDate)} size="large">
+          <Label
+            color="teal"
+            onClick={() => handleDateClick(row.transDate)}
+            size="large"
+          >
             {row[column.name]}
           </Label>
         );
@@ -87,30 +96,23 @@ export default function TableView({
               </Button>
             </Table.HeaderCell>
           </Table.Row>
-          {/* <Table.Row>
-            <Table.HeaderCell>
-              <Button onClick={() => dispatch({ type: 'LOAD' })}>全部</Button>
-            </Table.HeaderCell>
-            <Table.HeaderCell></Table.HeaderCell>
-            <Table.HeaderCell></Table.HeaderCell>
-            <Table.HeaderCell></Table.HeaderCell>
-            <Table.HeaderCell></Table.HeaderCell>
-            <Table.HeaderCell></Table.HeaderCell>
-            <Table.HeaderCell></Table.HeaderCell>
-          </Table.Row> */}
         </Table.Header>
 
         <Table.Body>
-          {data.map((row, index) => {
+          {data.map((row, rowIndex) => {
             return (
               <Table.Row key={row.id}>
                 {columns.map((col, index) => {
                   return (
-                    <Table.Cell key={index}>{genColumn(row, col)}</Table.Cell>
+                    <Table.Cell key={index}>
+                      {genColumn(row, col, data[rowIndex - 1])}
+                    </Table.Cell>
                   );
                 })}
                 <Table.Cell>
-                  <Button onClick={() => handleEdit(row, index)}>編輯</Button>
+                  <Button onClick={() => handleEdit(row, rowIndex)}>
+                    編輯
+                  </Button>
                 </Table.Cell>
               </Table.Row>
             );
