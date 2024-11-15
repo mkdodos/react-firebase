@@ -11,7 +11,6 @@ export const reducer = async (state, action) => {
   let data = state.data.slice();
 
   // 計算欄位
-
   const calColumns = (data) => {
     const newData = data.map((obj) => {
       const { qtys, price, costs, outQtys, soldAmt } = obj;
@@ -39,6 +38,22 @@ export const reducer = async (state, action) => {
       };
     });
     return newData;
+  };
+
+  // 計算合計
+  const calTotal = (data) => {
+    
+    let bonus = 0; //損益
+    let costs = 0; //成本
+
+    data.map((obj) => {
+      bonus += obj.bonus;
+      costs+=obj.costs;
+    });
+
+    return {
+      bonus,costs
+    };
   };
 
   // 執行相關動作
@@ -73,9 +88,11 @@ export const reducer = async (state, action) => {
 
     // 載入資料
     case 'LOAD':
+      const loadedDocs = calColumns(await readDocs(table));
       return {
         ...state,
-        data: calColumns(await readDocs(table)),
+        data: loadedDocs,
+        total: calTotal(loadedDocs),
         loading: false,
       };
 

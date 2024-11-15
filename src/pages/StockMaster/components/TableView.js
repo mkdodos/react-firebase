@@ -3,8 +3,14 @@ import { Table, Button, Label } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 import numberFormat from '../../../utils/numberFormat';
 
-export default function TableView({ state, columns, handleAdd, handleEdit,dispatch }) {
-  const { data, loading, direction, column } = state;
+export default function TableView({
+  state,
+  columns,
+  handleAdd,
+  handleEdit,
+  dispatch,
+}) {
+  const { data, loading, direction, column, total } = state;
 
   // 針對不同欄位做不同顯示
   const genColumn = (row, column) => {
@@ -40,7 +46,7 @@ export default function TableView({ state, columns, handleAdd, handleEdit,dispat
       case 'bonus':
         return (
           <Label size="large" basic color={color}>
-            ${numberFormat(row[column.name])}
+            {numberFormat(row[column.name])}
           </Label>
         );
 
@@ -63,10 +69,31 @@ export default function TableView({ state, columns, handleAdd, handleEdit,dispat
     }
   };
 
+  // 合計列
+  const totalRow = (columns) => {
+    return columns.map((col, index) => {
+      if (!total[col.name])
+        return <Table.HeaderCell key={index}></Table.HeaderCell>;
+      return (
+        <Table.HeaderCell key={index}>
+          {numberFormat(total[col.name])}
+        </Table.HeaderCell>
+      );
+    });
+  };
+
   return (
     <>
-      <Table celled unstackable sortable>
+      <Table celled unstackable sortable striped>
         <Table.Header>
+          <Table.Row>
+            {totalRow(columns)}
+            <Table.HeaderCell>
+              {/* <Button primary onClick={handleAdd} loading={loading}>
+                新增
+              </Button> */}
+            </Table.HeaderCell>
+          </Table.Row>
           <Table.Row>
             {columns.map((col, index) => {
               return (
