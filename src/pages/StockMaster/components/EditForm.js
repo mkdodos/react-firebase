@@ -63,6 +63,10 @@ export default function EditForm({ columns, state, dispatch, row, setRow }) {
     return fields;
   };
 
+  const handleDelete = (row) => {
+    if (confirm('確定刪除嗎?')) dispatch({ type: 'DELETE', payload: { row } });
+  };
+
   return (
     <>
       <Modal
@@ -86,12 +90,8 @@ export default function EditForm({ columns, state, dispatch, row, setRow }) {
           >
             儲存
           </Button>
-          <Button
-            floated="left"
-            color="red"
-            onClick={() => dispatch({ type: 'DELETE', payload: { row } })}
-          >
-            刪除
+          <Button floated="left" color="red" onClick={() => handleDelete(row)}>
+            刪除{row.rowCounts}
           </Button>
         </Modal.Actions>
       </Modal>

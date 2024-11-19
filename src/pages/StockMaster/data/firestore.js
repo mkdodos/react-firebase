@@ -5,7 +5,19 @@ const readDocs = async (table) => {
   const data = snapshot.docs.map((doc) => {
     return { ...doc.data(), id: doc.id };
   });
+
+  
+
   return data;
+};
+
+// 明細筆數
+const readDetailRowCounts = async (stockName, fromDate) => {
+  let snapshot = db.collection('stockDetail').where('stockName', '==', stockName);
+  snapshot = snapshot.where('transDate', '>=', fromDate);
+  snapshot = await snapshot.orderBy('transDate', 'desc').get();
+  // console.log(snapshot.size())
+  return snapshot.size;
 };
 
 const createDoc = async (table, row) => {
@@ -21,4 +33,4 @@ const deleteDoc = async (table, row) => {
   await db.collection(table).doc(row.id).delete();
 };
 
-export { readDocs, createDoc, updateDoc, deleteDoc };
+export { readDocs, readDetailRowCounts,createDoc, updateDoc, deleteDoc };

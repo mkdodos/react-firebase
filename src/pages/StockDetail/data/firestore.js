@@ -4,7 +4,7 @@ const readDocs = async (table) => {
   const snapshot = await db
     .collection(table)
     .orderBy('transDate', 'desc')
-    .limit(10)
+    .limit(100)
     .get();
   const data = snapshot.docs.map((doc) => {
     return { ...doc.data(), id: doc.id };
@@ -27,20 +27,7 @@ const readDocsByStockName = async (table, stockName, fromDate, toDate) => {
   return data;
 };
 
-// const readDocsByStockName = async (table, stockName,fromDate,toDate) => {
-//   const snapshot = await db
-//     .collection(table)
-//     .where('stockName', '==', stockName)
-//     .where('transDate', '>=', fromDate)
-//     // .where('transDate', '<=', toDate)
-//     .orderBy('transDate', 'desc')
-//     .limit(10)
-//     .get();
-//   const data = snapshot.docs.map((doc) => {
-//     return { ...doc.data(), id: doc.id };
-//   });
-//   return data;
-// };
+
 
 // 更新主表
 const updateMaster = async (row, op) => {

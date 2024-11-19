@@ -5,6 +5,8 @@ import { reducer } from './data/reducer';
 import TableView from './components/TableView';
 import EditForm from './components/EditForm';
 import { Link } from 'react-router-dom';
+import StockPrice from './components/StockPrice';
+import { Form } from 'semantic-ui-react';
 
 export default function index() {
   // 預設資料物件
@@ -43,13 +45,23 @@ export default function index() {
 
   const handleEdit = (row, index) => {
     dispatch({ type: 'EDIT', payload: { index } });
-    console.log(row)
+    // console.log(row)
     setRow(row);
   };
 
   return (
     <div>
-      <Link to="/stock-detail">StockDetail</Link>
+      <Form>
+        <Form.Group>
+          <Form.Field>
+            <Link to="/stock-detail">StockDetail</Link>
+          </Form.Field>
+          <Form.Field>
+            <StockPrice />
+          </Form.Field>
+        </Form.Group>
+      </Form>
+
       <EditForm
         columns={columns}
         row={row}
