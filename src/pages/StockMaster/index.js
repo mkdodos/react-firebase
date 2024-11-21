@@ -6,8 +6,9 @@ import TableView from './components/TableView';
 import EditForm from './components/EditForm';
 import { Link } from 'react-router-dom';
 import StockPrice from './components/StockPrice';
-import { Form } from 'semantic-ui-react';
-import ColumnSelect from './components/ColumnSelect';
+import { Card, Form, Tab } from 'semantic-ui-react';
+import CardView from './components/CardView';
+import TableListSmall from './components/TableListSmall';
 
 export default function index() {
   // 預設資料物件
@@ -40,7 +41,7 @@ export default function index() {
     'bonus',
   ]);
 
-  columns = columns.filter((col) => selectedColumns.includes(col.name));
+  // columns = columns.filter((col) => selectedColumns.includes(col.name));
 
   columns.map((obj) => {
     defaultRow[obj.name] = '';
@@ -63,7 +64,9 @@ export default function index() {
 
   return (
     <div>
-      <ColumnSelect setSelectedColumns={setSelectedColumns} />
+      {/* <ColumnSelect setSelectedColumns={setSelectedColumns} /> */}
+      {/* <CardView/> */}
+      <TableListSmall rows={state.data} />
       <Form>
         <Form.Group>
           <Form.Field>
