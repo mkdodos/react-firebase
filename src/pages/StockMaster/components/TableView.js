@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Table, Button, Label } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 import numberFormat from '../../../utils/numberFormat';
+import StockPrice from './StockPrice';
 
 export default function TableView({
   state,
@@ -11,6 +12,8 @@ export default function TableView({
   dispatch,
 }) {
   const { data, loading, direction, column, total } = state;
+
+  console.log(total)
 
   // 針對不同欄位做不同顯示
   const genColumn = (row, column) => {
@@ -79,6 +82,7 @@ export default function TableView({
           {numberFormat(total[col.name])}
         </Table.HeaderCell>
       );
+    
     });
   };
 
@@ -88,11 +92,14 @@ export default function TableView({
         <Table.Header>
           <Table.Row>
             {totalRow(columns)}
-            <Table.HeaderCell>
-              {/* <Button primary onClick={handleAdd} loading={loading}>
+           
+            <Table.HeaderCell><StockPrice /></Table.HeaderCell>
+
+            {/* <Table.HeaderCell>
+              <Button primary onClick={handleAdd} loading={loading}>
                 新增
-              </Button> */}
-            </Table.HeaderCell>
+              </Button>
+            </Table.HeaderCell> */}
           </Table.Row>
           <Table.Row>
             {columns.map((col, index) => {

@@ -7,6 +7,7 @@ import EditForm from './components/EditForm';
 import { Link } from 'react-router-dom';
 import StockPrice from './components/StockPrice';
 import { Form } from 'semantic-ui-react';
+import ColumnSelect from './components/ColumnSelect';
 
 export default function index() {
   // 預設資料物件
@@ -28,7 +29,18 @@ export default function index() {
   // 欄位預設值
   const defaultRow = {};
 
-  const { columns } = schema;
+  let { columns } = schema;
+
+  // 篩選欄位
+  // const selectedColumns = ['stockName','avgCost','bonus'];
+
+  const [selectedColumns, setSelectedColumns] = useState([
+    'stockName',
+    'avgCost',
+    'bonus',
+  ]);
+
+  columns = columns.filter((col) => selectedColumns.includes(col.name));
 
   columns.map((obj) => {
     defaultRow[obj.name] = '';
@@ -51,14 +63,15 @@ export default function index() {
 
   return (
     <div>
+      <ColumnSelect setSelectedColumns={setSelectedColumns} />
       <Form>
         <Form.Group>
           <Form.Field>
             <Link to="/stock-detail">StockDetail</Link>
           </Form.Field>
-          <Form.Field>
+          {/* <Form.Field>
             <StockPrice />
-          </Form.Field>
+          </Form.Field> */}
         </Form.Group>
       </Form>
 
