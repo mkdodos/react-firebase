@@ -1,7 +1,7 @@
 import React from 'react';
 import { Table, Label, Header } from 'semantic-ui-react';
 
-export default function TableListSmall({ rows, onRowClick }) {
+export default function TableListSmall({ rows }) {
   return (
     <>
       <Table unstackable>
@@ -10,19 +10,17 @@ export default function TableListSmall({ rows, onRowClick }) {
             return (
               <Table.Row
                 key={row.id}
-                onClick={() => {
-                  onRowClick(row, index);
-                }}
+               
               >
                 <Table.Cell>
                   <Header as="h4">
-                    {row.stockNo} {row.stockName}
+                    {row.stockName}
                   </Header>
-                  <span>成本:{row.costs}</span>
+                  <span>${row.costs}</span>
                   {/* <Label>{row.qtys}</Label> */}
                 </Table.Cell>
                 <Table.Cell textAlign="right">
-                  <Label size="large">{row.qtys} 股</Label>
+                  <Label size="large" color='blue' basic>{row.qtys}</Label>                  
                 </Table.Cell>
                 <Table.Cell textAlign="right">
                   <Label size="large">{row.avgCost}</Label>
