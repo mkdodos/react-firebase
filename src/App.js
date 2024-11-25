@@ -12,6 +12,7 @@ import Demo1 from './pages/Demo1';
 import StockBasic from './pages/StockBasic';
 import StockMaster from './pages/StockMaster';
 import StockDetail from './pages/StockDetail';
+// import TableListSmall from './pages/StockMaster/components/TableListSmall';
 import Demo4 from './pages/Demo4';
 import Demo5 from './pages/Demo5';
 import DemoMaster from './pages/DemoMaster';
@@ -33,6 +34,7 @@ export default function App() {
           <Route path="/demo1" element={<Demo1 />} />
           <Route path="/stock-basic" element={<StockBasic />} />
           <Route path="/stock-master" element={<StockMaster />} />
+          {/* <Route path="/stock-master-simple" element={<TableListSmall />} /> */}
           <Route path="/stock-detail" element={<StockDetail />} />
           {/* 依有無結束日設定不同路由 */}
           <Route

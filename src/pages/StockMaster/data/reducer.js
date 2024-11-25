@@ -19,7 +19,7 @@ export const reducer = async (state, action) => {
 
   // 計算欄位
   const calColumns = (data) => {
-    const newData = data.map((obj) => {
+    let newData = data.map((obj) => {
       const { qtys, price, costs, outQtys, soldAmt, stockName, fromDate } = obj;
       obj.costs = Math.round(obj.costs);
       //損益平衡價(成本-已售金額)/餘股
@@ -35,14 +35,6 @@ export const reducer = async (state, action) => {
         bonus = Math.round((price - avgCost) * qtys);
       }
 
-      // let detailRowCounts = readDetailRowCounts(stockName, fromDate);
-
-      // const a  =await getRowCounts(stockName,fromDate)
-      // console.log(a);
-      // let detailRowCounts = 123
-
-      // console.log(obj)
-
       return {
         ...obj,
         amt: Math.round(qtys * price), // 總市值
@@ -50,13 +42,16 @@ export const reducer = async (state, action) => {
         bonus,
         roi: Math.round((bonus / costs) * 10000) / 100,
         leftQtys: qtys - outQtys,
-        // rowCounts: 123,
       };
     });
+
+    // 預設損益排序
+    newData = newData.sort((a, b) => {
+      return a.bonus  < b.bonus  ? 1 : -1;
+    });
+
     return newData;
   };
-
-
 
   // 計算合計
   const calTotal = (data) => {
@@ -107,15 +102,7 @@ export const reducer = async (state, action) => {
     // 載入資料
     case 'LOAD':
       const loadedDocs = calColumns(await readDocs(table));
-      // 明細筆數
-      // const { stockName, fromDate } = loadedDocs[0];
-      // const detailRowCounts = await readDetailRowCounts(stockName,fromDate)
-      // const stockRowCounts = await readDocsByStockName(
-      //   'stockMaster',
-      //   stockName,
-      //   fromDate
-      // );
-      // console.log(detailRowCounts);
+
       return {
         ...state,
         data: loadedDocs,

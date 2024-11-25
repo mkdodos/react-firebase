@@ -41,17 +41,37 @@ export const reducer = async (state, action) => {
 
   // 計算合計
   const calTotal = (data) => {
-    let amt = 0; //小計
+    let amts = 0; //小計
     let inQtys = 0;
+    let outQtys = 0;
+    let inAmt = 0; //買入金額
+    let outAmt = 0; //賣出金額
+    let avgCost = 0 ;//買入平均單價
+    let avgSold = 0 ;//賣出平均單價
     data.map((obj) => {
-      amt += obj.amt;
+      const { amt, inQty, outQty, price } = obj;
+      amts += amt;
 
-      inQtys += Number(obj.inQty);
+      inQtys += Number(inQty);
+      outQtys += Number(outQty);
+      inAmt += inQty * price;
+      outAmt += outQty * price;
     });
     // console.log(sum);
+    if(inQtys>0){
+      avgCost = Math.round(inAmt / inQtys*100)/100
+    }
+    if(outQtys>0){
+      avgSold = Math.round(outAmt / outQtys*100)/100
+    }
     return {
-      amt,
+      amt: amts,
       inQty: inQtys,
+      outQty: outQtys,
+      inAmt,
+      outAmt,
+      avgCost,
+      avgSold 
     };
   };
 

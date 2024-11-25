@@ -10,7 +10,7 @@ export default function TableView({
   handleEdit,
   dispatch,
 }) {
-  const { data, loading, direction, column } = state;
+  const { data, loading, direction, column,total } = state;
 
   const handleDateClick = (date) => {
     dispatch({ type: 'FILTER', payload: { date } });
@@ -47,12 +47,22 @@ export default function TableView({
   // 合計列
   const totalRow = (columns) => {
     return columns.map((col, index) => {
+      if (col.name == 'inQty') {
+        return <Table.HeaderCell>
+          {total.inQty}股 @{total.avgCost}
+          </Table.HeaderCell>;
+      }
+      if (col.name == 'outQty') {
+        return <Table.HeaderCell>
+          {total.outQty}股 @{total.avgSold}
+          </Table.HeaderCell>;
+      }
       return (
         <Table.HeaderCell key={index}>
           {col.name == 'transDate' && (
             <Button onClick={() => dispatch({ type: 'LOAD' })}>載入全部</Button>
           )}
-          {state.total[col.name]}
+          {total[col.name]}
         </Table.HeaderCell>
       );
     });

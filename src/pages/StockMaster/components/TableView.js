@@ -95,11 +95,7 @@ export default function TableView({
            
             <Table.HeaderCell><StockPrice /></Table.HeaderCell>
 
-            {/* <Table.HeaderCell>
-              <Button primary onClick={handleAdd} loading={loading}>
-                新增
-              </Button>
-            </Table.HeaderCell> */}
+          
           </Table.Row>
           <Table.Row>
             {columns.map((col, index) => {
