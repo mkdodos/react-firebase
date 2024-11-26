@@ -27,6 +27,8 @@ const readDocsByStockName = async (table, stockName, fromDate, toDate) => {
   return data;
 };
 
+
+
 // 更新主表
 const updateMaster = async (row, op) => {
   const { stockName, inQty, outQty, price } = row;
@@ -41,19 +43,14 @@ const updateMaster = async (row, op) => {
   let soldAmt = Number(data.soldAmt) + outQty * price;
   let qtys = 0;
 
-  let inQtys = data.inQtys;
-  let outQtys = data.outQtys;
-
   // 判斷是新增或刪除做不同處理
 
   switch (op) {
     case 'created':
       if (inQty) {
         qtys = Number(data.qtys) + Number(inQty);
-        inQtys = Number(inQtys) + Number(inQty);
       } else {
         qtys = Number(data.qtys) - Number(outQty);
-        outQtys = Number(outQtys) + Number(outQty);
       }
       break;
     case 'deleted':
@@ -67,10 +64,7 @@ const updateMaster = async (row, op) => {
       break;
   }
 
-  await db
-    .collection('stockMaster')
-    .doc(id)
-    .update({ costs, soldAmt, qtys, inQtys, outQtys });
+  await db.collection('stockMaster').doc(id).update({ costs, soldAmt, qtys });
 
   return id;
 };

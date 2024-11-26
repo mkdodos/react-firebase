@@ -27,30 +27,40 @@ export default function TableListSmall({ rows }) {
         <Table.Body>
           {rows.map((row, index) => {
             return (
-              <Table.Row key={row.id}>
-                <Table.Cell>
-                  <Header as="h4">{detailLink(row)}</Header>
-                  <span>${row.costs}</span>
-                  {/* <Label>{row.qtys}</Label> */}
-                </Table.Cell>
-                <Table.Cell textAlign="right">
-                  <Label size="large" color="blue" basic>
-                    {row.qtys}
-                  </Label>
-                </Table.Cell>
-                <Table.Cell textAlign="right">
-                  <Label size="large">{row.avgCost}</Label>
-                </Table.Cell>
-                <Table.Cell>
-                  <Label
-                    size="large"
-                    color={row.bonus < 0 ? 'green' : 'pink'}
-                    basic
-                  >
-                    ${row.bonus}
-                  </Label>
-                </Table.Cell>
-              </Table.Row>
+              <>
+                <Table.Row key={row.id}>
+                  <Table.Cell>
+                    <Header as="h4">{detailLink(row)}</Header>
+                    <span>${row.costs}</span>
+                    {/* <Label>{row.qtys}</Label> */}
+                  </Table.Cell>
+                  <Table.Cell textAlign="right">
+                    <Label size="large" color="blue" basic>
+                      {row.qtys}
+                    </Label>
+                  </Table.Cell>
+                  <Table.Cell textAlign="right">
+                    <Label size="large">{row.avgCost}</Label>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Label
+                      size="large"
+                      color={row.bonus < 0 ? 'green' : 'pink'}
+                      basic
+                    >
+                      ${row.bonus}
+                    </Label>
+                  </Table.Cell>
+                </Table.Row>
+                <Table.Row>
+                  <Table.Cell>買入股數{row.inQtys}</Table.Cell>
+                  <Table.Cell>賣出股數{row.outQtys}</Table.Cell>
+                </Table.Row>
+                <Table.Row>
+                  <Table.Cell>買入金額{row.costs}</Table.Cell>
+                  <Table.Cell>賣出金額{row.soldAmt}</Table.Cell>
+                </Table.Row>
+              </>
             );
           })}
         </Table.Body>

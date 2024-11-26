@@ -20,8 +20,7 @@ export const reducer = async (state, action) => {
   // 計算欄位
   const calColumns = (data) => {
     let newData = data.map((obj) => {
-      const { qtys, price, costs, soldAmt, inQtys, outQtys } = obj;
-      // qtys 餘股
+      const { qtys, price, costs, outQtys, soldAmt, stockName, fromDate } = obj;
       obj.costs = Math.round(obj.costs);
       //損益平衡價(成本-已售金額)/餘股
       // let avgCost = 0;
@@ -30,39 +29,27 @@ export const reducer = async (state, action) => {
       // }
       // 依是否全部售完做不同損益計算
 
-      // 購入股數
-      // 已售股數
-      // let inQtys = 0;
-
       // 平均買價
       // 平均賣價
       let avgCost = 0;
       let avgSold = 0;
-
-      avgCost = Math.round((costs / inQtys) * 100) / 100;
-      avgSold = Math.round((soldAmt / outQtys) * 100) / 100;
 
       let bonus = 0;
       // 沒有餘股時,損益 = 已售金額 - 成本
       if (qtys == 0) {
         bonus = soldAmt - costs;
       } else {
-        //  (餘股 * 現價 + 已售金額 -  購入成本
-        bonus = Math.round(qtys * price + soldAmt - costs);
-        // bonus = Math.round((price - avgCost) * qtys);
+        bonus = Math.round((price - avgCost) * qtys);
       }
 
       return {
         ...obj,
-        // inQtys:300,
-        // outQtys:200,
         amt: Math.round(qtys * price), // 總市值
         avgCost, // 平均買價
         avgSold, // 平均賣價
         bonus,
         roi: Math.round((bonus / costs) * 10000) / 100,
-        // leftQtys: qtys - outQtys,
-        // leftQtys: 100,
+        leftQtys: qtys - outQtys,
       };
     });
 

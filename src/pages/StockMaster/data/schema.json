@@ -32,16 +32,38 @@
     },
 
     {
+      "name": "inQtys",
+      "label": "購入股數",
+      "type": "number",
+      "editable": "true",
+      "viewable": "true"
+    },
+    {
+      "name": "outQtys",
+      "label": "售出股數",
+      "type": "number",
+      "editable": "true",
+      "viewable": "true"
+    },
+    {
       "name": "qtys",
       "label": "餘股",
       "type": "number",
       "editable": "true",
       "viewable": "true"
+    },    
+    
+    {
+      "name": "avgCost",
+      "label": "購入均價",
+      "type": "number",
+      "viewable":"true"
+      
     },
 
     {
-      "name": "avgCost",
-      "label": "損益平衡價",
+      "name": "avgSold",
+      "label": "售出均價",
       "type": "number",
       "viewable":"true"
       
