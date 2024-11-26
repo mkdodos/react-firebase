@@ -47,9 +47,9 @@ export const reducer = async (state, action) => {
       if (qtys == 0) {
         bonus = soldAmt - costs;
       } else {
-        //  (餘股 * 現價 + 已售金額 -  購入成本
-        bonus = Math.round(qtys * price + soldAmt - costs);
-        // bonus = Math.round((price - avgCost) * qtys);
+        //  餘股 * 現價 + 已售金額 -  購入成本
+        bonus = Math.round(qtys * price + Number(soldAmt) - costs);
+       
       }
 
       return {

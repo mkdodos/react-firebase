@@ -52,14 +52,14 @@ export default function TableListSmall({ rows }) {
                     </Label>
                   </Table.Cell>
                 </Table.Row>
-                <Table.Row>
+                {/* <Table.Row>
                   <Table.Cell>買入股數{row.inQtys}</Table.Cell>
                   <Table.Cell>賣出股數{row.outQtys}</Table.Cell>
                 </Table.Row>
                 <Table.Row>
                   <Table.Cell>買入金額{row.costs}</Table.Cell>
                   <Table.Cell>賣出金額{row.soldAmt}</Table.Cell>
-                </Table.Row>
+                </Table.Row> */}
               </>
             );
           })}

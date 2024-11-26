@@ -13,7 +13,7 @@ export default function TableView({
 }) {
   const { data, loading, direction, column, total } = state;
 
-  console.log(total)
+  console.log(data)
 
   // 針對不同欄位做不同顯示
   const genColumn = (row, column) => {

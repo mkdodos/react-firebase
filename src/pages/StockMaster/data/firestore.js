@@ -6,7 +6,8 @@ const readDocs = async (table) => {
     return { ...doc.data(), id: doc.id };
   });
 
-  data = data.filter(obj=>obj.stockName=='測試')
+  // data = data.filter(obj=>obj.stockName=='長榮')
+  // data = data.filter(obj=>obj.stockName=='測試' || obj.stockName=='台積電' )
   console.log(data)
 
   return data;

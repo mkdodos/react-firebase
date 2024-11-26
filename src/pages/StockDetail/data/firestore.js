@@ -60,9 +60,11 @@ const updateMaster = async (row, op) => {
       if (inQty) {
         qtys = Number(data.qtys) - Number(inQty);
         costs = Number(data.costs) - inQty * price;
+        inQtys = Number(inQtys) - Number(inQty);
       } else {
         qtys = Number(data.qtys) + Number(outQty);
         soldAmt = Number(data.soldAmt) - outQty * price;
+        outQtys = Number(outQtys) - Number(outQty);
       }
       break;
   }
