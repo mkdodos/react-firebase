@@ -110,6 +110,9 @@ export default function TableView({
     });
   };
 
+  let headerColor = 'green'
+
+
   return (
     <>
       
@@ -129,10 +132,8 @@ export default function TableView({
                     })
                   }
                 >
-                  {col.label}
-                  {/* 合計 */}
-                  {/* <br />
-                  {state.total[col.name]} */}
+                 <span style={{color: col.color}}>{col.label}</span> 
+                
                 </Table.HeaderCell>
               );
             })}

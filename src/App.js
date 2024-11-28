@@ -25,7 +25,7 @@ export default function App() {
         <Navbar />
         <Routes>
           {/* <Route path="/react-firebase/build" element={<Money />} /> */}
-          <Route path="/" element={<Stock />} />
+          <Route path="/" element={<StockMaster />} />
           <Route path="/login" element={<Login />} />
           <Route path="/stock" element={<Stock />} />
           <Route path="/maya" element={<Maya />} />

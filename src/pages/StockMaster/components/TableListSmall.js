@@ -34,32 +34,55 @@ export default function TableListSmall({ rows }) {
                     <span>${row.costs}</span>
                     {/* <Label>{row.qtys}</Label> */}
                   </Table.Cell>
-                  <Table.Cell textAlign="right">
-                    <Label size="large" color="blue" basic>
+                  <Table.Cell >
+                    <Label size="large" circular color="blue">
                       {row.qtys}
                     </Label>
                   </Table.Cell>
-                  <Table.Cell textAlign="right">
-                    <Label size="large">{row.avgCost}</Label>
+                  {/* <Table.Cell>
+                    <Label size="large" color="pink" basic>
+                      {row.avgCost}
+                    </Label>
                   </Table.Cell>
+                  <Table.Cell textAlign="right">
+                    <Label size="large" basic color="teal">
+                      {row.avgSold}
+                    </Label>
+                  </Table.Cell>
+                  <Table.Cell textAlign="right">
+                    <Label size="large" basic>
+                      {row.price}
+                    </Label>
+                  </Table.Cell> */}
                   <Table.Cell>
                     <Label
                       size="large"
                       color={row.bonus < 0 ? 'green' : 'pink'}
-                      basic
+                      
                     >
                       ${row.bonus}
                     </Label>
                   </Table.Cell>
                 </Table.Row>
-                {/* <Table.Row>
-                  <Table.Cell>買入股數{row.inQtys}</Table.Cell>
-                  <Table.Cell>賣出股數{row.outQtys}</Table.Cell>
-                </Table.Row>
                 <Table.Row>
-                  <Table.Cell>買入金額{row.costs}</Table.Cell>
-                  <Table.Cell>賣出金額{row.soldAmt}</Table.Cell>
-                </Table.Row> */}
+                  {/* <Table.Cell></Table.Cell>
+                  <Table.Cell></Table.Cell> */}
+                  <Table.Cell textAlign='left'>
+                    <Label size="large" color="pink" basic>
+                      {row.avgCost}
+                    </Label>
+                  </Table.Cell>
+                  <Table.Cell >
+                    <Label size="large" basic color="teal">
+                      {row.avgSold}
+                    </Label>
+                  </Table.Cell>
+                  <Table.Cell >
+                    <Label size="large" basic>
+                      {row.price}
+                    </Label>
+                  </Table.Cell>
+                </Table.Row>
               </>
             );
           })}

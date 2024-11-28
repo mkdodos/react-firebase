@@ -66,7 +66,7 @@ export default function index() {
     <div>
       {/* <ColumnSelect setSelectedColumns={setSelectedColumns} /> */}
       {/* <CardView/> */}
-      <TableListSmall rows={state.data} />
+      
       <Form>
         <Form.Group>
           <Form.Field>
@@ -77,7 +77,7 @@ export default function index() {
           </Form.Field> */}
         </Form.Group>
       </Form>
-
+      <TableListSmall rows={state.data} />
       <EditForm
         columns={columns}
         row={row}
