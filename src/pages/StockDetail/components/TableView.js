@@ -10,7 +10,28 @@ export default function TableView({
   handleEdit,
   dispatch,
 }) {
-  const { data, loading, direction, column,total } = state;
+  let { data, loading, direction, column, total } = state;
+
+  // const columnSwitch = 'inQty';
+  // const columnSwitch = 'outQty';
+  const [columnSwitch, setColumnSwitch] = useState('');
+
+  const switchClick = () => {
+    if (columnSwitch == 'inQty') setColumnSwitch('outQty');
+    else setColumnSwitch('inQty');
+  };
+
+  // 買入
+  if (columnSwitch == 'inQty') {
+    data = data.filter((row) => row.inQty != '');
+    columns = columns.filter((col) => col.name != 'outQty');
+  }
+
+  // 賣出
+  if (columnSwitch == 'outQty') {
+    data = data.filter((row) => row.outQty != '');
+    columns = columns.filter((col) => col.name != 'inQty');
+  }
 
   const handleDateClick = (date) => {
     dispatch({ type: 'FILTER', payload: { date } });
@@ -47,29 +68,52 @@ export default function TableView({
   // 合計列
   const totalRow = (columns) => {
     return columns.map((col, index) => {
+      if (col.name == 'transDate') {
+        return (
+          <Table.HeaderCell>
+            {/* <Button onClick={() => dispatch({ type: 'LOAD' })}>載入全部</Button> */}
+            <Button
+              onClick={() => {
+                dispatch({ type: 'LOAD' });
+                setColumnSwitch('');
+              }}
+            >
+              載入全部
+            </Button>
+          </Table.HeaderCell>
+        );
+      }
+
       if (col.name == 'inQty') {
-        return <Table.HeaderCell>
-          {total.inQty}股 @{total.avgCost}
-          </Table.HeaderCell>;
+        return <Table.HeaderCell>{total.inQty}股</Table.HeaderCell>;
       }
       if (col.name == 'outQty') {
-        return <Table.HeaderCell>
-          {total.outQty}股 @{total.avgSold}
-          </Table.HeaderCell>;
+        return <Table.HeaderCell>{total.outQty}股</Table.HeaderCell>;
       }
-      return (
-        <Table.HeaderCell key={index}>
-          {col.name == 'transDate' && (
-            <Button onClick={() => dispatch({ type: 'LOAD' })}>載入全部</Button>
-          )}
-          {total[col.name]}
-        </Table.HeaderCell>
-      );
+      if (col.name == 'price') {
+        return (
+          <Table.HeaderCell>
+            {columnSwitch == 'inQty' && total.avgCost}
+            {columnSwitch == 'outQty' && total.avgSold}
+            {columnSwitch == '' && '買'+ total.avgCost + '賣' + total.avgSold}
+          </Table.HeaderCell>
+        );
+      }
+
+      if (col.name == 'amt') {
+        if (columnSwitch == '')
+          return <Table.HeaderCell>{total.amt}</Table.HeaderCell>;
+        return <Table.HeaderCell></Table.HeaderCell>;
+      }
+      // 補空白欄
+      return <Table.HeaderCell key={index}>{total[col.name]}</Table.HeaderCell>;
     });
   };
 
   return (
     <>
+      
+      <Button onClick={switchClick}>切換買賣</Button>
       <Table celled unstackable sortable>
         <Table.Header>
           <Table.Row>
