@@ -1,8 +1,8 @@
 import React from 'react';
-import { Table, Label, Header } from 'semantic-ui-react';
+import { Table, Label, Header, Button } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 
-export default function TableListSmall({ rows }) {
+export default function TableListSmall({ rows, handleEdit }) {
   // 明細連結
   const detailLink = (row) => {
     return (
@@ -28,59 +28,60 @@ export default function TableListSmall({ rows }) {
           {rows.map((row, index) => {
             return (
               <>
+                {/* 第一行 */}
                 <Table.Row key={row.id}>
                   <Table.Cell>
                     <Header as="h4">{detailLink(row)}</Header>
-                    <span>${row.costs}</span>
-                    {/* <Label>{row.qtys}</Label> */}
                   </Table.Cell>
-                  <Table.Cell >
+                  <Table.Cell>
+                    {/* 餘股 */}
                     <Label size="large" circular color="blue">
                       {row.qtys}
                     </Label>
                   </Table.Cell>
-                  {/* <Table.Cell>
-                    <Label size="large" color="pink" basic>
-                      {row.avgCost}
-                    </Label>
-                  </Table.Cell>
-                  <Table.Cell textAlign="right">
-                    <Label size="large" basic color="teal">
-                      {row.avgSold}
-                    </Label>
-                  </Table.Cell>
-                  <Table.Cell textAlign="right">
-                    <Label size="large" basic>
-                      {row.price}
-                    </Label>
-                  </Table.Cell> */}
                   <Table.Cell>
+                    {/* 損益 */}
                     <Label
                       size="large"
                       color={row.bonus < 0 ? 'green' : 'pink'}
-                      
                     >
                       ${row.bonus}
                     </Label>
                   </Table.Cell>
                 </Table.Row>
-                <Table.Row>
-                  {/* <Table.Cell></Table.Cell>
-                  <Table.Cell></Table.Cell> */}
-                  <Table.Cell textAlign='left'>
-                    <Label size="large" color="pink" basic>
-                      {row.avgCost}
-                    </Label>
-                  </Table.Cell>
-                  <Table.Cell >
-                    <Label size="large" basic color="teal">
-                      {row.avgSold}
-                    </Label>
-                  </Table.Cell>
-                  <Table.Cell >
-                    <Label size="large" basic>
+                {/* 第二行 */}
+                <Table.Row key={row.id}>
+                  <Table.Cell>現值</Table.Cell>
+
+                  <Table.Cell>
+                    {/* 現價 */}
+                    <Label
+                    color="teal"
+                      size="large"
+                      basic
+                      onClick={() => handleEdit(row, index)}
+                    >
                       {row.price}
                     </Label>
+                  </Table.Cell>
+
+                  <Table.Cell>
+                    {/* 市值 */}${row.amt}
+                  </Table.Cell>
+                </Table.Row>
+                {/* 第三行 */}
+                <Table.Row>
+                  <Table.Cell>成本</Table.Cell>
+
+                  <Table.Cell>
+                    <Label size="large" basic >
+                      {row.balancePrice}
+                    </Label>
+                  </Table.Cell>
+
+                  <Table.Cell>
+                    {/* 未攤成本 */}
+                    <span>${row.leftCosts}</span>
                   </Table.Cell>
                 </Table.Row>
               </>

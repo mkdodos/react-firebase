@@ -6,7 +6,7 @@ import TableView from './components/TableView';
 import EditForm from './components/EditForm';
 import { Link } from 'react-router-dom';
 import StockPrice from './components/StockPrice';
-import { Card, Form, Tab } from 'semantic-ui-react';
+import { Card, Form, Label } from 'semantic-ui-react';
 import CardView from './components/CardView';
 import TableListSmall from './components/TableListSmall';
 
@@ -64,20 +64,21 @@ export default function index() {
 
   return (
     <div>
-      {/* <ColumnSelect setSelectedColumns={setSelectedColumns} /> */}
-      {/* <CardView/> */}
-      
       <Form>
         <Form.Group>
           <Form.Field>
-            <Link to="/stock-detail">StockDetail</Link>
+            <Link to="/stock-detail">交易明細</Link>
           </Form.Field>
-          {/* <Form.Field>
-            <StockPrice />
-          </Form.Field> */}
+          <Form.Field>
+            <Label color="blue" circular>
+              股數
+            </Label>
+            <Label color="teal" basic>現價</Label>
+            <Label basic>平衡價</Label>
+          </Form.Field>
         </Form.Group>
       </Form>
-      <TableListSmall rows={state.data} />
+      <TableListSmall rows={state.data} handleEdit={handleEdit} />
       <EditForm
         columns={columns}
         row={row}
