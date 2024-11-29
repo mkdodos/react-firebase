@@ -73,8 +73,8 @@ export default function index() {
             <Label color="blue" circular>
               股數
             </Label>
-            <Label color="teal" basic>現價</Label>
-            <Label basic>平衡價</Label>
+            <Label color="green" basic>現價</Label>
+            <Label basic color='blue'>平衡價</Label>
           </Form.Field>
         </Form.Group>
       </Form>
