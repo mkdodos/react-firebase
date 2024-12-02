@@ -59,7 +59,13 @@ export const reducer = async (state, action) => {
     });
 
     // 預設用損益排序
-    newData = newData.sort((a, b) => {
+    // newData = newData.sort((a, b) => {
+    //   return a.bonus < b.bonus ? 1 : -1;
+    // });
+
+    // console.log(newData)
+
+    newData.sort((a, b) => {
       return a.bonus < b.bonus ? 1 : -1;
     });
 

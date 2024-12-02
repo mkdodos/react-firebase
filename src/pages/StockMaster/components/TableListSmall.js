@@ -2,8 +2,10 @@ import React from 'react';
 import { Table, Label, Header, Button } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 import numberFormat from '../../../utils/numberFormat';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function TableListSmall({ rows, handleEdit }) {
+  // console.log(uuidv4())
   // 明細連結
   const detailLink = (row) => {
     return (
@@ -30,17 +32,17 @@ export default function TableListSmall({ rows, handleEdit }) {
             return (
               <>
                 {/* 第一行 */}
-                <Table.Row key={row.id}>
+                <Table.Row key={uuidv4()}>
                   <Table.Cell>
                     <Header as="h4">{detailLink(row)}</Header>
                   </Table.Cell>
-                  <Table.Cell>
+                  <Table.Cell textAlign='right'>
                     {/* 餘股 */}
                     <Label size="large" circular color="blue">
                       {row.qtys}
                     </Label>
                   </Table.Cell>
-                  <Table.Cell>
+                  <Table.Cell textAlign='right'>
                     {/* 損益 */}
                     <Label
                       size="large"
@@ -51,10 +53,10 @@ export default function TableListSmall({ rows, handleEdit }) {
                   </Table.Cell>
                 </Table.Row>
                 {/* 第二行 */}
-                <Table.Row key={row.id}>
+                <Table.Row key={uuidv4()}>
                   <Table.Cell>現值</Table.Cell>
 
-                  <Table.Cell>
+                  <Table.Cell textAlign='right'>
                     {/* 市值 */}
                     {/* #21ba45 green*/}
                     {/* #21c0b3 teal*/}
@@ -72,14 +74,11 @@ export default function TableListSmall({ rows, handleEdit }) {
                         ${numberFormat(row.amt)}
                       </span>
                     )}
-
-                    {/* ${row.amt} */}
+                    
                   </Table.Cell>
-                  <Table.Cell>
+                  <Table.Cell textAlign='right'>
                     {/* 現價 */}
-
-                    <Label
-                      // color="green"
+                    <Label                     
                       color={row.price < row.balancePrice ? 'green' : 'pink'}
                       size="large"
                       basic
@@ -90,16 +89,16 @@ export default function TableListSmall({ rows, handleEdit }) {
                   </Table.Cell>
                 </Table.Row>
                 {/* 第三行 */}
-                <Table.Row>
+                <Table.Row key={uuidv4()}>
                   <Table.Cell>成本</Table.Cell>
-                  <Table.Cell>
+                  <Table.Cell textAlign='right'>
                     {/* 未攤成本 */}
                     <span style={{ color: '#2194dd' }}>
                       ${numberFormat(row.leftCosts)}
                     </span>
                   </Table.Cell>
 
-                  <Table.Cell>
+                  <Table.Cell textAlign='right'>
                     {/* 損益平衡價 */}
                     <Label size="large" basic color="blue">
                       {row.balancePrice}

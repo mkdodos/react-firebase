@@ -65,6 +65,32 @@ export default function TableView({
     }
   };
 
+  const priceHeader = () => {
+    if (columnSwitch == 'inQty') {
+      return total.avgCost;
+    }
+    if (columnSwitch == 'outQty') {
+      return total.avgSold;
+    }
+
+    return (
+      <>
+        <span style={{color:'#e03997'}}>{total.avgCost}</span>
+        <br />
+        <span style={{color:'#21c0b3'}}>{total.avgSold}</span>
+      </>
+    );
+
+    {
+      /* {columnSwitch == 'inQty' && total.avgCost}
+            {columnSwitch == 'outQty' && total.avgSold}
+            {columnSwitch == '' && '買' + total.avgCost + '賣' + total.avgSold}
+            {columnSwitch == '' && total.avgCost + '/' + total.avgSold} */
+    }
+
+    return 'abc';
+  };
+
   // 合計列
   const totalRow = (columns) => {
     return columns.map((col, index) => {
@@ -85,17 +111,31 @@ export default function TableView({
       }
 
       if (col.name == 'inQty') {
-        return <Table.HeaderCell>{total.inQty}股</Table.HeaderCell>;
+        return (
+          <Table.HeaderCell>
+            {total.inQty}
+            {/* <br />
+            {total.avgCost} */}
+          </Table.HeaderCell>
+        );
       }
       if (col.name == 'outQty') {
-        return <Table.HeaderCell>{total.outQty}股</Table.HeaderCell>;
+        return (
+          <Table.HeaderCell>
+            {total.outQty}
+            {/* <br />
+            {total.avgSold} */}
+          </Table.HeaderCell>
+        );
       }
       if (col.name == 'price') {
         return (
           <Table.HeaderCell>
-            {columnSwitch == 'inQty' && total.avgCost}
+            {priceHeader()}
+            {/* {columnSwitch == 'inQty' && total.avgCost}
             {columnSwitch == 'outQty' && total.avgSold}
-            {columnSwitch == '' && '買'+ total.avgCost + '賣' + total.avgSold}
+            {columnSwitch == '' && '買' + total.avgCost + '賣' + total.avgSold}
+            {columnSwitch == '' && total.avgCost + '/' + total.avgSold} */}
           </Table.HeaderCell>
         );
       }
@@ -110,12 +150,10 @@ export default function TableView({
     });
   };
 
-  let headerColor = 'green'
-
+  let headerColor = 'green';
 
   return (
     <>
-      
       <Button onClick={switchClick}>切換買賣</Button>
       <Table celled unstackable sortable>
         <Table.Header>
@@ -132,8 +170,7 @@ export default function TableView({
                     })
                   }
                 >
-                 <span style={{color: col.color}}>{col.label}</span> 
-                
+                  <span style={{ color: col.color }}>{col.label}</span>
                 </Table.HeaderCell>
               );
             })}

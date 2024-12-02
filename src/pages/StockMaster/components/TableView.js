@@ -13,7 +13,7 @@ export default function TableView({
 }) {
   const { data, loading, direction, column, total } = state;
 
-  console.log(data)
+  console.log(data);
 
   // 針對不同欄位做不同顯示
   const genColumn = (row, column) => {
@@ -75,6 +75,7 @@ export default function TableView({
   // 合計列
   const totalRow = (columns) => {
     return columns.map((col, index) => {
+      if (!col.viewable) return;
       if (!total[col.name])
         return <Table.HeaderCell key={index}></Table.HeaderCell>;
       return (
@@ -82,7 +83,6 @@ export default function TableView({
           {numberFormat(total[col.name])}
         </Table.HeaderCell>
       );
-    
     });
   };
 
@@ -92,13 +92,14 @@ export default function TableView({
         <Table.Header>
           <Table.Row>
             {totalRow(columns)}
-           
-            <Table.HeaderCell><StockPrice /></Table.HeaderCell>
 
-          
+            <Table.HeaderCell>
+              <StockPrice />
+            </Table.HeaderCell>
           </Table.Row>
           <Table.Row>
             {columns.map((col, index) => {
+              if (!col.viewable) return;
               return (
                 <Table.HeaderCell
                   sorted={column == col.name ? direction : null}
@@ -127,6 +128,7 @@ export default function TableView({
             return (
               <Table.Row key={row.id}>
                 {columns.map((col, index) => {
+                  if (!col.viewable) return;
                   return (
                     <Table.Cell key={index}>{genColumn(row, col)}</Table.Cell>
                   );
