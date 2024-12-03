@@ -38,7 +38,7 @@ const updateMaster = async (row, op) => {
   const id = snapshot.docs[0].id;
   const data = snapshot.docs[0].data();
   let costs = Number(data.costs) + inQty * price;
-  let soldAmt = Number(data.soldAmt) + outQty * price;
+  let soldAmt = Number(data.soldAmt) + Math.round(outQty * price);
   let qtys = 0;
 
   let inQtys = data.inQtys;

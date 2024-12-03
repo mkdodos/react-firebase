@@ -49,6 +49,8 @@ export const reducer = async (state, action) => {
       return {
         ...obj,
         leftCosts: costs - soldAmt, //未攤成本
+        // leftCosts: soldAmt , //未攤成本
+        // leftCosts: costs , //未攤成本
         balancePrice, //損益平衡價
         amt: Math.round(qtys * price), // 總市值
         avgCost, // 平均買價

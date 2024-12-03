@@ -1,0 +1,32 @@
+{
+  "columns": [
+    {
+      "name": "date",
+      "label": "日期",
+      "type": "date",
+      "viewable": "true",
+      "editable": "true"
+    },
+    {
+      "name": "title",
+      "label": "項目",
+      "type": "text",
+      "viewable": "true",
+      "editable": "true"
+    },
+    {
+      "name": "income",
+      "label": "收入",
+      "type": "text",
+      "viewable": "true",
+      "editable": "true"
+    },
+    {
+      "name": "expense",
+      "label": "支出",
+      "type": "text",
+      "viewable": "true",
+      "editable": "true"
+    }
+  ]
+}

@@ -37,6 +37,18 @@ export default function Navbar() {
 
         <Dropdown text="Demo" item>
           <Dropdown.Menu>
+            <Dropdown.Item as={Link} to="/stock-money">
+              StockMoney
+            </Dropdown.Item>
+            <Dropdown.Item as={Link} to="/stock-basic">
+              StockBasic
+            </Dropdown.Item>
+            <Dropdown.Item as={Link} to="/stock-master">
+              StockMaster
+            </Dropdown.Item>
+            <Dropdown.Item as={Link} to="/stock-detail">
+              StockDetail
+            </Dropdown.Item>
             <Dropdown.Item as={Link} to="/demo-master">
               DemoMaster
             </Dropdown.Item>
@@ -50,15 +62,7 @@ export default function Navbar() {
             <Dropdown.Item as={Link} to="/demo1">
               Demo1
             </Dropdown.Item>
-            <Dropdown.Item as={Link} to="/stock-basic">
-              StockBasic
-            </Dropdown.Item>
-            <Dropdown.Item as={Link} to="/stock-master">
-              StockMaster
-            </Dropdown.Item>
-            <Dropdown.Item as={Link} to="/stock-detail">
-              StockDetail
-            </Dropdown.Item>
+
             <Dropdown.Item as={Link} to="/demo4">
               Demo4
             </Dropdown.Item>

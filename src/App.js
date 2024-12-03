@@ -12,6 +12,8 @@ import Demo1 from './pages/Demo1';
 import StockBasic from './pages/StockBasic';
 import StockMaster from './pages/StockMaster';
 import StockDetail from './pages/StockDetail';
+import StockMoney from './pages/StockMoney';
+
 // import TableListSmall from './pages/StockMaster/components/TableListSmall';
 import Demo4 from './pages/Demo4';
 import Demo5 from './pages/Demo5';
@@ -32,6 +34,7 @@ export default function App() {
           <Route path="/money" element={<Money />} />
           <Route path="/demo" element={<Demo />} />
           <Route path="/demo1" element={<Demo1 />} />
+          <Route path="/stock-money" element={<StockMoney />} />
           <Route path="/stock-basic" element={<StockBasic />} />
           <Route path="/stock-master" element={<StockMaster />} />
           {/* <Route path="/stock-master-simple" element={<TableListSmall />} /> */}
