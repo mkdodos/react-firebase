@@ -1,15 +1,15 @@
 import {
   readDocs,
-  readDocsByStockName,
-  updateMaster,
   createDoc,
   updateDoc,
   deleteDoc,
+  readDetailRowCounts,
 } from './firestore';
+import { readDocsByStockName } from '../../StockDetail/data/firestore';
 
 export const reducer = async (state, action) => {
   // 資料表名稱
-  const table = 'stockDetail';
+  const table = 'stockMaster';
 
   // 編輯列
   const row = action.payload?.row;
@@ -19,75 +19,80 @@ export const reducer = async (state, action) => {
 
   // 計算欄位
   const calColumns = (data) => {
-    const newData = data.map((obj) => {
-      const { inQty, outQty, price } = obj;
+    let newData = data.map((obj) => {
+      const { qtys, price, costs, soldAmt, inQtys, outQtys } = obj;
 
-      let amt = 0;
-
-      if (inQty) {
-        amt = Math.round(inQty * price);
-      } else {
-        // 賣出金額用負數表示
-        amt = Math.round(outQty * price * -1);
+      obj.costs = Math.round(obj.costs);
+      // 損益平衡價(成本-已售金額)/餘股
+      let balancePrice = 0;
+      if (qtys > 0) {
+        balancePrice = Math.round(((costs - soldAmt) / qtys) * 100) / 100;
       }
 
+      // 平均買賣價
+      let avgCost = 0;
+      let avgSold = 0;
+
+      avgCost = Math.round((costs / inQtys) * 100) / 100;
+      avgSold = Math.round((soldAmt / outQtys) * 100) / 100;
+
+      let bonus = 0;
+      // 依是否全部售完做不同損益計算
+      // 沒有餘股時,損益 = 已售金額 - 成本
+      if (qtys == 0) {
+        bonus = soldAmt - costs;
+      } else {
+        //  餘股 * 現價 + 已售金額 -  購入成本
+        bonus = Math.round(qtys * price + Number(soldAmt) - costs);
+      }
+
+      // 售出時成本攤提
+      // 原成本 - (平均買價 * 售出股數)
       return {
-        ...obj,
-        amt, // 小計
+        ...obj,        
+        // leftCosts: costs - soldAmt, //未攤成本 
+           
+        balancePrice, //損益平衡價
+        amt: Math.round(qtys * price), // 總市值
+        avgCost, // 平均買價
+        avgSold, // 平均賣價
+        bonus,
+        roi: Math.round((bonus / costs) * 10000) / 100,
       };
     });
+
+    // 預設用損益排序
+    // newData = newData.sort((a, b) => {
+    //   return a.bonus < b.bonus ? 1 : -1;
+    // });
+
+    // console.log(newData)
+
+    newData.sort((a, b) => {
+      return a.bonus < b.bonus ? 1 : -1;
+    });
+
     return newData;
   };
 
   // 計算合計
   const calTotal = (data) => {
-    let amts = 0; //小計
-    let inQtys = 0;
-    let outQtys = 0;
-    let inAmt = 0; //買入金額
-    let outAmt = 0; //賣出金額
-    let avgCost = 0 ;//買入平均單價
-    let avgSold = 0 ;//賣出平均單價
-    data.map((obj) => {
-      const { amt, inQty, outQty, price } = obj;
-      amts += amt;
+    let bonus = 0; //損益
+    let costs = 0; //成本
 
-      inQtys += Number(inQty);
-      outQtys += Number(outQty);
-      inAmt += inQty * price;
-      outAmt += outQty * price;
+    data.map((obj) => {
+      bonus += obj.bonus;
+      costs += obj.costs;
     });
-    // console.log(sum);
-    if(inQtys>0){
-      avgCost = Math.round(inAmt / inQtys*100)/100
-    }
-    if(outQtys>0){
-      avgSold = Math.round(outAmt / outQtys*100)/100
-    }
+
     return {
-      amt: amts,
-      inQty: inQtys,
-      outQty: outQtys,
-      inAmt,
-      outAmt,
-      avgCost,
-      avgSold 
+      bonus,
+      costs,
     };
   };
 
   // 執行相關動作
   switch (action.type) {
-    // 日期篩選
-    case 'FILTER':
-      const date = action.payload.date;
-      const filteredData = state.data.filter((obj) => obj.transDate == date);
-
-      return {
-        ...state,
-        data: filteredData,
-        total: calTotal(filteredData),
-      };
-
     // 排序
     case 'SORT':
       let direction = 'ascending';
@@ -118,32 +123,12 @@ export const reducer = async (state, action) => {
 
     // 載入資料
     case 'LOAD':
-      let loadedDocs = [];
+      const loadedDocs = calColumns(await readDocs(table));
 
-      const stockName = state.search.stockName;
-      const fromDate = state.search.fromDate;
-      // const toDate = state.search.toDate;
-      const toDate = state.search.toDate ? state.search.toDate : '';
-
-      // 有傳股票名
-      if (stockName) {
-        loadedDocs = await readDocsByStockName(
-          table,
-          stockName,
-          fromDate,
-          toDate
-        );
-      }
-      // 沒傳股票名
-      else {
-        loadedDocs = await readDocs(table);
-      }
-
-      const caltedData = calColumns(loadedDocs);
       return {
         ...state,
-        data: caltedData,
-        total: calTotal(caltedData),
+        data: loadedDocs,
+        total: calTotal(loadedDocs),
         loading: false,
       };
 
@@ -159,9 +144,6 @@ export const reducer = async (state, action) => {
     case 'CREATE':
       const id = await createDoc(table, row);
       data.unshift({ ...row, id });
-      // 更新主表(從 master 找出同名股票且無結束日)
-      await updateMaster(row, 'created')
-      // console.log(await updateMaster(row, 'created'));
       return {
         ...state,
         data: calColumns(data),
@@ -171,6 +153,7 @@ export const reducer = async (state, action) => {
 
     // 編輯
     case 'EDIT':
+      // console.log(state)
       return { ...state, open: true, rowIndex: index };
 
     // 更新
@@ -186,8 +169,7 @@ export const reducer = async (state, action) => {
 
     // 刪除
     case 'DELETE':
-      await deleteDoc(table, row);
-      await updateMaster(row, 'deleted');
+      deleteDoc(table, row);
       return {
         ...state,
         data: state.data.filter((obj) => obj.id != row.id),
