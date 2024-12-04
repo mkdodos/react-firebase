@@ -5,20 +5,6 @@ import StockDropdown from './StockDropdown';
 export default function EditForm({ columns, state, dispatch, row, setRow }) {
   // 篩選可編輯欄位
   columns = columns.filter((col) => col.editable);
-  console.log(columns)
-  // 組合每一列 group
-  const formGroups = (columnsPerRow) => {
-    const groups = [];
-    for (let i = 0; i < columns.length; i++) {
-      if (i % columnsPerRow == 0)
-        groups.push(
-          <Form.Group widths={columnsPerRow} key={i}>
-            {formFields(i, columnsPerRow)}
-          </Form.Group>
-        );
-    }
-    return groups;
-  };
 
   const handleInputChange = (e) => {
     setRow({ ...row, [e.target.name]: e.target.value });
@@ -31,6 +17,20 @@ export default function EditForm({ columns, state, dispatch, row, setRow }) {
     const words = str.split(' ');
     // 分別寫入股票代碼和股票名稱二個值
     setRow({ ...row, stockNo: obj.value, stockName: words[1] });
+  };
+
+  // 組合每一列 group
+  const formGroups = (columnsPerRow) => {
+    const groups = [];
+    for (let i = 0; i < columns.length; i++) {
+      if (i % columnsPerRow == 0)
+        groups.push(
+          <Form.Group widths={columnsPerRow} key={i}>
+            {formFields(i, columnsPerRow)}
+          </Form.Group>
+        );
+    }
+    return groups;
   };
 
   // 組合 group 中的 field

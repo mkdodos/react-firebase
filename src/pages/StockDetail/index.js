@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import schema from './data/schema.json';
-import useAsyncReducer from '../../utils/asyncReducer';
+import useAsyncReducer from './functions/asyncReducer';
 import { reducer } from './data/reducer';
 import TableView from './components/TableView';
 import EditForm from './components/EditForm';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 export default function index() {
+
+
   // 網址列參數  
   let { stockName, fromDate, toDate } = useParams(); 
 
@@ -16,7 +18,6 @@ export default function index() {
     loading: true, //載入中
     rowIndex: -1, //編輯列索引
     open: false, //顯示編輯表單
-    total: { amt: 0, inQty: 0 }, //各欄合計
     search: { stockName, fromDate,toDate }, // 傳網址列參數做為篩選值
   };
 
@@ -27,26 +28,27 @@ export default function index() {
     dispatch({ type: 'LOAD' });
   }, []);
 
+  let { columns } = schema;
   // 欄位預設值
   const defaultRow = {};
-
-  const { columns } = schema;
-
   columns.map((obj) => {
     defaultRow[obj.name] = '';
   });
 
+  // 日期預設當天
   defaultRow.transDate = new Date().toISOString().substring(0, 10);
 
   // 原本 row 放在 useAsyncReducer 會出現無法輸入中文的問題
   // 將其獨立出來處理
   const [row, setRow] = useState(defaultRow);
 
+  // 新增
   const handleAdd = () => {
     dispatch({ type: 'ADD' });
     setRow(defaultRow);
   };
 
+  // 編輯
   const handleEdit = (row, index) => {
     dispatch({ type: 'EDIT', payload: { index } });
     setRow(row);
@@ -64,8 +66,13 @@ export default function index() {
 
   return (
     <div>
-      <Link to="/stock-master">StockMaster</Link>
-
+      <TableView
+        columns={columns}
+        state={state}
+        dispatch={dispatch}
+        handleEdit={handleEdit}
+        handleAdd={handleAdd}
+      />
       <EditForm
         columns={columns}
         row={row}
@@ -74,13 +81,6 @@ export default function index() {
         dispatch={dispatch}
         isSold={isSold}
         setIsSold={setIsSold}
-      />
-      <TableView
-        columns={columns}
-        state={state}
-        handleAdd={handleAdd}
-        handleEdit={handleEdit}
-        dispatch={dispatch}
       />
     </div>
   );

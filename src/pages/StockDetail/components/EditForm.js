@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Button, Modal,Menu } from 'semantic-ui-react';
+import { Form, Button, Modal, Menu } from 'semantic-ui-react';
 import StockDropdown from './StockDropdown';
 
 export default function EditForm({
@@ -14,12 +14,22 @@ export default function EditForm({
   // 篩選可編輯欄位
   columns = columns.filter((col) => col.editable);
 
-
-
   // 點選買進或賣出後,只顯示買進或賣出欄位
   if (isSold) columns = columns.filter((col) => col.name != 'inQty');
   else columns = columns.filter((col) => col.name != 'outQty');
 
+  const handleInputChange = (e) => {
+    setRow({ ...row, [e.target.name]: e.target.value });
+  };
+
+  const handleStockChange = (e, obj) => {
+    // 下拉選項由股票代碼+空白+股票名稱組成
+    // 用空白分隔函數取得股票名稱
+    const str = e.target.innerText;
+    const words = str.split(' ');
+    // 分別寫入股票代碼和股票名稱二個值
+    setRow({ ...row, stockNo: obj.value, stockName: words[1] });
+  };
 
   // 組合每一列 group
   const formGroups = (columnsPerRow) => {
@@ -33,19 +43,6 @@ export default function EditForm({
         );
     }
     return groups;
-  };
-
-  const handleInputChange = (e) => {
-    setRow({ ...row, [e.target.name]: e.target.value });
-  };
-
-  const handleStockChange = (e, obj) => {
-    // 下拉選項由股票代碼+空白+股票名稱組成
-    // 用空白分隔函數取得股票名稱
-    const str = e.target.innerText;
-    const words = str.split(' ');
-    // 分別寫入股票代碼和股票名稱二個值
-    setRow({ ...row, stockNo: obj.value, stockName: words[1] });
   };
 
   // 組合 group 中的 field
@@ -77,6 +74,10 @@ export default function EditForm({
       }
     });
     return fields;
+  };
+
+  const handleDelete = (row) => {
+    if (confirm('確定刪除嗎?')) dispatch({ type: 'DELETE', payload: { row } });
   };
 
   return (
@@ -119,12 +120,8 @@ export default function EditForm({
           >
             儲存
           </Button>
-          <Button
-            floated="left"
-            color="red"
-            onClick={() => dispatch({ type: 'DELETE', payload: { row } })}
-          >
-            刪除
+          <Button floated="left" color="red" onClick={() => handleDelete(row)}>
+            刪除{row.rowCounts}
           </Button>
         </Modal.Actions>
       </Modal>
