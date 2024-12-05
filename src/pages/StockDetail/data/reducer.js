@@ -4,6 +4,7 @@ import {
   updateDoc,
   deleteDoc,
   readDocsByStockName,
+  updateMaster,
 } from './firestore';
 
 export const reducer = async (state, action) => {
@@ -17,7 +18,60 @@ export const reducer = async (state, action) => {
 
   // 計算欄位
   const calColumns = (data) => {
-    return data;
+    const newData = data.map((obj) => {
+      const { inQty, outQty, price } = obj;
+
+      let amt = 0;
+
+      if (inQty) {
+        amt = Math.round(inQty * price);
+      } else {
+        // 賣出金額用負數表示
+        amt = Math.round(outQty * price * -1);
+      }
+
+      return {
+        ...obj,
+        amt, // 小計
+      };
+    });
+    return newData;
+  };
+
+  // 計算合計
+  const calTotal = (data) => {
+    let amts = 0; //小計
+    let inQtys = 0;
+    let outQtys = 0;
+    let inAmt = 0; //買入金額
+    let outAmt = 0; //賣出金額
+    let avgCost = 0; //買入平均單價
+    let avgSold = 0; //賣出平均單價
+    data.map((obj) => {
+      const { amt, inQty, outQty, price } = obj;
+      amts += amt;
+
+      inQtys += Number(inQty);
+      outQtys += Number(outQty);
+      inAmt += inQty * price;
+      outAmt += outQty * price;
+    });
+    // console.log(sum);
+    if (inQtys > 0) {
+      avgCost = Math.round((inAmt / inQtys) * 100) / 100;
+    }
+    if (outQtys > 0) {
+      avgSold = Math.round((outAmt / outQtys) * 100) / 100;
+    }
+    return {
+      amt: amts,
+      inQty: inQtys,
+      outQty: outQtys,
+      inAmt,
+      outAmt,
+      avgCost,
+      avgSold,
+    };
   };
 
   // 執行相關動作
@@ -28,7 +82,7 @@ export const reducer = async (state, action) => {
 
       const stockName = state.search.stockName;
       // 有傳股票名
-      if (stockName) {        
+      if (stockName) {
         const fromDate = state.search.fromDate;
         const toDate = state.search.toDate ? state.search.toDate : '';
         loadedDocs = await readDocsByStockName(
@@ -43,10 +97,13 @@ export const reducer = async (state, action) => {
         loadedDocs = await readDocs(table);
       }
 
+      const caltedData = calColumns(loadedDocs);
+
       return {
         ...state,
-        data: loadedDocs,
+        data: caltedData,
         loading: false,
+        total: calTotal(caltedData),
       };
 
     // 新增
@@ -68,6 +125,8 @@ export const reducer = async (state, action) => {
     case 'CREATE':
       const id = await createDoc(table, row);
       data.unshift({ ...row, id });
+      // 更新主表(從 master 找出同名股票且無結束日)
+      await updateMaster(row, 'created');
       return {
         ...state,
         data: calColumns(data),
@@ -88,7 +147,8 @@ export const reducer = async (state, action) => {
 
     // 刪除
     case 'DELETE':
-      deleteDoc(table, row);
+      await deleteDoc(table, row);
+      await updateMaster(row, 'deleted');
       return {
         ...state,
         data: state.data.filter((obj) => obj.id != row.id),

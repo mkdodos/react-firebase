@@ -52,6 +52,20 @@
       "viewable": "true"
     },    
     {
+      "name": "qtys",
+      "label": "餘股",
+      "type": "number",
+      "editable": "true",
+      "viewable": "true"
+    },   
+    {
+      "name": "avgCost",
+      "label": "購入均價",
+      "type": "number",
+      "viewable":"true"
+      
+    }, 
+    {
       "name": "price",
       "label": "現價",
       "type": "number",

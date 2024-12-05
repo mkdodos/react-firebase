@@ -5,6 +5,7 @@ import { reducer } from './data/reducer';
 import TableView from './components/TableView';
 import EditForm from './components/EditForm';
 import { useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export default function index() {
 
@@ -19,6 +20,7 @@ export default function index() {
     rowIndex: -1, //編輯列索引
     open: false, //顯示編輯表單
     search: { stockName, fromDate,toDate }, // 傳網址列參數做為篩選值
+    total:{}
   };
 
   const [state, dispatch] = useAsyncReducer(reducer, initState);
@@ -66,6 +68,7 @@ export default function index() {
 
   return (
     <div>
+      <Link to="/stock-master">StockMaster</Link>
       <TableView
         columns={columns}
         state={state}

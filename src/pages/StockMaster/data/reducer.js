@@ -11,17 +11,28 @@ export const reducer = async (state, action) => {
 
   // 計算欄位
   const calColumns = (data) => {
-    return data;
+    let newData = data.map((obj) => {
+      const { qtys, price, costs, soldAmt, inQtys, outQtys,minusCosts } = obj;
+
+      return {
+        ...obj,
+        qtys: inQtys - outQtys, //餘股
+        avgCost:Math.round(costs / (inQtys - outQtys)*100)/100,//平均成本
+        minusCosts : Math.round(minusCosts)
+      };
+    });
+
+    return newData;
   };
 
   // 執行相關動作
   switch (action.type) {
     // 載入資料
     case 'LOAD':
-      // const loadedDocs = await readDocs(table);
+      const loadedDocs = await readDocs(table);
       return {
         ...state,
-        data: await readDocs(table),
+        data: calColumns(loadedDocs),
         loading: false,
       };
 

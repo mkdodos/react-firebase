@@ -39,7 +39,13 @@
       "type": "number",
       "editable": "true",
       "viewable": "true"
-    }
+    },
+    {
+      "name": "amt",
+      "label": "小計",
+      "type": "number",
+      "viewable": "true"
+    }  
     
    
   ]
