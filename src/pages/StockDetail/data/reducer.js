@@ -10,8 +10,8 @@ import {
 
 export const reducer = async (state, action) => {
   // 資料表名稱
-  // const table = 'stockDetail';
-  const table = 'test';
+  const table = 'stockDetail';
+  // const table = 'test';
 
   const index = action.payload?.index;
   const row = action.payload?.row;
@@ -139,7 +139,7 @@ export const reducer = async (state, action) => {
       data.unshift({ ...row, id });
 
       // 更新主表(從 master 找出同名股票且無結束日)
-      await updateMaster(row, 'created');
+      // await updateMaster(row, 'created');
       return {
         ...state,
         data: calColumns(data),
@@ -162,7 +162,7 @@ export const reducer = async (state, action) => {
     // 刪除
     case 'DELETE':
       await deleteDoc(table, row);
-      await updateMaster(row, 'deleted');
+      // await updateMaster(row, 'deleted');
       return {
         ...state,
         data: state.data.filter((obj) => obj.id != row.id),

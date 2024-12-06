@@ -25,7 +25,8 @@ export default function index() {
   let { columns } = schema;
   // 欄位預設值
   const defaultRow = {};
-  columns.map((obj) => {
+  let editableColumns = columns.filter((col) => col.editable);
+  editableColumns.map((obj) => {
     defaultRow[obj.name] = '';
   });
 

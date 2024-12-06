@@ -63,20 +63,10 @@ const updateMaster = async (row, op) => {
   const data = snapshot.docs[0].data();
 
   // 取得股數
-  let qtys = 0;
-  // let inQtys = data.inQtys;
-  // let outQtys = data.outQtys;
-  // let minusCosts = data.minusCosts;
+  let qtys = 0;  
 
   let { inQtys, outQtys, minusCosts, costs, soldAmt } = data;
-
-  // minusCosts = ((costs - minusCosts) / (inQtys - outQtys)) * outQty;
-
-  // minusCosts =Math.round (costs / (inQtys - outQtys)) * outQty;
-
-  // minusCosts = Math.round(minusCosts)
-
-  // console.log(costs);
+  
 
   // 累加已售金額
   soldAmt = Number(data.soldAmt) + Math.round(outQty * price);

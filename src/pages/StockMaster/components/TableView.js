@@ -68,6 +68,11 @@ export default function TableView({ state, columns, handleEdit, handleAdd }) {
       <Table celled unstackable>
         <Table.Header>
           <Table.Row>
+          <Table.HeaderCell>
+              <Button primary onClick={handleAdd} loading={loading}>
+                新增
+              </Button>
+            </Table.HeaderCell>
             {columns.map((col, index) => {
               return (
                 <Table.HeaderCell key={index}>
@@ -77,11 +82,7 @@ export default function TableView({ state, columns, handleEdit, handleAdd }) {
                 </Table.HeaderCell>
               );
             })}
-            <Table.HeaderCell>
-              <Button primary onClick={handleAdd} loading={loading}>
-                新增
-              </Button>
-            </Table.HeaderCell>
+            
           </Table.Row>
         </Table.Header>
 
@@ -89,14 +90,14 @@ export default function TableView({ state, columns, handleEdit, handleAdd }) {
           {data.map((row, index) => {
             return (
               <Table.Row key={row.id}>
+                <Table.Cell>
+                  <Button onClick={() => handleEdit(row, index)}>編輯</Button>
+                </Table.Cell>
                 {columns.map((col, index) => {
                   return (
                     <Table.Cell key={index}>{genColumn(row, col)}</Table.Cell>
                   );
                 })}
-                <Table.Cell>
-                  <Button onClick={() => handleEdit(row, index)}>編輯</Button>
-                </Table.Cell>
               </Table.Row>
             );
           })}

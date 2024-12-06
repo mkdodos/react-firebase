@@ -50,11 +50,40 @@ export default function TableView({ state, columns, handleEdit, handleAdd }) {
 
   const masterRow = (row) => {
     // console.log(row);
+
+    const master = row.masterObj;
+
+    const { costs, minusCosts, qtys } = master;
+
+    // 未攤成本
+    const leftCosts = costs - minusCosts;
+
+    // 平均成本 = 未攤成本 / 餘股
+    const avgCost = leftCosts / qtys;
+
+    // 應攤成本 = 平均成本  * 售出股數
+
+    const minusCost = avgCost * row.outQty;
+
     return (
       <Table.Row key={uuidv4()}>
-        <Table.Cell>{row.masterObj?.minusCost}</Table.Cell>
-        <Table.Cell>{row.masterObj?.fromDate}</Table.Cell>
+        {/* <Table.Cell>costs{costs}</Table.Cell>
+        <Table.Cell>minusCosts{minusCosts}</Table.Cell> */}
+        <Table.Cell>leftCosts{leftCosts}</Table.Cell>
+        <Table.Cell>qtys{qtys}</Table.Cell>
+        <Table.Cell>avgCost{avgCost}</Table.Cell>
+        <Table.Cell>outQty{row.outQty}</Table.Cell>
+        <Table.Cell>minusCost{minusCost}</Table.Cell>
       </Table.Row>
+      // <Table.Row key={uuidv4()}>
+      //   <Table.Cell>costs{row.masterObj?.costs}</Table.Cell>
+      //   <Table.Cell>minusCosts{row.masterObj?.minusCosts}</Table.Cell>
+      //   <Table.Cell>inQtys{row.masterObj?.inQtys}</Table.Cell>
+      //   <Table.Cell>outQtys{row.masterObj?.outQtys}</Table.Cell>
+      //   <Table.Cell>qtys{row.masterObj?.qtys}</Table.Cell>
+      //   <Table.Cell>outQty{row.outQty}</Table.Cell>
+      //   <Table.Cell>{row.outQty}</Table.Cell>
+      // </Table.Row>
     );
   };
 
