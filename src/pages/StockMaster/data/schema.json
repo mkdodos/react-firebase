@@ -60,7 +60,7 @@
     },   
     {
       "name": "avgCost",
-      "label": "購入均價",
+      "label": "平均成本",
       "type": "number",
       "viewable":"true"
       

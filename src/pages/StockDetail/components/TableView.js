@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Table, Button } from 'semantic-ui-react';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function TableView({ state, columns, handleEdit, handleAdd }) {
-  console.log(state);
+  // console.log(state);
   const { loading, data, total } = state;
 
   // 合計列
@@ -47,6 +48,16 @@ export default function TableView({ state, columns, handleEdit, handleAdd }) {
     });
   };
 
+  const masterRow = (row) => {
+    // console.log(row);
+    return (
+      <Table.Row key={uuidv4()}>
+        <Table.Cell>{row.masterObj?.minusCost}</Table.Cell>
+        <Table.Cell>{row.masterObj?.fromDate}</Table.Cell>
+      </Table.Row>
+    );
+  };
+
   return (
     <div>
       <Table celled unstackable>
@@ -76,14 +87,18 @@ export default function TableView({ state, columns, handleEdit, handleAdd }) {
         <Table.Body>
           {data.map((row, index) => {
             return (
-              <Table.Row key={row.id}>
-                {columns.map((col, index) => {
-                  return <Table.Cell key={index}>{row[col.name]}</Table.Cell>;
-                })}
-                <Table.Cell>
-                  <Button onClick={() => handleEdit(row, index)}>編輯</Button>
-                </Table.Cell>
-              </Table.Row>
+              // 因為要加入key,需要將<>改成<Fragment>
+              <Fragment key={row.id}>
+                <Table.Row>
+                  {columns.map((col, index) => {
+                    return <Table.Cell key={index}>{row[col.name]}</Table.Cell>;
+                  })}
+                  <Table.Cell>
+                    <Button onClick={() => handleEdit(row, index)}>編輯</Button>
+                  </Table.Cell>
+                </Table.Row>
+                {masterRow(row)}
+              </Fragment>
             );
           })}
         </Table.Body>

@@ -5,11 +5,13 @@ import {
   deleteDoc,
   readDocsByStockName,
   updateMaster,
+  readMaster,
 } from './firestore';
 
 export const reducer = async (state, action) => {
   // 資料表名稱
-  const table = 'stockDetail';
+  // const table = 'stockDetail';
+  const table = 'test';
 
   const index = action.payload?.index;
   const row = action.payload?.row;
@@ -123,8 +125,19 @@ export const reducer = async (state, action) => {
 
     // 儲存新增的資料
     case 'CREATE':
+      // 更新主表前,保存一份主表原資料
+      // const masterObj = await readMaster(row.stockName)[0];
+      const masterObj = await readMaster(row.stockName);
+      row.masterObj = masterObj[0];
+
+      console.log(masterObj[0])
+      // console.log(row.stockName)
+
+      // console.log(await readMaster(row.stockName));
       const id = await createDoc(table, row);
+
       data.unshift({ ...row, id });
+
       // 更新主表(從 master 找出同名股票且無結束日)
       await updateMaster(row, 'created');
       return {
@@ -132,6 +145,7 @@ export const reducer = async (state, action) => {
         data: calColumns(data),
         open: false,
         rowIndex: -1,
+        masterObj,
       };
 
     // 更新

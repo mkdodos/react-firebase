@@ -77,7 +77,8 @@ export default function EditForm({
   };
 
   const handleDelete = (row) => {
-    if (confirm('確定刪除嗎?')) dispatch({ type: 'DELETE', payload: { row } });
+    // if (confirm('確定刪除嗎?'))
+     dispatch({ type: 'DELETE', payload: { row } });
   };
 
   return (

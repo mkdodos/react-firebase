@@ -14,6 +14,20 @@ const readDocs = async (table) => {
   return data;
 };
 
+const readMaster = async (stockName) => {
+  const snapshot = await db
+    .collection('stockMaster')
+    .where('stockName', '==', stockName)
+    .limit(10)
+    .get();
+  
+  let data = snapshot.docs.map((doc) => {
+    return { ...doc.data(), id: doc.id };
+  });
+
+  return data;
+};
+
 const readDocsByStockName = async (table, stockName, fromDate, toDate) => {
   let snapshot = db.collection(table).where('stockName', '==', stockName);
 
@@ -57,16 +71,13 @@ const updateMaster = async (row, op) => {
   let { inQtys, outQtys, minusCosts, costs, soldAmt } = data;
 
   // minusCosts = ((costs - minusCosts) / (inQtys - outQtys)) * outQty;
-  minusCosts += (costs / (inQtys - outQtys)) * outQty;
-  // minusCosts =Math.round (costs / (inQtys - outQtys)) * outQty;
 
+  // minusCosts =Math.round (costs / (inQtys - outQtys)) * outQty;
 
   // minusCosts = Math.round(minusCosts)
 
-  console.log(costs);
+  // console.log(costs);
 
-  // 累加購入成本
-  costs = Number(data.costs) + inQty * price;
   // 累加已售金額
   soldAmt = Number(data.soldAmt) + Math.round(outQty * price);
 
@@ -75,11 +86,20 @@ const updateMaster = async (row, op) => {
   switch (op) {
     case 'created':
       if (inQty) {
+        // 買入
         qtys = Number(data.qtys) + Number(inQty);
         inQtys = Number(inQtys) + Number(inQty);
+        // 累加購入成本
+        costs = Number(data.costs) + inQty * price;
       } else {
+        // 賣出
         qtys = Number(data.qtys) - Number(outQty);
         outQtys = Number(outQtys) + Number(outQty);
+        // minusCosts += (costs / (inQtys - outQtys)) * outQty;
+        // 已攤成本 = (未攤成本 / 餘股) * 售出股數
+        minusCosts =
+          Number(minusCosts) +
+          ((data.costs - minusCosts) / (data.inQtys - data.outQtys)) * outQty;
       }
       break;
     case 'deleted':
@@ -91,6 +111,9 @@ const updateMaster = async (row, op) => {
         qtys = Number(data.qtys) + Number(outQty);
         soldAmt = Number(data.soldAmt) - outQty * price;
         outQtys = Number(outQtys) - Number(outQty);
+        minusCosts =
+          Number(minusCosts) -
+          ((data.costs - minusCosts) / (data.inQtys - data.outQtys)) * outQty;
       }
       break;
   }
@@ -114,6 +137,7 @@ const deleteDoc = async (table, row) => {
 export {
   readDocs,
   readDocsByStockName,
+  readMaster,
   createDoc,
   updateDoc,
   deleteDoc,

@@ -17,7 +17,8 @@ export const reducer = async (state, action) => {
       return {
         ...obj,
         qtys: inQtys - outQtys, //餘股
-        avgCost:Math.round(costs / (inQtys - outQtys)*100)/100,//平均成本
+        // avgCost:Math.round(costs / (inQtys - outQtys)*100)/100,//平均成本
+        avgCost:Math.round((costs-minusCosts) / (inQtys - outQtys)*100)/100,//平均成本
         minusCosts : Math.round(minusCosts)
       };
     });
