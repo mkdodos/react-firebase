@@ -19,7 +19,7 @@ export const reducer = async (state, action) => {
       // if (costs > 0 && inQtys > 0) {
       if (qtys > 0) {
         avgCost =
-          Math.round(((costs - minusCosts) / (inQtys - outQtys)) * 100) / 100;
+          Math.round(((costs - minusCosts) / qtys) * 100) / 100;
       }
       return {
         ...obj,

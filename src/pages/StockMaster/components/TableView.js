@@ -73,8 +73,7 @@ export default function TableView({ state, columns, handleEdit, handleAdd }) {
 
   return (
     <div>
-      avgCost = Math.round(((costs - minusCosts) / (inQtys - outQtys)) * 100) /
-      100;
+      avgCost = (costs - minusCosts) / qtys 
       <Table celled unstackable>
         <Table.Header>
           <Table.Row>

@@ -135,15 +135,13 @@ export const reducer = async (state, action) => {
 
       // console.log(await readMaster(row.stockName));
 
-      // let bonus = 0;
       // 售出時計算單筆損益 =  (主表平均成本 - 單價) * 售出股數
-
-      if (row.outQty) {
+      const { price, outQty } = row;
+      if (outQty) {
         const { costs, minusCosts, qtys } = row.masterObj;
         // 每股平均成本
-        let avgCost = (costs - minusCosts) / qtys;
-
-        row.bonus = (row.price - avgCost) * row.outQty;
+        let avgCost = (costs - minusCosts) / qtys; 
+        row.bonus =Math.round((price - avgCost) * outQty);
       }
 
       const id = await createDoc(table, row);
@@ -176,7 +174,7 @@ export const reducer = async (state, action) => {
     // 刪除
     case 'DELETE':
       await deleteDoc(table, row);
-      // await updateMaster(row, 'deleted');
+      await updateMaster(row, 'deleted');
       return {
         ...state,
         data: state.data.filter((obj) => obj.id != row.id),

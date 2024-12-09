@@ -65,6 +65,7 @@ export default function TableView({ state, columns, handleEdit, handleAdd }) {
 
     // 應攤成本 = 平均成本  * 售出股數
 
+    // 這個值要寫入資料庫,日後刪除時,用此值回復主表已攤成本
     const minusCost = avgCost * row.outQty;
 
     return (
@@ -74,7 +75,7 @@ export default function TableView({ state, columns, handleEdit, handleAdd }) {
         <Table.Cell>leftCosts{leftCosts}</Table.Cell>
         <Table.Cell>qtys{qtys}</Table.Cell>
         <Table.Cell>avgCost{avgCost}</Table.Cell>
-        <Table.Cell>outQty{row.outQty}</Table.Cell>
+        {/* <Table.Cell>outQty{row.outQty}</Table.Cell> */}
         <Table.Cell>minusCost{minusCost}</Table.Cell>
       </Table.Row>
       // <Table.Row key={uuidv4()}>
@@ -91,6 +92,7 @@ export default function TableView({ state, columns, handleEdit, handleAdd }) {
 
   return (
     <div>
+      bonus = (price - avgCost) * outQty;
       <Table celled unstackable>
         <Table.Header>
           <Table.Row>
@@ -128,7 +130,7 @@ export default function TableView({ state, columns, handleEdit, handleAdd }) {
                     <Button onClick={() => handleEdit(row, index)}>編輯</Button>
                   </Table.Cell>
                 </Table.Row>
-                {masterRow(row)}
+                { row.outQty &&  masterRow(row)}
               </Fragment>
             );
           })}
