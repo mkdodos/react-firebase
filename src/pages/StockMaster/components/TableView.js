@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Button } from 'semantic-ui-react';
+import { Table, Button, Label } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 import numberFormat from '../../../utils/numberFormat';
 
@@ -58,6 +58,14 @@ export default function TableView({ state, columns, handleEdit, handleAdd }) {
           </Label>
         );
 
+      // 餘股
+      case 'qtys':
+        return (
+          <Label size="large" color="blue" circular>
+            {row[column.name]}
+          </Label>
+        );
+
       default:
         return row[column.name];
     }
@@ -65,10 +73,12 @@ export default function TableView({ state, columns, handleEdit, handleAdd }) {
 
   return (
     <div>
+      avgCost = Math.round(((costs - minusCosts) / (inQtys - outQtys)) * 100) /
+      100;
       <Table celled unstackable>
         <Table.Header>
           <Table.Row>
-          <Table.HeaderCell>
+            <Table.HeaderCell>
               <Button primary onClick={handleAdd} loading={loading}>
                 新增
               </Button>
@@ -82,7 +92,6 @@ export default function TableView({ state, columns, handleEdit, handleAdd }) {
                 </Table.HeaderCell>
               );
             })}
-            
           </Table.Row>
         </Table.Header>
 

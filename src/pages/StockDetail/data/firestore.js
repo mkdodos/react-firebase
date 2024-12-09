@@ -20,7 +20,7 @@ const readMaster = async (stockName) => {
     .where('stockName', '==', stockName)
     .limit(10)
     .get();
-  
+
   let data = snapshot.docs.map((doc) => {
     return { ...doc.data(), id: doc.id };
   });
@@ -44,7 +44,7 @@ const readDocsByStockName = async (table, stockName, fromDate, toDate) => {
 };
 
 const createDoc = async (table, row) => {
-  console.log(row);
+  // console.log(row);
   const docRef = await db.collection(table).add(row);
   return docRef.id;
 };
@@ -57,16 +57,23 @@ const updateMaster = async (row, op) => {
   const snapshot = await db
     .collection('stockMaster')
     .where('stockName', '==', stockName)
-    .where('toDate', '==', '')
+    // .where('toDate', '==', '')
+    // 在測試過程中,有將結束日從 data.json 拿掉
+    // 所以會產生取不到資料的問題
     .get();
   const id = snapshot.docs[0].id;
   const data = snapshot.docs[0].data();
 
+  // console.log(snapshot.docs[0].id)
+  // console.log(snapshot.docs)
+  // console.log(stockName)
+
+  // return;
+
   // 取得股數
-  let qtys = 0;  
+  let qtys = 0;
 
   let { inQtys, outQtys, minusCosts, costs, soldAmt } = data;
-  
 
   // 累加已售金額
   soldAmt = Number(data.soldAmt) + Math.round(outQty * price);

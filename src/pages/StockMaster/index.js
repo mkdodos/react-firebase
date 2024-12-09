@@ -30,6 +30,10 @@ export default function index() {
     defaultRow[obj.name] = '';
   });
 
+
+  // 開始日期預設當天
+  defaultRow.fromDate = new Date().toISOString().substring(0, 10);
+
   // 原本 row 放在 useAsyncReducer 會出現無法輸入中文的問題
   // 將其獨立出來處理
   const [row, setRow] = useState(defaultRow);

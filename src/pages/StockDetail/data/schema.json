@@ -45,7 +45,13 @@
       "label": "小計",
       "type": "number",
       "viewable": "true"
-    }  
+    },
+    {
+      "name": "bonus",
+      "label": "損益",
+      "type": "number",
+      "viewable": "true"
+    }    
     
    
   ]

@@ -8,7 +8,7 @@ const readDocs = async (table) => {
 
   // data = data.filter(obj=>obj.stockName=='長榮')
   // data = data.filter(obj=>obj.stockName=='測試' || obj.stockName=='台積電' )
-  data = data.filter((obj) => obj.stockName == '測試');
+  // data = data.filter((obj) => obj.stockName == '測試');
   // console.log(data)
 
   return data;

@@ -16,7 +16,8 @@ export const reducer = async (state, action) => {
 
       //平均成本(有成本和股數時才做計算)
       let avgCost = 0;
-      if (costs > 0 && inQtys > 0) {
+      // if (costs > 0 && inQtys > 0) {
+      if (qtys > 0) {
         avgCost =
           Math.round(((costs - minusCosts) / (inQtys - outQtys)) * 100) / 100;
       }
@@ -24,6 +25,7 @@ export const reducer = async (state, action) => {
         ...obj,
         qtys: inQtys - outQtys, //餘股
         avgCost,
+        costs: Math.round(costs),
         minusCosts: Math.round(minusCosts),
       };
     });

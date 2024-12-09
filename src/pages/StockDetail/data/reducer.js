@@ -130,16 +130,30 @@ export const reducer = async (state, action) => {
       const masterObj = await readMaster(row.stockName);
       row.masterObj = masterObj[0];
 
-      console.log(masterObj[0])
+      // console.log(masterObj[0])
       // console.log(row.stockName)
 
       // console.log(await readMaster(row.stockName));
+
+      // let bonus = 0;
+      // 售出時計算單筆損益 =  (主表平均成本 - 單價) * 售出股數
+
+      if (row.outQty) {
+        const { costs, minusCosts, qtys } = row.masterObj;
+        // 每股平均成本
+        let avgCost = (costs - minusCosts) / qtys;
+
+        row.bonus = (row.price - avgCost) * row.outQty;
+      }
+
       const id = await createDoc(table, row);
 
+      console.log(id);
       data.unshift({ ...row, id });
 
       // 更新主表(從 master 找出同名股票且無結束日)
-      // await updateMaster(row, 'created');
+      // if(id)
+      await updateMaster(row, 'created');
       return {
         ...state,
         data: calColumns(data),

@@ -6,6 +6,8 @@ export default function TableView({ state, columns, handleEdit, handleAdd }) {
   // console.log(state);
   const { loading, data, total } = state;
 
+  console.log(columns)
+
   // 合計列
   // const totalRow = (columns) => {
   //   return columns.map((col, index) => {
