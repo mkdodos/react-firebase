@@ -64,19 +64,11 @@ const updateMaster = async (row, op) => {
   const id = snapshot.docs[0].id;
   const data = snapshot.docs[0].data();
 
-  // console.log(snapshot.docs[0].id)
-  // console.log(snapshot.docs)
-  // console.log(stockName)
-
   // return;
 
   // 取得股數
-  let qtys = 0;
 
-  let { inQtys, outQtys, minusCosts, costs, soldAmt } = data;
-
-  // 累加已售金額
-  soldAmt = Number(data.soldAmt) + Math.round(outQty * price);
+  let { inQtys, outQtys, qtys, minusCosts, costs, soldAmt } = data;
 
   // 判斷是新增或刪除做不同處理
 
@@ -84,19 +76,25 @@ const updateMaster = async (row, op) => {
     case 'created':
       if (inQty) {
         // 買入
-        qtys = Number(data.qtys) + Number(inQty);
+        // 累加成本和股數
+        qtys = Number(qtys) + Number(inQty);
         inQtys = Number(inQtys) + Number(inQty);
-        // 累加購入成本
-        costs = Number(data.costs) + inQty * price;
+        costs = Number(costs) + inQty * price;
       } else {
         // 賣出
-        qtys = Number(data.qtys) - Number(outQty);
-        outQtys = Number(outQtys) + Number(outQty);
-        // minusCosts += (costs / (inQtys - outQtys)) * outQty;
+        
         // 已攤成本 = (未攤成本 / 餘股) * 售出股數
+        console.log(minusCosts, costs, qtys, outQty);
         minusCosts =
-          Number(minusCosts) +
-          ((data.costs - minusCosts) / (data.inQtys - data.outQtys)) * outQty;
+          Number(minusCosts) + ((costs - minusCosts) / qtys) * outQty;
+        
+        // 累加金額和股數
+        qtys = Number(qtys) - Number(outQty);
+        outQtys = Number(outQtys) + Number(outQty);
+        soldAmt = Number(soldAmt) + Math.round(outQty * price);
+        // minusCosts += (costs / (inQtys - outQtys)) * outQty;
+        
+        
       }
       break;
     case 'deleted':

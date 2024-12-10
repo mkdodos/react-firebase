@@ -61,22 +61,22 @@ export default function TableView({ state, columns, handleEdit, handleAdd }) {
     const leftCosts = costs - minusCosts;
 
     // 平均成本 = 未攤成本 / 餘股
-    const avgCost = leftCosts / qtys;
+    const avgCost =Math.round(leftCosts / qtys);
 
     // 應攤成本 = 平均成本  * 售出股數
 
     // 這個值要寫入資料庫,日後刪除時,用此值回復主表已攤成本
-    const minusCost = avgCost * row.outQty;
+    // const minusCost = avgCost * row.outQty;
 
     return (
-      <Table.Row key={uuidv4()}>
+      <Table.Row key={uuidv4()} positive>
         {/* <Table.Cell>costs{costs}</Table.Cell>
         <Table.Cell>minusCosts{minusCosts}</Table.Cell> */}
-        <Table.Cell>leftCosts{leftCosts}</Table.Cell>
+        {/* <Table.Cell>leftCosts{leftCosts}</Table.Cell> */}
         <Table.Cell>qtys{qtys}</Table.Cell>
-        <Table.Cell>avgCost{avgCost}</Table.Cell>
+        <Table.Cell colSpan='8'>avgCost{avgCost}</Table.Cell>
         {/* <Table.Cell>outQty{row.outQty}</Table.Cell> */}
-        <Table.Cell>minusCost{minusCost}</Table.Cell>
+        {/* <Table.Cell>minusCost{minusCost}</Table.Cell> */}
       </Table.Row>
       // <Table.Row key={uuidv4()}>
       //   <Table.Cell>costs{row.masterObj?.costs}</Table.Cell>

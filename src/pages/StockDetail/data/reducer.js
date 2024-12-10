@@ -49,14 +49,17 @@ export const reducer = async (state, action) => {
     let outAmt = 0; //賣出金額
     let avgCost = 0; //買入平均單價
     let avgSold = 0; //賣出平均單價
+    let sumMinusCost = 0;
     data.map((obj) => {
-      const { amt, inQty, outQty, price } = obj;
+      let { amt, inQty, outQty, price, minusCost } = obj;
       amts += amt;
 
       inQtys += Number(inQty);
       outQtys += Number(outQty);
       inAmt += inQty * price;
       outAmt += outQty * price;
+      if (!minusCost) minusCost = 0;
+      sumMinusCost += minusCost;
     });
     // console.log(sum);
     if (inQtys > 0) {
@@ -73,6 +76,7 @@ export const reducer = async (state, action) => {
       outAmt,
       avgCost,
       avgSold,
+      minusCost: sumMinusCost,
     };
   };
 
@@ -140,8 +144,11 @@ export const reducer = async (state, action) => {
       if (outQty) {
         const { costs, minusCosts, qtys } = row.masterObj;
         // 每股平均成本
-        let avgCost = (costs - minusCosts) / qtys; 
-        row.bonus =Math.round((price - avgCost) * outQty);
+        let avgCost = (costs - minusCosts) / qtys;
+        row.bonus = Math.round((price - avgCost) * outQty);
+
+        // 攤提成本
+        row.minusCost = Math.round(avgCost * outQty);
       }
 
       const id = await createDoc(table, row);
