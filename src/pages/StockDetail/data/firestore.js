@@ -1,7 +1,11 @@
 import { db } from '../../../utils/firebase';
 
 const readDocs = async (table) => {
-  const snapshot = await db.collection(table).limit(10).get();
+  const snapshot = await db
+    .collection(table)
+    .orderBy('transDate', 'desc')
+    .limit(20)
+    .get();
   // const snapshot = await db
   //   .collection(table)
   //   .where('stockName', '==', '測試')
@@ -82,19 +86,17 @@ const updateMaster = async (row, op) => {
         costs = Number(costs) + inQty * price;
       } else {
         // 賣出
-        
+
         // 已攤成本 = (未攤成本 / 餘股) * 售出股數
         console.log(minusCosts, costs, qtys, outQty);
         minusCosts =
           Number(minusCosts) + ((costs - minusCosts) / qtys) * outQty;
-        
+
         // 累加金額和股數
         qtys = Number(qtys) - Number(outQty);
         outQtys = Number(outQtys) + Number(outQty);
         soldAmt = Number(soldAmt) + Math.round(outQty * price);
         // minusCosts += (costs / (inQtys - outQtys)) * outQty;
-        
-        
       }
       break;
     case 'deleted':

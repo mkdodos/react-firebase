@@ -1,27 +1,54 @@
-import React, { Fragment } from 'react';
-import { Table, Button } from 'semantic-ui-react';
+import React, { Fragment, useState } from 'react';
+import { Table, Button, Label } from 'semantic-ui-react';
 import { v4 as uuidv4 } from 'uuid';
+import numberFormat from '../../../utils/numberFormat';
 
-export default function TableView({ state, columns, handleEdit, handleAdd }) {
+export default function TableView({
+  dispatch,
+  state,
+  columns,
+  handleEdit,
+  handleAdd,
+}) {
   // console.log(state);
-  const { loading, data, total } = state;
+  let { loading, data, total } = state;
 
-  console.log(columns)
+  // console.log(columns)
 
-  // 合計列
-  // const totalRow = (columns) => {
-  //   return columns.map((col, index) => {
 
-  //     return (
-  //       <Table.HeaderCell key={index}>
-  //         {total.inQty}
-  //       </Table.HeaderCell>
-  //     );
 
-  //     console.log(col.name)
-  //   })
 
-  // };
+  const handleDateClick = (date) => {
+    dispatch({ type: 'FILTER', payload: { date } });
+    console.log(date);
+  };
+
+  // 針對不同欄位做不同顯示
+  const genColumn = (row, column, prevRow) => {
+    switch (column.name) {
+      case 'amt':
+        return numberFormat(row[column.name]);
+      case 'price':
+        return numberFormat(row[column.name]);
+      case 'transDate':
+        // 和前一筆相同時用灰色顯示
+        const prev = prevRow?.transDate;
+        const isSame = row[column.name] == prev;             
+        if (isSame) return <Label size="large">{row[column.name]}</Label>;
+
+        return (
+          <Label
+            color="teal"
+            onClick={() => handleDateClick(row.transDate)}
+            size="large"
+          >
+            {row[column.name]}
+          </Label>
+        );
+      default:
+        return row[column.name];
+    }
+  };
 
   // 合計列
   const totalRow = (columns) => {
@@ -45,11 +72,23 @@ export default function TableView({ state, columns, handleEdit, handleAdd }) {
         );
       }
 
+      if (col.name == 'amt') {
+        return (
+          // 依顯示買或賣欄位顯示相關合計
+          <Table.HeaderCell key={index}>
+            {columnSwitch == 'inQty' && total.inAmt}
+            {columnSwitch == 'outQty' && total.outAmt}
+            {columnSwitch == '' && total.amt}
+          </Table.HeaderCell>
+        );
+      }
+
       // 補空白欄
       return <Table.HeaderCell key={index}>{total[col.name]}</Table.HeaderCell>;
     });
   };
 
+  // 主表資料列
   const masterRow = (row) => {
     // console.log(row);
 
@@ -61,7 +100,7 @@ export default function TableView({ state, columns, handleEdit, handleAdd }) {
     const leftCosts = costs - minusCosts;
 
     // 平均成本 = 未攤成本 / 餘股
-    const avgCost =Math.round(leftCosts / qtys);
+    const avgCost = Math.round((leftCosts / qtys) * 100) / 100;
 
     // 應攤成本 = 平均成本  * 售出股數
 
@@ -74,7 +113,7 @@ export default function TableView({ state, columns, handleEdit, handleAdd }) {
         <Table.Cell>minusCosts{minusCosts}</Table.Cell> */}
         {/* <Table.Cell>leftCosts{leftCosts}</Table.Cell> */}
         <Table.Cell>qtys{qtys}</Table.Cell>
-        <Table.Cell colSpan='8'>avgCost{avgCost}</Table.Cell>
+        <Table.Cell colSpan="8">avgCost{avgCost}</Table.Cell>
         {/* <Table.Cell>outQty{row.outQty}</Table.Cell> */}
         {/* <Table.Cell>minusCost{minusCost}</Table.Cell> */}
       </Table.Row>
@@ -90,9 +129,38 @@ export default function TableView({ state, columns, handleEdit, handleAdd }) {
     );
   };
 
+  // 控制顯示買入或賣出欄位
+  const [columnSwitch, setColumnSwitch] = useState('');
+
+  const handleSwitchClick = () => {
+    if (columnSwitch == 'inQty') setColumnSwitch('outQty');
+    else setColumnSwitch('inQty');
+  };
+
+  // 買入
+  if (columnSwitch == 'inQty') {
+    data = data.filter((row) => row.inQty != '');
+    columns = columns.filter((col) => col.name != 'outQty');
+  }
+
+  // 賣出
+  if (columnSwitch == 'outQty') {
+    data = data.filter((row) => row.outQty != '');
+    columns = columns.filter((col) => col.name != 'inQty');
+  }
+
   return (
     <div>
-      bonus = (price - avgCost) * outQty;
+      bonus = (price - avgCost) * outQty
+      <Button onClick={handleSwitchClick}>切換買賣</Button>
+      <Button
+        onClick={() => {
+          dispatch({ type: 'LOAD' });
+          setColumnSwitch('');
+        }}
+      >
+        載入全部
+      </Button>
       <Table celled unstackable>
         <Table.Header>
           <Table.Row>
@@ -118,19 +186,24 @@ export default function TableView({ state, columns, handleEdit, handleAdd }) {
         </Table.Header>
 
         <Table.Body>
-          {data.map((row, index) => {
+          {data.map((row, rowIndex) => {
             return (
               // 因為要加入key,需要將<>改成<Fragment>
               <Fragment key={row.id}>
                 <Table.Row>
                   {columns.map((col, index) => {
-                    return <Table.Cell key={index}>{row[col.name]}</Table.Cell>;
+                    return (
+                      <Table.Cell key={index}>
+                        {genColumn(row, col, data[rowIndex - 1])}
+                      </Table.Cell>
+                    );
+                    // return <Table.Cell key={index}>{row[col.name]}</Table.Cell>;
                   })}
                   <Table.Cell>
                     <Button onClick={() => handleEdit(row, index)}>編輯</Button>
                   </Table.Cell>
                 </Table.Row>
-                { row.outQty &&  masterRow(row)}
+                {row.masterObj && row.outQty && masterRow(row)}
               </Fragment>
             );
           })}

@@ -82,6 +82,17 @@ export const reducer = async (state, action) => {
 
   // 執行相關動作
   switch (action.type) {
+    // 日期篩選
+    case 'FILTER':
+      const date = action.payload.date;
+      const filteredData = state.data.filter((obj) => obj.transDate == date);
+
+      return {
+        ...state,
+        data: filteredData,
+        total: calTotal(filteredData),
+      };
+
     // 載入資料
     case 'LOAD':
       let loadedDocs = [];

@@ -74,7 +74,7 @@ export default function index() {
         state={state}
         dispatch={dispatch}
         handleEdit={handleEdit}
-        handleAdd={handleAdd}
+        handleAdd={handleAdd}        
       />
       <EditForm
         columns={columns}
