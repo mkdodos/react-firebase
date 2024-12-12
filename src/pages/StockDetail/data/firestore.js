@@ -56,7 +56,7 @@ const createDoc = async (table, row) => {
 // 更新主表
 const updateMaster = async (row, op) => {
   // 傳來的明細值
-  const { stockName, inQty, outQty, price } = row;
+  const { stockName, inQty, outQty, price, minusCost } = row;
   // 主表列
   const snapshot = await db
     .collection('stockMaster')
@@ -83,14 +83,16 @@ const updateMaster = async (row, op) => {
         // 累加成本和股數
         qtys = Number(qtys) + Number(inQty);
         inQtys = Number(inQtys) + Number(inQty);
-        costs = Number(costs) + inQty * price;
+        // costs = Number(costs) + inQty * price;
+        costs = Math.round(Number(costs) + inQty * price);
       } else {
         // 賣出
 
         // 已攤成本 = (未攤成本 / 餘股) * 售出股數
-        console.log(minusCosts, costs, qtys, outQty);
-        minusCosts =
-          Number(minusCosts) + ((costs - minusCosts) / qtys) * outQty;
+        // 已攤成本金額由計算好明細傳來
+        // console.log(minusCosts, costs, qtys, outQty);
+        minusCosts = Number(minusCosts) + minusCost;
+        // Number(minusCosts) + ((costs - minusCosts) / qtys) * outQty;
 
         // 累加金額和股數
         qtys = Number(qtys) - Number(outQty);
@@ -108,9 +110,12 @@ const updateMaster = async (row, op) => {
         qtys = Number(data.qtys) + Number(outQty);
         soldAmt = Number(data.soldAmt) - outQty * price;
         outQtys = Number(outQtys) - Number(outQty);
-        minusCosts =
-          Number(minusCosts) -
-          ((data.costs - minusCosts) / (data.inQtys - data.outQtys)) * outQty;
+        // 扣除該筆明細的已攤成本
+        minusCosts = Number(minusCosts) - minusCost;
+
+        // minusCosts =
+        //   Number(minusCosts) -
+        //   ((data.costs - minusCosts) / (data.inQtys - data.outQtys)) * outQty;
       }
       break;
   }

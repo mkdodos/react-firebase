@@ -88,6 +88,8 @@ export default function TableView({
     });
   };
 
+  // 控制顯示主表資料列
+  const [masterRowSwitch, setMasterRowSwitch] = useState(false);
   // 主表資料列
   const masterRow = (row) => {
     // console.log(row);
@@ -152,6 +154,9 @@ export default function TableView({
   return (
     <div>
       bonus = (price - avgCost) * outQty
+      <Button toggle active={masterRowSwitch} onClick={()=>setMasterRowSwitch(!masterRowSwitch)}>
+        主表資料
+      </Button>
       <Button onClick={handleSwitchClick}>切換買賣</Button>
       <Button
         onClick={() => {
@@ -203,7 +208,7 @@ export default function TableView({
                     <Button onClick={() => handleEdit(row, rowIndex)}>編輯</Button>
                   </Table.Cell>
                 </Table.Row>
-                {row.masterObj && row.outQty && masterRow(row)}
+                {masterRowSwitch && row.masterObj && row.outQty && masterRow(row)}
               </Fragment>
             );
           })}
