@@ -50,10 +50,14 @@ export const reducer = async (state, action) => {
     let avgCost = 0; //買入平均單價
     let avgSold = 0; //賣出平均單價
     let sumMinusCost = 0;
+    let sumBonus=0;
     data.map((obj) => {
-      let { amt, inQty, outQty, price, minusCost } = obj;
+      let { amt, inQty, outQty, price, minusCost,bonus } = obj;
       amts += amt;
 
+      console.log(bonus)
+
+      sumBonus+=Number(bonus)
       inQtys += Number(inQty);
       outQtys += Number(outQty);
       inAmt += inQty * price;
@@ -77,6 +81,7 @@ export const reducer = async (state, action) => {
       avgCost,
       avgSold,
       minusCost: sumMinusCost,
+      bonus:sumBonus
     };
   };
 

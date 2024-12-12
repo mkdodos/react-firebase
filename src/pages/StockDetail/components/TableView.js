@@ -200,7 +200,7 @@ export default function TableView({
                     // return <Table.Cell key={index}>{row[col.name]}</Table.Cell>;
                   })}
                   <Table.Cell>
-                    <Button onClick={() => handleEdit(row, index)}>編輯</Button>
+                    <Button onClick={() => handleEdit(row, rowIndex)}>編輯</Button>
                   </Table.Cell>
                 </Table.Row>
                 {row.masterObj && row.outQty && masterRow(row)}
