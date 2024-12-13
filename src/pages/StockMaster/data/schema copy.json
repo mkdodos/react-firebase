@@ -15,7 +15,6 @@
       "editable": "true",
       "viewable": "true"
     },
-
     {
       "name": "costs",
       "label": "購入成本",
@@ -30,13 +29,6 @@
       "editable": "true",
       "viewable": "true"
     },
-
-    {
-      "name": "leftCosts",
-      "label": "未攤成本",
-      "type": "number",
-      "viewable": "true"
-    },
     {
       "name": "soldAmt",
       "label": "已售金額",
@@ -45,32 +37,21 @@
       "viewable": "true"
     },
 
-    {
-      "name": "inQtys",
-      "label": "購入股數",
-      "type": "number",
-      "editable": "true"
-    },
-    {
-      "name": "outQtys",
-      "label": "售出股數",
-      "type": "number",
-      "editable": "true"
-    },
-
+    
     {
       "name": "qtys",
       "label": "餘股",
       "type": "number",
       "editable": "true",
       "viewable": "true"
-    },
+    },   
     {
       "name": "avgCost",
       "label": "平均成本",
       "type": "number",
-      "viewable": "true"
-    },
+      "viewable":"true"
+      
+    }, 
 
     {
       "name": "price",
@@ -82,21 +63,22 @@
     {
       "name": "bonus",
       "label": "預估損益",
-      "type": "number",
+      "type": "number",    
       "viewable": "true"
     },
     {
       "name": "roi",
       "label": "報酬率",
-      "type": "number",
+      "type": "number",      
       "viewable": "true"
     },
-
+    
     {
       "name": "fromDate",
       "label": "開始日",
-      "type": "date",
+      "type": "date",      
       "editable": "true"
     }
+   
   ]
 }

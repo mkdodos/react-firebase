@@ -104,7 +104,7 @@ const updateMaster = async (row, op) => {
     case 'deleted':
       if (inQty) {
         qtys = Number(data.qtys) - Number(inQty);
-        costs = Number(data.costs) - inQty * price;
+        costs = Number(data.costs) - Math.round(inQty * price);
         inQtys = Number(inQtys) - Number(inQty);
       } else {
         qtys = Number(data.qtys) + Number(outQty);

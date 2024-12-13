@@ -19,15 +19,28 @@ export const reducer = async (state, action) => {
       // if (costs > 0 && inQtys > 0) {
       if (qtys > 0) {
         avgCost =
-        // costs - minusCosts   
-        Math.round(((costs - minusCosts) / qtys) * 100) / 100;
+          // costs - minusCosts
+          Math.round(((costs - minusCosts) / qtys) * 100) / 100;
       }
+
+      // 預估損益
+      let bonus = 0;
+      bonus =Math.round((price - avgCost) * qtys);
+      // 報酬率
+      let roi = 0;
+      roi = Math.round((bonus / (costs - minusCosts)) * 10000) / 100;
+      // 未攤成本
+      let leftCosts=0;
+      leftCosts = costs-minusCosts;
       return {
         ...obj,
         qtys: inQtys - outQtys, //餘股
         avgCost,
         costs: Math.round(costs),
         minusCosts: Math.round(minusCosts),
+        bonus,
+        roi,
+        leftCosts
       };
     });
 

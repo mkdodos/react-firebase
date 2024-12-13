@@ -6,6 +6,11 @@ import numberFormat from '../../../utils/numberFormat';
 export default function TableView({ state, columns, handleEdit, handleAdd }) {
   const { loading, data } = state;
 
+
+  // 篩選可檢視欄位
+  columns = columns.filter((col) => col.viewable);
+
+
   // 針對不同欄位做不同顯示
   const genColumn = (row, column) => {
     let color = 'green';

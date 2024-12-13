@@ -23,13 +23,17 @@ export const reducer = async (state, action) => {
     const newData = data.map((obj) => {
       const { inQty, outQty, price } = obj;
 
+      
+
       let amt = 0;
 
       if (inQty) {
         amt = Math.round(inQty * price);
+       
       } else {
         // 賣出金額用負數表示
         amt = Math.round(outQty * price * -1);
+        console.log(amt)
       }
 
       return {
@@ -60,8 +64,8 @@ export const reducer = async (state, action) => {
       sumBonus+=Number(bonus)
       inQtys += Number(inQty);
       outQtys += Number(outQty);
-      inAmt += inQty * price;
-      outAmt += outQty * price;
+      inAmt += Math.round(inQty * price);
+      outAmt +=Math.round(outQty * price);
       if (!minusCost) minusCost = 0;
       sumMinusCost += minusCost;
     });
