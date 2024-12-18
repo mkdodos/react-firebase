@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from 'react';
-import { Table, Button, Label } from 'semantic-ui-react';
+import { Table, Button, Label,Icon } from 'semantic-ui-react';
 import { v4 as uuidv4 } from 'uuid';
 import numberFormat from '../../../utils/numberFormat';
 
@@ -163,7 +163,7 @@ export default function TableView({
           dispatch({ type: 'LOAD' });
           setColumnSwitch('');
         }}
-      >
+      ><Icon name="refresh"/>
         載入全部
       </Button>
       <Table celled unstackable>
