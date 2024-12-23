@@ -104,7 +104,7 @@ export default function index() {
   };
 
   return (
-    <>123demo中文
+    <>123demo中文user.name user.email
       <DataSelect
         table={table}
         setTable={setTable}
