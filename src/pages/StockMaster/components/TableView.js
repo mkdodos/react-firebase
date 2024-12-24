@@ -3,12 +3,16 @@ import { Table, Button, Label } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 import numberFormat from '../../../utils/numberFormat';
 
-export default function TableView({ state, columns, handleEdit, handleAdd }) {
-  const { loading, data } = state;
+export default function TableView({ state, columns, handleEdit, handleAdd, dispatch }) {
+  const { loading, data, column, direction, total } = state;
 
 
   // 篩選可檢視欄位
   columns = columns.filter((col) => col.viewable);
+
+
+  console.log(total)
+
 
 
   // 針對不同欄位做不同顯示
@@ -49,12 +53,12 @@ export default function TableView({ state, columns, handleEdit, handleAdd }) {
           </Label>
         );
 
-      case 'costs':
-        return numberFormat(row[column.name]);
-      case 'soldAmt':
-        return numberFormat(row[column.name]);
-      case 'avgCost':
-        return numberFormat(row[column.name]);
+      // case 'costs':
+      //   return numberFormat(row[column.name]);
+      // case 'soldAmt':
+      //   return numberFormat(row[column.name]);
+      // case 'avgCost':
+      // return numberFormat(row[column.name]);
 
       case 'roi':
         return (
@@ -71,16 +75,53 @@ export default function TableView({ state, columns, handleEdit, handleAdd }) {
           </Label>
         );
 
+      // 現值
+      //case 'leftAmt':
+      //return numberFormat(row[column.name]);
+
       default:
-        return row[column.name];
+        return numberFormat(row[column.name]);;
     }
   };
 
+
+  // 合計列
+  const totalRow = (columns) => {
+    return columns.map((col, index) => {
+
+     
+
+      // if (col.name == 'bonus')
+      //   return (
+      //     <Table.HeaderCell key={index}>
+      //       {numberFormat(total[col.name])}
+      //     </Table.HeaderCell>
+
+      //   )
+      // return <Table.HeaderCell key={index}></Table.HeaderCell>;
+      if (!total[col.name])
+        return <Table.HeaderCell key={index}></Table.HeaderCell>;
+      return (
+        <Table.HeaderCell key={index}>
+          {numberFormat(total[col.name])}
+        </Table.HeaderCell>
+      );
+    });
+  };
+
+
   return (
     <div>
-      avgCost = (costs - minusCosts) / qtys 
-      <Table celled unstackable>
+      {/* avgCost = (costs - minusCosts) / qtys */}
+      <Table celled unstackable sortable striped>
         <Table.Header>
+
+          <Table.Row>
+            <Table.HeaderCell></Table.HeaderCell>
+            {total && totalRow(columns)}
+
+          </Table.Row>
+
           <Table.Row>
             <Table.HeaderCell>
               <Button primary onClick={handleAdd} loading={loading}>
@@ -89,7 +130,18 @@ export default function TableView({ state, columns, handleEdit, handleAdd }) {
             </Table.HeaderCell>
             {columns.map((col, index) => {
               return (
-                <Table.HeaderCell key={index}>
+                <Table.HeaderCell
+
+                  sorted={column == col.name ? direction : null}
+
+                  onClick={() =>
+                    dispatch({
+                      type: 'SORT',
+                      payload: { column: col.name, type: col.type },
+                    })
+                  }
+
+                  key={index}>
                   {col.label}
                   <br />
                   {col.name}

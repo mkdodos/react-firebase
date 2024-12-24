@@ -25,13 +25,13 @@ export const reducer = async (state, action) => {
 
       // 預估損益
       let bonus = 0;
-      bonus =Math.round((price - avgCost) * qtys);
+      bonus = Math.round((price - avgCost) * qtys);
       // 報酬率
       let roi = 0;
       roi = Math.round((bonus / (costs - minusCosts)) * 10000) / 100;
       // 未攤成本
-      let leftCosts=0;
-      leftCosts = costs-minusCosts;
+      let leftCosts = 0;
+      leftCosts = costs - minusCosts;
       return {
         ...obj,
         qtys: inQtys - outQtys, //餘股
@@ -40,22 +40,91 @@ export const reducer = async (state, action) => {
         minusCosts: Math.round(minusCosts),
         bonus,
         roi,
-        leftCosts
+        leftCosts,
+        leftAmt: Math.round(qtys * price)
       };
     });
+
+
+    // 預設用損益排序   
+
+    newData.sort((a, b) => {
+      return a.bonus < b.bonus ? 1 : -1;
+    });
+
+    console.log(newData)
 
     return newData;
   };
 
+
+  // 計算合計
+  const calTotal = (data) => {
+    let bonus = 0; //損益
+    // let costs = 0; //成本
+    let leftCosts = 0;
+    let leftAmt = 0;
+
+    // console.log(data)
+
+    data.map((obj) => {
+      bonus += obj.bonus;
+      // costs += obj.costs;
+      leftCosts+=obj.leftCosts
+      leftAmt+=obj.leftAmt
+    });
+
+    return {
+      bonus,
+      // costs,
+      leftCosts,
+      leftAmt
+    };
+  };
+
   // 執行相關動作
   switch (action.type) {
+
+
+
+    // 排序
+    case 'SORT':
+      let direction = 'ascending';
+      let sortedData = state.data;
+      const columnName = action.payload.column;
+      const columnType = action.payload.type;
+
+      if (state.column == columnName) {
+        direction = state.direction == 'ascending' ? 'descending' : 'ascending';
+        sortedData = state.data.slice().reverse();
+      } else {
+        direction = 'ascending';
+        sortedData = state.data.slice().sort((a, b) => {
+          // 數字欄位
+          if (columnType == 'number')
+            return a[columnName] * 1 > b[columnName] * 1 ? 1 : -1;
+          // 其他欄位
+          return a[columnName] > b[columnName] ? 1 : -1;
+        });
+      }
+
+      return {
+        ...state,
+        data: sortedData,
+        column: columnName,
+        direction,
+      };
+
+
     // 載入資料
     case 'LOAD':
       const loadedDocs = await readDocs(table);
+      const calData = calColumns(loadedDocs)
       return {
         ...state,
-        data: calColumns(loadedDocs),
+        data: calData,
         loading: false,
+        total: calTotal(calData),
       };
 
     // 新增

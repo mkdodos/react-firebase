@@ -23,6 +23,10 @@
       "editable": "true",
       "viewable": "true"
     },
+
+   
+
+
     {
       "name": "minusCosts",
       "label": "已攤成本",
@@ -65,12 +69,10 @@
       "editable": "true",
       "viewable": "true"
     },
-    {
-      "name": "avgCost",
-      "label": "平均成本",
-      "type": "number",
-      "viewable": "true"
-    },
+
+  
+
+    
 
     {
       "name": "price",
@@ -79,6 +81,24 @@
       "editable": "true",
       "viewable": "true"
     },
+
+
+    {
+      "name": "avgCost",
+      "label": "平均成本",
+      "type": "number",
+      "viewable": "true"
+    },
+
+    {
+      "name": "leftAmt",
+      "label": "市值",
+      "type": "number",
+      "editable": "true",
+      "viewable": "true"
+    },
+
+   
     {
       "name": "bonus",
       "label": "預估損益",

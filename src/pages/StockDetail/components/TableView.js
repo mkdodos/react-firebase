@@ -153,7 +153,7 @@ export default function TableView({
 
   return (
     <div>
-      bonus = (price - avgCost) * outQty
+      {/* bonus = (price - avgCost) * outQty */}
       <Button toggle active={masterRowSwitch} onClick={()=>setMasterRowSwitch(!masterRowSwitch)}>
         主表資料
       </Button>
