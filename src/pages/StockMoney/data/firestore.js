@@ -4,7 +4,7 @@ const readDocs = async (table) => {
   const snapshot = await db
     .collection(table)
     .where('cate', '==', '存股')
-    .orderBy('date','desc')
+    .orderBy('date', 'desc')
     .limit(10)
     .get();
 
@@ -15,6 +15,28 @@ const readDocs = async (table) => {
   });
   return data;
 };
+
+
+
+
+const readDocsByDate = async (table, fromDate,toDate) => {
+  // console.log(fromDate)
+  // console.log(toDate)
+  const snapshot = await db
+    .collection(table)
+    .where('cate', '==', '存股')
+    .where('date', '>=', fromDate)
+    .where('date', '<', toDate)
+    .orderBy('date', 'desc')
+    .limit(10)
+    .get();  
+
+  const data = snapshot.docs.map((doc) => {
+    return { ...doc.data(), id: doc.id };
+  });
+  return data;
+};
+
 
 const readAndCreate = async () => {
   const snapshot = await db.collection('master').get();
@@ -44,4 +66,4 @@ const deleteDoc = async (table, row) => {
   await db.collection(table).doc(row.id).delete();
 };
 
-export { readDocs, createDoc, updateDoc, deleteDoc, readAndCreate };
+export { readDocs, createDoc, updateDoc, deleteDoc, readAndCreate,readDocsByDate };

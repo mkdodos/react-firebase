@@ -4,6 +4,7 @@ import useAsyncReducer from './functions/asyncReducer';
 import { reducer } from './data/reducer';
 import TableView from './components/TableView';
 import EditForm from './components/EditForm';
+import DatePicker from './components/DatePicker';
 
 export default function index() {
   // 預設資料物件
@@ -51,6 +52,7 @@ export default function index() {
 
   return (
     <div>
+      <DatePicker  dispatch={dispatch} />
       <EditForm
         columns={columns}
         row={row}

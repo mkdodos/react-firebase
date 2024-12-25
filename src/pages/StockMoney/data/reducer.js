@@ -1,5 +1,6 @@
 import {
   readDocs,
+  readDocsByDate,
   createDoc,
   updateDoc,
   deleteDoc,
@@ -18,6 +19,16 @@ export const reducer = async (state, action) => {
 
   // 執行相關動作
   switch (action.type) {
+    // 查詢資料
+    case "QUERY":
+    // 取得開始日期
+    const fromDate = action.payload.fromDate; 
+    const toDate = action.payload.toDate; 
+      // console.log(action.payload.toDate)
+      return {
+        ...state,
+        data: await readDocsByDate(table,fromDate,toDate),
+      }
     // 載入資料
     case 'LOAD':
       return {
