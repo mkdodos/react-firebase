@@ -75,9 +75,9 @@ export default function TableView({ state, columns, handleEdit, handleAdd, dispa
           </Label>
         );
 
-      // 現值
-      //case 'leftAmt':
-      //return numberFormat(row[column.name]);
+      // 代號
+      case 'stockNo':
+        return row[column.name];
 
       default:
         return numberFormat(row[column.name]);;
@@ -89,7 +89,7 @@ export default function TableView({ state, columns, handleEdit, handleAdd, dispa
   const totalRow = (columns) => {
     return columns.map((col, index) => {
 
-     
+
 
       // if (col.name == 'bonus')
       //   return (

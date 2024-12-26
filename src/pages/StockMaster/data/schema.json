@@ -4,8 +4,8 @@
     {
       "name": "stockNo",
       "label": "代號",
-      "type": "text",
-      "viewable": "true"
+      "type": "text"
+      
     },
 
     {

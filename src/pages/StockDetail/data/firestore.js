@@ -4,7 +4,7 @@ const readDocs = async (table) => {
   const snapshot = await db
     .collection(table)
     .orderBy('transDate', 'desc')
-    .limit(20)
+    .limit(50)
     .get();
   // const snapshot = await db
   //   .collection(table)

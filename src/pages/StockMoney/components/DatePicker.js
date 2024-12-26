@@ -1,82 +1,108 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Button, Input } from 'semantic-ui-react'
 
-export default function DatePicker({ dispatch }) {
+export default function DatePicker() {
+
+
     const [fromDate, setFromDate] = useState(new Date().toISOString().substring(0, 10))
     const [toDate, setToDate] = useState(new Date().toISOString().substring(0, 10))
 
 
     // 用此月份控制查詢區間
+    const [year, setYear] = useState(new Date().getFullYear())
     const [month, setMonth] = useState(new Date().getMonth() + 1)
 
-    // 將日期區間設定為本月第一天和下月第一天    
-    const dateProcess = () => {
 
-        const defaultDate = new Date();
+    // 按上個月
+    const handlePreviousMonth = () => {
 
-        let year = defaultDate.getFullYear();
-        let thisMonth = month;
-        let nextMonth = month + 1;
 
-        // 月份<10補0才能跟日期input對應
-        if (month < 10) {
-            thisMonth = "0" + month;
+
+        // let month = new Date().getMonth() ;
+
+        let date = month;
+
+
+        // setMonth(month+1)
+
+
+
+
+        setMonth(month - 1)
+        // setFromDate(month-1)
+
+
+
+
+        // 1 do not need to be changed to 0
+        // minus year
+        if (month == 1) {
+            setMonth(12)
+            setYear(year - 1)
+            setFromDate((year - 1) + "-" + 12 + "-01")
+        } else {
+            let tempM = month - 1;
+
+            if (tempM < 10) {
+                tempM = "0" + tempM;
+            }
+            setFromDate(year + "-" + tempM + "-01")
         }
 
-        // 本月第一天
-        setFromDate(year + "-" + thisMonth + "-01")
 
-        
-        if (nextMonth < 10) {
-            nextMonth = "0" + nextMonth;
-        }
 
-        // 跨年
-        // 如果為13則年份加1,月份變成01
-        // 例:2024-12=>2024-13=>2025-01
-        if (nextMonth == 13) {
-            year += 1;
-            nextMonth = "01";
-        }
 
-        // 下個月第一天
-        setToDate(year + "-" + nextMonth + "-01")
-        
+
+
+
+
+
 
     }
+    // 按下個月
+    const handleNextMonth = () => {
 
 
-    useEffect(() => {
-        dateProcess()
-    }, [month])
+        setMonth(month + 1)
 
 
+        // 12 do not need to be changed to 13
+        // plus year
+        if (month == 12) {
+            setMonth(1)
+            setYear(year + 1)
+            setFromDate((year + 1) + "-01-01")
+        } else {
+            let tempM = month + 1;
 
+            if (tempM < 10) {
+                tempM = "0" + tempM;
+            }
 
+            setFromDate(year + "-" + tempM + "-01")
+        }
 
-
-
-
-    const handleQuery = () => {
-        console.log(month)
-        // 將日期傳給 reducer 做查詢動作
-        dispatch({ type: "QUERY", payload: { fromDate, toDate } })
-        // console.log(fromDate)
     }
     return (
         <div>
-            <Button content='previous' onClick={() => setMonth(month - 1)} />
-            <Button content='next' onClick={() => setMonth(month + 1)} />
+            {year} - {month}
+            <br></br> {fromDate}
 
 
-            <Button content='Query' onClick={handleQuery} />
+
+
+
+            <Button content='上個月' onClick={handlePreviousMonth} />
+            <Button content='下個月' onClick={handleNextMonth} />
+
+
             <Input onChange={(e) => setFromDate(e.target.value)}
                 type="date" value={fromDate} />
 
             <Input onChange={(e) => setToDate(e.target.value)}
                 type="date" value={toDate} />
 
-            {/* <Button>查詢</Button> */}
+
         </div>
     )
 }
