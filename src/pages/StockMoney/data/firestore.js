@@ -66,4 +66,4 @@ const deleteDoc = async (table, row) => {
   await db.collection(table).doc(row.id).delete();
 };
 
-export { readDocs, createDoc, updateDoc, deleteDoc, readAndCreate,readDocsByDate };
+export { readDocs, createDoc, updateDoc, deleteDoc, readDocsByDate };

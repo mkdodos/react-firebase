@@ -3,8 +3,7 @@ import {
   readDocsByDate,
   createDoc,
   updateDoc,
-  deleteDoc,
-  readAndCreate,
+  deleteDoc,  
 } from './firestore';
 
 export const reducer = async (state, action) => {
