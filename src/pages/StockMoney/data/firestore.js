@@ -5,7 +5,7 @@ const readDocs = async (table) => {
     .collection(table)
     .where('cate', '==', '存股')
     .orderBy('date', 'desc')
-    .limit(10)
+    .limit(50)
     .get();
 
   // const snapshot = await db.collection(table).limit(10).get();
@@ -28,7 +28,7 @@ const readDocsByDate = async (table, fromDate,toDate) => {
     .where('date', '>=', fromDate)
     .where('date', '<', toDate)
     .orderBy('date', 'desc')
-    .limit(10)
+    .limit(20)
     .get();  
 
   const data = snapshot.docs.map((doc) => {
