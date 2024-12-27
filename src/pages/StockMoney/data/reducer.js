@@ -17,24 +17,48 @@ export const reducer = async (state, action) => {
 
   let data = state.data.slice();
 
+
+
+  // 計算合計
+  const calTotal = (data) => {
+    let income = 0;
+    let expense = 0;
+
+    data.map((obj) => {
+      if(obj.income)
+      income +=Number(obj.income);
+      if(obj.expense)
+      expense += Number(obj.expense);
+    });
+
+    return {
+      income,
+      expense
+    };
+  };
+
+
   // 執行相關動作
   switch (action.type) {
     // 查詢資料
     case "QUERY":
-    // 取得開始日期
-    const fromDate = action.payload.fromDate; 
-    const toDate = action.payload.toDate; 
-      // console.log(action.payload.toDate)
+      // 取得開始日期
+      const fromDate = action.payload.fromDate;
+      const toDate = action.payload.toDate;
+      const queryDocs = await readDocsByDate(table, fromDate, toDate)
       return {
         ...state,
-        data: await readDocsByDate(table,fromDate,toDate),
+        data: queryDocs,
+        total: calTotal(queryDocs)
       }
     // 載入資料
     case 'LOAD':
+      const docs = await readDocs(table)
       return {
         ...state,
-        data: await readDocs(table),
+        data: docs,
         loading: false,
+        total: calTotal(docs)
       };
 
     // 新增

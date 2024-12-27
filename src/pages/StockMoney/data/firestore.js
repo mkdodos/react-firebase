@@ -26,7 +26,7 @@ const readDocsByDate = async (table, fromDate,toDate) => {
     .collection(table)
     .where('cate', '==', '存股')
     .where('date', '>=', fromDate)
-    .where('date', '<', toDate)
+    .where('date', '<=', toDate)
     .orderBy('date', 'desc')
     .limit(20)
     .get();  
