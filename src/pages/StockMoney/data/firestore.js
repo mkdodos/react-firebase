@@ -38,20 +38,20 @@ const readDocsByDate = async (table, fromDate,toDate) => {
 };
 
 
-const readAndCreate = async () => {
-  const snapshot = await db.collection('master').get();
-  const data = snapshot.docs.map((doc) => {
-    const { stockNo, stockName } = doc.data();
-    db.collection('stockMaster').add({
-      stockNo,
-      stockName,
-      toDate: '',
-      costs: 0,
-      qtys: 0,
-      soldAmt: 0,
-    });
-  });
-};
+// const readAndCreate = async () => {
+//   const snapshot = await db.collection('master').get();
+//   const data = snapshot.docs.map((doc) => {
+//     const { stockNo, stockName } = doc.data();
+//     db.collection('stockMaster').add({
+//       stockNo,
+//       stockName,
+//       toDate: '',
+//       costs: 0,
+//       qtys: 0,
+//       soldAmt: 0,
+//     });
+//   });
+// };
 
 const createDoc = async (table, row) => {
   const docRef = await db.collection(table).add(row);
