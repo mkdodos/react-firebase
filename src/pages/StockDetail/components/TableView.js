@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from 'react';
-import { Table, Button, Label,Icon } from 'semantic-ui-react';
+import { Table, Button, Label, Icon } from 'semantic-ui-react';
 import { v4 as uuidv4 } from 'uuid';
 import numberFormat from '../../../utils/numberFormat';
 
@@ -26,14 +26,29 @@ export default function TableView({
   // 針對不同欄位做不同顯示
   const genColumn = (row, column, prevRow) => {
     switch (column.name) {
-      case 'amt':
-        return numberFormat(row[column.name]);
+
       case 'price':
-        return numberFormat(row[column.name]);
+        if (row.inQty > 0)
+          return <span style={{ color: '#e03997' }}>{row.price}</span>;
+        else
+          return <span style={{ color: 'green' }}>{row.price}</span>;
+
+      case 'amt':
+        if (row.inQty > 0)
+          return <span style={{ color: '#e03997' }}>{row.amt}</span>;
+        else
+          return <span style={{ color: 'green' }}>{row.amt}</span>;
+
+
+      case 'inQty':
+        return <span style={{ color: '#e03997' }}>{row.inQty}</span>;
+      case 'outQty':
+        return <span style={{ color: 'green' }}>{row.outQty}</span>;
+
       case 'transDate':
         // 和前一筆相同時用灰色顯示
         const prev = prevRow?.transDate;
-        const isSame = row[column.name] == prev;             
+        const isSame = row[column.name] == prev;
         if (isSame) return <Label size="large">{row[column.name]}</Label>;
 
         return (
@@ -119,15 +134,7 @@ export default function TableView({
         {/* <Table.Cell>outQty{row.outQty}</Table.Cell> */}
         {/* <Table.Cell>minusCost{minusCost}</Table.Cell> */}
       </Table.Row>
-      // <Table.Row key={uuidv4()}>
-      //   <Table.Cell>costs{row.masterObj?.costs}</Table.Cell>
-      //   <Table.Cell>minusCosts{row.masterObj?.minusCosts}</Table.Cell>
-      //   <Table.Cell>inQtys{row.masterObj?.inQtys}</Table.Cell>
-      //   <Table.Cell>outQtys{row.masterObj?.outQtys}</Table.Cell>
-      //   <Table.Cell>qtys{row.masterObj?.qtys}</Table.Cell>
-      //   <Table.Cell>outQty{row.outQty}</Table.Cell>
-      //   <Table.Cell>{row.outQty}</Table.Cell>
-      // </Table.Row>
+
     );
   };
 
@@ -154,7 +161,7 @@ export default function TableView({
   return (
     <div>
       {/* bonus = (price - avgCost) * outQty */}
-      <Button toggle active={masterRowSwitch} onClick={()=>setMasterRowSwitch(!masterRowSwitch)}>
+      <Button toggle active={masterRowSwitch} onClick={() => setMasterRowSwitch(!masterRowSwitch)}>
         主表資料
       </Button>
       <Button onClick={handleSwitchClick}>切換買賣</Button>
@@ -163,7 +170,7 @@ export default function TableView({
           dispatch({ type: 'LOAD' });
           setColumnSwitch('');
         }}
-      ><Icon name="refresh"/>
+      ><Icon name="refresh" />
         載入全部
       </Button>
       <Table celled unstackable>
