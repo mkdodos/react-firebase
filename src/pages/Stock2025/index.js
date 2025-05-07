@@ -1,0 +1,67 @@
+import React, { useEffect, useState } from "react";
+import useAsyncReducer from "../../utils/asyncReducer";
+import { reducer } from "./data/reducer";
+
+import schema from "./data/schema.json";
+import TableView from "./components/TableView";
+import EditForm from "./components/EditForm";
+import StockDropdown from "./components/StockDropdown";
+
+export default function index() {
+  // 預設資料物件
+  const initState = {
+    data: [],
+  };
+  const [state, dispatch] = useAsyncReducer(reducer, initState);
+
+  // console.log(state.data);
+
+  const { columns } = schema;
+
+  // 欄位預設值
+  const defaultRow = {};
+  let editableColumns = columns.filter((col) => col.editable);
+  editableColumns.map((obj) => {
+    defaultRow[obj.dataKey] = "";
+  });
+
+  defaultRow.date = new Date().toISOString().substring(0, 10);
+
+  const [row, setRow] = useState(defaultRow);
+
+  useEffect(() => {
+    dispatch({ type: "LOAD" });
+  }, []);
+
+  // 新增
+  const handleAdd = () => {
+    setRow(defaultRow);
+    dispatch({ type: "ADD" });
+  };
+
+  // 編輯
+  const handleEdit = (row, index) => {
+    setRow(row);
+    dispatch({ type: "EDIT", payload: { editedRowIndex: index } });
+  };
+
+  return (
+    <>
+      <StockDropdown />
+      <TableView
+        state={state}
+        columns={columns}
+        isEditable={true}
+        handleAdd={handleAdd}
+        handleEdit={handleEdit}
+      />
+      <EditForm
+        state={state}
+        columns={columns}
+        dispatch={dispatch}
+        row={row}
+        setRow={setRow}
+      />
+    </>
+  );
+}

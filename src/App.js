@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './pages/Login';
 import Maya from './pages/Maya';
 import Stock from './pages/Stock';
+import Stock2025 from "./pages/Stock2025"
 import Money from './pages/Money';
 import Demo from './pages/Demo';
 import Demo1 from './pages/Demo1';
@@ -30,6 +31,7 @@ export default function App() {
           <Route path="/" element={<StockMaster />} />
           <Route path="/login" element={<Login />} />
           <Route path="/stock" element={<Stock />} />
+          <Route path="/stock2025" element={<Stock2025 />} />
           <Route path="/maya" element={<Maya />} />
           <Route path="/money" element={<Money />} />
           <Route path="/demo" element={<Demo />} />

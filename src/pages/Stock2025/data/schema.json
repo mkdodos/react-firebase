@@ -1,0 +1,51 @@
+{
+  "columns": [
+    {
+      "dataKey": "id",
+      "title": "ID",
+      "type": "date",
+      "viewable": "true",
+      "width": "2"
+    },
+    {
+      "dataKey": "date",
+      "title": "日期",
+      "type": "date",
+      "viewable": "true",
+      "editable": "true",
+      "width": "2"
+    },
+
+    {
+      "dataKey": "stockNo",
+      "title": "代號",
+      "type": "text"
+    },
+
+    {
+      "dataKey": "stockName",
+      "title": "股票名稱",
+      "type": "text",
+      "editable": "true",
+      "viewable": "true"
+    },
+
+    {
+      "dataKey": "qty",
+      "title": "股數",
+      "type": "number",
+      "viewable": "true",
+      "editable": "true",
+      "width": "2"
+    },
+
+    {
+      "dataKey": "price",
+      "title": "$ 單價",
+      "type": "number",
+      "viewable": "true",
+      "editable": "true",
+      "width": "2"
+    }
+  ]
+}
