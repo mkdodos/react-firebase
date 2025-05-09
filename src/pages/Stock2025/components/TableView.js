@@ -13,6 +13,15 @@ export default function TableView({
   // direction 遞增遞減
   const { sortedColumn, direction, data, loading } = state;
 
+  const handleFilter = (e, column) => {
+    dispatch({
+      type: "FILTER",
+      payload: { column, [column]: e.target.innerHTML },
+    });
+    // console.log(e.target.innerHTML);
+    // console.log(column);
+  };
+
   return (
     <Table celled sortable striped>
       <Table.Header>
@@ -53,7 +62,14 @@ export default function TableView({
             <Table.Row key={row.id}>
               {/* 欄位迴圈 */}
               {columns.map((col, index) => {
-                return <Table.Cell key={index}>{row[col.dataKey]}</Table.Cell>;
+                return (
+                  <Table.Cell
+                    key={index}
+                    onClick={(e) => handleFilter(e, col.dataKey)}
+                  >
+                    {row[col.dataKey]}
+                  </Table.Cell>
+                );
               })}
               {/* 編輯欄 */}
               {isEditable && (

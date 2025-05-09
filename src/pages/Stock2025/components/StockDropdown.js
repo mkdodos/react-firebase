@@ -22,6 +22,7 @@ export default function StockDropdown({ onChange,name,value }) {
       <Form.Select
         selection
         search
+        clearable
         placeholder="名稱"
         fluid
         options={options}

@@ -46,6 +46,13 @@
       "viewable": "true",
       "editable": "true",
       "width": "2"
+    },
+    {
+      "dataKey": "amt",
+      "title": "小計",
+      "type": "number",
+      "viewable": "true",     
+      "width": "2"
     }
   ]
 }

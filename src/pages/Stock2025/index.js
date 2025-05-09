@@ -6,11 +6,13 @@ import schema from "./data/schema.json";
 import TableView from "./components/TableView";
 import EditForm from "./components/EditForm";
 import StockDropdown from "./components/StockDropdown";
+import SearchBar from "./components/SearchBar";
 
 export default function index() {
   // 預設資料物件
   const initState = {
     data: [],
+    search: { date: new Date().toISOString().substring(0, 10), stockNo: "" },
   };
   const [state, dispatch] = useAsyncReducer(reducer, initState);
 
@@ -47,9 +49,10 @@ export default function index() {
 
   return (
     <>
-      <StockDropdown />
+      <SearchBar state={state} dispatch={dispatch} />
       <TableView
         state={state}
+        dispatch={dispatch}
         columns={columns}
         isEditable={true}
         handleAdd={handleAdd}
