@@ -36,7 +36,7 @@ export default function SearchBar({ state, dispatch }) {
         </Form.Field>
         <Form.Field>
           <label>&nbsp;</label>
-          <Button onClick={handleSearch}>查詢</Button>
+          <Button onClick={handleSearch} loading={state.loading}>查詢</Button>
         </Form.Field>
         <Form.Field>
           <label>&nbsp;</label>

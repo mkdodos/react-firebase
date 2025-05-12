@@ -1,5 +1,6 @@
 import React from "react";
 import { Table, Button, Icon } from "semantic-ui-react";
+import numberFormat from "../../../utils/numberFormat";
 
 export default function TableView({
   state,
@@ -40,7 +41,8 @@ export default function TableView({
                   })
                 }
               >
-                {col.title}
+                {/* 小計顯示金額,其它欄位顯示文字 */}
+                {col.dataKey == "amt" ? numberFormat(state.total) : col.title}
               </Table.HeaderCell>
             );
           })}
@@ -67,7 +69,10 @@ export default function TableView({
                     key={index}
                     onClick={(e) => handleFilter(e, col.dataKey)}
                   >
-                    {row[col.dataKey]}
+                    {/* 小計欄位數字格式化 */}
+                    {col.dataKey == "amt"
+                      ? numberFormat(row[col.dataKey])
+                      : row[col.dataKey]}
                   </Table.Cell>
                 );
               })}

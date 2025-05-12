@@ -30,9 +30,20 @@
       "viewable": "true"
     },
 
+   
+    
     {
-      "dataKey": "qty",
-      "title": "股數",
+      "dataKey": "inQty",
+      "title": "買進股數",
+      "type": "number",
+      "viewable": "true",
+      "editable": "true",
+      "width": "2"
+    },
+
+    {
+      "dataKey": "outQty",
+      "title": "賣出股數",
       "type": "number",
       "viewable": "true",
       "editable": "true",

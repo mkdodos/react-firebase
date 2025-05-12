@@ -1,5 +1,5 @@
-import React from "react";
-import { Form, Button, Modal } from "semantic-ui-react";
+import React, { useState } from "react";
+import { Form, Button, Modal, Menu } from "semantic-ui-react";
 import StockDropdown from "./StockDropdown";
 
 export default function EditForm({ columns, state, dispatch, row, setRow }) {
@@ -7,6 +7,14 @@ export default function EditForm({ columns, state, dispatch, row, setRow }) {
   columns = columns.filter((col) => col.editable);
 
   const { isEditFormOpen, editedRowIndex } = state;
+
+  const [isSold, setIsSold] = useState(true);
+
+  if (isSold) {
+    columns = columns.filter((col) => col.dataKey != "inQty");
+  } else {
+    columns = columns.filter((col) => col.dataKey != "outQty");
+  }
 
   // 組合每一列 group
   // columnsPerRow :　每列幾個欄位
@@ -27,27 +35,59 @@ export default function EditForm({ columns, state, dispatch, row, setRow }) {
   const formFields = (index, columnsPerRow) => {
     let fields = [];
     columns.slice(index, index + columnsPerRow).map((col, index) => {
-      if (col.dataKey == "stockName") {
-        fields.push(
-          <StockDropdown
-            key={index}
-            value={row.stockNo}
-            onChange={handleStockChange}
-          />
-        );
-      } else {
-        // 文字輸入框
-        fields.push(
-          <Form.Field key={index}>
-            <label>{col.title}</label>
-            <Form.Input
-              type={col.type}
-              name={col.dataKey}
-              value={row[col.dataKey]}
-              onChange={handleInputChange}
+      switch (col.dataKey) {
+        case "stockName":
+          fields.push(
+            <StockDropdown
+              key={index}
+              value={row.stockNo}
+              onChange={handleStockChange}
             />
-          </Form.Field>
-        );
+          );
+          break;
+
+        // case "inQty":
+        //   if (isSold) return;
+        //   fields.push(
+        //     <Form.Field key={index}>
+        //       <label>{col.title}</label>
+        //       <Form.Input
+        //         type={col.type}
+        //         name={col.dataKey}
+        //         value={row.outQty}
+        //         onChange={handleInputChange}
+        //       />
+        //     </Form.Field>
+        //   );
+        //   break;
+
+        // case "outQty":
+        //   if (!isSold) return;
+        //   fields.push(
+        //     <Form.Field key={index}>
+        //       <label>{col.title}</label>
+        //       <Form.Input
+        //         type={col.type}
+        //         name={col.dataKey}
+        //         value={row.outQty}
+        //         onChange={handleInputChange}
+        //       />
+        //     </Form.Field>
+        //   );
+        //   break;
+
+        default:
+          fields.push(
+            <Form.Field key={index}>
+              <label>{col.title}</label>
+              <Form.Input
+                type={col.type}
+                name={col.dataKey}
+                value={row[col.dataKey]}
+                onChange={handleInputChange}
+              />
+            </Form.Field>
+          );
       }
     });
     return fields;
@@ -91,6 +131,23 @@ export default function EditForm({ columns, state, dispatch, row, setRow }) {
           </Button>
         </Modal.Header>
         <Modal.Content>
+          <Menu secondary pointing widths={2}>
+            <Menu.Item
+              onClick={() => setIsSold(false)}
+              active={!isSold}
+              color="red"
+            >
+              買進
+            </Menu.Item>
+            <Menu.Item
+              onClick={() => setIsSold(true)}
+              active={isSold}
+              color="teal"
+            >
+              賣出
+            </Menu.Item>
+          </Menu>
+
           <Form>{formGroups(4)}</Form>
         </Modal.Content>
         <Modal.Actions>

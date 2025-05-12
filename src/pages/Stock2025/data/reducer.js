@@ -1,3 +1,4 @@
+import { loadBundle } from "firebase11/firestore";
 import { db } from "./firebase";
 
 import {
@@ -22,25 +23,46 @@ export const reducer = async (state, action) => {
   // 計算欄位
   const calColumns = (data) => {
     return data.map((obj) => {
-      return { ...obj, amt: Math.floor(obj.qty * obj.price) };
+      // 依買進或賣出計算小計
+      if (obj.inQty) return { ...obj, amt: Math.floor(obj.inQty * obj.price) };
+      if (obj.outQty)
+        return { ...obj, amt: Math.floor(obj.outQty * obj.price) };
     });
   };
 
-  switch (action.type) {
-    case "FILTER":
-      // let dataFilter = state.dataCopy;
+  // 計算合計
+  const calTotal = (data) => {
+    let sum = 0;
+    data.map((obj) => {
+      sum += obj.amt;
+    });
+    return sum;
+  };
 
+  const groupByDate = (data) => {
+    const result = Object.groupBy(data, ({ date }) => date);
+    return result;
+    // console.log(Object.keys(result))
+    // for (const [key, value] of Object.entries(result)) {
+    //   // console.log(`${key}: ${value}`);
+    //   value.map(v=>console.log(key,v.stockName))
+    // }
+  };
+
+  switch (action.type) {
+    // 點選表格中欄位做篩選
+    case "FILTER":
       let dataFilter = state.dataCopy.filter(
         (obj) =>
           obj[action.payload.column] == action.payload[action.payload.column]
       );
+      return { ...state, data: dataFilter, total: calTotal(dataFilter) };
 
-      // console.log(action.payload);
-      return { ...state, data: dataFilter };
-
+    // 設定查詢
     case "SET_SEARCH":
       return { ...state, search: { ...state.search, ...action.payload } };
 
+    // 查詢
     case "SEARCH":
       let data = state.dataCopy;
 
@@ -58,7 +80,9 @@ export const reducer = async (state, action) => {
     case "CLEAR_SEARCH":
       // const data = state.data.filter((obj) => obj.stockNo == "2409");
       // console.log(state.search);
-      return { ...state, data: state.dataCopy };
+      return { ...state, data: state.dataCopy, total: 0 };
+
+    // 載入資料
     case "LOAD":
       // 取得集合
       const citiesCol = collection(db, colName);
@@ -74,12 +98,19 @@ export const reducer = async (state, action) => {
         return { ...doc.data(), id: doc.id };
       });
 
-      console.log(cityList);
+      // groupByDate(cityList);
+
+      console.log(groupByDate(cityList));
+
+      const calData = calColumns(cityList);
 
       return {
         ...state,
-        data: calColumns(cityList),
-        dataCopy: calColumns(cityList),
+        data: calData,
+        dataCopy: calData,
+        dataByDate: groupByDate(calData),
+        total: calTotal(calData),
+        loading: false,
       };
 
     // 編輯
@@ -117,23 +148,27 @@ export const reducer = async (state, action) => {
       return {
         ...state,
         data: calColumns(state.data),
+        dataCopy: calColumns(state.data),
         isEditFormOpen: false,
         editedRowIndex: -1,
       };
 
     // 更新
     case "UPDATE":
-      Object.assign(state.data[state.editedRowIndex], row);
       // const washingtonRef = doc(db, collection, docID);
       const washingtonRef = doc(db, colName, row.id);
       await updateDoc(washingtonRef, {
         ...row,
       });
 
+      Object.assign(state.data[state.editedRowIndex], row);
+
       return {
         ...state,
         isEditFormOpen: false,
         editedRowIndex: -1,
+        data: calColumns(state.data),
+        dataCopy: calColumns(state.data),
       };
 
     // 刪除
@@ -144,6 +179,7 @@ export const reducer = async (state, action) => {
       return {
         ...state,
         data: state.data.filter((obj) => obj.id != id),
+        dataCopy: state.dataCopy.filter((obj) => obj.id != id),
         isEditFormOpen: false,
         editedRowIndex: -1,
       };

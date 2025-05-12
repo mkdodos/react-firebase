@@ -7,11 +7,15 @@ import TableView from "./components/TableView";
 import EditForm from "./components/EditForm";
 import StockDropdown from "./components/StockDropdown";
 import SearchBar from "./components/SearchBar";
+import CardView from "./components/CardView";
 
 export default function index() {
   // 預設資料物件
   const initState = {
     data: [],
+    dataByDate:[],
+    loading: true,
+    total: 0,
     search: { date: new Date().toISOString().substring(0, 10), stockNo: "" },
   };
   const [state, dispatch] = useAsyncReducer(reducer, initState);
@@ -50,6 +54,8 @@ export default function index() {
   return (
     <>
       <SearchBar state={state} dispatch={dispatch} />
+
+      <CardView state={state} />
       <TableView
         state={state}
         dispatch={dispatch}
