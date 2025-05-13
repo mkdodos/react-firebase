@@ -21,56 +21,17 @@ import { v4 as uuidv4 } from "uuid";
 export default function CardView({ state }) {
   const { dataByDate } = state;
 
-  const genCards = () => {
-    let cards = [];
-    for (const [key, value] of Object.entries(dataByDate)) {
-      console.log(key);
-      cards.push(
-        <Card key={key}>
-          <CardContent>
-            <CardHeader>{key}</CardHeader>
-          </CardContent>
-          <CardContent extra>
-            <Table celled>
-              <TableHeader>
-                <TableRow>
-                  <TableHeaderCell>名稱</TableHeaderCell>
-                  <TableHeaderCell>股數</TableHeaderCell>
-                  <TableHeaderCell>單價</TableHeaderCell>
-                  <TableHeaderCell>小計</TableHeaderCell>
-                </TableRow>
-              </TableHeader>
+  // console.log(Object.entries(dataByDate))
 
-              <TableBody>{genRows(value)}</TableBody>
-            </Table>
-          </CardContent>
-        </Card>
-      );
-    }
-    return cards;
-  };
-
-  const genRows = (data) => {
-    let rows = [];
-    data.map((obj, index) =>
-      rows.push(
-        <TableRow key={uuidv4()}>
-          <TableCell>{obj.stockName}</TableCell>
-          <TableCell>{obj.inQty ? obj.inQty : obj.outQty}</TableCell>
-          <TableCell>{obj.price}</TableCell>
-          <TableCell>{obj.amt}</TableCell>
-        </TableRow>
-      )
-    );
-    return rows;
-  };
-
-  // 依欄數組合每幾天一列
+  // 分列(每一列有幾欄)
   const dayRows = (columnsCount) => {
     const output = [];
 
     let i = 0;
+    // key 日期
+    // value 該日期的陣列資料
     for (const [key, value] of Object.entries(dataByDate)) {
+      console.log(value);
       if (i % columnsCount == 0)
         output.push(
           <Grid.Row key={key}>{dayColumns(i, columnsCount)}</Grid.Row>
@@ -86,13 +47,14 @@ export default function CardView({ state }) {
     let dd = [];
 
     let rows = [];
+    let sum = 0;
 
     Object.entries(dataByDate)
       .slice(index, index + columnsCount)
       .map(
         (
           entry //console.log(entry)
-        ) =>
+        ) => {
           dd.push(
             <Grid.Column key={uuidv4()}>
               {/* {entry[1][0].stockName} */}
@@ -111,19 +73,23 @@ export default function CardView({ state }) {
                 </TableHeader>
                 <Table.Body>
                   {entry[1].map((obj) => (
-                    <TableRow key={uuidv4()}>
-                      <TableCell>{obj.stockName}</TableCell>
-                      <TableCell>
-                        {obj.inQty ? obj.inQty : obj.outQty}
-                      </TableCell>
-                      <TableCell>{obj.price}</TableCell>
-                      <TableCell>{obj.amt}</TableCell>
-                    </TableRow>
+                    <>
+                      
+                      <TableRow key={uuidv4()}>
+                        <TableCell>{obj.stockName}</TableCell>
+                        <TableCell>
+                          {obj.inQty ? obj.inQty : obj.outQty}
+                        </TableCell>
+                        <TableCell>{obj.price}</TableCell>
+                        <TableCell>{obj.amt}</TableCell>
+                      </TableRow>
+                    </>
                   ))}
                 </Table.Body>
               </Table>
             </Grid.Column>
-          )
+          );
+        }
       );
 
     return dd;

@@ -8,12 +8,13 @@ import EditForm from "./components/EditForm";
 import StockDropdown from "./components/StockDropdown";
 import SearchBar from "./components/SearchBar";
 import CardView from "./components/CardView";
+import { Tab, TabPane } from "semantic-ui-react";
 
 export default function index() {
   // 預設資料物件
   const initState = {
     data: [],
-    dataByDate:[],
+    dataByDate: [],
     loading: true,
     total: 0,
     search: { date: new Date().toISOString().substring(0, 10), stockNo: "" },
@@ -51,19 +52,38 @@ export default function index() {
     dispatch({ type: "EDIT", payload: { editedRowIndex: index } });
   };
 
+  const panes = [
+    {
+      menuItem: "日",
+      render: () => (
+        <TabPane>
+          <CardView state={state} />
+        </TabPane>
+      ),
+    },
+    {
+      menuItem: "表格",
+      render: () => (
+        <TabPane>          
+          <TableView
+            state={state}
+            dispatch={dispatch}
+            columns={columns}
+            isEditable={true}
+            handleAdd={handleAdd}
+            handleEdit={handleEdit}
+          />
+        </TabPane>
+      ),
+    }
+  ];
+
   return (
     <>
       <SearchBar state={state} dispatch={dispatch} />
 
-      <CardView state={state} />
-      <TableView
-        state={state}
-        dispatch={dispatch}
-        columns={columns}
-        isEditable={true}
-        handleAdd={handleAdd}
-        handleEdit={handleEdit}
-      />
+      <Tab panes={panes} />
+
       <EditForm
         state={state}
         columns={columns}

@@ -39,14 +39,26 @@ export const reducer = async (state, action) => {
     return sum;
   };
 
+  const groupByDateOLD = (data) => {
+    const obj = Object.groupBy(data, ({ date }) => date);
+    Object.keys(obj).forEach(function (key) {
+      // console.log(key, obj[key]);
+    });
+    return obj;
+  };
+
   const groupByDate = (data) => {
-    const result = Object.groupBy(data, ({ date }) => date);
-    return result;
-    // console.log(Object.keys(result))
-    // for (const [key, value] of Object.entries(result)) {
-    //   // console.log(`${key}: ${value}`);
-    //   value.map(v=>console.log(key,v.stockName))
-    // }
+    const obj = Object.groupBy(data, ({ date }) => date);
+    const arr = [];
+
+    Object.keys(obj).forEach(function (key) {
+      let sum = 0;
+      // 日合計
+      obj[key].map((v) => (sum += v.amt));
+      // 組合資料(日期,日合計,日資料)
+      arr.push({ date: key, sum, rows: obj[key] });
+    });
+    return arr;
   };
 
   switch (action.type) {
@@ -95,14 +107,17 @@ export const reducer = async (state, action) => {
       const citySnapshot = await getDocs(q);
       // 資料跑迴圈轉成物件陣列
       const cityList = citySnapshot.docs.map((doc) => {
-        return { ...doc.data(), id: doc.id };
+        // return { ...doc.data(), id: doc.id };
+        return { ...doc.data() };
       });
 
-      // groupByDate(cityList);
+      // console.log(cityList);
 
-      console.log(groupByDate(cityList));
+      // console.log(groupByDate(cityList));
 
       const calData = calColumns(cityList);
+
+      // console.log(objToArray(calData));
 
       return {
         ...state,

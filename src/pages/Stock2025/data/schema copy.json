@@ -1,6 +1,12 @@
 {
   "columns": [
-    
+    {
+      "dataKey": "id",
+      "title": "ID",
+      "type": "date",
+      "viewable": "true",
+      "width": "2"
+    },
     {
       "dataKey": "date",
       "title": "日期",

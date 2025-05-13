@@ -21,10 +21,10 @@ export default function SearchBar({ state, dispatch }) {
     <Form>
       <Form.Group>
         <Form.Field width={4}>
-          <StockDropdown
+          {/* <StockDropdown
             value={state.search.stock}
             onChange={handleStockChange}
-          />
+          /> */}
         </Form.Field>
         <Form.Field>
           <label>日期</label>
