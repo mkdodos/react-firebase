@@ -34,17 +34,13 @@ export const reducer = async (state, action) => {
   const calTotal = (data) => {
     let sum = 0;
     data.map((obj) => {
-      sum += obj.amt;
+      if (obj.inQty) {
+        sum -= obj.amt;
+      } else {
+        sum += obj.amt;
+      }
     });
     return sum;
-  };
-
-  const groupByDateOLD = (data) => {
-    const obj = Object.groupBy(data, ({ date }) => date);
-    Object.keys(obj).forEach(function (key) {
-      // console.log(key, obj[key]);
-    });
-    return obj;
   };
 
   const groupByDate = (data) => {
@@ -54,9 +50,23 @@ export const reducer = async (state, action) => {
     Object.keys(obj).forEach(function (key) {
       let sum = 0;
       // 日合計
-      obj[key].map((v) => (sum += v.amt));
+      obj[key].map((v) => (v.inQty ? sum -= v.amt : sum+=v.amt));
       // 組合資料(日期,日合計,日資料)
       arr.push({ date: key, sum, rows: obj[key] });
+    });
+    return arr;
+  };
+
+  const groupByStock = (data) => {
+    const obj = Object.groupBy(data, ({ stockName }) => stockName);
+    const arr = [];
+
+    Object.keys(obj).forEach(function (key) {
+      let sum = 0;
+      // 日合計
+      obj[key].map((v) => (v.inQty ? sum -= v.amt : sum+=v.amt));
+      // 組合資料(日期,日合計,日資料)
+      arr.push({ stockName: key, sum, rows: obj[key] });
     });
     return arr;
   };
@@ -107,23 +117,18 @@ export const reducer = async (state, action) => {
       const citySnapshot = await getDocs(q);
       // 資料跑迴圈轉成物件陣列
       const cityList = citySnapshot.docs.map((doc) => {
-        // return { ...doc.data(), id: doc.id };
-        return { ...doc.data() };
+        return { ...doc.data(), id: doc.id };
+        // return { ...doc.data() };
       });
 
-      // console.log(cityList);
-
-      // console.log(groupByDate(cityList));
-
       const calData = calColumns(cityList);
-
-      // console.log(objToArray(calData));
 
       return {
         ...state,
         data: calData,
         dataCopy: calData,
         dataByDate: groupByDate(calData),
+        dataByStock: groupByStock(calData),
         total: calTotal(calData),
         loading: false,
       };

@@ -10,16 +10,17 @@ import {
   TableBody,
   MenuItem,
   Icon,
+  Label,
   Menu,
   Table,
   Grid,
   GridRow,
   GridColumn,
-  Label,
 } from "semantic-ui-react";
 
 import { v4 as uuidv4 } from "uuid";
 import numberFormat from "../../../utils/numberFormat";
+
 
 export default function CardView({ data }) {
   // const { dataByDate } = state;
@@ -33,7 +34,7 @@ export default function CardView({ data }) {
               <Table celled unstackable>
                 <TableHeader>
                   <TableRow>
-                    <TableHeaderCell>{obj.date.slice(5, 10)}</TableHeaderCell>
+                    <TableHeaderCell>{obj.stockName}</TableHeaderCell>
                     <TableHeaderCell>股數</TableHeaderCell>
                     <TableHeaderCell>單價</TableHeaderCell>
                     <TableHeaderCell> {numberFormat(obj.sum)}</TableHeaderCell>
@@ -43,12 +44,12 @@ export default function CardView({ data }) {
                 <TableBody>
                   {obj.rows.map((row) => (
                     <TableRow key={uuidv4()}>
-                      <TableCell>{row.stockName}</TableCell>
+                      <TableCell>{row.date}</TableCell>
                       <TableCell>
                         {row.inQty ? (
-                          <Label color="red">{row.inQty}</Label>
+                          <Label circular basic  color="red">{row.inQty}</Label>
                         ) : (
-                          <Label size="large" basic color="green">{row.outQty}</Label>
+                          <Label size="large" circular basic color="green">{row.outQty}</Label>
                         )}
                       </TableCell>
                       <TableCell>{row.price}</TableCell>

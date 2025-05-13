@@ -23,8 +23,19 @@ export default function TableView({
     // console.log(column);
   };
 
+  const genColumn = (key, value) => {
+    switch (key) {
+      case "date":
+        return value.slice(5, 10);
+      case "amt":
+        return numberFormat(value);
+      default:
+        return value;
+    }
+  };
+
   return (
-    <Table celled sortable striped>
+    <Table celled sortable striped unstackable>
       <Table.Header>
         <Table.Row>
           {/* 欄位迴圈 */}
@@ -69,10 +80,13 @@ export default function TableView({
                     key={index}
                     onClick={(e) => handleFilter(e, col.dataKey)}
                   >
+                    {genColumn(col.dataKey, row[col.dataKey])}
                     {/* 小計欄位數字格式化 */}
-                    {col.dataKey == "amt"
+                    {/* {col.dataKey == "amt"
                       ? numberFormat(row[col.dataKey])
                       : row[col.dataKey]}
+
+                    {col.dataKey == "date" && row.date.slice(0, 5)} */}
                   </Table.Cell>
                 );
               })}

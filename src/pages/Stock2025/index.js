@@ -8,6 +8,7 @@ import EditForm from "./components/EditForm";
 import StockDropdown from "./components/StockDropdown";
 import SearchBar from "./components/SearchBar";
 import CardView from "./components/CardView";
+import CardViewStock from "./components/CardViewStock";
 import { Tab, TabPane } from "semantic-ui-react";
 
 export default function index() {
@@ -54,10 +55,18 @@ export default function index() {
 
   const panes = [
     {
-      menuItem: "日",
+      menuItem: "日期別",
       render: () => (
         <TabPane>
-          <CardView state={state} />
+          <CardView data={state.dataByDate} />
+        </TabPane>
+      ),
+    },
+    {
+      menuItem: "股票別",
+      render: () => (
+        <TabPane>
+          <CardViewStock data={state.dataByStock} />
         </TabPane>
       ),
     },
@@ -80,7 +89,7 @@ export default function index() {
 
   return (
     <>
-      <SearchBar state={state} dispatch={dispatch} />
+      {/* <SearchBar state={state} dispatch={dispatch} /> */}
 
       <Tab panes={panes} />
 
