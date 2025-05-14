@@ -9,7 +9,7 @@ import StockDropdown from "./components/StockDropdown";
 import SearchBar from "./components/SearchBar";
 import CardView from "./components/CardView";
 import CardViewStock from "./components/CardViewStock";
-import { Tab, TabPane } from "semantic-ui-react";
+import { Tab, TabPane,Button } from "semantic-ui-react";
 
 export default function index() {
   // 預設資料物件
@@ -73,7 +73,7 @@ export default function index() {
     {
       menuItem: "表格",
       render: () => (
-        <TabPane>          
+        <TabPane>
           <TableView
             state={state}
             dispatch={dispatch}
@@ -84,14 +84,18 @@ export default function index() {
           />
         </TabPane>
       ),
-    }
+    },
   ];
 
   return (
     <>
       {/* <SearchBar state={state} dispatch={dispatch} /> */}
 
-      <Tab panes={panes} menu={{ color:'blue', secondary: true, pointing: true }}/>
+      {/* <Button onClick={() => dispatch({ type: "NEXT_PAGE" })}>下一頁</Button> */}
+      <Tab
+        panes={panes}
+        menu={{ color: "blue", secondary: true, pointing: true }}
+      />
 
       <EditForm
         state={state}

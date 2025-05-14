@@ -46,7 +46,7 @@ export default function CardView({ data }) {
                       <TableCell>{row.stockName}</TableCell>
                       <TableCell>
                         {row.inQty ? (
-                          <Label color="red">{row.inQty}</Label>
+                          <Label size="large" basic color="red">{row.inQty}</Label>
                         ) : (
                           <Label size="large" basic color="green">{row.outQty}</Label>
                         )}

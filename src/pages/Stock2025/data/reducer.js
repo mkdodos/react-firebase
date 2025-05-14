@@ -25,7 +25,8 @@ export const reducer = async (state, action) => {
   const calColumns = (data) => {
     return data.map((obj) => {
       // 依買進或賣出計算小計
-      if (obj.inQty) return { ...obj, amt: Math.floor(obj.inQty * obj.price) };
+      if (obj.inQty)
+        return { ...obj, amt: Math.floor(obj.inQty * obj.price * -1) };
       if (obj.outQty)
         return { ...obj, amt: Math.floor(obj.outQty * obj.price) };
     });
@@ -35,11 +36,12 @@ export const reducer = async (state, action) => {
   const calTotal = (data) => {
     let sum = 0;
     data.map((obj) => {
-      if (obj.inQty) {
-        sum -= obj.amt;
-      } else {
-        sum += obj.amt;
-      }
+      sum += obj.amt;
+      // if (obj.inQty) {
+      //   sum -= obj.amt;
+      // } else {
+      //   sum += obj.amt;
+      // }
     });
     return sum;
   };
@@ -51,7 +53,8 @@ export const reducer = async (state, action) => {
     Object.keys(obj).forEach(function (key) {
       let sum = 0;
       // 日合計
-      obj[key].map((v) => (v.inQty ? (sum -= v.amt) : (sum += v.amt)));
+      // obj[key].map((v) => (v.inQty ? (sum -= v.amt) : (sum += v.amt)));
+      obj[key].map((v) => (sum += v.amt));
       // 組合資料(日期,日合計,日資料)
       arr.push({ date: key, sum, rows: obj[key] });
     });
@@ -64,10 +67,20 @@ export const reducer = async (state, action) => {
 
     Object.keys(obj).forEach(function (key) {
       let sum = 0;
-      // 日合計
-      obj[key].map((v) => (v.inQty ? (sum -= v.amt) : (sum += v.amt)));
-      // 組合資料(日期,日合計,日資料)
-      arr.push({ stockName: key, sum, rows: obj[key] });
+      let qtys = 0;
+      let qty = 0;
+      //
+      obj[key].map((v) => {
+        sum += v.amt;
+
+        qty = v.inQty ? v.inQty : v.outQty*-1;
+
+        // qtys += Number(v.inQty) -Number(v.outQty);
+        // qtys += Number(v.outQty);
+        qtys += Number(qty);
+      });
+      // 組合資料(股票,股數,日合計,日資料)
+      arr.push({ stockName: key, sum, qtys, rows: obj[key] });
     });
     return arr;
   };
@@ -140,16 +153,6 @@ export const reducer = async (state, action) => {
 
       const lastVisible = snapshot.docs[snapshot.docs.length - 1];
 
-      // 取得下個分頁資料
-      let nextDocs = await getNextDocs(lastVisible);
-      console.log(nextDocs);
-      // 再下個分頁資料
-      if (nextDocs.lastDoc) {
-        nextDocs = await getNextDocs(nextDocs.lastDoc);
-        console.log(nextDocs)
-      }
-      // ...
-
       // 資料跑迴圈轉成物件陣列
       const list = snapshot.docs.map((doc) => {
         return { ...doc.data(), id: doc.id };
@@ -166,6 +169,25 @@ export const reducer = async (state, action) => {
         dataByStock: groupByStock(calData),
         total: calTotal(calData),
         loading: false,
+        lastVisible,
+      };
+
+    // 下一頁
+    case "NEXT_PAGE":
+      // 取得下個分頁資料
+      let nextDocs = await getNextDocs(state.lastVisible);
+      console.log(nextDocs);
+      // 再下個分頁資料
+      // if (nextDocs.lastDoc) {
+      //   nextDocs = await getNextDocs(nextDocs.lastDoc);
+      //   console.log(nextDocs);
+      // }
+      // ...
+
+      return {
+        ...state,
+        lastVisible: nextDocs.lastDoc,
+        data: state.data.concat(calColumns(nextDocs.list)),
       };
 
     // 編輯
@@ -204,6 +226,8 @@ export const reducer = async (state, action) => {
         ...state,
         data: calColumns(state.data),
         dataCopy: calColumns(state.data),
+        dataByDate: groupByDate(calColumns(state.data)),
+        dataByStock: groupByStock(calColumns(state.data)),
         isEditFormOpen: false,
         editedRowIndex: -1,
       };
@@ -231,10 +255,13 @@ export const reducer = async (state, action) => {
       const id = action.payload.id;
       await deleteDoc(doc(db, colName, id));
       // console.log(id)
+      const dataDel = state.data.filter((obj) => obj.id != id);
       return {
         ...state,
-        data: state.data.filter((obj) => obj.id != id),
+        data: dataDel,
         dataCopy: state.dataCopy.filter((obj) => obj.id != id),
+        dataByDate: groupByDate(calColumns(dataDel)),
+        dataByStock: groupByStock(calColumns(dataDel)),
         isEditFormOpen: false,
         editedRowIndex: -1,
       };

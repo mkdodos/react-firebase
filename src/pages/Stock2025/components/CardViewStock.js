@@ -35,7 +35,7 @@ export default function CardView({ data }) {
                 <TableHeader>
                   <TableRow>
                     <TableHeaderCell>{obj.stockName}</TableHeaderCell>
-                    <TableHeaderCell>股數</TableHeaderCell>
+                    <TableHeaderCell>{obj.qtys} 股</TableHeaderCell>
                     <TableHeaderCell>單價</TableHeaderCell>
                     <TableHeaderCell> {numberFormat(obj.sum)}</TableHeaderCell>
                   </TableRow>
@@ -47,9 +47,9 @@ export default function CardView({ data }) {
                       <TableCell>{row.date}</TableCell>
                       <TableCell>
                         {row.inQty ? (
-                          <Label circular basic  color="red">{row.inQty}</Label>
+                          <Label  size="large" basic  color="red">{row.inQty}</Label>
                         ) : (
-                          <Label size="large" circular basic color="green">{row.outQty}</Label>
+                          <Label size="large" basic color="green">{row.outQty}</Label>
                         )}
                       </TableCell>
                       <TableCell>{row.price}</TableCell>
