@@ -30,7 +30,7 @@ export default function CardView({ data }) {
         <GridRow>
           {data.map((obj) => (
             <GridColumn key={uuidv4()}>
-              <Table celled unstackable>
+              <Table  unstackable>
                 <TableHeader>
                   <TableRow>
                     <TableHeaderCell>{obj.date.slice(5, 10)}</TableHeaderCell>

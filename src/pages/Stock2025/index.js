@@ -91,7 +91,7 @@ export default function index() {
     <>
       {/* <SearchBar state={state} dispatch={dispatch} /> */}
 
-      <Tab panes={panes} />
+      <Tab panes={panes} menu={{ color:'blue', secondary: true, pointing: true }}/>
 
       <EditForm
         state={state}

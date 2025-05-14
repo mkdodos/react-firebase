@@ -12,6 +12,7 @@ import {
   deleteDoc,
   orderBy,
   getDoc,
+  startAfter,
 } from "firebase11/firestore/lite";
 
 export const reducer = async (state, action) => {
@@ -50,7 +51,7 @@ export const reducer = async (state, action) => {
     Object.keys(obj).forEach(function (key) {
       let sum = 0;
       // 日合計
-      obj[key].map((v) => (v.inQty ? sum -= v.amt : sum+=v.amt));
+      obj[key].map((v) => (v.inQty ? (sum -= v.amt) : (sum += v.amt)));
       // 組合資料(日期,日合計,日資料)
       arr.push({ date: key, sum, rows: obj[key] });
     });
@@ -64,12 +65,37 @@ export const reducer = async (state, action) => {
     Object.keys(obj).forEach(function (key) {
       let sum = 0;
       // 日合計
-      obj[key].map((v) => (v.inQty ? sum -= v.amt : sum+=v.amt));
+      obj[key].map((v) => (v.inQty ? (sum -= v.amt) : (sum += v.amt)));
       // 組合資料(日期,日合計,日資料)
       arr.push({ stockName: key, sum, rows: obj[key] });
     });
     return arr;
   };
+
+  // 資料分頁
+  const getNextDocs = async (lastVisible) => {
+    const next = query(
+      col,
+      orderBy("date", "desc"),
+      startAfter(lastVisible),
+      limit(3)
+    );
+
+    const snapshot = await getDocs(next);
+
+    // 資料跑迴圈轉成物件陣列
+    const list = snapshot.docs.map((doc) => {
+      return { ...doc.data(), id: doc.id };
+    });
+
+    const lastDoc = snapshot.docs[snapshot.docs.length - 1];
+
+    // 傳回分頁資料和最後一筆指標
+    return { list, lastDoc };
+  };
+
+  // 取得集合
+  const col = collection(db, colName);
 
   switch (action.type) {
     // 點選表格中欄位做篩選
@@ -106,22 +132,31 @@ export const reducer = async (state, action) => {
 
     // 載入資料
     case "LOAD":
-      // 取得集合
-      const citiesCol = collection(db, colName);
-
       // 查詢
-      const q = query(citiesCol, orderBy("date", "desc"), limit(30));
-      // const q = query(citiesCol, orderBy('qty'));
+      const q = query(col, orderBy("date", "desc"), limit(30));
 
       // 資料快照
-      const citySnapshot = await getDocs(q);
+      const snapshot = await getDocs(q);
+
+      const lastVisible = snapshot.docs[snapshot.docs.length - 1];
+
+      // 取得下個分頁資料
+      let nextDocs = await getNextDocs(lastVisible);
+      console.log(nextDocs);
+      // 再下個分頁資料
+      if (nextDocs.lastDoc) {
+        nextDocs = await getNextDocs(nextDocs.lastDoc);
+        console.log(nextDocs)
+      }
+      // ...
+
       // 資料跑迴圈轉成物件陣列
-      const cityList = citySnapshot.docs.map((doc) => {
+      const list = snapshot.docs.map((doc) => {
         return { ...doc.data(), id: doc.id };
         // return { ...doc.data() };
       });
 
-      const calData = calColumns(cityList);
+      const calData = calColumns(list);
 
       return {
         ...state,
