@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, Button, Modal, Menu } from "semantic-ui-react";
+import { Form, Button, Modal, Menu, Checkbox } from "semantic-ui-react";
 import StockDropdown from "./StockDropdown";
 
 export default function EditForm({ columns, state, dispatch, row, setRow }) {
@@ -10,6 +10,7 @@ export default function EditForm({ columns, state, dispatch, row, setRow }) {
 
   const [isSold, setIsSold] = useState(true);
 
+  // 篩選買進或賣出欄位
   if (isSold) {
     columns = columns.filter((col) => col.dataKey != "inQty");
   } else {
@@ -46,35 +47,18 @@ export default function EditForm({ columns, state, dispatch, row, setRow }) {
           );
           break;
 
-        // case "inQty":
-        //   if (isSold) return;
-        //   fields.push(
-        //     <Form.Field key={index}>
-        //       <label>{col.title}</label>
-        //       <Form.Input
-        //         type={col.type}
-        //         name={col.dataKey}
-        //         value={row.outQty}
-        //         onChange={handleInputChange}
-        //       />
-        //     </Form.Field>
-        //   );
-        //   break;
-
-        // case "outQty":
-        //   if (!isSold) return;
-        //   fields.push(
-        //     <Form.Field key={index}>
-        //       <label>{col.title}</label>
-        //       <Form.Input
-        //         type={col.type}
-        //         name={col.dataKey}
-        //         value={row.outQty}
-        //         onChange={handleInputChange}
-        //       />
-        //     </Form.Field>
-        //   );
-        //   break;
+        case "isClosed":
+          fields.push(
+            <Form.Field key={index}>
+              <label>{col.title}</label>
+              <Checkbox
+                toggle
+                onChange={handleIsClosedChange}
+                checked={row.isClosed ? row.isClosed : false}
+              />
+            </Form.Field>
+          );
+          break;
 
         default:
           fields.push(
@@ -106,6 +90,12 @@ export default function EditForm({ columns, state, dispatch, row, setRow }) {
     const words = str.split(" ");
     // 分別寫入股票代碼和股票名稱二個值
     setRow({ ...row, stockNo: obj.value, stockName: words[1] });
+  };
+
+  // 文字輸入後改變 row 的值
+  const handleIsClosedChange = (e, data) => {
+    console.log(data.checked);
+    setRow({ ...row, isClosed: data.checked });
   };
 
   // 儲存
@@ -148,7 +138,7 @@ export default function EditForm({ columns, state, dispatch, row, setRow }) {
             </Menu.Item>
           </Menu>
 
-          <Form>{formGroups(4)}</Form>
+          <Form>{formGroups(5)}</Form>
         </Modal.Content>
         <Modal.Actions>
           <Button primary onClick={handleSave}>

@@ -9,7 +9,7 @@ import StockDropdown from "./components/StockDropdown";
 import SearchBar from "./components/SearchBar";
 import CardView from "./components/CardView";
 import CardViewStock from "./components/CardViewStock";
-import { Tab, TabPane,Button } from "semantic-ui-react";
+import { Tab, TabPane, Button, Checkbox } from "semantic-ui-react";
 
 export default function index() {
   // 預設資料物件
@@ -87,11 +87,24 @@ export default function index() {
     },
   ];
 
+  const [checked, setChecked] = useState(false);
+
+  // console.log(checked)
+
+  // const handleCheck = (e) => {
+  //   console.log(e.checked);
+  // };
+
   return (
     <>
       {/* <SearchBar state={state} dispatch={dispatch} /> */}
 
       {/* <Button onClick={() => dispatch({ type: "NEXT_PAGE" })}>下一頁</Button> */}
+      {/* <Checkbox
+        toggle
+        onChange={(e, data) => setChecked(data.checked)}
+        checked={checked}
+      /> */}
       <Tab
         panes={panes}
         menu={{ color: "blue", secondary: true, pointing: true }}

@@ -1,5 +1,5 @@
 import React from "react";
-import { Table, Button, Icon } from "semantic-ui-react";
+import { Table, Button, Icon,Checkbox } from "semantic-ui-react";
 import numberFormat from "../../../utils/numberFormat";
 
 export default function TableView({
@@ -29,6 +29,14 @@ export default function TableView({
         return value.slice(5, 10);
       case "amt":
         return numberFormat(value);
+      case "isClosed":
+        return (
+          <Checkbox
+            toggle
+            // onChange={(e, data) => setChecked(data.checked)}
+            checked={value}
+          />
+        );
       default:
         return value;
     }
@@ -78,7 +86,7 @@ export default function TableView({
                 return (
                   <Table.Cell
                     key={index}
-                    onClick={(e) => handleFilter(e, col.dataKey)}
+                    // onClick={(e) => handleFilter(e, col.dataKey)}
                   >
                     {genColumn(col.dataKey, row[col.dataKey])}
                     {/* 小計欄位數字格式化 */}
