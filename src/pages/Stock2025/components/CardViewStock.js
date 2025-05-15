@@ -21,9 +21,9 @@ import {
 import { v4 as uuidv4 } from "uuid";
 import numberFormat from "../../../utils/numberFormat";
 
-export default function CardView({ data,closedData }) {
+export default function CardView({ data }) {
   // const { dataByDate } = state;
-  console.log(closedData)
+  // console.log(closedData)
   // data = data.filter((obj) => obj.isClosed);
   return (
     <div>
