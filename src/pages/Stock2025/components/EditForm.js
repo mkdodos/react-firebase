@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Form, Button, Modal, Menu, Checkbox } from "semantic-ui-react";
 import StockDropdown from "./StockDropdown";
 
@@ -43,6 +43,7 @@ export default function EditForm({ columns, state, dispatch, row, setRow }) {
               key={index}
               value={row.stockNo}
               onChange={handleStockChange}
+              options={state?.options}
             />
           );
           break;
@@ -76,6 +77,12 @@ export default function EditForm({ columns, state, dispatch, row, setRow }) {
     });
     return fields;
   };
+
+  // console.log(state.options);
+
+  useEffect(() => {
+    // dispatch({ type: "LOAD_STOCK_OPTIONS" });
+  }, []);
 
   // 文字輸入後改變 row 的值
   const handleInputChange = (e) => {

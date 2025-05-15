@@ -1,5 +1,6 @@
 import { loadBundle } from "firebase11/firestore";
 import { db } from "./firebase";
+import { db2 } from "./firebase";
 
 import {
   query,
@@ -37,11 +38,6 @@ export const reducer = async (state, action) => {
     let sum = 0;
     data.map((obj) => {
       sum += obj.amt;
-      // if (obj.inQty) {
-      //   sum -= obj.amt;
-      // } else {
-      //   sum += obj.amt;
-      // }
     });
     return sum;
   };
@@ -73,7 +69,7 @@ export const reducer = async (state, action) => {
       obj[key].map((v) => {
         sum += v.amt;
 
-        qty = v.inQty ? v.inQty : v.outQty*-1;
+        qty = v.inQty ? v.inQty : v.outQty * -1;
 
         // qtys += Number(v.inQty) -Number(v.outQty);
         // qtys += Number(v.outQty);
@@ -111,6 +107,28 @@ export const reducer = async (state, action) => {
   const col = collection(db, colName);
 
   switch (action.type) {
+    // 取得下拉股票資料
+    case "LOAD_STOCK_OPTIONS":
+      // const colStockBasic = collection(db2, "stockBasic");
+
+      // // 資料快照
+      // const snapshotBasic = await getDocs(colStockBasic);
+
+      // // 資料跑迴圈轉成物件陣列
+      // const listBasic = snapshotBasic.docs.map((doc) => {
+      //   const { stockName, stockNo } = doc.data();
+      //   return {
+      //     key: stockNo,
+      //     text: stockNo + " " + stockName,
+      //     value: stockNo,
+      //   };
+
+      //   // return { ...doc.data(), id: doc.id };
+      // });
+
+      // console.log(listBasic);
+      return { ...state, options: listBasic };
+
     // 點選表格中欄位做篩選
     case "FILTER":
       let dataFilter = state.dataCopy.filter(
@@ -161,6 +179,29 @@ export const reducer = async (state, action) => {
 
       const calData = calColumns(list);
 
+
+
+
+       const colStockBasic = collection(db2, "stockBasic");
+
+      // 資料快照
+      const snapshotBasic = await getDocs(colStockBasic);
+
+      // 資料跑迴圈轉成物件陣列
+      const listBasic = snapshotBasic.docs.map((doc) => {
+        const { stockName, stockNo } = doc.data();
+        return {
+          key: stockNo,
+          text: stockNo + " " + stockName,
+          value: stockNo,
+        };
+
+        // return { ...doc.data(), id: doc.id };
+      });
+
+      console.log(listBasic);
+
+
       return {
         ...state,
         data: calData,
@@ -170,6 +211,7 @@ export const reducer = async (state, action) => {
         total: calTotal(calData),
         loading: false,
         lastVisible,
+        options: listBasic
       };
 
     // 下一頁

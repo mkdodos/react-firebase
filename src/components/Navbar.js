@@ -28,9 +28,9 @@ export default function Navbar() {
         <Menu.Item as={Link} to="/maya">
           Maya
         </Menu.Item>
-        <Menu.Item as={Link} to="/stock">
+        {/* <Menu.Item as={Link} to="/stock">
           Stock
-        </Menu.Item>
+        </Menu.Item> */}
         <Menu.Item as={Link} to="/stock2025">
           Stock2025
         </Menu.Item>

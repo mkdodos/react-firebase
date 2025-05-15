@@ -18,6 +18,7 @@ export default function index() {
     dataByDate: [],
     loading: true,
     total: 0,
+    options:[],
     search: { date: new Date().toISOString().substring(0, 10), stockNo: "" },
   };
   const [state, dispatch] = useAsyncReducer(reducer, initState);
@@ -39,6 +40,7 @@ export default function index() {
 
   useEffect(() => {
     dispatch({ type: "LOAD" });
+   
   }, []);
 
   // 新增
