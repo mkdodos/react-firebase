@@ -9,6 +9,8 @@ import StockDropdown from "./components/StockDropdown";
 import SearchBar from "./components/SearchBar";
 import CardView from "./components/CardView";
 import CardViewStock from "./components/CardViewStock";
+import CardViewStockClosed from "./components/CardViewStockClosed";
+
 import { Tab, TabPane, Button, Checkbox } from "semantic-ui-react";
 
 export default function index() {
@@ -18,7 +20,7 @@ export default function index() {
     dataByDate: [],
     loading: true,
     total: 0,
-    options:[],
+    options: [],
     search: { date: new Date().toISOString().substring(0, 10), stockNo: "" },
   };
   const [state, dispatch] = useAsyncReducer(reducer, initState);
@@ -40,7 +42,6 @@ export default function index() {
 
   useEffect(() => {
     dispatch({ type: "LOAD" });
-   
   }, []);
 
   // 新增
@@ -68,7 +69,21 @@ export default function index() {
       menuItem: "股票別",
       render: () => (
         <TabPane>
-          <CardViewStock data={state.dataByStock} />
+          <CardViewStock
+            data={state.dataByStock}
+            // closedData={state.dataByStockClosed}
+          />
+        </TabPane>
+      ),
+    },
+    {
+      menuItem: "封存",
+      render: () => (
+        <TabPane>
+          <CardViewStockClosed
+            data={state.dataByStockClosed}
+            // closedData={state.dataByStockClosed}
+          />
         </TabPane>
       ),
     },

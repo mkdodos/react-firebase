@@ -177,12 +177,10 @@ export const reducer = async (state, action) => {
         // return { ...doc.data() };
       });
 
+      // const calData = calColumns(list);
       const calData = calColumns(list);
 
-
-
-
-       const colStockBasic = collection(db2, "stockBasic");
+      const colStockBasic = collection(db2, "stockBasic");
 
       // 資料快照
       const snapshotBasic = await getDocs(colStockBasic);
@@ -201,17 +199,21 @@ export const reducer = async (state, action) => {
 
       console.log(listBasic);
 
+      const openedData = calData.filter((obj) => !obj.isClosed);
+      const closedData = calData.filter((obj) => obj.isClosed);
 
       return {
         ...state,
         data: calData,
         dataCopy: calData,
         dataByDate: groupByDate(calData),
-        dataByStock: groupByStock(calData),
+        dataByStock: groupByStock(openedData),
+        // 封存資料(isClosed)
+        dataByStockClosed: groupByStock(closedData),
         total: calTotal(calData),
         loading: false,
         lastVisible,
-        options: listBasic
+        options: listBasic,
       };
 
     // 下一頁
