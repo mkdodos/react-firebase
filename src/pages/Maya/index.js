@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { db } from '../../utils/firebase';
-import TableView from './components/TableView';
-import EditForm from './components/EditForm';
+import React, { useEffect, useState } from "react";
+import { db } from "../../utils/firebase";
+import TableView from "./components/TableView";
+import EditForm from "./components/EditForm";
+import { Dimmer,Loader } from "semantic-ui-react";
 
 export default function Index() {
   // 預設物件
   const defaultRow = {
     date: new Date().toISOString().substring(0, 10),
-    name: '',
+    name: "",
   };
   // 物件資料集合
   const [rows, setRows] = useState([]);
@@ -27,7 +28,7 @@ export default function Index() {
   // 載入中
   const [loading, setLoading] = useState(false);
 
-  const colName = 'maya';
+  const colName = "maya";
 
   useEffect(() => {
     fetchData();
@@ -110,6 +111,11 @@ export default function Index() {
         rowsCopy={rowsCopy}
         setRowsCopy={setRowsCopy}
       /> */}
+
+      <Dimmer active={loading} inverted>
+        <Loader />
+      </Dimmer>
+
       <EditForm
         open={open}
         setOpen={setOpen}

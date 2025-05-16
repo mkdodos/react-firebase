@@ -25,9 +25,12 @@ export default function Navbar() {
   return (
     <>
       <Menu color="blue" widths={6} pointing secondary>
-        <Menu.Item as={Link} to="/maya">
-          Maya
+        <Menu.Item as={Link} to="/asset2025">
+          asset2025
         </Menu.Item>
+        {/* <Menu.Item as={Link} to="/maya">
+          Maya
+        </Menu.Item> */}
         {/* <Menu.Item as={Link} to="/stock">
           Stock
         </Menu.Item> */}

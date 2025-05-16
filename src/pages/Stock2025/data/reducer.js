@@ -1,6 +1,6 @@
-import { loadBundle } from "firebase11/firestore";
-import { db } from "./firebase";
-import { db2 } from "./firebase";
+import { db } from "../../../utils/firebase";
+import { db2 } from "../../../utils/firebase";
+
 
 import {
   query,
