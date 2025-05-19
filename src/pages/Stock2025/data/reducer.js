@@ -180,7 +180,7 @@ export const reducer = async (state, action) => {
       // const calData = calColumns(list);
       const calData = calColumns(list);
 
-      const colStockBasic = collection(db2, "stockBasic");
+      const colStockBasic = collection(db, "stockBasic");
 
       // 資料快照
       const snapshotBasic = await getDocs(colStockBasic);

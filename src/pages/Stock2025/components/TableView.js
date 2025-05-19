@@ -1,5 +1,5 @@
 import React from "react";
-import { Table, Button, Icon,Checkbox } from "semantic-ui-react";
+import { Table, Button, Icon, Checkbox } from "semantic-ui-react";
 import numberFormat from "../../../utils/numberFormat";
 
 export default function TableView({
@@ -34,7 +34,8 @@ export default function TableView({
           <Checkbox
             toggle
             // onChange={(e, data) => setChecked(data.checked)}
-            checked={value}
+
+            checked={value != "" && value}
           />
         );
       default:

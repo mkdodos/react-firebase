@@ -60,6 +60,14 @@ export default function index() {
 
   const panes = [
     {
+      menuItem: "基本",
+      render: () => (
+        <TabPane>
+          <StockBasic2025 />
+        </TabPane>
+      ),
+    },
+    {
       menuItem: "日期別",
       render: () => (
         <TabPane>
@@ -104,14 +112,7 @@ export default function index() {
         </TabPane>
       ),
     },
-    {
-      menuItem: "基本",
-      render: () => (
-        <TabPane>
-          <StockBasic2025 />
-        </TabPane>
-      ),
-    },
+    
   ];
 
   const [checked, setChecked] = useState(false);
