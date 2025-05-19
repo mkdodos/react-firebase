@@ -11,6 +11,8 @@ import CardView from "./components/CardView";
 import CardViewStock from "./components/CardViewStock";
 import CardViewStockClosed from "./components/CardViewStockClosed";
 
+import StockBasic2025 from "./components/StockBasic2025";
+
 import { Tab, TabPane, Button, Checkbox } from "semantic-ui-react";
 
 export default function index() {
@@ -102,6 +104,14 @@ export default function index() {
         </TabPane>
       ),
     },
+    {
+      menuItem: "基本",
+      render: () => (
+        <TabPane>
+          <StockBasic2025 />
+        </TabPane>
+      ),
+    },
   ];
 
   const [checked, setChecked] = useState(false);
@@ -116,6 +126,7 @@ export default function index() {
     <>
       {/* <SearchBar state={state} dispatch={dispatch} /> */}
 
+      {/* <Button onClick={() => dispatch({ type: "TEMP" })}>TEMP</Button> */}
       {/* <Button onClick={() => dispatch({ type: "NEXT_PAGE" })}>下一頁</Button> */}
       {/* <Checkbox
         toggle

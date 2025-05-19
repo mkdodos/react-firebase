@@ -1,6 +1,7 @@
+// money
 import { db } from "../../../utils/firebase";
+// money2022
 import { db2 } from "../../../utils/firebase";
-
 
 import {
   query,
@@ -106,28 +107,27 @@ export const reducer = async (state, action) => {
   // 取得集合
   const col = collection(db, colName);
 
-  switch (action.type) {
-    // 取得下拉股票資料
-    case "LOAD_STOCK_OPTIONS":
-      // const colStockBasic = collection(db2, "stockBasic");
+  switch (
+    action.type //
+  ) {
+    // case "TEMP":
+    //   const tempAdd = async (row) => {
+    //     const docRef = await addDoc(collection(db, "stockBasic"), {
+    //       ...row,
+    //     });
+    //   };
 
-      // // 資料快照
-      // const snapshotBasic = await getDocs(colStockBasic);
+    //   // 取得集合
+    //   const colTemp = collection(db2, "stockBasic");
+    //   // 資料快照
+    //   const snapshotTemp = await getDocs(colTemp);
+    //   // 資料跑迴圈轉成物件陣列
+    //   const listTemp = snapshotTemp.docs.map((doc) => {
+    //     tempAdd(doc.data());
+    //     return { ...doc.data(), id: doc.id };
+    //   });
 
-      // // 資料跑迴圈轉成物件陣列
-      // const listBasic = snapshotBasic.docs.map((doc) => {
-      //   const { stockName, stockNo } = doc.data();
-      //   return {
-      //     key: stockNo,
-      //     text: stockNo + " " + stockName,
-      //     value: stockNo,
-      //   };
-
-      //   // return { ...doc.data(), id: doc.id };
-      // });
-
-      // console.log(listBasic);
-      return { ...state, options: listBasic };
+    //   return state;
 
     // 點選表格中欄位做篩選
     case "FILTER":
@@ -197,7 +197,7 @@ export const reducer = async (state, action) => {
         // return { ...doc.data(), id: doc.id };
       });
 
-      console.log(listBasic);
+      // console.log(listBasic);
 
       const openedData = calData.filter((obj) => !obj.isClosed);
       const closedData = calData.filter((obj) => obj.isClosed);

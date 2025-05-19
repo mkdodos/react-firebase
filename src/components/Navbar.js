@@ -24,7 +24,7 @@ export default function Navbar() {
 
   return (
     <>
-      <Menu color="blue" widths={6} pointing secondary>
+      <Menu color="blue" widths={3} pointing secondary>
         <Menu.Item as={Link} to="/asset2025">
           asset2025
         </Menu.Item>
