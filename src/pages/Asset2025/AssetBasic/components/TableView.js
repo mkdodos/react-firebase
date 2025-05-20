@@ -1,5 +1,4 @@
 import { Table, Button } from "semantic-ui-react";
-import numberFormat from "../../../utils/numberFormat";
 
 export default function TableView({ state, columns, handleAdd, handleEdit }) {
   const { data, loading } = state;
@@ -28,12 +27,7 @@ export default function TableView({ state, columns, handleAdd, handleEdit }) {
               <Table.Row key={row.id}>
                 {columns.map((col, index) => {
                   return (
-                    <Table.Cell key={index}>
-                      {/* 數字格式化 */}
-                      {col.type == "number"
-                        ? numberFormat(row[col.dataKey])
-                        : row[col.dataKey]}
-                    </Table.Cell>
+                    <Table.Cell key={index}>{row[col.dataKey]}</Table.Cell>
                   );
                 })}
                 <Table.Cell>

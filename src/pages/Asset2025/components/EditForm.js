@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
-import { Form, Button, Modal } from 'semantic-ui-react';
-import StockDropdown from './StockDropdown';
+import { Form, Button, Modal, Dropdown } from "semantic-ui-react";
+import ItemDropdown from "./ItemDropdown";
 
 export default function EditForm({ columns, state, dispatch, row, setRow }) {
   // 篩選可編輯欄位
   columns = columns.filter((col) => col.editable);
-  console.log(columns)
   // 組合每一列 group
   const formGroups = (columnsPerRow) => {
     const groups = [];
@@ -24,54 +22,45 @@ export default function EditForm({ columns, state, dispatch, row, setRow }) {
     setRow({ ...row, [e.target.name]: e.target.value });
   };
 
-  const handleStockChange = (e, obj) => {
-    // 下拉選項由股票代碼+空白+股票名稱組成
-    // 用空白分隔函數取得股票名稱
-    const str = e.target.innerText;
-    const words = str.split(' ');
-    // 分別寫入股票代碼和股票名稱二個值
-    setRow({ ...row, stockNo: obj.value, stockName: words[1] });
+  const handleItemChange = (e, { value }) => {
+    setRow({ ...row, itemName: value });
   };
 
   // 組合 group 中的 field
   const formFields = (index, columnsPerRow) => {
     let fields = [];
     columns.slice(index, index + columnsPerRow).map((col, index) => {
-      if (col.name == 'stockName') {
-        // 股票名稱下拉選單
-        fields.push(
-          <StockDropdown
-            key={index}
-            value={row.stockNo}
-            onChange={handleStockChange}
-          />
-        );
-      } else {
-        // 文字輸入框
+      // 下拉選單
+      if (col.dataKey == "itemName")
         fields.push(
           <Form.Field key={index}>
-            <label>{col.label}</label>
-            <Form.Input
+            <label>{col.title}</label>
+            <ItemDropdown
+              onChange={handleItemChange}
+              value={row.itemName}              
+            />
+          </Form.Field>
+        );
+      else
+        fields.push(
+          <Form.Field key={index}>
+            <label>{col.title}</label>
+            <input
               type={col.type}
-              name={col.name}
-              value={row[col.name]}
+              name={col.dataKey}
+              value={row[col.dataKey]}
               onChange={handleInputChange}
             />
           </Form.Field>
         );
-      }
     });
     return fields;
-  };
-
-  const handleDelete = (row) => {
-    if (confirm('確定刪除嗎?')) dispatch({ type: 'DELETE', payload: { row } });
   };
 
   return (
     <>
       <Modal
-        onClose={() => dispatch({ type: 'CLOSE' })}
+        onClose={() => dispatch({ type: "CLOSE" })}
         open={state.open}
         closeIcon
       >
@@ -84,15 +73,22 @@ export default function EditForm({ columns, state, dispatch, row, setRow }) {
             primary
             onClick={() =>
               dispatch({
-                type: state.rowIndex == -1 ? 'CREATE' : 'UPDATE',
+                type: state.rowIndex == -1 ? "CREATE" : "UPDATE",
                 payload: { row },
               })
             }
           >
             儲存
           </Button>
-          <Button floated="left" color="red" onClick={() => handleDelete(row)}>
-            刪除{row.rowCounts}
+          <Button
+            floated="left"
+            color="red"
+            onClick={() => {
+              if (!confirm("確定刪除嗎?")) return;
+              dispatch({ type: "DELETE", payload: { id: row.id } });
+            }}
+          >
+            刪除
           </Button>
         </Modal.Actions>
       </Modal>

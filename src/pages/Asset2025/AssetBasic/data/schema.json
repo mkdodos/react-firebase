@@ -1,0 +1,11 @@
+{
+  "columns": [  
+    {
+      "dataKey": "itemName",
+      "title": "項目名稱",
+      "type": "text",
+      "editable": "true",
+      "viewable": "true"
+    }
+  ]
+}

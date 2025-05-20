@@ -3,13 +3,13 @@
     {
       "dataKey": "date",
       "title": "日期",
-      "type": "text",
+      "type": "date",
       "editable": "true",
       "viewable": "true"
     },
 
     {
-      "dataKey": "name",
+      "dataKey": "itemName",
       "title": "項目",
       "type": "text",
       "editable": "true",

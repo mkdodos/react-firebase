@@ -1,4 +1,4 @@
-import { db } from "../../../utils/firebase";
+import { db } from "../../../../utils/firebase";
 import {
   query,
   limit,
@@ -15,7 +15,7 @@ import {
 
 export const reducer = async (state, action) => {
   // 集合名稱
-  const colName = "asset";
+  const colName = "assetBasic";
   // 編輯列
   const row = action.payload?.row;
   const index = action.payload?.index;
@@ -29,30 +29,18 @@ export const reducer = async (state, action) => {
       // 資料快照
       const snapshot = await getDocs(col);
       // 資料跑迴圈轉成物件陣列
-      const data = snapshot.docs.map((doc) => {
+      const list = snapshot.docs.map((doc) => {
         return { ...doc.data(), id: doc.id };
       });
 
-      const obj = Object.groupBy(data, ({ date }) => date);
-
-      const arr = [];
-
-      Object.keys(obj).forEach(function (key) {
-        let sum = 0;      
-        obj[key].map((v) => (sum +=Number(v.amt)));        
-        arr.push({ date: key, sum, rows: obj[key] });
-      });
-      // return arr;
-
       return {
         ...state,
-        data,
-        dataByDate: arr,
+        data: list,
         loading: false,
       };
 
     // 新增
-    case "ADD":
+    case "ADD":     
       return {
         ...state,
         open: true,
@@ -79,7 +67,8 @@ export const reducer = async (state, action) => {
       return { ...state, open: true, rowIndex: index };
 
     // 更新
-    case "UPDATE":
+    case "UPDATE":    
+
       await updateDoc(doc(db, colName, row.id), {
         ...row,
       });
@@ -92,9 +81,9 @@ export const reducer = async (state, action) => {
       };
 
     // 刪除
-    case "DELETE":
+    case "DELETE":      
       const id = action.payload.id;
-      await deleteDoc(doc(db, colName, id));
+      await deleteDoc(doc(db, colName, id));     
       const dataDel = state.data.filter((obj) => obj.id != id);
 
       return {
