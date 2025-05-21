@@ -20,6 +20,40 @@ export const reducer = async (state, action) => {
   const row = action.payload?.row;
   const index = action.payload?.index;
 
+  // 依日期群組
+  const groupByDate = (data) => {
+    const obj = Object.groupBy(data, ({ date }) => date);
+    const arr = [];
+    Object.keys(obj).forEach(function (key) {
+      let sum = 0;
+      let sumCost = 0;
+      // key : 日期
+      // obj[key] : 該日期的群組資料
+      // sum : 金額合計
+      obj[key].map((v) => (sum += Number(v.amt)));
+      arr.push({ date: key, sum, rows: obj[key] });
+    });
+
+    return arr;
+  };
+
+  // 依項目群組
+  const groupByItem = (data) => {
+    const obj = Object.groupBy(data, ({ itemName }) => itemName);
+    const arr = [];
+    Object.keys(obj).forEach(function (key) {
+      let sum = 0;
+      let sumCost = 0;
+      // key : 日期
+      // obj[key] : 該日期的群組資料
+      // sum : 金額合計
+      obj[key].map((v) => (sum += Number(v.amt)));
+      arr.push({ date: key, sum, rows: obj[key] });
+    });
+
+    return arr;
+  };
+
   // 執行相關動作
   switch (action.type) {
     // 載入資料
@@ -33,21 +67,11 @@ export const reducer = async (state, action) => {
         return { ...doc.data(), id: doc.id };
       });
 
-      const obj = Object.groupBy(data, ({ date }) => date);
-
-      const arr = [];
-
-      Object.keys(obj).forEach(function (key) {
-        let sum = 0;      
-        obj[key].map((v) => (sum +=Number(v.amt)));        
-        arr.push({ date: key, sum, rows: obj[key] });
-      });
-      // return arr;
-
       return {
         ...state,
         data,
-        dataByDate: arr,
+        dataByDate: groupByDate(data),
+        dataByItem: groupByItem(data),
         loading: false,
       };
 

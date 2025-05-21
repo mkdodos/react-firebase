@@ -11,7 +11,8 @@ export default function index() {
   // 預設資料物件
   const initState = {
     data: [], //資料
-    dataByDate:[],
+    dataByDate: [],
+    dataByItem: [],
     loading: true,
   };
 
@@ -54,27 +55,27 @@ export default function index() {
 
   const panes = [
     {
+      menuItem: "項目統計",
+      render: () => (
+        <TabPane>
+          <CardView groupKey="item" data={state.dataByItem} dispatch={dispatch} />
+        </TabPane>
+      ),
+    },
+    {
       menuItem: "日期統計",
       render: () => (
         <TabPane>
-          <CardView data={state.dataByDate} dispatch={dispatch} />
+          <CardView groupKey="date" data={state.dataByDate} dispatch={dispatch} />
         </TabPane>
       ),
     },
+   
+
     {
-      menuItem: "資產項目",
+      menuItem: "表格",
       render: () => (
         <TabPane>
-          {" "}
-          <AssetBasic />
-        </TabPane>
-      ),
-    },
-    {
-      menuItem: "資產",
-      render: () => (
-        <TabPane>
-          {" "}
           <TableView
             state={state}
             columns={columns}
@@ -84,7 +85,14 @@ export default function index() {
         </TabPane>
       ),
     },
-    
+    {
+      menuItem: "項目",
+      render: () => (
+        <TabPane>
+          <AssetBasic />
+        </TabPane>
+      ),
+    },
   ];
 
   return (

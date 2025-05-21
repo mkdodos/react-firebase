@@ -21,6 +21,14 @@
       "type": "number",
       "editable": "true",
       "viewable": "true"
+    },
+    {
+      "dataKey": "cost",
+      "title": "成本",
+      "type": "number",
+      "editable": "true",
+      "viewable": "true"
     }
+
   ]
 }

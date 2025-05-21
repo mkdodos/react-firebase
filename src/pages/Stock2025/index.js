@@ -112,7 +112,6 @@ export default function index() {
         </TabPane>
       ),
     },
-    
   ];
 
   const [checked, setChecked] = useState(false);
@@ -134,6 +133,7 @@ export default function index() {
         onChange={(e, data) => setChecked(data.checked)}
         checked={checked}
       /> */}
+      <Button icon="refresh" onClick={() => dispatch({ type: "LOAD" })} />
       <Tab
         panes={panes}
         menu={{ color: "blue", secondary: true, pointing: true }}

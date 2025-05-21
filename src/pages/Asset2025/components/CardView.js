@@ -22,10 +22,8 @@ import {
 import { v4 as uuidv4 } from "uuid";
 import numberFormat from "../../../utils/numberFormat";
 
-export default function CardView({ data, dispatch }) {
-  // const { dataByDate } = state;
-  console.log(data);
-  //   return
+export default function CardView({ data, dispatch, groupKey }) {
+  
   return (
     <div>
       <Button icon="refresh" onClick={() => dispatch({ type: "LOAD" })} />
@@ -36,17 +34,23 @@ export default function CardView({ data, dispatch }) {
               <Table unstackable>
                 <TableHeader>
                   <TableRow>
-                    <TableHeaderCell>{obj.date.slice(5, 10)}</TableHeaderCell>
-
-                    <TableHeaderCell> {numberFormat(obj.sum)}</TableHeaderCell>
+                    <TableHeaderCell>
+                      {groupKey == "date" ? obj.date.slice(5, 10) : obj.date}
+                    </TableHeaderCell>
+                    <TableHeaderCell>
+                      {groupKey == "date" ? numberFormat(obj.sum) : "金額"}
+                    </TableHeaderCell>
+                    <TableHeaderCell>成本</TableHeaderCell>
                   </TableRow>
                 </TableHeader>
-
                 <TableBody>
                   {obj.rows.map((row) => (
                     <TableRow key={uuidv4()}>
-                      <TableCell>{row.itemName}</TableCell>
+                      <TableCell>
+                        {groupKey == "date" ? row.itemName : row.date}
+                      </TableCell>
                       <TableCell>{numberFormat(row.amt)}</TableCell>
+                      <TableCell>{numberFormat(row.cost)}</TableCell>
                     </TableRow>
                   ))}
                   {/* <TableRow key={uuidv4()}>
