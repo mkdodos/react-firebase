@@ -3,7 +3,7 @@ import schema from "./data/schema.json";
 import { reducer } from "./data/reducer";
 import TableView from "./components/TableView";
 import EditForm from "./components/EditForm";
-
+import AssetBasic from "./AssetBasic";
 import { Tab, TabPane } from "semantic-ui-react";
 import CardView from "./components/CardView";
 
@@ -50,7 +50,6 @@ export default function index() {
 
   const handleEdit = (row, index) => {
     dispatch({ type: "EDIT", payload: { index } });
-    console.log(row)
     setRow(row);
   };
 
@@ -59,7 +58,7 @@ export default function index() {
       menuItem: "項目統計",
       render: () => (
         <TabPane>
-          <CardView groupKey="stockName" data={state.dataByItem} dispatch={dispatch} />
+          <CardView groupKey="item" data={state.dataByItem} dispatch={dispatch} />
         </TabPane>
       ),
     },
@@ -85,7 +84,15 @@ export default function index() {
           />
         </TabPane>
       ),
-    }
+    },
+    {
+      menuItem: "項目",
+      render: () => (
+        <TabPane>
+          <AssetBasic />
+        </TabPane>
+      ),
+    },
   ];
 
   return (

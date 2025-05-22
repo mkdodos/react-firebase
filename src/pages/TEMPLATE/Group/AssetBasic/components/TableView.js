@@ -1,24 +1,7 @@
-import { Table, Button,Checkbox } from "semantic-ui-react";
-import numberFormat from "../../../utils/numberFormat";
+import { Table, Button } from "semantic-ui-react";
 
 export default function TableView({ state, columns, handleAdd, handleEdit }) {
   const { data, loading } = state;
-
-  // console.log(data);
-
-  // 針對不同欄位做不同顯示
-  const genColumn = (key, value) => {
-    switch (key) {
-      case "date":
-        return value.slice(5, 10);
-      case "amt":
-        return numberFormat(value);
-      case "isClosed":
-        return <Checkbox toggle checked={value != "" && value} />;
-      default:
-        return value;
-    }
-  };
 
   return (
     <>
@@ -44,9 +27,7 @@ export default function TableView({ state, columns, handleAdd, handleEdit }) {
               <Table.Row key={row.id}>
                 {columns.map((col, index) => {
                   return (
-                    <Table.Cell key={index}>
-                      {genColumn(col.dataKey, row[col.dataKey])}
-                    </Table.Cell>
+                    <Table.Cell key={index}>{row[col.dataKey]}</Table.Cell>
                   );
                 })}
                 <Table.Cell>

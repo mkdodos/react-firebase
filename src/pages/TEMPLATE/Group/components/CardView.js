@@ -23,8 +23,7 @@ import { v4 as uuidv4 } from "uuid";
 import numberFormat from "../../../utils/numberFormat";
 
 export default function CardView({ data, dispatch, groupKey }) {
-  // console.log(data)
-  // console.log(groupKey)
+  
   return (
     <div>
       <Button icon="refresh" onClick={() => dispatch({ type: "LOAD" })} />
@@ -36,36 +35,22 @@ export default function CardView({ data, dispatch, groupKey }) {
                 <TableHeader>
                   <TableRow>
                     <TableHeaderCell>
-                      {groupKey == "date"
-                        ? obj.date.slice(5, 10)
-                        : obj[groupKey]}
+                      {groupKey == "date" ? obj.date.slice(5, 10) : obj.date}
                     </TableHeaderCell>
                     <TableHeaderCell>
-                      {groupKey == "date" ? "股數" : obj.sumQty}
+                      {groupKey == "date" ? numberFormat(obj.sum) : "金額"}
                     </TableHeaderCell>
-                    <TableHeaderCell>單價</TableHeaderCell>
-                    <TableHeaderCell>{numberFormat(obj.sum)}</TableHeaderCell>
+                    <TableHeaderCell>成本</TableHeaderCell>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {obj.rows.map((row) => (
                     <TableRow key={uuidv4()}>
                       <TableCell>
-                        {groupKey == "date" ? row.stockName : row.date}
+                        {groupKey == "date" ? row.itemName : row.date}
                       </TableCell>
-                      <TableCell>
-                        {row.inQty ? (
-                          <Label size="large" basic color="red">
-                            {row.inQty}
-                          </Label>
-                        ) : (
-                          <Label size="large" basic color="green">
-                            {row.outQty}
-                          </Label>
-                        )}
-                      </TableCell>
-                      <TableCell>{numberFormat(row.price)}</TableCell>
                       <TableCell>{numberFormat(row.amt)}</TableCell>
+                      <TableCell>{numberFormat(row.cost)}</TableCell>
                     </TableRow>
                   ))}
                   {/* <TableRow key={uuidv4()}>

@@ -15,20 +15,17 @@ import {
   startAfter,
 } from "firebase11/firestore/lite";
 
-export default function StockDropdown({ onChange, value }) {
+export default function ItemDropdown({ onChange, value }) {
   const [options, setOptions] = useState([]);
   const fetchData = async () => {
     // 取得集合
-    const col = collection(db, "stockBasic");
-    // 排序,限制筆數
-    const q = query(col, orderBy("stockNo"));
-
+    const col = collection(db, "assetBasic");
     // 資料快照
-    const snapshot = await getDocs(q);
+    const snapshot = await getDocs(col);
     // 資料跑迴圈轉成物件陣列
     const list = snapshot.docs.map((doc) => {
-      const { stockNo, stockName } = doc.data();
-      return { text: stockNo + " " + stockName, value: stockNo, key: doc.id };
+      const { itemName } = doc.data();
+      return { text: itemName, value: itemName, key: doc.id };
     });
     setOptions(list);
   };

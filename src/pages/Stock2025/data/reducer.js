@@ -1,8 +1,4 @@
-// money
 import { db } from "../../../utils/firebase";
-// money2022
-import { db2 } from "../../../utils/firebase";
-
 import {
   query,
   limit,
@@ -22,6 +18,7 @@ export const reducer = async (state, action) => {
   const colName = "stock2025";
   // 編輯列
   const row = action.payload?.row;
+  const index = action.payload?.index;
 
   // 計算欄位
   const calColumns = (data) => {
@@ -34,280 +31,149 @@ export const reducer = async (state, action) => {
     });
   };
 
-  // 計算合計
-  const calTotal = (data) => {
-    let sum = 0;
-    data.map((obj) => {
-      sum += obj.amt;
-    });
-    return sum;
-  };
-
+  // 依日期群組
   const groupByDate = (data) => {
     const obj = Object.groupBy(data, ({ date }) => date);
     const arr = [];
-
     Object.keys(obj).forEach(function (key) {
       let sum = 0;
-      // 日合計
-      // obj[key].map((v) => (v.inQty ? (sum -= v.amt) : (sum += v.amt)));
-      obj[key].map((v) => (sum += v.amt));
-      // 組合資料(日期,日合計,日資料)
-      arr.push({ date: key, sum, rows: obj[key] });
-    });
-    return arr;
-  };
-
-  const groupByStock = (data) => {
-    const obj = Object.groupBy(data, ({ stockName }) => stockName);
-    const arr = [];
-
-    Object.keys(obj).forEach(function (key) {
-      let sum = 0;
-      let qtys = 0;
-      let qty = 0;
-      //
+      let sumQty = 0;
+      // key : 日期
+      // obj[key] : 該日期的群組資料
+      // sum : 金額合計
       obj[key].map((v) => {
-        sum += v.amt;
-
-        qty = v.inQty ? v.inQty : v.outQty * -1;
-
-        // qtys += Number(v.inQty) -Number(v.outQty);
-        // qtys += Number(v.outQty);
-        qtys += Number(qty);
+        sum += Number(v.amt);
+        sumQty += Number(v.inQty);
+        sumQty -= Number(v.outQty);
       });
-      // 組合資料(股票,股數,日合計,日資料)
-      arr.push({ stockName: key, sum, qtys, rows: obj[key] });
+      // obj[key].map((v) => (sum += Number(v.amt)));
+      arr.push({ date: key, sum, sumQty, rows: obj[key] });
     });
+
     return arr;
   };
 
-  // 資料分頁
-  const getNextDocs = async (lastVisible) => {
-    const next = query(
-      col,
-      orderBy("date", "desc"),
-      startAfter(lastVisible),
-      limit(3)
-    );
-
-    const snapshot = await getDocs(next);
-
-    // 資料跑迴圈轉成物件陣列
-    const list = snapshot.docs.map((doc) => {
-      return { ...doc.data(), id: doc.id };
+  const groupByKey = (data, key) => {
+    const obj = Object.groupBy(data, (keys) => keys[key]);
+    // return obj;
+    const arr = [];
+    Object.keys(obj).forEach(function (gKey) {
+      let sum = 0;
+      let sumQty = 0;
+      let qty = 0;
+      obj[gKey].map((v) => {
+        sum += Number(v.amt);
+        qty = v.inQty ? v.inQty : v.outQty * -1;        
+        sumQty += Number(qty);     
+      });
+      arr.push({ [key]: gKey, sum, sumQty, rows: obj[gKey] });
     });
 
-    const lastDoc = snapshot.docs[snapshot.docs.length - 1];
-
-    // 傳回分頁資料和最後一筆指標
-    return { list, lastDoc };
+    return arr;
   };
 
-  // 取得集合
-  const col = collection(db, colName);
+  // 依項目群組
+  // const groupByItem = (data) => {
+  //   const obj = Object.groupBy(data, ({ stockName }) => stockName);
+  //   const arr = [];
+  //   Object.keys(obj).forEach(function (key) {
+  //     let sum = 0;
+  //     obj[key].map((v) => (sum += Number(v.amt)));
+  //     arr.push({ date: key, sum, rows: obj[key] });
+  //   });
 
-  switch (
-    action.type //
-  ) {
-    // case "TEMP":
-    //   const tempAdd = async (row) => {
-    //     const docRef = await addDoc(collection(db, "stockBasic"), {
-    //       ...row,
-    //     });
-    //   };
+  //   return arr;
+  // };
 
-    //   // 取得集合
-    //   const colTemp = collection(db2, "stockBasic");
-    //   // 資料快照
-    //   const snapshotTemp = await getDocs(colTemp);
-    //   // 資料跑迴圈轉成物件陣列
-    //   const listTemp = snapshotTemp.docs.map((doc) => {
-    //     tempAdd(doc.data());
-    //     return { ...doc.data(), id: doc.id };
-    //   });
-
-    //   return state;
-
-    // 點選表格中欄位做篩選
-    case "FILTER":
-      let dataFilter = state.dataCopy.filter(
-        (obj) =>
-          obj[action.payload.column] == action.payload[action.payload.column]
-      );
-      return { ...state, data: dataFilter, total: calTotal(dataFilter) };
-
-    // 設定查詢
-    case "SET_SEARCH":
-      return { ...state, search: { ...state.search, ...action.payload } };
-
-    // 查詢
-    case "SEARCH":
-      let data = state.dataCopy;
-
-      if (state.search.stockNo != "") {
-        console.log("stock no");
-        data = data.filter((obj) => obj.stockNo == state.search.stockNo);
-      }
-
-      if (state.search.date != "") {
-        console.log("date");
-        data = data.filter((obj) => obj.date == state.search.date);
-      }
-      console.log(state.search);
-      return { ...state, data };
-    case "CLEAR_SEARCH":
-      // const data = state.data.filter((obj) => obj.stockNo == "2409");
-      // console.log(state.search);
-      return { ...state, data: state.dataCopy, total: 0 };
-
+  // 執行相關動作
+  switch (action.type) {
     // 載入資料
     case "LOAD":
-      // 查詢
-      const q = query(col, orderBy("date", "desc"), limit(30));
+      // 取得集合
+      const col = collection(db, colName);
+      // 排序,限制筆數
+      const q = query(col, orderBy("date", "desc"), limit(100));
 
       // 資料快照
       const snapshot = await getDocs(q);
-
-      const lastVisible = snapshot.docs[snapshot.docs.length - 1];
-
+      // console.log(snapshot.size)
       // 資料跑迴圈轉成物件陣列
-      const list = snapshot.docs.map((doc) => {
+      const data = snapshot.docs.map((doc) => {
         return { ...doc.data(), id: doc.id };
-        // return { ...doc.data() };
       });
 
-      // const calData = calColumns(list);
-      const calData = calColumns(list);
+      const calData = calColumns(data);
 
-      const colStockBasic = collection(db, "stockBasic");
-
-      // 資料快照
-      const snapshotBasic = await getDocs(colStockBasic);
-
-      // 資料跑迴圈轉成物件陣列
-      const listBasic = snapshotBasic.docs.map((doc) => {
-        const { stockName, stockNo } = doc.data();
-        return {
-          key: stockNo,
-          text: stockNo + " " + stockName,
-          value: stockNo,
-        };
-
-        // return { ...doc.data(), id: doc.id };
-      });
-
-      // console.log(listBasic);
-
-      const openedData = calData.filter((obj) => !obj.isClosed);
-      const closedData = calData.filter((obj) => obj.isClosed);
+      // console.log(groupByKey(calData,'date'))
+      // console.log(groupByKey(calData,'stockName'))
 
       return {
         ...state,
         data: calData,
-        dataCopy: calData,
-        dataByDate: groupByDate(calData),
-        dataByStock: groupByStock(openedData),
-        // 封存資料(isClosed)
-        dataByStockClosed: groupByStock(closedData),
-        total: calTotal(calData),
+        // dataByDate: groupByDate(calData),
+        dataByDate: groupByKey(calData, "date"),
+        // dataByItem: groupByItem(calData),
+        dataByItem: groupByKey(calData, "stockName"),
         loading: false,
-        lastVisible,
-        options: listBasic,
-      };
-
-    // 下一頁
-    case "NEXT_PAGE":
-      // 取得下個分頁資料
-      let nextDocs = await getNextDocs(state.lastVisible);
-      console.log(nextDocs);
-      // 再下個分頁資料
-      // if (nextDocs.lastDoc) {
-      //   nextDocs = await getNextDocs(nextDocs.lastDoc);
-      //   console.log(nextDocs);
-      // }
-      // ...
-
-      return {
-        ...state,
-        lastVisible: nextDocs.lastDoc,
-        data: state.data.concat(calColumns(nextDocs.list)),
-      };
-
-    // 編輯
-    case "EDIT":
-      return {
-        ...state,
-        editedRowIndex: action.payload.editedRowIndex,
-        isEditFormOpen: true,
-      };
-
-    // 關閉編輯表單
-    case "CLOSE_EDITFORM":
-      return {
-        ...state,
-        isEditFormOpen: false,
       };
 
     // 新增
     case "ADD":
       return {
         ...state,
-        editedRowIndex: -1,
-        isEditFormOpen: true,
+        open: true,
+        rowIndex: -1,
       };
 
-    // 新建
+    // 儲存新增的資料
     case "CREATE":
       const docRef = await addDoc(collection(db, colName), {
         ...row,
       });
-
-      console.log(row);
       // 接收後端傳回的 id , 加入 row 至陣列
       state.data.unshift({ ...row, id: docRef.id });
+      // console.log(row)
+      // state.data.unshift({ ...row });
+
       return {
         ...state,
-        data: calColumns(state.data),
-        dataCopy: calColumns(state.data),
-        dataByDate: groupByDate(calColumns(state.data)),
-        dataByStock: groupByStock(calColumns(state.data)),
-        isEditFormOpen: false,
-        editedRowIndex: -1,
+        data: state.data,
+        open: false,
+        rowIndex: -1,
       };
+
+    // 編輯
+    case "EDIT":
+      return { ...state, open: true, rowIndex: index };
 
     // 更新
     case "UPDATE":
-      // const washingtonRef = doc(db, collection, docID);
-      const washingtonRef = doc(db, colName, row.id);
-      await updateDoc(washingtonRef, {
+      await updateDoc(doc(db, colName, row.id), {
         ...row,
       });
-
-      Object.assign(state.data[state.editedRowIndex], row);
-
+      Object.assign(state.data[state.rowIndex], row);
       return {
         ...state,
-        isEditFormOpen: false,
-        editedRowIndex: -1,
-        data: calColumns(state.data),
-        dataCopy: calColumns(state.data),
+        open: false,
+        data: state.data,
+        rowIndex: -1,
       };
 
     // 刪除
     case "DELETE":
       const id = action.payload.id;
       await deleteDoc(doc(db, colName, id));
-      // console.log(id)
       const dataDel = state.data.filter((obj) => obj.id != id);
+
       return {
         ...state,
         data: dataDel,
-        dataCopy: state.dataCopy.filter((obj) => obj.id != id),
-        dataByDate: groupByDate(calColumns(dataDel)),
-        dataByStock: groupByStock(calColumns(dataDel)),
-        isEditFormOpen: false,
-        editedRowIndex: -1,
+        open: false,
+        rowIndex: -1,
       };
-  }
+
+    // 關閉表單
+    case "CLOSE":
+      return { ...state, open: false };
+  } // END SWITCH
 };

@@ -1,24 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { Form, Button, Modal, Menu, Checkbox } from "semantic-ui-react";
+import { useState } from "react";
+import { Form, Button, Modal, Checkbox,Menu } from "semantic-ui-react";
 import StockDropdown from "./StockDropdown";
 
 export default function EditForm({ columns, state, dispatch, row, setRow }) {
   // 篩選可編輯欄位
   columns = columns.filter((col) => col.editable);
-
-  const { isEditFormOpen, editedRowIndex } = state;
-
-  const [isSold, setIsSold] = useState(true);
-
-  // 篩選買進或賣出欄位
-  if (isSold) {
-    columns = columns.filter((col) => col.dataKey != "inQty");
-  } else {
-    columns = columns.filter((col) => col.dataKey != "outQty");
-  }
-
   // 組合每一列 group
-  // columnsPerRow :　每列幾個欄位
   const formGroups = (columnsPerRow) => {
     const groups = [];
     for (let i = 0; i < columns.length; i++) {
@@ -32,6 +19,32 @@ export default function EditForm({ columns, state, dispatch, row, setRow }) {
     return groups;
   };
 
+  const [isSold, setIsSold] = useState(true);
+
+  // 篩選買進或賣出欄位
+  if (isSold) {
+    columns = columns.filter((col) => col.dataKey != "inQty");
+  } else {
+    columns = columns.filter((col) => col.dataKey != "outQty");
+  }
+
+  const handleInputChange = (e) => {
+    setRow({ ...row, [e.target.name]: e.target.value });
+  };
+
+  const handleStockChange = (e, obj) => {
+    // 下拉選項由股票代碼+空白+股票名稱組成
+    // 用空白分隔函數取得股票名稱
+    const str = e.target.innerText;
+    const words = str.split(" ");
+    // 分別寫入股票代碼和股票名稱二個值
+    setRow({ ...row, stockNo: obj.value, stockName: words[1] });
+  };
+
+  const handleIsClosedChange = (e, data) => {
+    setRow({ ...row, isClosed: data.checked });
+  };
+
   // 組合 group 中的 field
   const formFields = (index, columnsPerRow) => {
     let fields = [];
@@ -39,12 +52,15 @@ export default function EditForm({ columns, state, dispatch, row, setRow }) {
       switch (col.dataKey) {
         case "stockName":
           fields.push(
-            <StockDropdown
-              key={index}
-              value={row.stockNo}
-              onChange={handleStockChange}
-              options={state?.options}
-            />
+            <Form.Field key={index}>
+              <label>{col.title}</label>
+              <StockDropdown
+                key={index}
+                value={row.stockNo}
+                onChange={handleStockChange}
+                options={state?.options}
+              />
+            </Form.Field>
           );
           break;
 
@@ -78,55 +94,14 @@ export default function EditForm({ columns, state, dispatch, row, setRow }) {
     return fields;
   };
 
-  // console.log(state.options);
-
-  useEffect(() => {
-    // dispatch({ type: "LOAD_STOCK_OPTIONS" });
-  }, []);
-
-  // 文字輸入後改變 row 的值
-  const handleInputChange = (e) => {
-    // console.log(row)
-    setRow({ ...row, [e.target.name]: e.target.value });
-  };
-
-  const handleStockChange = (e, obj) => {
-    // 下拉選項由股票代碼+空白+股票名稱組成
-    // 用空白分隔函數取得股票名稱
-    const str = e.target.innerText;
-    const words = str.split(" ");
-    // 分別寫入股票代碼和股票名稱二個值
-    setRow({ ...row, stockNo: obj.value, stockName: words[1] });
-  };
-
-  // 文字輸入後改變 row 的值
-  const handleIsClosedChange = (e, data) => {
-    console.log(data.checked);
-    setRow({ ...row, isClosed: data.checked });
-  };
-
-  // 儲存
-  const handleSave = () => {
-    // 將 row 的值傳給 reducer
-    if (editedRowIndex == -1) {
-      dispatch({ type: "CREATE", payload: { row } });
-    } else {
-      dispatch({ type: "UPDATE", payload: { row } });
-    }
-  };
-
   return (
-    <div>
-      <Modal open={isEditFormOpen}>
-        <Modal.Header>
-          編輯
-          <Button
-            floated="right"
-            onClick={() => dispatch({ type: "CLOSE_EDITFORM" })}
-          >
-            X
-          </Button>
-        </Modal.Header>
+    <>
+      <Modal
+        onClose={() => dispatch({ type: "CLOSE" })}
+        open={state.open}
+        closeIcon
+      >
+        <Modal.Header>編輯</Modal.Header>
         <Modal.Content>
           <Menu secondary pointing widths={2}>
             <Menu.Item
@@ -144,28 +119,32 @@ export default function EditForm({ columns, state, dispatch, row, setRow }) {
               賣出
             </Menu.Item>
           </Menu>
-
-          <Form>{formGroups(5)}</Form>
+          <Form>{formGroups(2)}</Form>
         </Modal.Content>
         <Modal.Actions>
-          <Button primary onClick={handleSave}>
+          <Button
+            primary
+            onClick={() =>
+              dispatch({
+                type: state.rowIndex == -1 ? "CREATE" : "UPDATE",
+                payload: { row },
+              })
+            }
+          >
             儲存
           </Button>
-          {/* 編輯時才顯示刪除鈕 */}
-          {editedRowIndex > -1 && (
-            <Button
-              floated="left"
-              color="red"
-              onClick={() => {
-                if (!confirm("確定刪除嗎?")) return;
-                dispatch({ type: "DELETE", payload: { id: row.id } });
-              }}
-            >
-              刪除
-            </Button>
-          )}
+          <Button
+            floated="left"
+            color="red"
+            onClick={() => {
+              if (!confirm("確定刪除嗎?")) return;
+              dispatch({ type: "DELETE", payload: { id: row.id } });
+            }}
+          >
+            刪除
+          </Button>
         </Modal.Actions>
       </Modal>
-    </div>
+    </>
   );
 }

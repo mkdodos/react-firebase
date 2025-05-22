@@ -4,15 +4,10 @@ import { reducer } from "./data/reducer";
 import TableView from "./components/TableView";
 import EditForm from "./components/EditForm";
 
-import { Tab, TabPane } from "semantic-ui-react";
-import CardView from "./components/CardView";
-
 export default function index() {
   // 預設資料物件
   const initState = {
     data: [], //資料
-    dataByDate: [],
-    dataByItem: [],
     loading: true,
   };
 
@@ -37,8 +32,6 @@ export default function index() {
     defaultRow[obj.dataKey] = "";
   });
 
-  defaultRow.date = new Date().toISOString().substring(0, 10);
-
   // 原本 row 放在 useAsyncReducer 會出現無法輸入中文的問題
   // 將其獨立出來處理
   const [row, setRow] = useState(defaultRow);
@@ -50,48 +43,17 @@ export default function index() {
 
   const handleEdit = (row, index) => {
     dispatch({ type: "EDIT", payload: { index } });
-    console.log(row)
     setRow(row);
   };
 
-  const panes = [
-    {
-      menuItem: "項目統計",
-      render: () => (
-        <TabPane>
-          <CardView groupKey="stockName" data={state.dataByItem} dispatch={dispatch} />
-        </TabPane>
-      ),
-    },
-    {
-      menuItem: "日期統計",
-      render: () => (
-        <TabPane>
-          <CardView groupKey="date" data={state.dataByDate} dispatch={dispatch} />
-        </TabPane>
-      ),
-    },
-   
-
-    {
-      menuItem: "表格",
-      render: () => (
-        <TabPane>
-          <TableView
-            state={state}
-            columns={columns}
-            handleAdd={handleAdd}
-            handleEdit={handleEdit}
-          />
-        </TabPane>
-      ),
-    }
-  ];
-
   return (
     <>
-      <Tab panes={panes} />
-
+      <TableView
+        state={state}
+        columns={columns}
+        handleAdd={handleAdd}
+        handleEdit={handleEdit}
+      />
       <EditForm
         columns={columns}
         row={row}
