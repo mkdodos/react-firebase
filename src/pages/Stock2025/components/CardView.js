@@ -22,12 +22,16 @@ import {
 import { v4 as uuidv4 } from "uuid";
 import numberFormat from "../../../utils/numberFormat";
 
-export default function CardView({ data, dispatch, groupKey,loading }) {
+export default function CardView({ data, dispatch, groupKey, loading }) {
   // console.log(data)
   // console.log(groupKey)
   return (
     <div>
-      <Button loading={loading} icon="refresh" onClick={() => dispatch({ type: "LOAD" })} />
+      <Button
+        loading={loading}
+        icon="refresh"
+        onClick={() => dispatch({ type: "LOAD" })}
+      />
       <Grid stackable doubling columns={3} celled>
         <GridRow>
           {data.map((obj) => (
@@ -41,7 +45,13 @@ export default function CardView({ data, dispatch, groupKey,loading }) {
                         : obj.stockName}
                     </TableHeaderCell>
                     <TableHeaderCell>
-                      {groupKey == "date" ? "股數" : obj.sumQty}
+                      {groupKey == "date" ? (
+                        "股數"
+                      ) : obj.sumQty != 0 ? (
+                        obj.sumQty+" 股"
+                      ) : (
+                        <Button color="teal" icon="file archive outline" />
+                      )}
                     </TableHeaderCell>
                     <TableHeaderCell>單價</TableHeaderCell>
                     <TableHeaderCell>{numberFormat(obj.sum)}</TableHeaderCell>
@@ -50,7 +60,7 @@ export default function CardView({ data, dispatch, groupKey,loading }) {
                 <TableBody>
                   {obj.rows.map((row) => (
                     <TableRow key={uuidv4()}>
-                      <TableCell>                       
+                      <TableCell>
                         {groupKey == "date" ? row.stockName : row.date}
                       </TableCell>
                       {/* 顯示買入或賣出數量 */}

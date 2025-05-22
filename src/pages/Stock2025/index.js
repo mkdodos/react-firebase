@@ -9,6 +9,8 @@ import CardView from "./components/CardView";
 
 import ScrollTopButton from "../../components/ScrollTopButton";
 
+import StockBasic2025 from "./StockBasic2025";
+
 export default function index() {
   // 預設資料物件
   const initState = {
@@ -75,7 +77,7 @@ export default function index() {
       menuItem: "項目統計",
       render: () => (
         <TabPane>
-          <CardView           
+          <CardView
             groupKey="stockName"
             data={state.dataByItem}
             dispatch={dispatch}
@@ -84,20 +86,7 @@ export default function index() {
       ),
     },
     {
-      menuItem: "封存",
-      render: () => (
-        <TabPane>
-          <CardView
-            groupKey="stockName"
-            data={state.dataByItemClosed}
-            dispatch={dispatch}
-          />
-        </TabPane>
-      ),
-    },
-
-    {
-      menuItem: "表格",
+      menuItem: "交易記錄",
       render: () => (
         <TabPane>
           <TableView
@@ -109,12 +98,35 @@ export default function index() {
         </TabPane>
       ),
     },
+    {
+      menuItem: "基本資料",
+      render: () => (
+        <TabPane>
+          <StockBasic2025 />
+        </TabPane>
+      ),
+    },
+    {
+      menuItem: "封存項目",
+      render: () => (
+        <TabPane>
+          <CardView
+            groupKey="stockName"
+            data={state.dataByItemClosed}
+            dispatch={dispatch}
+          />
+        </TabPane>
+      ),
+    },
   ];
 
   return (
     <>
       <ScrollTopButton />
-      <Tab panes={panes} />
+      <Tab
+        panes={panes}
+        menu={{ color: "blue", secondary: true, pointing: true }}
+      />
 
       <EditForm
         columns={columns}
