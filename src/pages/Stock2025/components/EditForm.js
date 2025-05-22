@@ -41,6 +41,7 @@ export default function EditForm({ columns, state, dispatch, row, setRow }) {
     setRow({ ...row, stockNo: obj.value, stockName: words[1] });
   };
 
+  // 是否封存
   const handleIsClosedChange = (e, data) => {
     setRow({ ...row, isClosed: data.checked });
   };

@@ -58,7 +58,12 @@ export default function index() {
       menuItem: "項目統計",
       render: () => (
         <TabPane>
-          <CardView groupKey="item" data={state.dataByItem} dispatch={dispatch} />
+          <CardView
+            loading={state.loading}
+            groupKey="item"
+            data={state.dataByItem}
+            dispatch={dispatch}
+          />
         </TabPane>
       ),
     },
@@ -66,11 +71,14 @@ export default function index() {
       menuItem: "日期統計",
       render: () => (
         <TabPane>
-          <CardView groupKey="date" data={state.dataByDate} dispatch={dispatch} />
+          <CardView
+            groupKey="date"
+            data={state.dataByDate}
+            dispatch={dispatch}
+          />
         </TabPane>
       ),
     },
-   
 
     {
       menuItem: "表格",

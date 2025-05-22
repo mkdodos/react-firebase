@@ -22,12 +22,12 @@ import {
 import { v4 as uuidv4 } from "uuid";
 import numberFormat from "../../../utils/numberFormat";
 
-export default function CardView({ data, dispatch, groupKey }) {
+export default function CardView({ data, dispatch, groupKey,loading }) {
   // console.log(data)
   // console.log(groupKey)
   return (
     <div>
-      <Button icon="refresh" onClick={() => dispatch({ type: "LOAD" })} />
+      <Button loading={loading} icon="refresh" onClick={() => dispatch({ type: "LOAD" })} />
       <Grid stackable doubling columns={3} celled>
         <GridRow>
           {data.map((obj) => (
@@ -38,7 +38,7 @@ export default function CardView({ data, dispatch, groupKey }) {
                     <TableHeaderCell>
                       {groupKey == "date"
                         ? obj.date.slice(5, 10)
-                        : obj[groupKey]}
+                        : obj.stockName}
                     </TableHeaderCell>
                     <TableHeaderCell>
                       {groupKey == "date" ? "股數" : obj.sumQty}
@@ -50,9 +50,10 @@ export default function CardView({ data, dispatch, groupKey }) {
                 <TableBody>
                   {obj.rows.map((row) => (
                     <TableRow key={uuidv4()}>
-                      <TableCell>
+                      <TableCell>                       
                         {groupKey == "date" ? row.stockName : row.date}
                       </TableCell>
+                      {/* 顯示買入或賣出數量 */}
                       <TableCell>
                         {row.inQty ? (
                           <Label size="large" basic color="red">
@@ -68,10 +69,6 @@ export default function CardView({ data, dispatch, groupKey }) {
                       <TableCell>{numberFormat(row.amt)}</TableCell>
                     </TableRow>
                   ))}
-                  {/* <TableRow key={uuidv4()}>
-                    <TableCell>1</TableCell> */}
-
-                  {/* </TableRow> */}
                 </TableBody>
               </Table>
             </GridColumn>

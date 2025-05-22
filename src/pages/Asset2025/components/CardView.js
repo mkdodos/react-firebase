@@ -22,11 +22,11 @@ import {
 import { v4 as uuidv4 } from "uuid";
 import numberFormat from "../../../utils/numberFormat";
 
-export default function CardView({ data, dispatch, groupKey }) {
+export default function CardView({ data, dispatch, groupKey,loading }) {
   
   return (
     <div>
-      <Button icon="refresh" onClick={() => dispatch({ type: "LOAD" })} />
+      <Button loading={loading} icon="refresh" onClick={() => dispatch({ type: "LOAD" })} />
       <Grid stackable doubling columns={3} celled>
         <GridRow>
           {data.map((obj) => (

@@ -31,59 +31,26 @@ export const reducer = async (state, action) => {
     });
   };
 
-  // 依日期群組
-  const groupByDate = (data) => {
-    const obj = Object.groupBy(data, ({ date }) => date);
-    const arr = [];
-    Object.keys(obj).forEach(function (key) {
-      let sum = 0;
-      let sumQty = 0;
-      // key : 日期
-      // obj[key] : 該日期的群組資料
-      // sum : 金額合計
-      obj[key].map((v) => {
-        sum += Number(v.amt);
-        sumQty += Number(v.inQty);
-        sumQty -= Number(v.outQty);
-      });
-      // obj[key].map((v) => (sum += Number(v.amt)));
-      arr.push({ date: key, sum, sumQty, rows: obj[key] });
-    });
-
-    return arr;
-  };
-
+  // 依鍵值群組資料並轉為所需陣列
   const groupByKey = (data, key) => {
+    //keys : 所有鍵 , keys[key] : 指定鍵
     const obj = Object.groupBy(data, (keys) => keys[key]);
-    // return obj;
     const arr = [];
+    // 轉為陣列
     Object.keys(obj).forEach(function (gKey) {
       let sum = 0;
       let sumQty = 0;
       let qty = 0;
       obj[gKey].map((v) => {
         sum += Number(v.amt);
-        qty = v.inQty ? v.inQty : v.outQty * -1;        
-        sumQty += Number(qty);     
+        qty = v.inQty ? v.inQty : v.outQty * -1;
+        sumQty += Number(qty);
       });
       arr.push({ [key]: gKey, sum, sumQty, rows: obj[gKey] });
     });
 
     return arr;
   };
-
-  // 依項目群組
-  // const groupByItem = (data) => {
-  //   const obj = Object.groupBy(data, ({ stockName }) => stockName);
-  //   const arr = [];
-  //   Object.keys(obj).forEach(function (key) {
-  //     let sum = 0;
-  //     obj[key].map((v) => (sum += Number(v.amt)));
-  //     arr.push({ date: key, sum, rows: obj[key] });
-  //   });
-
-  //   return arr;
-  // };
 
   // 執行相關動作
   switch (action.type) {
@@ -104,16 +71,15 @@ export const reducer = async (state, action) => {
 
       const calData = calColumns(data);
 
-      // console.log(groupByKey(calData,'date'))
-      // console.log(groupByKey(calData,'stockName'))
+      const openedData = calData.filter((obj) => !obj.isClosed);
+      const closedData = calData.filter((obj) => obj.isClosed);
 
       return {
         ...state,
-        data: calData,
-        // dataByDate: groupByDate(calData),
-        dataByDate: groupByKey(calData, "date"),
-        // dataByItem: groupByItem(calData),
-        dataByItem: groupByKey(calData, "stockName"),
+        data: calData,       
+        dataByDate: groupByKey(calData, "date"),       
+        dataByItem: groupByKey(openedData, "stockName"),
+        dataByItemClosed: groupByKey(closedData, "stockName"),
         loading: false,
       };
 
@@ -131,9 +97,7 @@ export const reducer = async (state, action) => {
         ...row,
       });
       // 接收後端傳回的 id , 加入 row 至陣列
-      state.data.unshift({ ...row, id: docRef.id });
-      // console.log(row)
-      // state.data.unshift({ ...row });
+      state.data.unshift({ ...row, id: docRef.id });     
 
       return {
         ...state,

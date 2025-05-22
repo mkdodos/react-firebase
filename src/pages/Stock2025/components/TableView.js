@@ -1,6 +1,7 @@
 import { Table, Button,Checkbox } from "semantic-ui-react";
 import numberFormat from "../../../utils/numberFormat";
 
+
 export default function TableView({ state, columns, handleAdd, handleEdit }) {
   const { data, loading } = state;
 

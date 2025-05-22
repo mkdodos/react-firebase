@@ -7,6 +7,8 @@ import EditForm from "./components/EditForm";
 import { Tab, TabPane } from "semantic-ui-react";
 import CardView from "./components/CardView";
 
+import ScrollTopButton from "../../components/ScrollTopButton";
+
 export default function index() {
   // 預設資料物件
   const initState = {
@@ -50,28 +52,49 @@ export default function index() {
 
   const handleEdit = (row, index) => {
     dispatch({ type: "EDIT", payload: { index } });
-    console.log(row)
+    // console.log(row)
     setRow(row);
   };
 
   const panes = [
     {
+      menuItem: "日期統計",
+      render: () => (
+        <TabPane>
+          <CardView
+            loading={state.loading}
+            groupKey="date"
+            data={state.dataByDate}
+            dispatch={dispatch}
+          />
+        </TabPane>
+      ),
+    },
+
+    {
       menuItem: "項目統計",
       render: () => (
         <TabPane>
-          <CardView groupKey="stockName" data={state.dataByItem} dispatch={dispatch} />
+          <CardView           
+            groupKey="stockName"
+            data={state.dataByItem}
+            dispatch={dispatch}
+          />
         </TabPane>
       ),
     },
     {
-      menuItem: "日期統計",
+      menuItem: "封存",
       render: () => (
         <TabPane>
-          <CardView groupKey="date" data={state.dataByDate} dispatch={dispatch} />
+          <CardView
+            groupKey="stockName"
+            data={state.dataByItemClosed}
+            dispatch={dispatch}
+          />
         </TabPane>
       ),
     },
-   
 
     {
       menuItem: "表格",
@@ -85,11 +108,12 @@ export default function index() {
           />
         </TabPane>
       ),
-    }
+    },
   ];
 
   return (
     <>
+      <ScrollTopButton />
       <Tab panes={panes} />
 
       <EditForm
