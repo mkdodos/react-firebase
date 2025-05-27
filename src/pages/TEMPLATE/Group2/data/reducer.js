@@ -54,20 +54,11 @@ export const reducer = async (state, action) => {
 
   // 執行相關動作
   switch (action.type) {
-    case "SET_SEARCH":
-      return {
-        ...state,
-        search: {
-          ...state.search,
-          year: action.payload.year,
-          month: action.payload.month,
-        },
-      };
     // 封存
     case "ARCHIVE":
       // 多筆更新
-      const rows = action.payload.rows;
-      rows.map(async (row) => {
+      const rows = action.payload.rows;     
+      rows.map(async (row) => {       
         await updateDoc(doc(db, colName, row.id), {
           isClosed: true,
         });
@@ -75,8 +66,6 @@ export const reducer = async (state, action) => {
       return state;
     // 載入資料
     case "LOAD":
-      console.log(state.search);
-
       // 取得集合
       const col = collection(db, colName);
       // 排序,限制筆數

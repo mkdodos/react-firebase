@@ -3,9 +3,13 @@ import schema from "./data/schema.json";
 import { reducer } from "./data/reducer";
 import TableView from "./components/TableView";
 import EditForm from "./components/EditForm";
-import AssetBasic from "./AssetBasic";
+
 import { Tab, TabPane } from "semantic-ui-react";
 import CardView from "./components/CardView";
+
+import ScrollTopButton from "../../components/ScrollTopButton";
+
+import StockBasic2025 from "./StockBasic2025";
 
 export default function index() {
   // 預設資料物件
@@ -50,28 +54,17 @@ export default function index() {
 
   const handleEdit = (row, index) => {
     dispatch({ type: "EDIT", payload: { index } });
+    // console.log(row)
     setRow(row);
   };
 
   const panes = [
     {
-      menuItem: "項目統計",
-      render: () => (
-        <TabPane>
-          <CardView
-            loading={state.loading}
-            groupKey="item"
-            data={state.dataByItem}
-            dispatch={dispatch}
-          />
-        </TabPane>
-      ),
-    },
-    {
       menuItem: "日期統計",
       render: () => (
         <TabPane>
           <CardView
+            loading={state.loading}
             groupKey="date"
             data={state.dataByDate}
             dispatch={dispatch}
@@ -80,6 +73,18 @@ export default function index() {
       ),
     },
 
+    {
+      menuItem: "項目統計",
+      render: () => (
+        <TabPane>
+          <CardView
+            groupKey="stockName"
+            data={state.dataByItem}
+            dispatch={dispatch}
+          />
+        </TabPane>
+      ),
+    },
     {
       menuItem: "交易記錄",
       render: () => (
@@ -94,10 +99,22 @@ export default function index() {
       ),
     },
     {
-      menuItem: "項目",
+      menuItem: "基本資料",
       render: () => (
         <TabPane>
-          <AssetBasic />
+          <StockBasic2025 />
+        </TabPane>
+      ),
+    },
+    {
+      menuItem: "封存項目",
+      render: () => (
+        <TabPane>
+          <CardView
+            groupKey="stockName"
+            data={state.dataByItemClosed}
+            dispatch={dispatch}
+          />
         </TabPane>
       ),
     },
@@ -105,7 +122,11 @@ export default function index() {
 
   return (
     <>
-      <Tab panes={panes} />
+      <ScrollTopButton />
+      <Tab
+        panes={panes}
+        menu={{ color: "blue", secondary: true, pointing: true }}
+      />
 
       <EditForm
         columns={columns}

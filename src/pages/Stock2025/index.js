@@ -11,6 +11,8 @@ import ScrollTopButton from "../../components/ScrollTopButton";
 
 import StockBasic2025 from "./StockBasic2025";
 
+import SearchBar from "./components/SearchBar";
+
 export default function index() {
   // 預設資料物件
   const initState = {
@@ -18,6 +20,7 @@ export default function index() {
     dataByDate: [],
     dataByItem: [],
     loading: true,
+    search: { year: "", month: "" },
   };
 
   // 此函數為參考網路,功能為讓 reducer 可以處理 async function
@@ -123,6 +126,7 @@ export default function index() {
   return (
     <>
       <ScrollTopButton />
+      <SearchBar dispatch={dispatch} state={state} />
       <Tab
         panes={panes}
         menu={{ color: "blue", secondary: true, pointing: true }}

@@ -1,0 +1,63 @@
+{
+  "columns": [
+    {
+      "dataKey": "date",
+      "title": "日期",
+      "type": "date",
+      "viewable": "true",
+      "editable": "true",
+      "width": "2"
+    },
+    {
+      "dataKey": "stockNo",
+      "title": "代號",
+      "type": "text"
+    },
+    {
+      "dataKey": "stockName",
+      "title": "股票名稱",
+      "type": "text",
+      "editable": "true",
+      "viewable": "true"
+    },
+    {
+      "dataKey": "inQty",
+      "title": "買進股數",
+      "type": "number",
+      "viewable": "true",
+      "editable": "true",
+      "width": "2"
+    },
+    {
+      "dataKey": "outQty",
+      "title": "賣出股數",
+      "type": "number",
+      "viewable": "true",
+      "editable": "true",
+      "width": "2"
+    },
+    {
+      "dataKey": "price",
+      "title": "$ 單價",
+      "type": "number",
+      "viewable": "true",
+      "editable": "true",
+      "width": "2"
+    },
+    {
+      "dataKey": "amt",
+      "title": "小計",
+      "type": "number",
+      "viewable": "true",
+      "width": "2"
+    },
+    {
+      "dataKey": "isClosed",
+      "title": "封存",
+      "type": "checkbox",
+      "viewable": "true",
+      "editable": "true",
+      "width": "2"
+    }
+  ]
+}

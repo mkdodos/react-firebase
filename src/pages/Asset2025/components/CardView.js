@@ -17,16 +17,20 @@ import {
   GridColumn,
   Label,
   Button,
+  Header,
 } from "semantic-ui-react";
 
 import { v4 as uuidv4 } from "uuid";
 import numberFormat from "../../../utils/numberFormat";
 
-export default function CardView({ data, dispatch, groupKey,loading }) {
-  
+export default function CardView({ data, dispatch, groupKey, loading }) {
   return (
     <div>
-      <Button loading={loading} icon="refresh" onClick={() => dispatch({ type: "LOAD" })} />
+      <Button
+        loading={loading}
+        icon="refresh"
+        onClick={() => dispatch({ type: "LOAD" })}
+      />
       <Grid stackable doubling columns={3} celled>
         <GridRow>
           {data.map((obj) => (
@@ -41,16 +45,20 @@ export default function CardView({ data, dispatch, groupKey,loading }) {
                       {groupKey == "date" ? numberFormat(obj.sum) : "金額"}
                     </TableHeaderCell>
                     <TableHeaderCell>成本</TableHeaderCell>
+                    <TableHeaderCell>損益</TableHeaderCell>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {obj.rows.map((row) => (
                     <TableRow key={uuidv4()}>
                       <TableCell>
-                        {groupKey == "date" ? row.itemName : row.date}
+                        {groupKey == "date" ? row.itemName : row.date.slice(5, 10)}
                       </TableCell>
                       <TableCell>{numberFormat(row.amt)}</TableCell>
                       <TableCell>{numberFormat(row.cost)}</TableCell>
+                      <TableCell>
+                        <Header as="h4"> {numberFormat(row.amt - row.cost)}</Header>
+                      </TableCell>
                     </TableRow>
                   ))}
                   {/* <TableRow key={uuidv4()}>
