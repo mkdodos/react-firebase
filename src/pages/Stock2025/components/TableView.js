@@ -1,6 +1,15 @@
-import { Table, Button,Checkbox } from "semantic-ui-react";
+import {
+  Table,
+  Button,
+  Checkbox,
+  Header,
+  HeaderContent,
+  HeaderSubheader,
+  GridRow,
+  GridColumn,
+  Grid,
+} from "semantic-ui-react";
 import numberFormat from "../../../utils/numberFormat";
-
 
 export default function TableView({ state, columns, handleAdd, handleEdit }) {
   const { data, loading } = state;
@@ -23,6 +32,35 @@ export default function TableView({ state, columns, handleAdd, handleEdit }) {
 
   return (
     <>
+      <Grid columns={3} divided>
+        <GridRow>
+          <GridColumn>
+            <Header as="h2" color="red">
+              <HeaderContent>
+                ${numberFormat(state.total.sumInAmt)}
+                <HeaderSubheader>買入金額</HeaderSubheader>
+              </HeaderContent>
+            </Header>
+          </GridColumn>
+          <GridColumn>
+            <Header as="h2" color="teal">
+              <HeaderContent>
+                ${numberFormat(state.total.sumOutAmt)}
+                <HeaderSubheader>賣出金額</HeaderSubheader>
+              </HeaderContent>
+            </Header>
+          </GridColumn>
+          <GridColumn>
+            <Header as="h2" color="blue">
+              <HeaderContent>
+                ${numberFormat(state.total.sumAmt)}
+                {/* <HeaderSubheader>淨收支</HeaderSubheader> */}
+              </HeaderContent>
+            </Header>
+          </GridColumn>
+        </GridRow>
+      </Grid>
+
       <Table celled unstackable>
         <Table.Header>
           <Table.Row>

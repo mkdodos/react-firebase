@@ -60,7 +60,11 @@ export default function CardView({ data, dispatch, groupKey, loading }) {
                         />
                       )}
                     </TableHeaderCell>
-                    <TableHeaderCell>單價</TableHeaderCell>
+                    <TableHeaderCell>
+                      {groupKey == "date"
+                        ? "單價"
+                        : "$" + Math.round((obj.sum / obj.sumQty) * -1)}
+                    </TableHeaderCell>
                     <TableHeaderCell>{numberFormat(obj.sum)}</TableHeaderCell>
                   </TableRow>
                 </TableHeader>

@@ -14,13 +14,19 @@ import StockBasic2025 from "./StockBasic2025";
 import SearchBar from "./components/SearchBar";
 
 export default function index() {
+  let m = new Date().getMonth() + 1;
+  // 月份小於 10 補 0 (配合下拉清單)
+  m = m < 10 ? "0" + m : m;
   // 預設資料物件
   const initState = {
     data: [], //資料
     dataByDate: [],
     dataByItem: [],
     loading: true,
-    search: { year: "", month: "" },
+    search: {
+      year: new Date().getFullYear(),
+      month: m,
+    },
   };
 
   // 此函數為參考網路,功能為讓 reducer 可以處理 async function
@@ -35,7 +41,7 @@ export default function index() {
   useEffect(() => {
     // 讀取資料
     dispatch({ type: "LOAD" });
-  }, []);
+  }, [state.search]);
 
   // 欄位預設值
   const defaultRow = {};

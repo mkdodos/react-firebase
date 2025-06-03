@@ -17,10 +17,16 @@ export default function MonthDropdown({ onChange, value }) {
     let arr = [];
     // 1 ~ 12
     for (let i = 1; i < 13; i++) {
+
+
+      // 補0
+      let m = i;
+      m=m<10?"0"+m:m
+
       arr.push({
         key: i,
-        text: i,
-        value: i,
+        text: m,
+        value: m,
       });
     }
     setOptions(arr);

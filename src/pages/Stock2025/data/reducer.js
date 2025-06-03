@@ -9,6 +9,7 @@ import {
   updateDoc,
   deleteDoc,
   orderBy,
+  where,
   getDoc,
   startAfter,
 } from "firebase11/firestore/lite";
@@ -29,6 +30,18 @@ export const reducer = async (state, action) => {
       if (obj.outQty)
         return { ...obj, amt: Math.floor(obj.outQty * obj.price) };
     });
+  };
+
+  // 計算合計
+  const calTotal = (data) => {
+    let sumInAmt = 0;
+    let sumOutAmt = 0;
+    // 買入賣出分別計算
+    data.map((obj) => {
+      if (obj.inQty) sumInAmt += Math.round(obj.inQty * obj.price);
+      if (obj.outQty) sumOutAmt += Math.round(obj.outQty * obj.price);
+    });
+    return { sumInAmt, sumOutAmt, sumAmt: sumInAmt - sumOutAmt };
   };
 
   // 依鍵值群組資料並轉為所需陣列
@@ -79,18 +92,26 @@ export const reducer = async (state, action) => {
 
       // 取得集合
       const col = collection(db, colName);
-      // 排序,限制筆數
-      const q = query(col, orderBy("date", "desc"), limit(100));
 
-      // 資料快照
+      // 用下拉年月組合日期查詢
+      const dateFrom = state.search?.year + "-" + state.search?.month + "-01";
+      const dateTo = state.search?.year + "-" + state.search?.month + "-31";
+
+      const q = query(
+        col,
+        where("date", ">=", dateFrom),
+        where("date", "<=", dateTo),
+        orderBy("date", "desc"),
+        limit(200)
+      );
+
       const snapshot = await getDocs(q);
-      // console.log(snapshot.size)
-      // 資料跑迴圈轉成物件陣列
+
       const data = snapshot.docs.map((doc) => {
         return { ...doc.data(), id: doc.id };
       });
 
-      const calData = calColumns(data);
+      const calData = calColumns(data);      
 
       const openedData = calData.filter((obj) => !obj.isClosed);
       const closedData = calData.filter((obj) => obj.isClosed);
@@ -101,6 +122,7 @@ export const reducer = async (state, action) => {
         dataByDate: groupByKey(calData, "date"),
         dataByItem: groupByKey(openedData, "stockName"),
         dataByItemClosed: groupByKey(closedData, "stockName"),
+        total: calTotal(calData),
         loading: false,
       };
 

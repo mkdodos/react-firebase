@@ -26,7 +26,7 @@ export default function Navbar() {
     <>
       <Menu color="blue" widths={3} pointing secondary>
         <Menu.Item as={Link} to="/asset2025">
-          Asset2025
+          資產
         </Menu.Item>
         {/* <Menu.Item as={Link} to="/maya">
           Maya
@@ -35,7 +35,7 @@ export default function Navbar() {
           Stock
         </Menu.Item> */}
         <Menu.Item as={Link} to="/stock2025">
-          Stock2025
+          存股
         </Menu.Item>
         {/* <Menu.Item as={Link} to="/demo">
           Demo
