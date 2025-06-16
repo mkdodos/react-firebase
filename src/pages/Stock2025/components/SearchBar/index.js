@@ -1,6 +1,6 @@
 import YearDropdown from "./components/YearDropdown";
 import MonthDropdown from "./components/MonthDropdown";
-import { Form, FormField, FormGroup } from "semantic-ui-react";
+import { Button, Form, FormField, FormGroup } from "semantic-ui-react";
 
 export default function index({ dispatch, state }) {
   const handleYearChange = (e, { value }) => {
@@ -13,6 +13,13 @@ export default function index({ dispatch, state }) {
       payload: { ...state.search, month: value },
     });
   };
+
+  const handleQuery = () => {
+    dispatch({
+      type: "LOAD",
+    });
+  };
+
   return (
     <Form>
       <FormGroup>
@@ -24,6 +31,9 @@ export default function index({ dispatch, state }) {
             onChange={handleMonthChange}
             value={state.search.month}
           />
+        </FormField>
+        <FormField>
+          <Button onClick={handleQuery}>查詢</Button>
         </FormField>
       </FormGroup>
     </Form>

@@ -88,14 +88,29 @@ export const reducer = async (state, action) => {
       return state;
     // 載入資料
     case "LOAD":
-      console.log(state.search);
+      console.log(state.search.month);
 
       // 取得集合
       const col = collection(db, colName);
 
       // 用下拉年月組合日期查詢
-      const dateFrom = state.search?.year + "-" + state.search?.month + "-01";
-      const dateTo = state.search?.year + "-" + state.search?.month + "-31";
+      // const dateFrom = state.search?.year + "-" + state.search?.month + "-01";
+      // const dateTo = state.search?.year + "-" + state.search?.month + "-31";
+      // const dateFrom = state.search?.year + "-" + "01-01";
+      // const dateTo = state.search?.year + "-" + "12-31";
+
+      let dateFrom = "";
+      let dateTo = "";
+
+      // 沒輸入月份查整年
+      if (state.search.month == "") {
+        dateFrom = state.search?.year + "-" + "01-01";
+        dateTo = state.search?.year + "-" + "12-31";
+      } else {
+        // 有輸入月份查該月
+        dateFrom = state.search?.year + "-" + state.search?.month + "-01";
+        dateTo = state.search?.year + "-" + state.search?.month + "-31";
+      }
 
       const q = query(
         col,
@@ -111,7 +126,7 @@ export const reducer = async (state, action) => {
         return { ...doc.data(), id: doc.id };
       });
 
-      const calData = calColumns(data);      
+      const calData = calColumns(data);
 
       const openedData = calData.filter((obj) => !obj.isClosed);
       const closedData = calData.filter((obj) => obj.isClosed);

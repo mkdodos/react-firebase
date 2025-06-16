@@ -25,7 +25,8 @@ export default function index() {
     loading: true,
     search: {
       year: new Date().getFullYear(),
-      month: m,
+      month:''
+      // month: m,
     },
   };
 
@@ -41,7 +42,7 @@ export default function index() {
   useEffect(() => {
     // 讀取資料
     dispatch({ type: "LOAD" });
-  }, [state.search]);
+  }, []);
 
   // 欄位預設值
   const defaultRow = {};

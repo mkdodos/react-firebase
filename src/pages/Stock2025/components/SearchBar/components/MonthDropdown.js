@@ -35,6 +35,7 @@ export default function MonthDropdown({ onChange, value }) {
   return (
     <Dropdown
       selection
+      clearable
       onChange={onChange}
       placeholder="選擇月份"
       options={options}
