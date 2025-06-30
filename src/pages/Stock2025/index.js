@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import schema from "./data/schema.json";
 import { reducer } from "./data/reducer";
 import TableView from "./components/TableView";
+import TableViewSmall from "./components/TableViewSmall";
 import EditForm from "./components/EditForm";
 
 import { Tab, TabPane } from "semantic-ui-react";
@@ -25,7 +26,7 @@ export default function index() {
     loading: true,
     search: {
       year: new Date().getFullYear(),
-      month:''
+      month: "",
       // month: m,
     },
   };
@@ -39,9 +40,30 @@ export default function index() {
 
   const [state, dispatch] = useAsyncReducer(reducer, initState);
 
+  //
+  const [isMobile, setIsMobile] = useState(true);
+
+  const handleWindowResize = () => {
+    if (window.innerWidth <= 600) {
+      setIsMobile(true);
+    } else {
+      setIsMobile(false);
+    }
+  };
+
   useEffect(() => {
     // 讀取資料
     dispatch({ type: "LOAD" });
+
+    // 載入時依螢幕寬度設定版面
+    handleWindowResize();
+
+    // 每次有調整螢幕寬度時,再設定版面
+    window.addEventListener("resize", handleWindowResize);
+
+    return () => {
+      window.removeEventListener("resize", handleWindowResize);
+    };
   }, []);
 
   // 欄位預設值
@@ -57,14 +79,22 @@ export default function index() {
   // 將其獨立出來處理
   const [row, setRow] = useState(defaultRow);
 
+  const [isSold, setIsSold] = useState(true);
+
   const handleAdd = () => {
     dispatch({ type: "ADD" });
     setRow(defaultRow);
   };
 
+  // 編輯時,依買入或買出數量顯示(在編輯表單中依isSold顯示)
   const handleEdit = (row, index) => {
     dispatch({ type: "EDIT", payload: { index } });
-    // console.log(row)
+    if (row.inQty) {      
+      setIsSold(false);
+    } else {     
+      setIsSold(true);
+    }
+
     setRow(row);
   };
 
@@ -99,23 +129,32 @@ export default function index() {
       menuItem: "交易記錄",
       render: () => (
         <TabPane>
-          <TableView
-            state={state}
-            columns={columns}
-            handleAdd={handleAdd}
-            handleEdit={handleEdit}
-          />
+          {isMobile ? (
+            <TableViewSmall
+              state={state}
+              columns={columns}
+              handleAdd={handleAdd}
+              handleEdit={handleEdit}
+            />
+          ) : (
+            <TableView
+              state={state}
+              columns={columns}
+              handleAdd={handleAdd}
+              handleEdit={handleEdit}
+            />
+          )}
         </TabPane>
       ),
     },
-    {
-      menuItem: "基本資料",
-      render: () => (
-        <TabPane>
-          <StockBasic2025 />
-        </TabPane>
-      ),
-    },
+    // {
+    //   menuItem: "基本資料",
+    //   render: () => (
+    //     <TabPane>
+    //       <StockBasic2025 />
+    //     </TabPane>
+    //   ),
+    // },
     {
       menuItem: "封存項目",
       render: () => (
@@ -132,6 +171,7 @@ export default function index() {
 
   return (
     <>
+      {isMobile}
       <ScrollTopButton />
       <SearchBar dispatch={dispatch} state={state} />
       <Tab
@@ -145,6 +185,8 @@ export default function index() {
         setRow={setRow}
         state={state}
         dispatch={dispatch}
+        isSold={isSold}
+        setIsSold={setIsSold}
       />
     </>
   );

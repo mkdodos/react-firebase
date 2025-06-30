@@ -1,8 +1,16 @@
 import { useState } from "react";
-import { Form, Button, Modal, Checkbox,Menu } from "semantic-ui-react";
+import { Form, Button, Modal, Checkbox, Menu } from "semantic-ui-react";
 import StockDropdown from "./StockDropdown";
 
-export default function EditForm({ columns, state, dispatch, row, setRow }) {
+export default function EditForm({
+  columns,
+  state,
+  dispatch,
+  row,
+  setRow,
+  isSold,
+  setIsSold,
+}) {
   // 篩選可編輯欄位
   columns = columns.filter((col) => col.editable);
   // 組合每一列 group
@@ -18,8 +26,6 @@ export default function EditForm({ columns, state, dispatch, row, setRow }) {
     }
     return groups;
   };
-
-  const [isSold, setIsSold] = useState(true);
 
   // 篩選買進或賣出欄位
   if (isSold) {
