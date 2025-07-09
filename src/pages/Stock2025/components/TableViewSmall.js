@@ -11,6 +11,7 @@ import {
   Label,
 } from "semantic-ui-react";
 import numberFormat from "../../../utils/numberFormat";
+import GroupedYM from "./GroupedYM";
 
 export default function TableViewSmall({
   state,
@@ -19,10 +20,14 @@ export default function TableViewSmall({
   handleEdit,
 }) {
   const { data, loading } = state;
-  
+
   return (
     <>
+      <GroupedYM data={state.dataGroupedYM} />
       <Grid columns={3}>
+        <GridRow>
+          <GridColumn></GridColumn>
+        </GridRow>
         <GridRow>
           <GridColumn>
             <Header as="h3" color="red">

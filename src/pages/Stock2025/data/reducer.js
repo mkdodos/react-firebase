@@ -65,6 +65,27 @@ export const reducer = async (state, action) => {
     return arr;
   };
 
+  const groupedYM = (data) => {
+    const arr = [];
+    const grouped = Object.groupBy(data, (item) => {
+      const d = new Date(item.date);
+      // 以年月分組
+      return d.getFullYear() + "-0" + (d.getMonth() + 1);
+    });
+    // console.log(grouped);
+
+    Object.keys(grouped).forEach(function (gKey) {
+      let sum = 0;
+      // 年月群組資料
+      grouped[gKey].map((row) => {
+        sum += Number(row.amt);
+      });
+      arr.push({ ym: gKey, sum });
+    });
+    return arr;
+    // console.log(arr);
+  };
+
   // 執行相關動作
   switch (action.type) {
     case "SET_SEARCH":
@@ -88,8 +109,6 @@ export const reducer = async (state, action) => {
       return state;
     // 載入資料
     case "LOAD":
-      console.log(state.search.month);
-
       // 取得集合
       const col = collection(db, colName);
 
@@ -128,6 +147,8 @@ export const reducer = async (state, action) => {
 
       const calData = calColumns(data);
 
+      const groupedAmtByYM = groupedYM(calData);
+
       const openedData = calData.filter((obj) => !obj.isClosed);
       const closedData = calData.filter((obj) => obj.isClosed);
 
@@ -137,6 +158,7 @@ export const reducer = async (state, action) => {
         dataByDate: groupByKey(calData, "date"),
         dataByItem: groupByKey(openedData, "stockName"),
         dataByItemClosed: groupByKey(closedData, "stockName"),
+        dataGroupedYM: groupedAmtByYM,
         total: calTotal(calData),
         loading: false,
       };

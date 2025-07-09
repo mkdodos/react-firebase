@@ -1,3 +1,4 @@
+// 交易記錄
 import {
   Table,
   Button,
@@ -10,11 +11,12 @@ import {
   Grid,
 } from "semantic-ui-react";
 import numberFormat from "../../../utils/numberFormat";
+import GroupedYM from "./GroupedYM";
 
 export default function TableView({ state, columns, handleAdd, handleEdit }) {
   const { data, loading } = state;
 
-  // console.log(data);
+  console.log(state);
 
   // 針對不同欄位做不同顯示
   const genColumn = (key, value) => {
@@ -32,7 +34,11 @@ export default function TableView({ state, columns, handleAdd, handleEdit }) {
 
   return (
     <>
+      <GroupedYM data={state.dataGroupedYM} />
       <Grid columns={3} divided>
+        {/* <GridRow>
+          <GridColumn></GridColumn>
+        </GridRow> */}
         <GridRow>
           <GridColumn>
             <Header as="h2" color="red">
