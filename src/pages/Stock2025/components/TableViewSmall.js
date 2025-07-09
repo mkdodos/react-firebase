@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Table,
   Button,
@@ -9,6 +10,7 @@ import {
   GridColumn,
   Grid,
   Label,
+  Icon,
 } from "semantic-ui-react";
 import numberFormat from "../../../utils/numberFormat";
 import GroupedYM from "./GroupedYM";
@@ -21,13 +23,20 @@ export default function TableViewSmall({
 }) {
   const { data, loading } = state;
 
+  const [activeIndex, setActiveIndex] = useState(-1);
+
+  const handleButtonClick = (index) => {
+    // console.log(index)
+    const newIndex = activeIndex === index ? -1 : index;
+    setActiveIndex(newIndex);
+  };
+
   return (
     <>
-      <GroupedYM data={state.dataGroupedYM} />
       <Grid columns={3}>
-        <GridRow>
+        {/* <GridRow>
           <GridColumn></GridColumn>
-        </GridRow>
+        </GridRow> */}
         <GridRow>
           <GridColumn>
             <Header as="h3" color="red">
@@ -46,15 +55,25 @@ export default function TableViewSmall({
             </Header>
           </GridColumn>
           <GridColumn>
-            <Header as="h3" color="blue">
+            <Header as="h3" >
               <HeaderContent>
-                ${numberFormat(state.total.sumAmt)}
-                {/* <HeaderSubheader>淨收支</HeaderSubheader> */}
+                {numberFormat(state.total.sumAmt)}
+                <HeaderSubheader>
+                  {/* <Button onClick={() => handleButtonClick(0)}> 淨收支</Button> */}
+                  <Icon name="dropdown" />
+                  <span onClick={() => handleButtonClick(0)}> 淨收支</span>
+                </HeaderSubheader>
               </HeaderContent>
             </Header>
           </GridColumn>
         </GridRow>
       </Grid>
+      <GroupedYM
+        data={state.dataGroupedYM}
+        activeIndex={activeIndex}
+        setActiveIndex={setActiveIndex}
+        index={0}
+      />
 
       <Table unstackable>
         <Table.Header>
@@ -68,7 +87,7 @@ export default function TableViewSmall({
                 onClick={handleAdd}
                 loading={loading}
               >
-                新增
+              <Icon name='add' />   新增
               </Button>
             </Table.HeaderCell>
           </Table.Row>

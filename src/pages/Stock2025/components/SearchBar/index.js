@@ -1,6 +1,15 @@
 import YearDropdown from "./components/YearDropdown";
 import MonthDropdown from "./components/MonthDropdown";
-import { Button, Form, FormField, FormGroup } from "semantic-ui-react";
+import {
+  Grid,
+  GridColumn,
+  GridRow,
+  Button,
+  Form,
+  FormField,
+  FormGroup,
+  Icon
+} from "semantic-ui-react";
 
 export default function index({ dispatch, state }) {
   const handleYearChange = (e, { value }) => {
@@ -21,21 +30,39 @@ export default function index({ dispatch, state }) {
   };
 
   return (
-    <Form>
-      <FormGroup>
-        <FormField>
+    <Grid columns={3}>
+      <GridRow>
+        <GridColumn>
           <YearDropdown onChange={handleYearChange} value={state.search.year} />
-        </FormField>
-        <FormField>
+        </GridColumn>
+        <GridColumn>
           <MonthDropdown
             onChange={handleMonthChange}
             value={state.search.month}
           />
-        </FormField>
-        <FormField>
-          <Button onClick={handleQuery}>查詢</Button>
-        </FormField>
-      </FormGroup>
-    </Form>
+        </GridColumn>
+        <GridColumn>
+          <Button onClick={handleQuery} primary fluid>
+             <Icon name='search' />
+            查詢</Button>
+        </GridColumn>
+      </GridRow>
+    </Grid>
+    // <Form>
+    //   <FormGroup>
+    //     <FormField>
+    //       <YearDropdown onChange={handleYearChange} value={state.search.year} />
+    //     </FormField>
+    //     <FormField >
+    //       <MonthDropdown
+    //         onChange={handleMonthChange}
+    //         value={state.search.month}
+    //       />
+    //     </FormField>
+    //     <FormField>
+    //       <Button onClick={handleQuery}>查詢</Button>
+    //     </FormField>
+    //   </FormGroup>
+    // </Form>
   );
 }

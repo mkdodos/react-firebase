@@ -27,6 +27,8 @@ export default function YearDropdown({ onChange,value }) {
       placeholder="選擇年份"
       options={options}
       value={value}
+       fluid
+      
     />
   );
 }

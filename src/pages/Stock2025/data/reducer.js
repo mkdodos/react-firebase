@@ -41,7 +41,7 @@ export const reducer = async (state, action) => {
       if (obj.inQty) sumInAmt += Math.round(obj.inQty * obj.price);
       if (obj.outQty) sumOutAmt += Math.round(obj.outQty * obj.price);
     });
-    return { sumInAmt, sumOutAmt, sumAmt: sumInAmt - sumOutAmt };
+    return { sumInAmt, sumOutAmt, sumAmt: sumOutAmt - sumInAmt };
   };
 
   // 依鍵值群組資料並轉為所需陣列
@@ -65,6 +65,7 @@ export const reducer = async (state, action) => {
     return arr;
   };
 
+  // 依年月群組
   const groupedYM = (data) => {
     const arr = [];
     const grouped = Object.groupBy(data, (item) => {
@@ -76,11 +77,17 @@ export const reducer = async (state, action) => {
 
     Object.keys(grouped).forEach(function (gKey) {
       let sum = 0;
+      let sumInAmt = 0;
+      let sumOutAmt = 0;
       // 年月群組資料
       grouped[gKey].map((row) => {
-        sum += Number(row.amt);
+        // sum += Number(row.amt);
+        if (row.inQty) sumInAmt += Math.round(row.inQty * row.price);
+
+        sumOutAmt += Math.round(row.outQty * row.price);
+        console.log(row);
       });
-      arr.push({ ym: gKey, sum });
+      arr.push({ ym: gKey, sum: sumOutAmt - sumInAmt, sumInAmt, sumOutAmt });
     });
     return arr;
     // console.log(arr);

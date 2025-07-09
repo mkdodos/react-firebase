@@ -40,6 +40,7 @@ export default function MonthDropdown({ onChange, value }) {
       placeholder="選擇月份"
       options={options}
       value={value}
+       fluid
     />
   );
 }
