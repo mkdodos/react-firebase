@@ -1,0 +1,40 @@
+{
+  "columns": [
+    {
+      "dataKey": "paydate",
+      "title": "日期",
+      "type": "text",
+      "editable": "true",
+      "viewable": "true"
+    },
+    {
+      "dataKey": "item",
+      "title": "項目",
+      "type": "text",
+      "editable": "true",
+      "viewable": "true"
+    },
+
+    {
+      "dataKey": "store",
+      "title": "商店",
+      "type": "text",
+      "editable": "true",
+      "viewable": "true"
+    },
+    {
+      "dataKey": "amount",
+      "title": "金額",
+      "type": "text",
+      "editable": "true",
+      "viewable": "true"
+    },
+    {
+      "dataKey": "note",
+      "title": "備註",
+      "type": "text",
+      "editable": "true",
+      "viewable": "true"
+    }
+  ]
+}

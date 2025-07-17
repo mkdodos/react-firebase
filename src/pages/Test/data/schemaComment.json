@@ -1,0 +1,26 @@
+{
+  "columns": [
+    {
+      "dataKey": "id",
+      "title": "id",
+      "type": "text",
+      "editable": "true",
+      "viewable": "true"
+    },
+
+    {
+      "dataKey": "text",
+      "title": "text",
+      "type": "text",
+      "editable": "true",
+      "viewable": "true"
+    },
+     {
+      "dataKey": "postId",
+      "title": "postId",
+      "type": "text",
+      "editable": "true",
+      "viewable": "true"
+    }
+  ]
+}

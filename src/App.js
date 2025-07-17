@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import Login from './pages/Login';
 import Maya from './pages/Maya';
+import Wedding from './pages/Wedding';
 import Stock from './pages/Stock';
 import Stock2025 from "./pages/Stock2025"
 import Asset2025 from "./pages/Asset2025"
@@ -22,6 +23,8 @@ import Demo5 from './pages/Demo5';
 import DemoMaster from './pages/DemoMaster';
 import DemoDetail from './pages/DemoDetail';
 
+import Test from './pages/Test'
+
 export default function App() {
   return (
     <Container>
@@ -31,6 +34,8 @@ export default function App() {
           {/* <Route path="/react-firebase/build" element={<Money />} /> */}
           <Route path="/" element={<Stock2025 />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/wedding" element={<Wedding />} />
+          <Route path="/test" element={<Test />} />
           <Route path="/stock" element={<Stock />} />
           <Route path="/stock2025" element={<Stock2025 />} />
           <Route path="/asset2025" element={<Asset2025 />} />

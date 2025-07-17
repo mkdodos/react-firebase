@@ -42,7 +42,7 @@ export default function index({ dispatch, state }) {
           />
         </GridColumn>
         <GridColumn>
-          <Button onClick={handleQuery} primary fluid>
+          <Button onClick={handleQuery} primary >
              <Icon name='search' />
             查詢</Button>
         </GridColumn>

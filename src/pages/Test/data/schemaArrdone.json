@@ -1,0 +1,41 @@
+{
+  "columns": [
+    
+    {
+      "dataKey": "id",
+      "title": "id",
+      "width":"2"
+    },
+    {
+      "dataKey": "cust_name",
+      "title": "客戶",
+      "width":"2"
+    },
+    {
+      "dataKey": "work_name",
+      "title": "品名",
+      "width":"5"
+    },
+    
+    {
+      "dataKey": "size",
+      "title": "尺寸"
+    },
+    {
+      "dataKey": "qty",
+      "title": "數量",
+      "width":"1"
+    },
+    {
+      "dataKey": "m_name",
+      "title": "地點",
+      "width":"1"
+    },
+    {
+      "dataKey": "arr_note",
+      "title": "備註",
+       "width":"3"
+    }
+    
+  ]
+}
