@@ -1,0 +1,26 @@
+{
+  "columns": [
+    {
+      "dataKey": "date",
+      "title": "日期",
+      "type": "date",
+      "editable": "true",
+      "viewable": "true"
+    },
+
+    {
+      "dataKey": "stockName",
+      "title": "股票名稱",
+      "type": "text",
+      "editable": "true",
+      "viewable": "true"
+    },
+     {
+      "dataKey": "amt",
+      "title": "金額",
+      "type": "text",
+      "editable": "true",
+      "viewable": "true"
+    }
+  ]
+}

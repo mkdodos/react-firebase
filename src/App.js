@@ -16,6 +16,7 @@ import StockBasic from './pages/StockBasic';
 import StockMaster from './pages/StockMaster';
 import StockDetail from './pages/StockDetail';
 import StockMoney from './pages/StockMoney';
+import StockBonus from './pages/StockBonus';
 
 // import TableListSmall from './pages/StockMaster/components/TableListSmall';
 import Demo4 from './pages/Demo4';
@@ -33,6 +34,7 @@ export default function App() {
         <Routes>
           {/* <Route path="/react-firebase/build" element={<Money />} /> */}
           <Route path="/" element={<Stock2025 />} />
+          <Route path="/stock-bonus" element={<StockBonus />} />
           <Route path="/login" element={<Login />} />
           <Route path="/wedding" element={<Wedding />} />
           <Route path="/test" element={<Test />} />

@@ -37,11 +37,12 @@ export default function Navbar() {
         <Menu.Item as={Link} to="/stock2025">
           存股
         </Menu.Item>
-        {/* <Menu.Item as={Link} to="/demo">
-          Demo
-        </Menu.Item> */}
+         <Menu.Item as={Link} to="/stock-bonus">
+          股利
+        </Menu.Item>
+        
 
-        <Dropdown text="Demo" item>
+        {/* <Dropdown text="Demo" item>
           <Dropdown.Menu>
             <Dropdown.Item as={Link} to="/stock-money">
               StockMoney
@@ -76,7 +77,7 @@ export default function Navbar() {
               Demo5
             </Dropdown.Item>
           </Dropdown.Menu>
-        </Dropdown>
+        </Dropdown> */}
 
         {/* {user && (
           <Menu.Item onClick={handleLogout}>            
