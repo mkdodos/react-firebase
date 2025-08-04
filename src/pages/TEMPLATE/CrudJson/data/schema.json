@@ -18,7 +18,7 @@
      {
       "dataKey": "amt",
       "title": "金額",
-      "type": "number",
+      "type": "text",
       "editable": "true",
       "viewable": "true"
     }

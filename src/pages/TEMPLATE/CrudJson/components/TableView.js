@@ -5,7 +5,7 @@ export default function TableView({ state, columns, handleAdd, handleEdit }) {
 
   return (
     <>
-      
+      {state.total}
       <Table celled unstackable>
         <Table.Header>
           <Table.Row>

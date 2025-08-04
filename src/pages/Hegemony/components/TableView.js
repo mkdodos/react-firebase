@@ -5,13 +5,14 @@ export default function TableView({ state, columns, handleAdd, handleEdit }) {
 
   return (
     <>
-      
       <Table celled unstackable>
         <Table.Header>
           <Table.Row>
             {columns.map((col, index) => {
               return (
-                <Table.HeaderCell key={index}>{col.title}</Table.HeaderCell>
+                <Table.HeaderCell key={index} width={col.width}>
+                  {col.title}
+                </Table.HeaderCell>
               );
             })}
             <Table.HeaderCell>

@@ -26,6 +26,10 @@ import DemoDetail from './pages/DemoDetail';
 
 import Test from './pages/Test'
 
+import Hegemony from './pages/Hegemony'
+
+
+
 export default function App() {
   return (
     <Container>
@@ -34,6 +38,7 @@ export default function App() {
         <Routes>
           {/* <Route path="/react-firebase/build" element={<Money />} /> */}
           <Route path="/" element={<Stock2025 />} />
+          <Route path="/hegemony" element={<Hegemony />} />
           <Route path="/stock-bonus" element={<StockBonus />} />
           <Route path="/login" element={<Login />} />
           <Route path="/wedding" element={<Wedding />} />

@@ -17,10 +17,10 @@ import data from "./db.json";
 
 export const reducer = async (state, action) => {
   // 集合名稱
-  const colName = "stockBonus";
-
-  // 編輯列(CREATE UPDATE)
+  const colName = "stockBasic";
+  // 編輯列
   const row = action.payload?.row;
+  const index = action.payload?.index;
 
   // 計算合計
   const calTotal = (data) => {
@@ -35,20 +35,13 @@ export const reducer = async (state, action) => {
   switch (action.type) {
     // 載入資料
     case "LOAD":
-      // 取得集合
-      const col = collection(db, colName);
-      // 資料快照
-      const snapshot = await getDocs(col);
-      // 資料跑迴圈轉成物件陣列
-      const data = snapshot.docs.map((doc) => {
-        return { ...doc.data(), id: doc.id };
-      });
+      // console.log(data.stockBonus);
 
-      const total = calTotal(data);
+      const total = calTotal(data.stockBonus);
 
       return {
         ...state,
-        data,
+        data: data.stockBonus,
         loading: false,
         total,
       };
@@ -63,9 +56,14 @@ export const reducer = async (state, action) => {
 
     // 儲存新增的資料
     case "CREATE":
-      const docRef = await addDoc(collection(db, colName), row);
+      // const docRef = await addDoc(collection(db, colName), {
+      //   ...row,
+      // });
       // 接收後端傳回的 id , 加入 row 至陣列
-      state.data.unshift({ ...row, id: docRef.id });
+      // state.data.unshift({ ...row, id: docRef.id });
+      state.data.unshift({ ...row, id: Date.now() });
+
+      console.log(Date.now());
 
       return {
         ...state,
@@ -77,12 +75,13 @@ export const reducer = async (state, action) => {
 
     // 編輯
     case "EDIT":
-      const index = action.payload.index;
       return { ...state, open: true, rowIndex: index };
 
     // 更新
     case "UPDATE":
-      await updateDoc(doc(db, colName, row.id), row);
+      // await updateDoc(doc(db, colName, row.id), {
+      //   ...row,
+      // });
       Object.assign(state.data[state.rowIndex], row);
       return {
         ...state,
@@ -95,7 +94,7 @@ export const reducer = async (state, action) => {
     // 刪除
     case "DELETE":
       const id = action.payload.id;
-      await deleteDoc(doc(db, colName, id));
+      // await deleteDoc(doc(db, colName, id));
       const dataDel = state.data.filter((obj) => obj.id != id);
 
       return {

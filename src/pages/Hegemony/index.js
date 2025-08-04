@@ -3,7 +3,6 @@ import schema from "./data/schema.json";
 import { reducer } from "./data/reducer";
 import TableView from "./components/TableView";
 import EditForm from "./components/EditForm";
-import StatTotal from "./components/StatTotal";
 
 export default function index() {
   // 預設資料物件
@@ -33,8 +32,10 @@ export default function index() {
     defaultRow[obj.dataKey] = "";
   });
 
+
   // 當日
-  defaultRow.date = new Date().toISOString().substring(0, 10);
+  defaultRow.date = new Date().toISOString().substring(0,10);
+
 
   // 原本 row 放在 useAsyncReducer 會出現無法輸入中文的問題
   // 將其獨立出來處理
@@ -52,7 +53,6 @@ export default function index() {
 
   return (
     <>
-      <StatTotal total={state.total} />
       <TableView
         state={state}
         columns={columns}
