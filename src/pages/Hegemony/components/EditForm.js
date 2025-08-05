@@ -51,6 +51,7 @@ export default function EditForm({ columns, state, dispatch, row, setRow }) {
                 value={row.content}
                 onChange={handleInputChange}
                 // rows={5}
+                style={{ minHeight: 200 }}
               />
             </Form.Field>
           );

@@ -17,7 +17,7 @@ import data from "./db.json";
 
 export const reducer = async (state, action) => {
   // 集合名稱
-  const colName = "stockBasic";
+  const colName = "hegemony";
   // 編輯列
   const row = action.payload?.row;
   const index = action.payload?.index;
@@ -31,19 +31,36 @@ export const reducer = async (state, action) => {
     return sum;
   };
 
+  // 計算合計
+  // const calColumns = (data) => {
+  //   return data.map((row) => {
+  //     return { ...row, content: "a" };
+  //   });
+  //   return sum;
+  // };
+
   // 執行相關動作
   switch (action.type) {
     // 載入資料
     case "LOAD":
-      // console.log(data.stockBonus);
+      // 取得集合
+      const col = collection(db, colName);
+      // 資料快照
+      const snapshot = await getDocs(col);
+      // 資料跑迴圈轉成物件陣列
+      const data = snapshot.docs.map((doc) => {
+        return { ...doc.data(), id: doc.id };
+      });
 
-      const total = calTotal(data.stockBonus);
+      // const total = calTotal(data.stockBonus);
 
       return {
         ...state,
-        data: data.stockBonus,
+        // data: calColumns(data.stockBonus),
+        // data: data.stockBonus,
+        data,
         loading: false,
-        total,
+        
       };
 
     // 新增
@@ -56,14 +73,14 @@ export const reducer = async (state, action) => {
 
     // 儲存新增的資料
     case "CREATE":
-      // const docRef = await addDoc(collection(db, colName), {
-      //   ...row,
-      // });
+      const docRef = await addDoc(collection(db, colName), {
+        ...row,
+      });
       // 接收後端傳回的 id , 加入 row 至陣列
-      // state.data.unshift({ ...row, id: docRef.id });
-      state.data.unshift({ ...row, id: Date.now() });
+      state.data.unshift({ ...row, id: docRef.id });
+      // state.data.unshift({ ...row, id: Date.now() });
 
-      console.log(Date.now());
+      console.log(row);
 
       return {
         ...state,
@@ -79,9 +96,11 @@ export const reducer = async (state, action) => {
 
     // 更新
     case "UPDATE":
-      // await updateDoc(doc(db, colName, row.id), {
-      //   ...row,
-      // });
+      await updateDoc(doc(db, colName, row.id), {
+        ...row,
+      });
+      // console.log(row);
+      // row.content= row.content.replace(/\r\n|\n/g, "<br>");
       Object.assign(state.data[state.rowIndex], row);
       return {
         ...state,
