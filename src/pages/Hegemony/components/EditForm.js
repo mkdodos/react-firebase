@@ -70,26 +70,7 @@ export default function EditForm({ columns, state, dispatch, row, setRow }) {
             </Form.Field>
           );
       }
-      // if (col.dataKey == "stockName") {
-      //   fields.push(
-      //     <Form.Field key={index}>
-      //       <label>{col.title}</label>
-      //       <StockDropdown onChange={handleStockChange} value={row.stockNo} />
-      //     </Form.Field>
-      //   );
-      // } else {
-      //   fields.push(
-      //     <Form.Field key={index}>
-      //       <label>{col.title}</label>
-      //       <input
-      //         type={col.type}
-      //         name={col.dataKey}
-      //         value={row[col.dataKey]}
-      //         onChange={handleInputChange}
-      //       />
-      //     </Form.Field>
-      //   );
-      // }
+     
     });
     return fields;
   };
