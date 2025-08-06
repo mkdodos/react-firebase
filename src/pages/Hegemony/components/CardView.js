@@ -48,6 +48,8 @@ export default function CardView({ data, handleEdit }) {
             {obj.title}
           </CardHeader>
         </CardContent>
+       
+       
         <CardContent>
           <div
             style={{
@@ -88,12 +90,12 @@ export default function CardView({ data, handleEdit }) {
     let fields = [];
     data.slice(index, index + rowsPerGroup).map((obj, index) => {
       fields.push(
-        <GridColumn key={index}>         
+        <GridColumn key={index}>
           <span>{card(obj, index)}</span>
         </GridColumn>
       );
     });
-    return fields
+    return fields;
   };
 
   return (

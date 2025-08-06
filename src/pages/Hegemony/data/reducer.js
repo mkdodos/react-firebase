@@ -43,19 +43,19 @@ export const reducer = async (state, action) => {
   switch (action.type) {
     // 載入資料
     case "LOAD":      
-      // const col = collection(db, colName);      
-      // const snapshot = await getDocs(col);     
-      // const data = snapshot.docs.map((doc) => {
-      //   return { ...doc.data(), id: doc.id };
-      // });
+      const col = collection(db, colName);      
+      const snapshot = await getDocs(col);     
+      const data = snapshot.docs.map((doc) => {
+        return { ...doc.data(), id: doc.id };
+      });
 
       // const total = calTotal(data.stockBonus);
 
       return {
         ...state,
         // data: calColumns(data.stockBonus),
-        data: data.stockBonus,
-        // data,
+        // data: data.stockBonus,
+        data,
         loading: false,
         
       };
@@ -93,9 +93,9 @@ export const reducer = async (state, action) => {
 
     // 更新
     case "UPDATE":
-      // await updateDoc(doc(db, colName, row.id), {
-      //   ...row,
-      // });
+      await updateDoc(doc(db, colName, row.id), {
+        ...row,
+      });
       // console.log(row);
       // row.content= row.content.replace(/\r\n|\n/g, "<br>");
       Object.assign(state.data[state.rowIndex], row);
