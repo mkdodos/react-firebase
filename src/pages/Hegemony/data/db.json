@@ -2,9 +2,33 @@
   "stockBonus": [
     {
       "id": "1",
-      "title": "COMPETITIVE WAGES",
+      "title": "Competive Wages",
       "content": "選擇一間你沒有勞工的公司,將薪資調到L3,然後選擇一間同類型同勞工數的政府公司,將該公司的勞工指派到你這間公司",
       "class": "中產"      
+    },
+     {
+      "id": "2",
+      "title": "COMPETITIVE WAGES",
+      "content": "有勞工的公司,將薪資調到L3,然後選擇一間同類型同勞工數的政府公司,將該公司的勞工指派到你這間公司",
+      "class": "資本家"      
+    },
+     {
+      "id": "3",
+      "title": "COMPETITIVE WAGES",
+      "content": "間你沒有勞工的公司,將薪資調到L3,然後選擇一間同類型同勞工數的政府公司,將該公司的勞工指派到你這間公司",
+      "class": "勞工"      
+    },
+    {
+      "id": "4",
+      "title": "COMPETITIVE WAGES",
+      "content": "間你沒有勞工的公司,將薪資調到L3,然後選擇一間同類型同勞工數的政府公司,將該公司的勞工指派到你這間公司",
+      "class": "政府"      
+    },
+    {
+      "id": "5",
+      "title": "Foreign Market",
+      "content": "間你沒有勞工的公司,將薪資調到L3,然後選擇一間同類型同勞工數的政府公司,將該公司的勞工指派到你這間公司",
+      "class": "勞工"      
     }
   ]
 }

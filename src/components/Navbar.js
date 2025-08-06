@@ -24,7 +24,10 @@ export default function Navbar() {
 
   return (
     <>
-      <Menu color="blue" widths={3} pointing secondary>
+      <Menu color="blue"  pointing secondary>
+        <Menu.Item as={Link} to="/hegemony">
+          Hegemony
+        </Menu.Item>
         <Menu.Item as={Link} to="/asset2025">
           資產
         </Menu.Item>
