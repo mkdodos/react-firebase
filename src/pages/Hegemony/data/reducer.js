@@ -49,12 +49,12 @@ export const reducer = async (state, action) => {
         return { ...doc.data(), id: doc.id };
       });
 
-      // const total = calTotal(data.stockBonus);
+     
 
       return {
         ...state,
         // data: calColumns(data.stockBonus),
-        // data: data.stockBonus,
+        // data: data.hegemony,
         data,
         loading: false,
         

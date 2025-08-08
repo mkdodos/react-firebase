@@ -24,6 +24,22 @@
       "editable": "true",
       "viewable": "true",
       "width":"7"
+    },
+    {
+      "dataKey": "requirement",
+      "title": "條件",
+      "type": "text",
+      "editable": "true",
+      "viewable": "true",
+      "width":"7"
+    },
+    {
+      "dataKey": "legitimacy",
+      "title": "滿意度",
+      "type": "text",
+      "editable": "true",
+      "viewable": "true",
+      "width":"7"
     }
   ]
 }

@@ -40,6 +40,7 @@ export default function CardView({ data, handleEdit }) {
         return "grey";
     }
   };
+  // 單張卡片
   const card = (obj, index) => {
     return (
       <Card fluid color={getColorCard(obj.class)}>
@@ -48,8 +49,12 @@ export default function CardView({ data, handleEdit }) {
             {obj.title}
           </CardHeader>
         </CardContent>
-       
-       
+
+        {obj.requirement && (
+          // <Label attached="top right">{obj.requirement}</Label>
+          <Label attached="bottom left">{obj.requirement}</Label>
+        )}
+
         <CardContent>
           <div
             style={{
@@ -62,6 +67,14 @@ export default function CardView({ data, handleEdit }) {
             }}
           ></div>
         </CardContent>
+
+        {obj.legitimacy && (
+          <CardContent>
+            <Label circular color={getColorCard(obj.class)}>+1</Label> / {obj.legitimacy}
+          </CardContent>
+        )}
+        {/* <CardContent>{obj.legitimacy}</CardContent> */}
+
         <CardContent>
           <Button floated="right" onClick={() => handleEdit(obj, index)}>
             編輯
@@ -71,14 +84,15 @@ export default function CardView({ data, handleEdit }) {
     );
   };
 
-  // 組合每一列 group
-  // (資料,每幾筆做一群組)
+  // 群組顯示資料
+  // (每幾筆做一群組)
   const genGroup = (rowsPerGroup) => {
     const groups = [];
+    // 資料迴圈
     for (let i = 0; i < data.length; i++) {
+      // 每一列的開頭產生一群組
       if (i % rowsPerGroup == 0) {
         groups.push(
-          // <GridRow key={i}>{i}</GridRow>
           <GridRow key={i}>{genGroupDetail(i, rowsPerGroup)}</GridRow>
         );
       }
@@ -86,8 +100,10 @@ export default function CardView({ data, handleEdit }) {
     return groups;
   };
 
+  // 群組明細
   const genGroupDetail = (index, rowsPerGroup) => {
     let fields = [];
+    // 取出指定範圍的資料
     data.slice(index, index + rowsPerGroup).map((obj, index) => {
       fields.push(
         <GridColumn key={index}>
@@ -100,17 +116,7 @@ export default function CardView({ data, handleEdit }) {
 
   return (
     <Grid columns={3} stackable>
-      {/* 每幾筆產生一新列 */}
       {genGroup(3)}
-      {/* <GridRow>
-        {data.map((obj, index) => {
-          return (
-            <GridColumn key={index}>
-              <span>{card(obj, index)}</span>
-            </GridColumn>
-          );
-        })}      
-      </GridRow> */}
     </Grid>
   );
 }

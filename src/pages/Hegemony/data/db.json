@@ -1,10 +1,11 @@
 {
-  "stockBonus": [
+  "hegemony": [
     {
       "id": "1",
       "title": "Competive Wages",
       "content": "選擇一間你沒有勞工的公司,將薪資調到L3,然後選擇一間同類型同勞工數的政府公司,將該公司的勞工指派到你這間公司",
-      "class": "中產"      
+      "class": "中產",
+      "requirement":"6A/6C"      
     },
      {
       "id": "2",

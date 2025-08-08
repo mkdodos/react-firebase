@@ -1,5 +1,13 @@
-import { Form, Button, Modal, TextArea } from "semantic-ui-react";
+import {
+  Form,
+  Button,
+  Modal,
+  TextArea,
+  Label,
+  FormField,
+} from "semantic-ui-react";
 import StockDropdown from "../../../components/StockDropdown";
+import { useState } from "react";
 
 export default function EditForm({ columns, state, dispatch, row, setRow }) {
   // 篩選可編輯欄位
@@ -22,18 +30,55 @@ export default function EditForm({ columns, state, dispatch, row, setRow }) {
     setRow({ ...row, [e.target.name]: e.target.value });
   };
 
-  const handleStockChange = (e, obj) => {
-    // const str = e.target.innerText;
-    // 在選取選項時,若有用鍵盤上下鍵,e.target.innerText會取不到值
-    // 改用 options 取值
-    // 下拉選項由股票代碼+空白+股票名稱組成
-    // 用空白分隔函數取得股票名稱
-    console.log(obj.options);
-    const selectedStock = obj.options.find((row) => row.value == obj.value);
-    const words = selectedStock.text.split(" ");
-    console.log(words[1]);
-    // 分別寫入股票代碼和股票名稱二個值
-    setRow({ ...row, stockNo: obj.value, stockName: words[1] });
+  // Label Select
+  // 階級選擇
+  const labelSelect = () => {
+    // 點選 Label 設定 row.class
+    // 非點選該項目時,樣式設定為 basic
+    return (
+      <>
+        <Label
+          onClick={() => selectLable("勞工")}
+          size="large"
+          color="red"
+          basic={row.class !== "勞工"}
+        >
+          勞工
+        </Label>
+        <Label
+          onClick={() => selectLable("中產")}
+          size="large"
+          color="orange"
+          basic={row.class !== "中產"}
+        >
+          中產
+        </Label>
+        <Label
+          onClick={() => selectLable("資本家")}
+          size="large"
+          color="blue"
+          basic={row.class !== "資本家"}
+        >
+          資本家
+        </Label>
+        <Label
+          onClick={() => selectLable("政府")}
+          size="large"
+          color="grey"
+          basic={row.class !== "政府"}
+        >
+          政府
+        </Label>
+      </>
+    );
+  };
+
+  // const [classLabel, setClassLabel] = useState("");
+
+  const selectLable = (text) => {
+    setRow({ ...row, class: text });
+    // console.log(row);
+    // setClassLabel(text);
   };
 
   // 組合 group 中的 field
@@ -57,6 +102,15 @@ export default function EditForm({ columns, state, dispatch, row, setRow }) {
           );
           return;
 
+        case "class":
+          fields.push(
+            <Form.Field key={index}>
+              <label>階級</label>
+              {labelSelect()}
+            </Form.Field>
+          );
+          return;
+
         default:
           fields.push(
             <Form.Field key={index}>
@@ -70,7 +124,6 @@ export default function EditForm({ columns, state, dispatch, row, setRow }) {
             </Form.Field>
           );
       }
-     
     });
     return fields;
   };
@@ -84,7 +137,10 @@ export default function EditForm({ columns, state, dispatch, row, setRow }) {
       >
         <Modal.Header> 編輯</Modal.Header>
         <Modal.Content>
-          <Form>{formGroups(2)}</Form>
+          <Form>
+            <Form.Field></Form.Field>
+            {formGroups(2)}
+          </Form>
         </Modal.Content>
         <Modal.Actions>
           <Button
