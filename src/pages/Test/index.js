@@ -46,10 +46,69 @@ export default function index() {
         "翻開2張出口卡\n選擇1張換掉現在的出口卡\n其餘卡丟棄\n然後,你可以做一次出售到國外的動作",
       class: "資本家",
     },
+    {
+      date: "2025-08-06",
+      id: "0cwHP5bnaMgPB8wV6vI4",
+      title: "Growing Business",
+      class: "資本家",
+      content:
+        "免費建造一個倉庫\n放在一個指定資源下方\n然後建立一個公司\n如果該間公司生產的資源\n和該倉庫資源相同\n可以少付4元",
+    },
+    {
+      date: "2025-08-06",
+      id: "0cwHP5bnaMgPB8wV6vI4",
+      title: "Growing Business",
+      class: "資本家",
+      content:
+        "免費建造一個倉庫\n放在一個指定資源下方\n然後建立一個公司\n如果該間公司生產的資源\n和該倉庫資源相同\n可以少付4元",
+    },
+    {
+      date: "2025-08-06",
+      id: "0cwHP5bnaMgPB8wV6vI4",
+      title: "Growing Business",
+      class: "資本家",
+      content:
+        "免費建造一個倉庫\n放在一個指定資源下方\n然後建立一個公司\n如果該間公司生產的資源\n和該倉庫資源相同\n可以少付4元",
+    },
+    {
+      date: "2025-08-06",
+      id: "0cwHP5bnaMgPB8wV6vI4",
+      title: "Growing Business",
+      class: "資本家",
+      content:
+        "免費建造一個倉庫\n放在一個指定資源下方\n然後建立一個公司\n如果該間公司生產的資源\n和該倉庫資源相同\n可以少付4元",
+    },
+     {
+      date: "2025-08-06",
+      id: "0cwHP5bnaMgPB8wV6vI4",
+      title: "Growing Business",
+      class: "資本家",
+      content:
+        "免費建造一個倉庫\n放在一個指定資源下方\n然後建立一個公司\n如果該間公司生產的資源\n和該倉庫資源相同\n可以少付4元",
+    },
+     {
+      date: "2025-08-06",
+      id: "0cwHP5bnaMgPB8wV6vI4",
+      title: "Growing Business",
+      class: "資本家",
+      content:
+        "免費建造一個倉庫\n放在一個指定資源下方\n然後建立一個公司\n如果該間公司生產的資源\n和該倉庫資源相同\n可以少付4元",
+    },
+     {
+      date: "2025-08-06",
+      id: "0cwHP5bnaMgPB8wV6vI4",
+      title: "Growing Business",
+      class: "資本家",
+      content:
+        "免費建造一個倉庫\n放在一個指定資源下方\n然後建立一個公司\n如果該間公司生產的資源\n和該倉庫資源相同\n可以少付4元",
+    },
   ];
 
+  // 第一張卡片初始位置
+  const x = 15;
+  const y = 10;
   // 卡片位置大小
-  let card = { x: 5, y: 10, width: 60, height: 80 };
+  let card = { x, y, width: 60, height: 80 };
   const doc = new jsPDF();
   //字型尺寸
   doc.setFontSize(12);
@@ -57,8 +116,8 @@ export default function index() {
   // 單張卡片
   const genCard = (x, y, obj) => {
     doc.rect(x, y, card.width, card.height);
-    doc.text(obj.title, x + 5, y + 10,{ maxWidth: 50 });
-    doc.text(obj.content, x + 5, y + 20,{ maxWidth: 50 });
+    doc.text(obj.title, x + 5, y + 10, { maxWidth: 50 });
+    doc.text(obj.content, x + 5, y + 20, { maxWidth: 50 });
   };
 
   const generate = () => {
@@ -68,8 +127,15 @@ export default function index() {
     doc.setFont("name-for-setFont-use");
     // 資料迴圈產生所有卡片
     for (let i = 0; i < data.length; i++) {
+      // console.log(i)
       genCard(card.x, card.y, data[i]);
-      card.x += card.width;
+      // 每3張換列
+      if (i % 3 == 2) {
+        card.x = x;
+        card.y += card.height;
+      } else {
+        card.x += card.width;
+      }
     }
 
     doc.save("table.pdf");
