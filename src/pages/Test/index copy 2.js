@@ -1,0 +1,114 @@
+import { jsPDF } from "jspdf";
+import { Button } from "semantic-ui-react";
+import font from "../../components/font/CactusClassicalSerif-Regular-normal";
+import { db } from "../../utils/firebase";
+import { collection, getDocs } from "firebase11/firestore/lite";
+import { useEffect, useState } from "react";
+
+export default function index() {
+  const getData = async () => {
+    const col = collection(db, "hegemony");
+    const snapshot = await getDocs(col);
+    const data = snapshot.docs.map((doc) => {
+      return { ...doc.data(), id: doc.id };
+    });
+    // console.log(data)
+    setRows(data);
+  };
+
+  const [rows, setRows] = useState([]);
+
+  // getData();
+
+  // 資料
+  const data = [
+    {
+      date: "2025-08-06",
+      id: "0cwHP5bnaMgPB8wV6vI4",
+      title: "Growing Business",
+      class: "資本家",
+      content:
+        "免費建造一個倉庫\n放在一個指定資源下方\n然後建立一個公司\n如果該間公司生產的資源\n和該倉庫資源相同\n可以少付4元",
+    },
+    {
+      title: "Foreign Market Insight",
+      date: "2025-08-06",
+      id: "21HXfUsvcuCJr8tD5l1O",
+      content:
+        "翻開2張出口卡\n選擇1張換掉現在的出口卡\n其餘卡丟棄\n然後,你可以做一次出售到國外的動作",
+      class: "資本家",
+    },
+    {
+      title: "Foreign Market Insight",
+      date: "2025-08-06",
+      id: "21HXfUsvcuCJr8tD5l1O",
+      content:
+        "翻開2張出口卡\n選擇1張換掉現在的出口卡\n其餘卡丟棄\n然後,你可以做一次出售到國外的動作",
+      class: "資本家",
+    },
+  ];
+
+  // 卡片位置大小
+  let card = { x: 10, y: 20, width: 60, height: 80 };
+  // 單張卡片
+  const genCard = (x, y, obj) => {
+    doc.rect(x, y, card.width, card.height);
+    doc.text(obj.title, x + 10, y + 10);
+    doc.text(obj.content, x + 10, y + 20);
+  };
+  const doc = new jsPDF();
+  // 中文字型
+  doc.addFileToVFS("name-for-addFont-use", font);
+  doc.addFont("name-for-addFont-use", "name-for-setFont-use", "normal");
+  doc.setFont("name-for-setFont-use");
+  // 資料迴圈產生所有卡片
+  for (i = 0; i < data.length; i++) {
+    genCard(card.x, card.y, data[i]);
+    card.x += card.width;
+    
+  }
+
+  doc.save("table.pdf");
+
+
+  const generate = () => {
+    // console.log(rows)
+    // return
+    const doc = new jsPDF();
+    // 中文字型
+    doc.addFileToVFS("name-for-addFont-use", font);
+    doc.addFont("name-for-addFont-use", "name-for-setFont-use", "normal");
+    doc.setFont("name-for-setFont-use");
+
+    //字型尺寸
+    doc.setFontSize(12);
+    // doc.rect(x座標, y座標, 寬度, 高度);
+    let x = 15;
+    let y = 30;
+    let width = 60;
+    doc.rect(x, y, width, 80);
+    x += width;
+    doc.rect(x, y, width, 80);
+    x += width;
+    doc.rect(x, y, width, 80);
+    // doc.rect(20, 30, 60, 80);
+    // doc.rect(80, 30, 60, 80);
+    // doc.rect(140, 30, 60, 80);
+    // doc.rect(40, 20, 10, 10, "F");
+    // doc.text('hello',x,y)
+    // doc.text("hel\nlo", 20, y+10);
+    // doc.text(rows[0].content, 20, y + 10);
+    doc.text(data[1].title, 20, y + 10);
+    doc.text(data[1].content, 20, y + 20, { maxWidth: 50 });
+    // doc.text(data[0].title, 20, y + 10);
+    // doc.text(data[0].content, 20, y + 20);
+    // doc.text('hello',10,10,{baseline:"bottom"})
+    doc.save("table.pdf");
+  };
+
+  return (
+    <div>
+      <Button onClick={generate}>print</Button>
+    </div>
+  );
+}

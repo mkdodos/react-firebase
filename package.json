@@ -23,6 +23,8 @@
     "firebase": "^8.10.1",
     "firebase11": "npm:firebase@^11.6.1",
     "json-server": "^1.0.0-beta.3",
+    "jspdf": "^3.0.1",
+    "jspdf-autotable": "^5.0.2",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.26.0",
