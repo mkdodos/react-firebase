@@ -89,6 +89,7 @@ export const reducer = async (state, action) => {
 
     // 編輯
     case "EDIT":
+      console.log(index)
       return { ...state, open: true, rowIndex: index };
 
     // 更新
@@ -110,7 +111,7 @@ export const reducer = async (state, action) => {
     // 刪除
     case "DELETE":
       const id = action.payload.id;
-      // await deleteDoc(doc(db, colName, id));
+      await deleteDoc(doc(db, colName, id));
       const dataDel = state.data.filter((obj) => obj.id != id);
 
       return {

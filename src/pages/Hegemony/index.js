@@ -47,6 +47,7 @@ export default function index() {
   };
 
   const handleEdit = (row, index) => {
+    console.log(index)
     dispatch({ type: "EDIT", payload: { index } });
     setRow(row);
   };

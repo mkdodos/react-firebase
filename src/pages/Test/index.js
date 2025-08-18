@@ -12,13 +12,15 @@ export default function index() {
     const data = snapshot.docs.map((doc) => {
       return { ...doc.data(), id: doc.id };
     });
-    // console.log(data)
+    console.log(data);
     setRows(data);
   };
 
   const [rows, setRows] = useState([]);
 
-  getData();
+  useEffect(() => {
+    getData();
+  }, []);
 
   // 資料
   // const data = [
@@ -114,35 +116,43 @@ export default function index() {
 
   // 單張卡片
   const genCard = (x, y, obj) => {
+    const legitimacy = obj.legitimacy ? obj.legitimacy : "";
     doc.rect(x, y, card.width, card.height);
-    doc.text(obj.title, x + 5, y + 10, { maxWidth: 50 });
-    doc.text(obj.content, x + 5, y + 20, { maxWidth: 50 });
+    //字型尺寸
+    doc.setFontSize(10);
+    doc.text(legitimacy, x + 5, y + 65, { maxWidth: 50 });
+    doc.text(
+      "[" + obj.class + "]" + " " + obj.title,
+      x + 5,
+      y + 70,
+      { maxWidth: 50 }
+    );
+    // doc.text(obj.class, x + 5, y + 75, { maxWidth: 50 });
+    doc.setFontSize(12);
+    doc.text(obj.content, x + 5, y + 15, { maxWidth: 50 });
   };
 
   const generate = () => {
-    //字型尺寸
-    doc.setFontSize(12);
-
     // 中文字型
     doc.addFileToVFS("name-for-addFont-use", font);
     doc.addFont("name-for-addFont-use", "name-for-setFont-use", "normal");
     doc.setFont("name-for-setFont-use");
     // 資料迴圈產生所有卡片
     for (let i = 0; i < rows.length; i++) {
-      console.log(i % 9);
+      // console.log(i % 9);
       genCard(card.x, card.y, rows[i]);
       // 每3張換列(加上 i % 9 != 8 和 i % 9 == 8 條件區隔)
       if (i % 3 == 2 && i % 9 != 8) {
         card.x = x;
         card.y += card.height;
-      } 
+      }
       // 每9張換頁
       else if (i % 9 == 8) {
         card.x = x;
-        card.y = y;        
+        card.y = y;
         doc.addPage();
       } else {
-        card.x += card.width;        
+        card.x += card.width;
       }
     }
 

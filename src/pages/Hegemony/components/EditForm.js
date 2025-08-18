@@ -135,7 +135,7 @@ export default function EditForm({ columns, state, dispatch, row, setRow }) {
         open={state.open}
         closeIcon
       >
-        <Modal.Header> 編輯</Modal.Header>
+        <Modal.Header>編輯</Modal.Header>
         <Modal.Content>
           <Form>
             <Form.Field></Form.Field>

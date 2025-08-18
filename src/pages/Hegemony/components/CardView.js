@@ -66,6 +66,7 @@ export default function CardView({ data, handleEdit }) {
               __html: obj.content,
             }}
           ></div>
+          {/* {index} */}
         </CardContent>
 
         {obj.legitimacy && (
@@ -92,6 +93,7 @@ export default function CardView({ data, handleEdit }) {
     for (let i = 0; i < data.length; i++) {
       // 每一列的開頭產生一群組
       if (i % rowsPerGroup == 0) {
+       
         groups.push(
           <GridRow key={i}>{genGroupDetail(i, rowsPerGroup)}</GridRow>
         );
@@ -102,12 +104,16 @@ export default function CardView({ data, handleEdit }) {
 
   // 群組明細
   const genGroupDetail = (index, rowsPerGroup) => {
+    
     let fields = [];
     // 取出指定範圍的資料
-    data.slice(index, index + rowsPerGroup).map((obj, index) => {
+    data.slice(index, index + rowsPerGroup).map((obj,objIndex) => {
+    //  console.log(index + objIndex)
+    // 0 1 2 
+    // console.log(objIndex)
       fields.push(
-        <GridColumn key={index}>
-          <span>{card(obj, index)}</span>
+        <GridColumn key={objIndex}>
+          <span>{card(obj, index + objIndex)}</span>
         </GridColumn>
       );
     });

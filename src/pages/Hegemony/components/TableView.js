@@ -24,7 +24,7 @@ export default function TableView({ state, columns, handleAdd, handleEdit }) {
         </Table.Header>
 
         <Table.Body>
-          {data.map((row, index) => {
+          {data.map((row, rowIndex) => {
             return (
               <Table.Row key={row.id}>
                 {columns.map((col, index) => {
@@ -42,11 +42,12 @@ export default function TableView({ state, columns, handleAdd, handleEdit }) {
                           __html: row.content,
                         }}
                       ></div>
+                      {rowIndex}
                     </Table.Cell>
                   );
                 })}
                 <Table.Cell>
-                  <Button onClick={() => handleEdit(row, index)}>編輯</Button>
+                  <Button onClick={() => handleEdit(row, rowIndex)}>編輯</Button>
                 </Table.Cell>
               </Table.Row>
             );
