@@ -9,25 +9,31 @@ const genCard = (x, y, width, height, doc, obj) => {
   doc.rect(x, y, width, height);
   //字型尺寸
   doc.setFontSize(10);
-  // 滿意度
-  doc.text(legitimacy, x + 5, y + 30, { maxWidth: 50 });
-  // 標題
-  doc.text("[" + obj.class + "]" + " " + obj.title, x + 5, y + 35, {
+  doc.text(legitimacy, x + 5, y + 65, { maxWidth: 50 });
+  doc.text("[" + obj.class + "]" + " " + obj.title, x + 5, y + 70, {
     maxWidth: 50,
   });
-  doc.setFontSize(10);
-  // 內容
-  doc.text(obj.content, x + 5, y + 8, { maxWidth: 50 });
+  doc.setFontSize(12);
+  doc.text(obj.content, x + 5, y + 15, { maxWidth: 50 });
 };
 
 export const print = (data) => {  
-  const doc = new jsPDF();
+  const doc = new jsPDF({
+    // orientation: "p 直向, l 橫向",
+    orientation: "p",    
+    unit: "mm",
+    // 版面大小,可直接設定 a4    
+    format: "a4"
+    // 或是指定大小
+    // format: l [寬,高] p [高,寬]
+    // format: [210,297]
+  });
 
   // 第一張卡片初始位置
   const x = 15;
   const y = 10;
   const width = 60;
-  const height = 40;
+  const height = 80;
   // 卡片位置大小
   let card = { x, y, width, height };
 
@@ -39,12 +45,12 @@ export const print = (data) => {
   for (let i = 0; i < data.length; i++) {
     genCard(card.x, card.y, card.width, card.height, doc, data[i]);
     // 每3張換列(加上 i % 9 != 8 和 i % 9 == 8 條件區隔)
-    if (i % 3 == 2 && i % 18 != 17) {
+    if (i % 3 == 2 && i % 9 != 8) {
       card.x = x;
       card.y += card.height;
     }
     // 每9張換頁
-    else if (i % 18 == 17) {
+    else if (i % 9 == 8) {
       card.x = x;
       card.y = y;
       doc.addPage();

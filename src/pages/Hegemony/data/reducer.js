@@ -46,10 +46,10 @@ export const reducer = async (state, action) => {
       const col = collection(db, colName);
 
       // 排序,限制筆數
-      // const q = query(col, orderBy("date", "desc"), limit(3));
-      // const snapshot = await getDocs(q);
+      const q = query(col, orderBy("date", "desc"), limit(60));
+      const snapshot = await getDocs(q);
 
-      const snapshot = await getDocs(col);
+      // const snapshot = await getDocs(col);
       const data = snapshot.docs.map((doc) => {
         return { ...doc.data(), id: doc.id };
       });
