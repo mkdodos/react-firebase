@@ -5,6 +5,7 @@ import TableView from "./components/TableView";
 import EditForm from "./components/EditForm";
 import CardView from "./components/CardView";
 import { Button } from "semantic-ui-react";
+import { print } from "./components/Print";
 
 export default function index() {
   // 預設資料物件
@@ -56,6 +57,9 @@ export default function index() {
     <>
       <Button primary onClick={handleAdd} loading={state.loading}>
         新增
+      </Button>
+      <Button floated="right"  onClick={()=>print(state.data)} loading={state.loading}>
+        列印
       </Button>
       <br></br>
       <br></br>

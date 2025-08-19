@@ -42,14 +42,17 @@ export const reducer = async (state, action) => {
   // 執行相關動作
   switch (action.type) {
     // 載入資料
-    case "LOAD":      
-      const col = collection(db, colName);      
-      const snapshot = await getDocs(col);     
+    case "LOAD":
+      const col = collection(db, colName);
+
+      // 排序,限制筆數
+      // const q = query(col, orderBy("date", "desc"), limit(3));
+      // const snapshot = await getDocs(q);
+
+      const snapshot = await getDocs(col);
       const data = snapshot.docs.map((doc) => {
         return { ...doc.data(), id: doc.id };
       });
-
-     
 
       return {
         ...state,
@@ -57,7 +60,6 @@ export const reducer = async (state, action) => {
         // data: data.hegemony,
         data,
         loading: false,
-        
       };
 
     // 新增
@@ -89,7 +91,7 @@ export const reducer = async (state, action) => {
 
     // 編輯
     case "EDIT":
-      console.log(index)
+      console.log(index);
       return { ...state, open: true, rowIndex: index };
 
     // 更新
