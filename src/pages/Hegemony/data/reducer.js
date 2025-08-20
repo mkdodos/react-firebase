@@ -9,7 +9,7 @@ import {
   updateDoc,
   deleteDoc,
   orderBy,
-  getDoc,
+  where,
   startAfter,
 } from "firebase11/firestore/lite";
 
@@ -46,7 +46,39 @@ export const reducer = async (state, action) => {
       const col = collection(db, colName);
 
       // 排序,限制筆數
-      const q = query(col, orderBy("date", "desc"), limit(60));
+      // const q = query(col, orderBy("date", "desc"), limit(60));
+      // const w = where("class", "==", "中產");
+      // let q =  query(col,where("date", ">=", "2025-08-20"));;
+      let q = null;
+
+      const date = "";
+      // const date = "2025-08-19";
+      // const className = "中產";
+      const className = "勞工";
+      //
+      // const className = "";
+
+      const q1 = query(col, where("date", ">=", date));
+      const q2 = query(col, where("class", "==", className));
+      const q3 = query(
+        col,
+        where("date", ">=", date),
+        where("class", "==", className)
+      );
+
+      // 依所傳參數組合不同查詢
+      if (date) {
+        q = q1;
+      }
+
+      if (className) {
+        q = q2;
+      }
+
+      if (date && className) {
+        q = q3;
+      }
+
       const snapshot = await getDocs(q);
 
       // const snapshot = await getDocs(col);
