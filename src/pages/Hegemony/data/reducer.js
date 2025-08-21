@@ -51,10 +51,17 @@ export const reducer = async (state, action) => {
       // let q =  query(col,where("date", ">=", "2025-08-20"));;
       let q = null;
 
-      const date = "";
-      // const date = "2025-08-19";
-      // const className = "中產";
-      const className = "勞工";
+      
+      const date = new Date().toISOString().substring(0,10);
+
+      let className = "";
+
+    
+
+      if (action.payload) {
+        className = action.payload.className;
+      }
+      // const className = "勞工";
       //
       // const className = "";
 
@@ -63,7 +70,8 @@ export const reducer = async (state, action) => {
       const q3 = query(
         col,
         where("date", ">=", date),
-        where("class", "==", className)
+        where("class", "==", className),
+        orderBy("title")
       );
 
       // 依所傳參數組合不同查詢
@@ -80,6 +88,8 @@ export const reducer = async (state, action) => {
       }
 
       const snapshot = await getDocs(q);
+
+      console.log(snapshot.size)
 
       // const snapshot = await getDocs(col);
       const data = snapshot.docs.map((doc) => {

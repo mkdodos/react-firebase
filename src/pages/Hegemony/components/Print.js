@@ -1,22 +1,25 @@
 import { jsPDF } from "jspdf";
 import font from "../../../components/font/CactusClassicalSerif-Regular-normal";
 
-
-
 // 單張卡片
-const genCard = (x, y, width, height, doc, obj) => {  
+const genCard = (x, y, width, height, doc, obj) => {
+  const legitimacy = obj.legitimacy ? "滿意度:" + obj.legitimacy : "";
   doc.rect(x, y, width, height);
   //字型尺寸
-  doc.setFontSize(10); 
+  doc.setFontSize(10);
   // 標題
   doc.text("[" + obj.class + "]" + " " + obj.title, x + 5, y + 33, {
     maxWidth: 50,
   });
   doc.setFontSize(10);
   // 內容
-  doc.text(obj.content, x + 5, y + 6, { maxWidth: 55 });
+  doc.text(
+    obj.content + "\n\n" + obj.requirement+" "+ legitimacy,
+    x + 5,
+    y + 6,
+    { maxWidth: 55 }
+  );
 };
-
 
 export const print = (data) => {
   // 版面大小
@@ -48,7 +51,6 @@ export const print = (data) => {
   // 資料迴圈產生文件內容
   // 資料迴圈產生所有卡片
   for (let i = 0; i < data.length; i++) {
-
     genCard(card.x, card.y, card.width, card.height, doc, data[i]);
 
     // 換列

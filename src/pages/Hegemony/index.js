@@ -6,6 +6,7 @@ import EditForm from "./components/EditForm";
 import CardView from "./components/CardView";
 import { Button } from "semantic-ui-react";
 import { print } from "./components/Print";
+import SearchBar from "./components/SearchBar";
 
 export default function index() {
   // 預設資料物件
@@ -62,6 +63,9 @@ export default function index() {
         列印
       </Button>
       <br></br>
+      <br></br>
+      <SearchBar dispatch={dispatch}/>
+       <br></br>
       <br></br>
       <CardView data={state.data} handleEdit={handleEdit} />
       {/* <TableView
