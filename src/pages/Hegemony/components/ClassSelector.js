@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Label } from "semantic-ui-react";
 
-export default function ClassSelector({ dispatch }) {
-  const [className, setClassName] = useState("");
+export default function ClassSelector({ className,setClassName }) {
+  // const [className, setClassName] = useState("");
   // 按下時記錄按下的項目,每個項目再和此項目比對
   // 相同時改變樣式
   const selectLable = (text) => {
@@ -10,7 +10,7 @@ export default function ClassSelector({ dispatch }) {
     // console.log(row);
     setClassName(text);
     // 將值傳給 reducer, 做資料載入
-    dispatch({ type: "LOAD", payload: { className:text } });
+    // dispatch({ type: "LOAD", payload: { className:text } });
   };
   return (
     <>

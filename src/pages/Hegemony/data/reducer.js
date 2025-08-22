@@ -51,15 +51,15 @@ export const reducer = async (state, action) => {
       // let q =  query(col,where("date", ">=", "2025-08-20"));;
       let q = null;
 
-      
-      const date = new Date().toISOString().substring(0,10);
+      let date = new Date().toISOString().substring(0, 10);
+      // const date = new Date().toISOString().substring(0,10);
 
       let className = "";
-
-    
+      // let date = "";
 
       if (action.payload) {
         className = action.payload.className;
+        date = action.payload.date;
       }
       // const className = "勞工";
       //
@@ -87,11 +87,11 @@ export const reducer = async (state, action) => {
         q = q3;
       }
 
-      const snapshot = await getDocs(q);
+      // const snapshot = await getDocs(q);
 
-      console.log(snapshot.size)
+      // console.log(snapshot.size);
 
-      // const snapshot = await getDocs(col);
+      const snapshot = await getDocs(col);
       const data = snapshot.docs.map((doc) => {
         return { ...doc.data(), id: doc.id };
       });
