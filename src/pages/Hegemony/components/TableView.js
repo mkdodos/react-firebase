@@ -29,25 +29,13 @@ export default function TableView({ state, columns, handleAdd, handleEdit }) {
               <Table.Row key={row.id}>
                 {columns.map((col, index) => {
                   return (
-                    <Table.Cell key={index}>
-                      {/* {row.content} */}
-                      <div
-                        key={index}
-                        style={{
-                          fontSize: "1.03em",
-                          lineHeight: "1.6em",
-                          whiteSpace: "pre-wrap",
-                        }}
-                        dangerouslySetInnerHTML={{
-                          __html: row.content,
-                        }}
-                      ></div>
-                      {rowIndex}
-                    </Table.Cell>
+                    <Table.Cell key={index}>{row[col.dataKey]}</Table.Cell>
                   );
                 })}
                 <Table.Cell>
-                  <Button onClick={() => handleEdit(row, rowIndex)}>編輯</Button>
+                  <Button onClick={() => handleEdit(row, rowIndex)}>
+                    編輯
+                  </Button>
                 </Table.Cell>
               </Table.Row>
             );

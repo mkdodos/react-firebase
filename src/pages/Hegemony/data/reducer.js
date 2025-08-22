@@ -65,8 +65,8 @@ export const reducer = async (state, action) => {
       //
       // const className = "";
 
-      const q1 = query(col, where("date", ">=", date));
-      const q2 = query(col, where("class", "==", className));
+      const q1 = query(col, where("date", "==", date), orderBy("title"));
+      const q2 = query(col, where("class", "==", className), orderBy("title"));
       const q3 = query(
         col,
         where("date", ">=", date),
@@ -87,11 +87,11 @@ export const reducer = async (state, action) => {
         q = q3;
       }
 
-      // const snapshot = await getDocs(q);
+      const snapshot = await getDocs(q);
 
       // console.log(snapshot.size);
 
-      const snapshot = await getDocs(col);
+      // const snapshot = await getDocs(col);
       const data = snapshot.docs.map((doc) => {
         return { ...doc.data(), id: doc.id };
       });

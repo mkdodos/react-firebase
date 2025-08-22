@@ -67,13 +67,14 @@ export default function index() {
       <SearchBar dispatch={dispatch}/>
        <br></br>
       <br></br>
-      <CardView data={state.data} handleEdit={handleEdit} />
-      {/* <TableView
+      <TableView
         state={state}
         columns={columns}
         handleAdd={handleAdd}
         handleEdit={handleEdit}
-      /> */}
+      />
+      <CardView data={state.data} handleEdit={handleEdit} />
+   
       <EditForm
         columns={columns}
         row={row}
