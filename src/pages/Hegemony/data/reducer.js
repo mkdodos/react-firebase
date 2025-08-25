@@ -45,25 +45,17 @@ export const reducer = async (state, action) => {
     case "LOAD":
       const col = collection(db, colName);
 
-      // 排序,限制筆數
-      // const q = query(col, orderBy("date", "desc"), limit(60));
-      // const w = where("class", "==", "中產");
-      // let q =  query(col,where("date", ">=", "2025-08-20"));;
       let q = null;
 
+      // 預設當日
       let date = new Date().toISOString().substring(0, 10);
-      // const date = new Date().toISOString().substring(0,10);
-
+      // let date ="";
       let className = "";
-      // let date = "";
 
       if (action.payload) {
         className = action.payload.className;
         date = action.payload.date;
       }
-      // const className = "勞工";
-      //
-      // const className = "";
 
       const q1 = query(col, where("date", "==", date), orderBy("title"));
       const q2 = query(col, where("class", "==", className), orderBy("title"));
@@ -96,13 +88,27 @@ export const reducer = async (state, action) => {
         return { ...doc.data(), id: doc.id };
       });
 
+    
+     
+
       return {
         ...state,
-        // data: calColumns(data.stockBonus),
         // data: data.hegemony,
         data,
+        // data: filteredData,
+        // 複製一份原始資料做文字查詢用
+        dataCopy: data,
         loading: false,
       };
+
+    // 文字查詢
+    case "TEXT_QUERY":
+      const filteredData = state.dataCopy.filter((obj) => {
+        // 先將 title 轉成小寫再做查詢,這樣原本是大寫的內容也查的到
+        return obj.title.toLowerCase().includes(action.payload.text);
+      });
+
+      return { ...state, data: filteredData };
 
     // 新增
     case "ADD":
