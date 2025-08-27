@@ -7,6 +7,7 @@ export default function SearchBar({ dispatch }) {
   // const [date, setDate] = useState(new Date().toISOString().substring(0, 10));
   const [date, setDate] = useState("2025-08-20");
   const [className, setClassName] = useState("");
+  const [text, setText] = useState("");
   const query = () => {
     console.log(date);
     console.log(className);
@@ -14,18 +15,26 @@ export default function SearchBar({ dispatch }) {
   };
   const queryClear = () => {
     setClassName("");
-    // console.log(date);
-    // console.log(className);
   };
 
   const textQuery = (e) => {
     // console.log(e.target.value);
 
-    dispatch({ type: "TEXT_QUERY", payload: { text: e.target.value } });
+    setText(e.target.value);
+
+    // dispatch({ type: "TEXT_QUERY", payload: { text: e.target.value } });
   };
+
+  const textQuery2 = (e) => {
+    // console.log(e.target.value);
+
+    dispatch({ type: "TEXT_QUERY", payload: { text } });
+  };
+
   return (
     <>
       <Input type="text" onChange={textQuery} />
+      <Button onClick={textQuery2}>文字查詢</Button>
       <Input
         type="date"
         value={date}
