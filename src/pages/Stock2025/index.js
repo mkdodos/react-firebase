@@ -147,14 +147,14 @@ export default function index() {
         </TabPane>
       ),
     },
-    // {
-    //   menuItem: "基本資料",
-    //   render: () => (
-    //     <TabPane>
-    //       <StockBasic2025 />
-    //     </TabPane>
-    //   ),
-    // },
+    {
+      menuItem: "基本資料",
+      render: () => (
+        <TabPane>
+          <StockBasic2025 />
+        </TabPane>
+      ),
+    },
     {
       menuItem: "封存項目",
       render: () => (

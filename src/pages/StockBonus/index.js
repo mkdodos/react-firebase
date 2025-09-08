@@ -4,6 +4,7 @@ import { reducer } from "./data/reducer";
 import TableView from "./components/TableView";
 import EditForm from "./components/EditForm";
 import StatTotal from "./components/StatTotal";
+import { Button } from "semantic-ui-react";
 
 export default function index() {
   // 預設資料物件
@@ -52,6 +53,12 @@ export default function index() {
 
   return (
     <>
+      <Button
+        floated="right"
+        loading={state.loading}
+        icon="refresh"
+        onClick={() => dispatch({ type: "LOAD" })}
+      />
       <StatTotal total={state.total} />
       <TableView
         state={state}

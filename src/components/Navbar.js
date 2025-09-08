@@ -34,9 +34,7 @@ export default function Navbar() {
         {/* <Menu.Item as={Link} to="/maya">
           Maya
         </Menu.Item> */}
-        {/* <Menu.Item as={Link} to="/stock">
-          Stock
-        </Menu.Item> */}
+       
         <Menu.Item as={Link} to="/stock2025">
           存股
         </Menu.Item>

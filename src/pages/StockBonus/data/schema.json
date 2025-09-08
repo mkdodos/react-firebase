@@ -14,10 +14,39 @@
       "type": "text",
       "editable": "true",
       "viewable": "true"
+    },    
+   
+    {
+      "dataKey": "bonus",
+      "title": "每股股利",
+      "type": "number",
+      "editable": "true",
+      "viewable": "true"
     },
-     {
+    {
+      "dataKey": "qty",
+      "title": "股數",
+      "type": "number",
+      "editable": "true",
+      "viewable": "true"
+    },
+    {
       "dataKey": "amt",
       "title": "金額",
+      "type": "number",
+      "editable": "true",
+      "viewable": "true"
+    },
+     {
+      "dataKey": "price",
+      "title": "股價",
+      "type": "number",
+      "editable": "true",
+      "viewable": "true"
+    },
+    {
+      "dataKey": "rate",
+      "title": "殖利率",
       "type": "number",
       "editable": "true",
       "viewable": "true"

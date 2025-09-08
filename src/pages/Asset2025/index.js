@@ -6,6 +6,7 @@ import EditForm from "./components/EditForm";
 import AssetBasic from "./AssetBasic";
 import { Tab, TabPane } from "semantic-ui-react";
 import CardView from "./components/CardView";
+import ChartView from "./components/ChartView";
 
 export default function index() {
   // 預設資料物件
@@ -54,6 +55,16 @@ export default function index() {
   };
 
   const panes = [
+    {
+      menuItem: "圖表",
+      render: () => (
+        <TabPane>
+          <ChartView
+           data={state.dataByDate}
+          />
+        </TabPane>
+      ),
+    },
     {
       menuItem: "項目統計",
       render: () => (

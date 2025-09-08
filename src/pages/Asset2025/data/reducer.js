@@ -22,6 +22,9 @@ export const reducer = async (state, action) => {
 
   // 依日期群組
   const groupByDate = (data) => {
+    // 資料依項目排序
+    data = data.sort((a, b) => (a.itemName > b.itemName ? -1 : 1));
+    
     const obj = Object.groupBy(data, ({ date }) => date);
     const arr = [];
     Object.keys(obj).forEach(function (key) {

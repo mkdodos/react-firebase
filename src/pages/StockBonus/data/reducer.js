@@ -31,6 +31,13 @@ export const reducer = async (state, action) => {
     return sum;
   };
 
+  // 計算殖利率
+  const calColumns = (data) => {
+    return data.map((obj) => {
+      return { ...obj, rate: Math.round((obj.bonus / obj.price) * 10000)/100 };
+    });
+  };
+
   // 執行相關動作
   switch (action.type) {
     // 載入資料
@@ -48,7 +55,7 @@ export const reducer = async (state, action) => {
 
       return {
         ...state,
-        data,
+        data: calColumns(data),
         loading: false,
         total,
       };
