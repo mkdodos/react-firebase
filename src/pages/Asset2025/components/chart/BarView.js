@@ -1,25 +1,7 @@
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
 import { Bar } from "react-chartjs-2";
-// import faker from 'faker';
-import { da, faker } from "@faker-js/faker";
+import { faker } from "@faker-js/faker";
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
-
+// 圖表設定
 export const options = {
   responsive: true,
   // bar 粗細
@@ -38,8 +20,6 @@ export const options = {
 };
 
 export default function index({ data }) {
-//   data = data.sort((a, b) => (a.date < b.date ? -1 : 1));
-
   // 取出每個日期當做標籤
   const labels = data.map((obj) => obj.date);
   const rows = data.map((obj) => obj.sum);
@@ -52,17 +32,18 @@ export default function index({ data }) {
         label: "資產",
         // 資料(每個標籤對應一個數字)
         data: rows,
+         borderColor: 'rgb(255, 99, 132)',
         // data: labels.map(() => faker.number.int({ min: 1, max: 100 })),
         backgroundColor: "rgba(255, 99, 132, 0.5)",
       },
-      //   {
-      //     label: "支出",
-      //     data: labels.map(() => faker.number.int({ min: 1, max: 100 })),
-      //     backgroundColor: "rgba(53, 162, 235, 0.5)",
-      //   },
+        {
+          label: "負債",
+          borderColor: 'rgb(53, 162, 235)',
+          data: labels.map(() => faker.number.int({ min: 1000000, max: 2000000 })),
+          backgroundColor: "rgba(53, 162, 235, 0.5)",
+        },
     ],
   };
-
-  //   console.log(labels);
+  
   return <Bar options={options} data={chartData} />;
 }
