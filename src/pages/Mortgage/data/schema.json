@@ -1,0 +1,33 @@
+{
+  "columns": [
+    {
+      "dataKey": "date",
+      "title": "日期",
+      "type": "date",
+      "editable": "true",
+      "viewable": "true"
+    },
+
+    {
+      "dataKey": "item",
+      "title": "項目",
+      "type": "text",
+      "editable": "true",
+      "viewable": "true"
+    },
+    {
+      "dataKey": "amt",
+      "title": "金額",
+      "type": "number",
+      "editable": "true",
+      "viewable": "true"
+    },
+    {
+      "dataKey": "balance",
+      "title": "餘額",
+      "type": "number",
+      "editable": "true",
+      "viewable": "true"
+    }
+  ]
+}

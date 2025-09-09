@@ -31,9 +31,9 @@ export default function Navbar() {
         <Menu.Item as={Link} to="/asset2025">
           資產
         </Menu.Item>
-        {/* <Menu.Item as={Link} to="/maya">
-          Maya
-        </Menu.Item> */}
+        <Menu.Item as={Link} to="/mortgage">
+          房貸
+        </Menu.Item>
        
         <Menu.Item as={Link} to="/stock2025">
           存股
