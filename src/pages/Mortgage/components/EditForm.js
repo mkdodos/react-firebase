@@ -27,12 +27,12 @@ export default function EditForm({ columns, state, dispatch, row, setRow }) {
     {
       key: "60",
       text: "60萬",
-      value: "60",
+      value: "A60",
     },
     {
       key: "500",
       text: "500萬",
-      value: "500",
+      value: "B500",
     },
   ];
 
