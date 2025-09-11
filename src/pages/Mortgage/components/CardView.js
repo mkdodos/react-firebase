@@ -14,12 +14,17 @@ import {
   TableBody,
   TableRow,
   TableCell,
+  StatisticValue,
+  StatisticLabel,
+  Statistic,
+  Segment,
+  Header,
 } from "semantic-ui-react";
 
+import numberFormat from "../../../utils/numberFormat";
 import { v4 as uuidv4 } from "uuid";
 
 export default function CardView({ state }) {
-  console.log(state.groupData);
   // 資料架構
   // const data = {
   //     itemA:[],
@@ -29,19 +34,44 @@ export default function CardView({ state }) {
   // 1個項目1張卡片
   const genCards = () => {
     const cards = [];
+    let total = 0;
+
     Object.keys(data).forEach((key) => {
+      const balance = data[key][0].balance;
+      total += Number(balance);
       cards.push(
         <GridColumn key={uuidv4()}>
           <Card>
             <CardContent>
-              <CardHeader>{data[key][0].balance}</CardHeader>
+              <CardHeader>{numberFormat(balance)}</CardHeader>
             </CardContent>
             <CardContent extra>{genTable(data[key])}</CardContent>
           </Card>
         </GridColumn>
       );
     });
-    return cards;
+    // <GridRow>{genCards(data)}</GridRow>
+    return (
+      <>
+        {/* <GridRow>
+          <Statistic size="small">
+            <StatisticValue> {numberFormat(total)}</StatisticValue>
+            <StatisticLabel>total</StatisticLabel>
+          </Statistic>
+        </GridRow> */}
+        <GridRow>
+          <GridColumn>
+            <Segment textAlign="center">
+              <Statistic size="small">
+                <StatisticValue>{numberFormat(total)}</StatisticValue>
+              </Statistic>
+            </Segment>
+          </GridColumn>
+        </GridRow>
+
+        <GridRow columns={2}>{cards}</GridRow>
+      </>
+    );
   };
 
   const genTable = (data) => {
@@ -71,8 +101,11 @@ export default function CardView({ state }) {
   };
 
   return (
-    <Grid columns={2}>
-      <GridRow>{genCards(data)}</GridRow>
-    </Grid>
+    <>
+      <Grid>
+        {genCards(data)}
+        {/* <GridRow>{genCards(data)}</GridRow> */}
+      </Grid>
+    </>
   );
 }

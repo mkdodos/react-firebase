@@ -7,8 +7,8 @@ import AssetBasic from "./AssetBasic";
 import { Tab, TabPane } from "semantic-ui-react";
 import CardView from "./components/CardView";
 
-import LineView from "./components/chart/LineView"
-import BarView from "./components/chart/BarView"
+import LineView from "./components/chart/LineView";
+import BarView from "./components/chart/BarView";
 
 export default function index() {
   // 預設資料物件
@@ -16,6 +16,7 @@ export default function index() {
     data: [], //資料
     dataByDate: [],
     dataByItem: [],
+    dataMortgage:[],
     loading: true,
   };
 
@@ -58,25 +59,22 @@ export default function index() {
 
   const panes = [
     {
-      menuItem: "Line圖表",
+      menuItem: "Bar圖表",
       render: () => (
         <TabPane>
-          <LineView
-           data={state.dataByDate}
-          />
+          <BarView data={state.dataByDate} mortgage={state.dataMortgage} />
         </TabPane>
       ),
     },
     {
-      menuItem: "Bar圖表",
+      menuItem: "Line圖表",
       render: () => (
         <TabPane>
-          <BarView
-           data={state.dataByDate}
-          />
+          <LineView data={state.dataByDate} />
         </TabPane>
       ),
     },
+
     {
       menuItem: "項目統計",
       render: () => (

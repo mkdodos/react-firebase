@@ -24,7 +24,7 @@ export const reducer = async (state, action) => {
   const groupByDate = (data) => {
     // 資料依項目排序
     data = data.sort((a, b) => (a.itemName > b.itemName ? -1 : 1));
-    
+
     const obj = Object.groupBy(data, ({ date }) => date);
     const arr = [];
     Object.keys(obj).forEach(function (key) {
@@ -56,10 +56,28 @@ export const reducer = async (state, action) => {
     return arr;
   };
 
+  // 房貸金額
+  const mortgage = async () => {
+    // 取得集合
+    const col = collection(db, "mortgage");
+    const q = query(col, orderBy("date", "desc"), limit(100));
+    // 資料快照
+    const snapshot = await getDocs(q);
+    // 資料跑迴圈轉成物件陣列
+    const data = snapshot.docs.map((doc) => {
+      return { ...doc.data(), id: doc.id };
+    });
+
+    return data;
+
+    console.log(data);
+  };
+
   // 執行相關動作
   switch (action.type) {
     // 載入資料
     case "LOAD":
+      mortgage();
       // 取得集合
       const col = collection(db, colName);
       const q = query(col, orderBy("date", "desc"), limit(100));
@@ -72,6 +90,7 @@ export const reducer = async (state, action) => {
 
       return {
         ...state,
+        dataMortgage: await mortgage(),
         data,
         dataByDate: groupByDate(data),
         dataByItem: groupByItem(data),
