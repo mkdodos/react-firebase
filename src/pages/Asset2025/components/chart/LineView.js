@@ -31,7 +31,7 @@ export const options = {
   },
 };
 
-export default function index({ data }) {
+export default function index({ data,dataMortgage }) {
   // 取出每個日期當做標籤
   const labels = data.map((obj) => obj.date);
   const rows = data.map((obj) => obj.sum);
@@ -49,9 +49,10 @@ export default function index({ data }) {
         backgroundColor: "rgba(255, 99, 132, 0.5)",
       },
         {
-          label: "負債",
+          label: "房貸",
           borderColor: 'rgb(53, 162, 235)',
-          data: labels.map(() => faker.number.int({ min: 1000000, max: 2000000 })),
+          data:dataMortgage,
+          // data: labels.map(() => faker.number.int({ min: 1000000, max: 2000000 })),
           backgroundColor: "rgba(53, 162, 235, 0.5)",
         },
     ],

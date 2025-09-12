@@ -1,3 +1,4 @@
+import { da } from "@faker-js/faker";
 import { db } from "../../../utils/firebase";
 import {
   query,
@@ -20,12 +21,29 @@ export const reducer = async (state, action) => {
   const row = action.payload?.row;
   const index = action.payload?.index;
 
-  // 依日期群組
-  const groupByDate = (data) => {
-    // 資料依項目排序
-    data = data.sort((a, b) => (a.itemName > b.itemName ? -1 : 1));
+  // 依日期群組(日期排序最新在前)
+  const groupByDateDesc = (data1) => {
+   
+    data1.sort((a, b) => (a.date < b.date ? 1 : -1));
 
-    const obj = Object.groupBy(data, ({ date }) => date);
+    const obj = Object.groupBy(data1, ({ date }) => date);
+    const arr = [];
+    Object.keys(obj).forEach(function (key) {
+      let sum = 0;
+      // key : 日期
+      // obj[key] : 該日期的群組資料
+      // sum : 金額合計
+      obj[key].map((v) => (sum += Number(v.amt)));
+      arr.push({ date: key, sum, rows: obj[key] });
+    });
+
+    return arr;
+  };
+
+  // 依日期群組
+  const groupByDate = (data1) => {       
+
+    const obj = Object.groupBy(data1, ({ date }) => date);
     const arr = [];
     Object.keys(obj).forEach(function (key) {
       let sum = 0;
@@ -60,7 +78,8 @@ export const reducer = async (state, action) => {
   const mortgage = async () => {
     // 取得集合
     const col = collection(db, "mortgage");
-    const q = query(col, orderBy("date", "desc"), limit(100));
+    // const q = query(col, orderBy("date", "desc"), limit(100));
+    const q = query(col, orderBy("date"), limit(100));
     // 資料快照
     const snapshot = await getDocs(q);
     // 資料跑迴圈轉成物件陣列
@@ -68,19 +87,33 @@ export const reducer = async (state, action) => {
       return { ...doc.data(), id: doc.id };
     });
 
-    return data;
+    // 房貸依日期分組
+    const groupedMortgage = Object.groupBy(data, (row) => row.date);
+    // 組別陣列
+    const groups = Object.keys(groupedMortgage);
+    // 組別迴圏
+    const arraySum = [];
+    groups.map((g) => {
+      // 同一日期金額加總
+      let sum = 0;
+      groupedMortgage[g].map((obj) => (sum += Number(obj.balance)));
+      arraySum.push(sum);
+    });
 
-    console.log(data);
+    return arraySum;
+
+    // console.log(data);
   };
 
   // 執行相關動作
   switch (action.type) {
     // 載入資料
     case "LOAD":
-      mortgage();
+      // console.log(await mortgage());
       // 取得集合
       const col = collection(db, colName);
-      const q = query(col, orderBy("date", "desc"), limit(100));
+      // const q = query(col, orderBy("date", "desc"), limit(100));
+      const q = query(col, orderBy("date"), limit(100));
       // 資料快照
       const snapshot = await getDocs(q);
       // 資料跑迴圈轉成物件陣列
@@ -88,11 +121,18 @@ export const reducer = async (state, action) => {
         return { ...doc.data(), id: doc.id };
       });
 
+      // const dataReverse = data.sort((a, b) => (a.date < b.date ? 1 : -1));
+      // const dataReverse = data.toSorted((a, b) => (a.date < b.date ? 1 : -1));
+
       return {
         ...state,
         dataMortgage: await mortgage(),
         data,
-        dataByDate: groupByDate(data),
+        // BarView
+        dataBarView: groupByDate(data),
+        // CardView
+        dataByDate: groupByDateDesc(data),
+        // dataByDate: groupByDate(data),
         dataByItem: groupByItem(data),
         loading: false,
       };

@@ -17,6 +17,7 @@ export default function index() {
     dataByDate: [],
     dataByItem: [],
     dataMortgage:[],
+    dataBarView:[],
     loading: true,
   };
 
@@ -57,12 +58,14 @@ export default function index() {
     setRow(row);
   };
 
+  console.log(state.dataByDate)
+
   const panes = [
     {
       menuItem: "Bar圖表",
       render: () => (
         <TabPane>
-          <BarView data={state.dataByDate} mortgage={state.dataMortgage} />
+          <BarView data={state.dataBarView} dataMortgage={state.dataMortgage} />
         </TabPane>
       ),
     },
@@ -70,7 +73,7 @@ export default function index() {
       menuItem: "Line圖表",
       render: () => (
         <TabPane>
-          <LineView data={state.dataByDate} />
+          <LineView data={state.dataByDate} dataMortgage={state.dataMortgage}/>
         </TabPane>
       ),
     },

@@ -1,5 +1,5 @@
 import { Bar } from "react-chartjs-2";
-import { faker } from "@faker-js/faker";
+import { da, faker } from "@faker-js/faker";
 
 // 圖表設定
 export const options = {
@@ -19,23 +19,29 @@ export const options = {
   },
 };
 
-export default function index({ data, mortgage }) {
+export default function index({ data, dataMortgage }) {
+  // console.log(data);
+
+  // data.sort((a, b) => (a.date > b.date ? 1 : -1));
+  const rows = data.map((obj) => obj.sum);
   // 取出每個日期當做標籤
   const labels = data.map((obj) => obj.date);
-  const rows = data.map((obj) => obj.sum);   
+  // console.log(dataMortgage);
 
   // 房貸依日期分組
-  const groupedMortgage = Object.groupBy(mortgage, (row) => row.date);
+  // const groupedMortgage = Object.groupBy(mortgage, (row) => row.date);
   // 組別陣列
-  const groups = Object.keys(groupedMortgage); 
+  // const groups = Object.keys(groupedMortgage);
   // 組別迴圏
-  const arraySum = [];
-  groups.map((g) => {    
-    // 同一日期金額加總
-    let sum = 0;
-    groupedMortgage[g].map((obj) => (sum += Number(obj.balance)));
-    arraySum.push(sum);
-  }); 
+  // const arraySum = [];
+  // groups.map((g) => {
+  //   // 同一日期金額加總
+  //   let sum = 0;
+  //   groupedMortgage[g].map((obj) => (sum += Number(obj.balance)));
+  //   arraySum.push(sum);
+  // });
+
+  // console.log(arraySum)
 
   const chartData = {
     labels,
@@ -52,7 +58,7 @@ export default function index({ data, mortgage }) {
       {
         label: "房貸",
         borderColor: "rgb(53, 162, 235)",
-        data: arraySum,
+        data: dataMortgage,
         // data: labels.map(() =>
         //   faker.number.int({ min: 1000000, max: 2000000 })
         // ),
