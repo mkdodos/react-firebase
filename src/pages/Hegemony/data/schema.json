@@ -40,6 +40,14 @@
       "editable": "true",
       "viewable": "true",
       "width":"7"
+    },
+    {
+      "dataKey": "date",
+      "title": "日期",
+      "type": "date",
+      "editable": "true",
+      "viewable": "true",
+      "width":"7"
     }
   ]
 }

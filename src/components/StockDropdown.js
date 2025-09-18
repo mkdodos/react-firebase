@@ -42,9 +42,10 @@ export default function StockDropdown({ onChange, value }) {
       selection
       search
       onChange={onChange}
-      placeholder="選擇資料"
+      placeholder="選擇股票"
       options={options}
       value={value}
+      clearable
     />
   );
 }

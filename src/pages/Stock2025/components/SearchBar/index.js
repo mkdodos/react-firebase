@@ -1,5 +1,7 @@
 import YearDropdown from "./components/YearDropdown";
 import MonthDropdown from "./components/MonthDropdown";
+// import StockDropdown from "../../components/StockDropdown"
+import StockDropdown from "../../../../components/StockDropdown";
 import {
   Grid,
   GridColumn,
@@ -8,7 +10,7 @@ import {
   Form,
   FormField,
   FormGroup,
-  Icon
+  Icon,
 } from "semantic-ui-react";
 
 export default function index({ dispatch, state }) {
@@ -23,6 +25,13 @@ export default function index({ dispatch, state }) {
     });
   };
 
+  const handleStockChange = (e, { value }) => {
+    dispatch({
+      type: "SET_SEARCH",
+      payload: { ...state.search, stock: value },
+    });
+  };
+
   const handleQuery = () => {
     dispatch({
       type: "LOAD",
@@ -30,7 +39,7 @@ export default function index({ dispatch, state }) {
   };
 
   return (
-    <Grid columns={3}>
+    <Grid columns={4}>
       <GridRow>
         <GridColumn>
           <YearDropdown onChange={handleYearChange} value={state.search.year} />
@@ -42,9 +51,13 @@ export default function index({ dispatch, state }) {
           />
         </GridColumn>
         <GridColumn>
-          <Button onClick={handleQuery} primary >
-             <Icon name='search' />
-            查詢</Button>
+          <StockDropdown onChange={handleStockChange} />
+        </GridColumn>
+        <GridColumn>
+          <Button onClick={handleQuery} primary>
+            <Icon name="search" />
+            查詢
+          </Button>
         </GridColumn>
       </GridRow>
     </Grid>

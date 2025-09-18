@@ -43,23 +43,41 @@ export const reducer = async (state, action) => {
   switch (action.type) {
     // 載入資料
     case "LOAD":
+      const col = collection(db, colName);
+
+      let q = null;
+
       // 預設當日
       let date = new Date().toISOString().substring(0, 10);
+      // let date ="";
       let className = "";
 
-      // 查詢參數(日期,階級)
       if (action.payload) {
         className = action.payload.className;
         date = action.payload.date;
       }
 
-      let q = collection(db, colName);
+      const q1 = query(col, where("date", "==", date), orderBy("title"));
+      const q2 = query(col, where("class", "==", className), orderBy("title"));
+      const q3 = query(
+        col,
+        where("date", ">=", date),
+        where("class", "==", className),
+        orderBy("title")
+      );
 
       // 依所傳參數組合不同查詢
-      if (date) q = query(q, where("date", "==", date));
+      if (date) {
+        q = q1;
+      }
 
-      if (className)
-        q = query(q, where("class", "==", className));
+      if (className) {
+        q = q2;
+      }
+
+      if (date && className) {
+        q = q3;
+      }
 
       const snapshot = await getDocs(q);
 
@@ -69,6 +87,9 @@ export const reducer = async (state, action) => {
       const data = snapshot.docs.map((doc) => {
         return { ...doc.data(), id: doc.id };
       });
+
+    
+     
 
       return {
         ...state,

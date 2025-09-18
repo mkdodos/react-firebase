@@ -121,6 +121,10 @@ export const reducer = async (state, action) => {
       const col = collection(db, colName);
 
       // 用下拉年月組合日期查詢
+      // const dateFrom = state.search?.year + "-" + state.search?.month + "-01";
+      // const dateTo = state.search?.year + "-" + state.search?.month + "-31";
+      // const dateFrom = state.search?.year + "-" + "01-01";
+      // const dateTo = state.search?.year + "-" + "12-31";
 
       let dateFrom = "";
       let dateTo = "";
@@ -138,21 +142,24 @@ export const reducer = async (state, action) => {
       let q = query(
         col,
         where("date", ">=", dateFrom),
-        where("date", "<=", dateTo),       
-      );     
+        where("date", "<=", dateTo),
+        orderBy("date", "desc"),
+        limit(200)
+      );
 
       // 用股票代碼查詢
+
+      // const stock = ""
       if (state.search.stock !== "")
-        q = query(q, where("stockNo", "==", state.search.stock), limit(200));
+        q = query(col, where("stockNo", "==", state.search.stock), limit(200));
+
+      console.log(state.search);
 
       const snapshot = await getDocs(q);
 
       const data = snapshot.docs.map((doc) => {
         return { ...doc.data(), id: doc.id };
       });
-
-      // 日期遞減排序
-      data.sort((a, b) => (a.date > b.date ? -1 : 1));
 
       const calData = calColumns(data);
 

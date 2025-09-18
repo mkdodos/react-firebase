@@ -30,7 +30,7 @@ export const print = (data) => {
   const x = 5;
   const y = 5;
   // 卡片(外框)大小,位置
-  let card = { width: 65, height: 40, x, y };
+  let card = { width: 62, height: 40, x, y };
   // 每頁欄列數
   const columns = Math.floor(page.width / card.width);
   const rows = Math.floor(page.height / card.height);

@@ -27,6 +27,7 @@ export default function index() {
     search: {
       year: new Date().getFullYear(),
       month: "",
+      stock:""
       // month: m,
     },
   };
