@@ -7,6 +7,7 @@ import CardView from "./components/CardView";
 import { Button } from "semantic-ui-react";
 import { print } from "./components/Print";
 import SearchBar from "./components/SearchBar";
+import ScoreBoard from "./components/ScoreBoard";
 
 export default function index() {
   // 預設資料物件
@@ -49,39 +50,44 @@ export default function index() {
   };
 
   const handleEdit = (row, index) => {
-    console.log(index)
+    console.log(index);
     dispatch({ type: "EDIT", payload: { index } });
     setRow(row);
   };
 
   return (
     <>
-      <Button primary onClick={handleAdd} loading={state.loading}>
+      <ScoreBoard />
+      {/* <Button primary onClick={handleAdd} loading={state.loading}>
         新增
       </Button>
-      <Button floated="right"  onClick={()=>print(state.data)} loading={state.loading}>
+      <Button
+        floated="right"
+        onClick={() => print(state.data)}
+        loading={state.loading}
+      >
         列印
-      </Button>
+      </Button> */}
       <br></br>
       <br></br>
-      <SearchBar dispatch={dispatch}/>
-       <br></br>
+      {/* <SearchBar dispatch={dispatch} /> */}
       <br></br>
-      <TableView
+      <br></br>
+      {/* <TableView
         state={state}
         columns={columns}
         handleAdd={handleAdd}
         handleEdit={handleEdit}
       />
       <CardView data={state.data} handleEdit={handleEdit} />
-   
+
       <EditForm
         columns={columns}
         row={row}
         setRow={setRow}
         state={state}
         dispatch={dispatch}
-      />
+      /> */}
     </>
   );
 }
