@@ -10,12 +10,7 @@ import {
 } from "semantic-ui-react";
 
 export default function ScoreBoard() {
-  // 將一列一列的資料表格,顯示成欄列對應的表格
-  // 欄 : 角色
-  // 列 : 玩家
-  // 欄列 : 玩家角色分數
-
-  // 原始資料
+  // 多筆資料
   const data = [
     {
       date: "2025-09-22",
@@ -36,34 +31,10 @@ export default function ScoreBoard() {
       score: 30,
     },
     {
-      date: "2025-09-24",
-      player: "A",
-      role: "cap",
-      score: 300,
-    },
-    {
       date: "2025-09-22",
       player: "B",
       role: "labor",
       score: 100,
-    },
-    {
-      date: "2025-09-22",
-      player: "B",
-      role: "gov",
-      score: 1000,
-    },
-    {
-      date: "2025-09-22",
-      player: "B",
-      role: "middle",
-      score: 1200,
-    },
-    {
-      date: "2025-09-22",
-      player: "B",
-      role: "cap",
-      score: 369,
     },
     {
       date: "2025-09-22",
@@ -79,15 +50,7 @@ export default function ScoreBoard() {
     },
   ];
 
-  // 玩家分數記錄(準備將原始資料加入)
-  // 加入後成為
-  // {
-  //   "player": "A",
-  //   "gov": 30,
-  //   "cap": 300,
-  //   "middle": 10,
-  //   "labor": 20
-  // }
+  // 某日玩家分數記錄
   const scores = [
     {
       player: "A",
@@ -103,9 +66,13 @@ export default function ScoreBoard() {
     },
   ];
 
-  // 用玩家和角色取得分數
-  const getScore = (player, role) => {
-    const obj = data.find((obj) => obj.player == player && obj.role == role);
+  // 日期群組
+  const dates = Object.groupBy(data, ({ date }) => date);
+
+  const getScore = (date, player, role) => {
+    const obj = data.find(
+      (obj) => obj.date == date && obj.player == player && obj.role == role
+    );
 
     if (obj) {
       return obj.score;
@@ -113,29 +80,37 @@ export default function ScoreBoard() {
     return 0;
   };
 
-  // 玩家資料
   const players = ["A", "B", "C", "D"];
-  // 角色資料
+  // const players = ["馬克", "宜君", "愷軒", "欣妤"];
+  // const roles = ["勞工", "資本", "中產", "政府"];
   const roles = ["gov", "cap", "middle", "labor"];
 
-  // 用玩家角色取得分數
-  // 玩家迴圏
-  players.map((player) => {
-    // 取得玩家所在列
-    const index = scores.findIndex((row) => row.player == player);
-    // 角色迴圈
-    roles.map((role) => {
-      // 設定玩家角色的分數
-      scores[index][role] = getScore(player, role);
+  // 日期迴圈
+  Object.keys(dates).map((date) => {
+    // 用日期人員角色取得分數
+    // 人員迴圏
+    players.map((player) => {
+      const index = scores.findIndex((row) => row.player == player);
+
+      // 角色迴圈
+      roles.map((role) => {
+        console.log(player, role);
+        console.log(scores[index][role]);
+        // 原本鍵值為空,就取得分數
+        // 之後再跑其他日期就不用再取得,以免傳回 0 覆蓋原來分數
+        if (!scores[index][role])
+          scores[index][role] = getScore(date, player, role);
+      });
     });
   });
+
+  console.log(scores);
 
   return (
     <div>
       <Table celled unstackable>
         <TableHeader>
           <TableRow>
-            {/* 以原始資料的第0列鍵值做為標題 */}
             {Object.keys(data[0]).map((role) => {
               return (
                 <TableHeaderCell key={uuidv4()} className={role}>
@@ -147,20 +122,19 @@ export default function ScoreBoard() {
         </TableHeader>
 
         <TableBody>
-          {/* 每筆資料以一列一列表格呈現 */}
-          {data.map((obj) => {
-            return (
-              <TableRow key={uuidv4()}>
-                {Object.keys(data[0]).map((key) => {
-                  return <TableCell key={uuidv4()}>{obj[key]}</TableCell>;
-                })}
-              </TableRow>
-            );
-          })}
+          {data
+            .sort((a, b) => (a.date > b.date ? 1 : -1))
+            .map((obj) => {
+              return (
+                <TableRow key={uuidv4()}>
+                  {Object.keys(data[0]).map((key) => {
+                    return <TableCell key={uuidv4()}>{obj[key]}</TableCell>;
+                  })}
+                </TableRow>
+              );
+            })}
         </TableBody>
       </Table>
-
-      {/* 欄列對應的表格 */}
       <Table celled unstackable className="scoreboard">
         <TableHeader>
           <TableRow>
