@@ -3,6 +3,11 @@ import schema from "./data/schema.json";
 import { reducer } from "./data/reducer";
 import TableView from "./components/TableView";
 import EditForm from "./components/EditForm";
+import CardView from "./components/CardView";
+import { Button } from "semantic-ui-react";
+import { print } from "./components/Print";
+import SearchBar from "./components/SearchBar";
+import ScoreBoard from "./components/ScoreBoard";
 
 export default function index() {
   // 預設資料物件
@@ -32,8 +37,8 @@ export default function index() {
     defaultRow[obj.dataKey] = "";
   });
 
-  // 預設當日
-  defaultRow.date = new Date().toISOString().substring(0,10)
+  // 當日
+  defaultRow.date = new Date().toISOString().substring(0, 10);
 
   // 原本 row 放在 useAsyncReducer 會出現無法輸入中文的問題
   // 將其獨立出來處理
@@ -45,25 +50,44 @@ export default function index() {
   };
 
   const handleEdit = (row, index) => {
+    console.log(index);
     dispatch({ type: "EDIT", payload: { index } });
     setRow(row);
   };
 
   return (
     <>
-      <TableView
+      <ScoreBoard />
+      {/* <Button primary onClick={handleAdd} loading={state.loading}>
+        新增
+      </Button>
+      <Button
+        floated="right"
+        onClick={() => print(state.data)}
+        loading={state.loading}
+      >
+        列印
+      </Button> */}
+      <br></br>
+      <br></br>
+      {/* <SearchBar dispatch={dispatch} /> */}
+      <br></br>
+      <br></br>
+      {/* <TableView
         state={state}
         columns={columns}
         handleAdd={handleAdd}
         handleEdit={handleEdit}
       />
+      <CardView data={state.data} handleEdit={handleEdit} />
+
       <EditForm
         columns={columns}
         row={row}
         setRow={setRow}
         state={state}
         dispatch={dispatch}
-      />
+      /> */}
     </>
   );
 }

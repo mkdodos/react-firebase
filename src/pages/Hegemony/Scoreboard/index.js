@@ -3,11 +3,14 @@ import schema from "./data/schema.json";
 import { reducer } from "./data/reducer";
 import TableView from "./components/TableView";
 import EditForm from "./components/EditForm";
+import RowColumnView from "./components/RowColumnView";
 
 export default function index() {
   // 預設資料物件
   const initState = {
     data: [], //資料
+    scores:[],
+    roles:[],
     loading: true,
   };
 
@@ -33,7 +36,7 @@ export default function index() {
   });
 
   // 預設當日
-  defaultRow.date = new Date().toISOString().substring(0,10)
+  defaultRow.date = new Date().toISOString().substring(0, 10);
 
   // 原本 row 放在 useAsyncReducer 會出現無法輸入中文的問題
   // 將其獨立出來處理
@@ -51,6 +54,7 @@ export default function index() {
 
   return (
     <>
+      <RowColumnView state={state} />
       <TableView
         state={state}
         columns={columns}

@@ -1,0 +1,39 @@
+{
+  "columns": [
+    {
+      "dataKey": "date",
+      "title": "日期",
+      "type": "date",
+      "editable": "true",
+      "viewable": "true"
+    },
+
+    {
+      "dataKey": "player",
+      "title": "玩家",
+      "type": "text",
+      "editable": "true",
+      "viewable": "true"
+    },
+    {
+      "dataKey": "role",
+      "title": "角色",
+      "type": "text",
+      "editable": "true",
+      "viewable": "true"
+    },
+    {
+      "dataKey": "roleText",
+      "title": "角色名稱",
+      "type": "text",    
+      "viewable": "true"
+    },
+    {
+      "dataKey": "score",
+      "title": "分數",
+      "type": "number",
+      "editable": "true",
+      "viewable": "true"
+    }
+  ]
+}

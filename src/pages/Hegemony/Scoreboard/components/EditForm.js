@@ -1,4 +1,4 @@
-import { Form, Button, Modal,Dropdown } from "semantic-ui-react";
+import { Form, Button, Modal, Dropdown } from "semantic-ui-react";
 
 export default function EditForm({ columns, state, dispatch, row, setRow }) {
   // 篩選可編輯欄位
@@ -26,29 +26,31 @@ export default function EditForm({ columns, state, dispatch, row, setRow }) {
   };
 
   const handleRoleChange = (e, { value }) => {
-    setRow({ ...row, role: value });
+    // console.log(e.target.innerText);
+    // 同時存放 role (英文)  roleText (中文)
+    setRow({ ...row, role: value, roleText: e.target.innerText });
   };
 
   const players = [
     {
       key: "1",
       text: "馬克",
-      value: "馬克",
+      value: "A",
     },
     {
       key: "2",
       text: "宜君",
-      value: "宜君",
+      value: "B",
     },
     {
       key: "3",
       text: "愷軒",
-      value: "愷軒",
+      value: "C",
     },
     {
       key: "4",
       text: "欣妤",
-      value: "欣妤",
+      value: "D",
     },
   ];
 
@@ -97,8 +99,7 @@ export default function EditForm({ columns, state, dispatch, row, setRow }) {
           );
           return;
 
-
-          case "role":
+        case "role":
           fields.push(
             <Form.Field key={index}>
               <label>{col.title}</label>
