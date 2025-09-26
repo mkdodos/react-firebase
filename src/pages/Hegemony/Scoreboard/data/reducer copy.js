@@ -45,19 +45,15 @@ export const reducer = async (state, action) => {
       const scores = [
         {
           player: "A",
-          playerName:"馬克"
         },
         {
           player: "B",
-          playerName:"宜君"
         },
         {
           player: "C",
-          playerName:"愷軒"
         },
         {
           player: "D",
-          playerName:"欣妤"
         },
       ];
 
@@ -76,12 +72,7 @@ export const reducer = async (state, action) => {
       // 玩家資料
       const players = ["A", "B", "C", "D"];
       // 角色資料
-      // const roles = ["gov", "cap", "middle", "labor"];
-      const roles = [{id:"gov",name:"政府"},
-        {id:"cap",name:"資本"},
-         {id:"middle",name:"中產"},
-          {id:"labor",name:"勞工"}
-      ];
+      const roles = ["gov", "cap", "middle", "labor"];
 
       // 用玩家角色取得分數
       // 玩家迴圏
@@ -90,10 +81,8 @@ export const reducer = async (state, action) => {
         const index = scores.findIndex((row) => row.player == player);
         // 角色迴圈
         roles.map((role) => {
-          // console.log(role.id)
           // 設定玩家角色的分數
-          scores[index][role.id] = getScore(player, role.id);
-          // console.log(getScore(player, role.id));
+          scores[index][role] = getScore(player, role);
         });
       });
 

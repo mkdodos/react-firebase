@@ -11,7 +11,7 @@ import { v4 as uuidv4 } from "uuid";
 
 export default function RowColumnView({ state }) {
   const { scores, roles } = state;
-  // console.log(state.scores);
+  console.log(scores);
   return (
     <>
       {/* 欄列對應的表格 */}
@@ -22,8 +22,8 @@ export default function RowColumnView({ state }) {
            
             {roles.map((role) => {
               return (
-                <TableHeaderCell key={uuidv4()} className={role}>
-                  {role}
+                <TableHeaderCell key={uuidv4()} className={role.name}>
+                  {role.name}
                 </TableHeaderCell>
               );
             })}
@@ -34,10 +34,10 @@ export default function RowColumnView({ state }) {
           {scores.map((obj) => {
             return (
               <TableRow key={uuidv4()}>
-                <TableCell>{obj.player}</TableCell>
+                <TableCell>{obj.playerName}</TableCell>
                 {/* 角色標題和內容都需用迴圈,相同順序才能正確顯示對應分數 */}
                 {roles.map((role) => {
-                  return <TableCell key={uuidv4()}>{obj[role]}</TableCell>;
+                  return <TableCell key={uuidv4()}>{obj[role.id]}</TableCell>;
                 })}
                 <TableCell>{obj.total}</TableCell>
               </TableRow>

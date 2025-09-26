@@ -22,7 +22,8 @@ export default function EditForm({ columns, state, dispatch, row, setRow }) {
   };
 
   const handlePlayerChange = (e, { value }) => {
-    setRow({ ...row, player: value });
+    // setRow({ ...row, player: value });
+    setRow({ ...row, player: value,playerText:e.target.innerText });
   };
 
   const handleRoleChange = (e, { value }) => {

@@ -15,6 +15,12 @@
       "editable": "true",
       "viewable": "true"
     },
+     {
+      "dataKey": "playerText",
+      "title": "玩家",
+      "type": "text",    
+      "viewable": "true"
+    },
     {
       "dataKey": "role",
       "title": "角色",
