@@ -29,7 +29,7 @@ export default function RowColumnView({ state }) {
                 </TableHeaderCell>
               );
             })}
-            <TableHeaderCell>合計</TableHeaderCell>
+            <TableHeaderCell>個人總分</TableHeaderCell>
           </TableRow>
         </TableHeader>
         <TableBody>

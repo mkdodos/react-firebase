@@ -1,10 +1,7 @@
 {
   "files": {
-    "main.css": "/react-firebase/build/static/css/main.662505cc.css",
-    "main.js": "/react-firebase/build/static/js/main.433f32ad.js",
-    "static/js/239.e9356ca6.chunk.js": "/react-firebase/build/static/js/239.e9356ca6.chunk.js",
-    "static/js/977.e3a4159f.chunk.js": "/react-firebase/build/static/js/977.e3a4159f.chunk.js",
-    "static/js/732.5d6792d5.chunk.js": "/react-firebase/build/static/js/732.5d6792d5.chunk.js",
+    "main.css": "/react-firebase/build/static/css/main.b4691828.css",
+    "main.js": "/react-firebase/build/static/js/main.c6509187.js",
     "static/media/brand-icons.svg": "/react-firebase/build/static/media/brand-icons.6729d29753e000c17489.svg",
     "static/media/icons.svg": "/react-firebase/build/static/media/icons.62d9dae4e0040e81c980.svg",
     "static/media/outline-icons.svg": "/react-firebase/build/static/media/outline-icons.9c4845b4b41ef40a22fa.svg",
@@ -22,14 +19,11 @@
     "static/media/outline-icons.woff": "/react-firebase/build/static/media/outline-icons.ddae9b1ba9b0b42f5880.woff",
     "static/media/outline-icons.woff2": "/react-firebase/build/static/media/outline-icons.687a4990ea22bb1a49d4.woff2",
     "index.html": "/react-firebase/build/index.html",
-    "main.662505cc.css.map": "/react-firebase/build/static/css/main.662505cc.css.map",
-    "main.433f32ad.js.map": "/react-firebase/build/static/js/main.433f32ad.js.map",
-    "239.e9356ca6.chunk.js.map": "/react-firebase/build/static/js/239.e9356ca6.chunk.js.map",
-    "977.e3a4159f.chunk.js.map": "/react-firebase/build/static/js/977.e3a4159f.chunk.js.map",
-    "732.5d6792d5.chunk.js.map": "/react-firebase/build/static/js/732.5d6792d5.chunk.js.map"
+    "main.b4691828.css.map": "/react-firebase/build/static/css/main.b4691828.css.map",
+    "main.c6509187.js.map": "/react-firebase/build/static/js/main.c6509187.js.map"
   },
   "entrypoints": [
-    "static/css/main.662505cc.css",
-    "static/js/main.433f32ad.js"
+    "static/css/main.b4691828.css",
+    "static/js/main.c6509187.js"
   ]
 }

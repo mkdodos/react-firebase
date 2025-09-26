@@ -113,23 +113,25 @@ export const reducer = async (state, action) => {
 
       // let tempRow = {labor:0,playerName:"合計"};
       // 記分版最後一列顯示各欄合計
-      let tempRow = { playerName: "合計" };
+      let tempRow = { playerName: "角色平均" };
       let tempRowTotal = 0;
       // 角色迴圈
       roles.map((role) => {
         let sum = 0;
         // 分數迴圈
+        let count = 0;
         scores.map((score) => {
           // 加總同角色分數
-          if (score[role.id]) sum += Number(score[role.id]);
+          if (score[role.id]) {
+            sum += Number(score[role.id]);
+            count++;
+          }
         });
-        if (sum > 0) tempRow[role.id] = sum;
-        tempRowTotal+=sum;
+        if (sum > 0) tempRow[role.id] = Math.round(sum / count);
+        tempRowTotal += sum;
       });
-      tempRow.total = tempRowTotal
+      // tempRow.total = tempRowTotal
       scores.push(tempRow);
-
-     
 
       return {
         ...state,
