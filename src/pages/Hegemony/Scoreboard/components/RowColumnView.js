@@ -11,7 +11,8 @@ import { v4 as uuidv4 } from "uuid";
 
 export default function RowColumnView({ state }) {
   const { scores, roles } = state;
-  console.log(scores);
+  // console.log(scores[0]);
+  
   return (
     <>
       {/* 欄列對應的表格 */}

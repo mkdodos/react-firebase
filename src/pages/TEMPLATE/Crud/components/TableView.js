@@ -3,6 +3,9 @@ import { Table, Button } from "semantic-ui-react";
 export default function TableView({ state, columns, handleAdd, handleEdit }) {
   const { data, loading } = state;
 
+  // 篩選可顯示欄位
+  columns=columns.filter(col=>col.viewable)
+
   return (
     <>
       <Table celled unstackable>

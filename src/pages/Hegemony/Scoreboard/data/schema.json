@@ -12,8 +12,7 @@
       "dataKey": "player",
       "title": "玩家",
       "type": "text",
-      "editable": "true",
-      "viewable": "true"
+      "editable": "true"     
     },
      {
       "dataKey": "playerText",
@@ -25,8 +24,7 @@
       "dataKey": "role",
       "title": "角色",
       "type": "text",
-      "editable": "true",
-      "viewable": "true"
+      "editable": "true"      
     },
     {
       "dataKey": "roleText",

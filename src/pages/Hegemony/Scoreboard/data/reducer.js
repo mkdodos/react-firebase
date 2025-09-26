@@ -45,19 +45,20 @@ export const reducer = async (state, action) => {
       const scores = [
         {
           player: "A",
-          playerName:"馬克"
+          playerName: "馬克",
+          // total:100
         },
         {
           player: "B",
-          playerName:"宜君"
+          playerName: "宜君",
         },
         {
           player: "C",
-          playerName:"愷軒"
+          playerName: "愷軒",
         },
         {
           player: "D",
-          playerName:"欣妤"
+          playerName: "欣妤",
         },
       ];
 
@@ -77,11 +78,14 @@ export const reducer = async (state, action) => {
       const players = ["A", "B", "C", "D"];
       // 角色資料
       // const roles = ["gov", "cap", "middle", "labor"];
-      const roles = [{id:"gov",name:"政府"},
-        {id:"cap",name:"資本"},
-         {id:"middle",name:"中產"},
-          {id:"labor",name:"勞工"}
+      const roles = [
+        { id: "gov", name: "政府" },
+        { id: "cap", name: "資本" },
+        { id: "middle", name: "中產" },
+        { id: "labor", name: "勞工" },
       ];
+
+      const getTotal = () => {};
 
       // 用玩家角色取得分數
       // 玩家迴圏
@@ -89,20 +93,25 @@ export const reducer = async (state, action) => {
         // 取得玩家所在列
         const index = scores.findIndex((row) => row.player == player);
         // 角色迴圈
-        roles.map((role) => {
-          // console.log(role.id)
+        let sum = 0;
+        roles.map((role) => {          
           // 設定玩家角色的分數
-          scores[index][role.id] = getScore(player, role.id);
-          // console.log(getScore(player, role.id));
+          const score = getScore(player, role.id);
+          scores[index][role.id] = score;
+          sum += Number(score);
         });
+        scores[index].total = sum;
       });
+
+      // const keys = Object.keys(scores[0]);
+      console.log(scores);
 
       return {
         ...state,
         data,
         loading: false,
         scores,
-        roles
+        roles,
       };
 
     // 新增
