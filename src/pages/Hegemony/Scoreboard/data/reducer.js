@@ -33,7 +33,7 @@ export const reducer = async (state, action) => {
         return { ...doc.data(), id: doc.id };
       });
 
-      data.sort((a,b)=>a.player>b.player?1:-1)
+      data.sort((a, b) => (a.player > b.player ? 1 : -1));
       // data.sort((a,b)=>a.role>b.role?1:-1)
 
       // 玩家分數記錄(準備將原始資料加入)
@@ -63,6 +63,11 @@ export const reducer = async (state, action) => {
           player: "D",
           playerName: "欣妤",
         },
+        // {
+        //   player: "E",
+        //   playerName: "合計",
+        //   gov: 100,
+        // },
       ];
 
       // 用玩家和角色取得分數
@@ -86,9 +91,6 @@ export const reducer = async (state, action) => {
         { id: "middle", name: "中產" },
         { id: "cap", name: "資本" },
         { id: "gov", name: "政府" },
-       
-        
-        
       ];
 
       const getTotal = () => {};
@@ -100,7 +102,7 @@ export const reducer = async (state, action) => {
         const index = scores.findIndex((row) => row.player == player);
         // 角色迴圈
         let sum = 0;
-        roles.map((role) => {          
+        roles.map((role) => {
           // 設定玩家角色的分數
           const score = getScore(player, role.id);
           scores[index][role.id] = score;
@@ -109,8 +111,25 @@ export const reducer = async (state, action) => {
         scores[index].total = sum;
       });
 
-      // const keys = Object.keys(scores[0]);
-      console.log(scores);
+      // let tempRow = {labor:0,playerName:"合計"};
+      // 記分版最後一列顯示各欄合計
+      let tempRow = { playerName: "合計" };
+      let tempRowTotal = 0;
+      // 角色迴圈
+      roles.map((role) => {
+        let sum = 0;
+        // 分數迴圈
+        scores.map((score) => {
+          // 加總同角色分數
+          if (score[role.id]) sum += Number(score[role.id]);
+        });
+        if (sum > 0) tempRow[role.id] = sum;
+        tempRowTotal+=sum;
+      });
+      tempRow.total = tempRowTotal
+      scores.push(tempRow);
+
+     
 
       return {
         ...state,
