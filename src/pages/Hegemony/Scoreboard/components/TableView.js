@@ -1,14 +1,15 @@
 import { Table, Button } from "semantic-ui-react";
+// import "./style.css"
 
 export default function TableView({ state, columns, handleAdd, handleEdit }) {
   const { data, loading } = state;
 
   // 篩選可顯示欄位
-  columns=columns.filter(col=>col.viewable)
+  columns = columns.filter((col) => col.viewable);
 
   return (
     <>
-      <Table celled unstackable>
+      <Table celled unstackable className="scoreboard">
         <Table.Header>
           <Table.Row>
             {columns.map((col, index) => {
@@ -29,8 +30,19 @@ export default function TableView({ state, columns, handleAdd, handleEdit }) {
             return (
               <Table.Row key={row.id}>
                 {columns.map((col, index) => {
+                  if (col.dataKey == "role") {
+                    console.log(row)
+                    return (
+                      <Table.Cell className={row.role} key={index}>
+                        {row.roleText}
+                      </Table.Cell>
+                    );
+                  }
+
                   return (
-                    <Table.Cell key={index}>{row[col.dataKey]}</Table.Cell>
+                    <Table.Cell  key={index}>
+                      {row[col.dataKey]}
+                    </Table.Cell>
                   );
                 })}
                 <Table.Cell>

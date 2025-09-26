@@ -24,13 +24,13 @@
       "dataKey": "role",
       "title": "角色",
       "type": "text",
+      "viewable": "true",   
       "editable": "true"      
     },
     {
       "dataKey": "roleText",
       "title": "角色名稱",
-      "type": "text",    
-      "viewable": "true"
+      "type": "text" 
     },
     {
       "dataKey": "score",

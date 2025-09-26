@@ -33,6 +33,9 @@ export const reducer = async (state, action) => {
         return { ...doc.data(), id: doc.id };
       });
 
+      data.sort((a,b)=>a.player>b.player?1:-1)
+      // data.sort((a,b)=>a.role>b.role?1:-1)
+
       // 玩家分數記錄(準備將原始資料加入)
       // 加入後成為
       // {
@@ -79,10 +82,13 @@ export const reducer = async (state, action) => {
       // 角色資料
       // const roles = ["gov", "cap", "middle", "labor"];
       const roles = [
-        { id: "gov", name: "政府" },
-        { id: "cap", name: "資本" },
-        { id: "middle", name: "中產" },
         { id: "labor", name: "勞工" },
+        { id: "middle", name: "中產" },
+        { id: "cap", name: "資本" },
+        { id: "gov", name: "政府" },
+       
+        
+        
       ];
 
       const getTotal = () => {};

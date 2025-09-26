@@ -8,6 +8,7 @@ import {
   TableFooter,
 } from "semantic-ui-react";
 import { v4 as uuidv4 } from "uuid";
+import "./style.css"
 
 export default function RowColumnView({ state }) {
   const { scores, roles } = state;
@@ -23,7 +24,7 @@ export default function RowColumnView({ state }) {
            
             {roles.map((role) => {
               return (
-                <TableHeaderCell key={uuidv4()} className={role.name}>
+                <TableHeaderCell key={uuidv4()} className={role.id}>
                   {role.name}
                 </TableHeaderCell>
               );
