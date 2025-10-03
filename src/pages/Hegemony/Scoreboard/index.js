@@ -4,13 +4,15 @@ import { reducer } from "./data/reducer";
 import TableView from "./components/TableView";
 import EditForm from "./components/EditForm";
 import RowColumnView from "./components/RowColumnView";
+import LineView from "./components/LineView";
+import BarView from "./components/BarView";
 
 export default function index() {
   // 預設資料物件
   const initState = {
     data: [], //資料
-    scores:[],
-    roles:[],
+    scores: [],
+    roles: [],
     loading: true,
   };
 
@@ -54,6 +56,8 @@ export default function index() {
 
   return (
     <>
+      <BarView state={state} />
+      {/* <LineView state={state} /> */}
       <RowColumnView state={state} />
       <TableView
         state={state}

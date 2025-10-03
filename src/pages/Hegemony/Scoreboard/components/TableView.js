@@ -31,7 +31,7 @@ export default function TableView({ state, columns, handleAdd, handleEdit }) {
               <Table.Row key={row.id}>
                 {columns.map((col, index) => {
                   if (col.dataKey == "role") {
-                    console.log(row)
+                    // console.log(row)
                     return (
                       <Table.Cell className={row.role} key={index}>
                         {row.roleText}
