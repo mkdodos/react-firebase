@@ -1,7 +1,7 @@
 import { Table, Button } from "semantic-ui-react";
 // import "./style.css"
 
-export default function TableView({ state, columns, handleAdd, handleEdit,dispatch }) {
+export default function TableView({ state, columns, handleAdd, handleEdit }) {
   const { data, loading } = state;
 
   // 篩選可顯示欄位
@@ -9,22 +9,12 @@ export default function TableView({ state, columns, handleAdd, handleEdit,dispat
 
   return (
     <>
-      <Table sortable celled unstackable className="scoreboard">
+      <Table celled unstackable className="scoreboard">
         <Table.Header>
           <Table.Row>
             {columns.map((col, index) => {
               return (
-                <Table.HeaderCell
-                  sorted={
-                    state.sortedColumn === col.dataKey ? state.direction : null
-                  }
-                  key={index}
-                  onClick={() =>
-                    dispatch({ type: "CHANGE_SORT", column: col.dataKey })
-                  }
-                >
-                  {col.title}
-                </Table.HeaderCell>
+                <Table.HeaderCell key={index}>{col.title}</Table.HeaderCell>
               );
             })}
             <Table.HeaderCell>
@@ -50,7 +40,9 @@ export default function TableView({ state, columns, handleAdd, handleEdit,dispat
                   }
 
                   return (
-                    <Table.Cell key={index}>{row[col.dataKey]}</Table.Cell>
+                    <Table.Cell  key={index}>
+                      {row[col.dataKey]}
+                    </Table.Cell>
                   );
                 })}
                 <Table.Cell>

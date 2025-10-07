@@ -1,22 +1,17 @@
-import React, { useState, useEffect } from "react";
-import schema from "./data/schema.json";
-import { reducer } from "./data/reducer";
+import { useEffect, useState } from "react";
 import TableView from "./components/TableView";
-import EditForm from "./components/EditForm";
-import RowColumnView from "./components/RowColumnView";
-import LineView from "./components/LineView";
-import BarView from "./components/BarView";
+// import EditForm from "./components/EditForm";
+
+import { reducer } from "./data/reducer";
+import schema from "./data/schema.json";
 
 export default function index() {
   // 預設資料物件
   const initState = {
     data: [], //資料
-    scores: [],
-    roles: [],
     loading: true,
   };
 
-  // 此函數為參考網路,功能為讓 reducer 可以處理 async function
   function useAsyncReducer(reducer, initState) {
     const [state, setState] = useState(initState),
       dispatchState = async (action) => setState(await reducer(state, action));
@@ -30,48 +25,10 @@ export default function index() {
     dispatch({ type: "LOAD" });
   }, []);
 
-  // 欄位預設值
-  const defaultRow = {};
-  const { columns } = schema;
-  columns.map((obj) => {
-    defaultRow[obj.dataKey] = "";
-  });
-
-  // 預設當日
-  defaultRow.date = new Date().toISOString().substring(0, 10);
-
-  // 原本 row 放在 useAsyncReducer 會出現無法輸入中文的問題
-  // 將其獨立出來處理
-  const [row, setRow] = useState(defaultRow);
-
-  const handleAdd = () => {
-    dispatch({ type: "ADD" });
-    setRow(defaultRow);
-  };
-
-  const handleEdit = (row, index) => {
-    dispatch({ type: "EDIT", payload: { index } });
-    setRow(row);
-  };
-
   return (
     <>
-      <BarView state={state} />
-      {/* <LineView state={state} /> */}
-      <RowColumnView state={state} />
-      <TableView
-        state={state}
-        columns={columns}
-        handleAdd={handleAdd}
-        handleEdit={handleEdit}
-      />
-      <EditForm
-        columns={columns}
-        row={row}
-        setRow={setRow}
-        state={state}
-        dispatch={dispatch}
-      />
+      <TableView state={state} dispatch={dispatch} columns={schema.columns} />
+      {/* <EditForm /> */}
     </>
   );
 }

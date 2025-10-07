@@ -1,26 +1,13 @@
 import { db } from "../../../../utils/firebase";
-import {
-  query,
-  limit,
-  collection,
-  getDocs,
-  doc,
-  addDoc,
-  updateDoc,
-  deleteDoc,
-  orderBy,
-  getDoc,
-  startAfter,
-} from "firebase11/firestore/lite";
+
+import { collection, getDocs } from "firebase11/firestore/lite";
 
 export const reducer = async (state, action) => {
   // 集合名稱
   const colName = "hegemonyScoreboard";
-  // 編輯列
-  const row = action.payload?.row;
-  const index = action.payload?.index;
 
   // 執行相關動作
+
   switch (action.type) {
     // 載入資料
     case "LOAD":
@@ -33,169 +20,54 @@ export const reducer = async (state, action) => {
         return { ...doc.data(), id: doc.id };
       });
 
-      data.sort((a, b) => (a.player > b.player ? 1 : -1));
-      // data.sort((a,b)=>a.role>b.role?1:-1)
+      console.log(data);
 
-      // 玩家分數記錄(準備將原始資料加入)
-      // 加入後成為
-      // {
-      //   "player": "A",
-      //   "gov": 30,
-      //   "cap": 300,
-      //   "middle": 10,
-      //   "labor": 20
-      // }
-      const scores = [
-        {
-          player: "A",
-          playerName: "馬克",
-          // total:100
-        },
-        {
-          player: "B",
-          playerName: "宜君",
-        },
-        {
-          player: "C",
-          playerName: "愷軒",
-        },
-        {
-          player: "D",
-          playerName: "欣妤",
-        },
-        // {
-        //   player: "E",
-        //   playerName: "合計",
-        //   gov: 100,
-        // },
-      ];
+      // [{
+      //     "date": "2025-10-04",
+      //     "player": "C",
+      //     "playerText": "愷軒",
+      //     "role": "cap",
+      //     "roleText": "資本",
+      //     "score": "122",
+      //     "id": "3yhwTgVFJLorxwZ5vSeM"
+      // }]
 
-      // 用玩家和角色取得分數
-      const getScore = (player, role) => {
-        const obj = data.find(
-          (obj) => obj.player == player && obj.role == role
+      return { data };
+
+    // 載入資料
+    case "CHANGE_SORT":
+      // 同一欄位重複按,反向排序
+      if (state.sortedColumn === action.column) {
+        return {
+          ...state,
+          data: state.data.slice().reverse(),
+          direction:
+            state.direction === "ascending" ? "descending" : "ascending",
+        };
+      }
+
+      // 第一次按遞增排序, 分數排序需先轉成數字
+      if (action.column == "score") {
+        state.data.sort((a, b) =>
+          Number(a[action.column]) > Number(b[action.column]) ? 1 : -1
         );
-
-        if (obj) {
-          return obj.score;
-        }
-        return 0;
-      };
-
-      // 玩家資料
-      const players = ["A", "B", "C", "D"];
-      // 角色資料
-      // const roles = ["gov", "cap", "middle", "labor"];
-      const roles = [
-        { id: "labor", name: "勞工" },
-        { id: "middle", name: "中產" },
-        { id: "cap", name: "資本" },
-        { id: "gov", name: "政府" },
-      ];
-
-      const getTotal = () => {};
-
-      // 用玩家角色取得分數
-      // 玩家迴圏
-      players.map((player) => {
-        // 取得玩家所在列
-        const index = scores.findIndex((row) => row.player == player);
-        // 角色迴圈
-        let sum = 0;
-        roles.map((role) => {
-          // 設定玩家角色的分數
-          const score = getScore(player, role.id);
-          scores[index][role.id] = score;
-          sum += Number(score);
-        });
-        scores[index].total = sum;
-      });
-
-      // let tempRow = {labor:0,playerName:"合計"};
-      // 記分版最後一列顯示各欄合計
-      let tempRow = { playerName: "角色平均" };
-      let tempRowTotal = 0;
-      // 角色迴圈
-      roles.map((role) => {
-        let sum = 0;
-        // 分數迴圈
-        let count = 0;
-        scores.map((score) => {
-          // 加總同角色分數
-          if (score[role.id]) {
-            sum += Number(score[role.id]);
-            count++;
-          }
-        });
-        if (sum > 0) tempRow[role.id] = Math.round(sum / count);
-        tempRowTotal += sum;
-      });
-      // tempRow.total = tempRowTotal
-      scores.push(tempRow);
+      } else {
+        state.data.sort((a, b) =>
+          a[action.column] > b[action.column] ? 1 : -1
+        );
+      }
 
       return {
         ...state,
-        data,
-        loading: false,
-        scores,
-        roles,
+        sortedColumn: action.column,
+        direction: "ascending",
       };
 
-    // 新增
-    case "ADD":
-      return {
-        ...state,
-        open: true,
-        rowIndex: -1,
-      };
-
-    // 儲存新增的資料
-    case "CREATE":
-      const docRef = await addDoc(collection(db, colName), {
-        ...row,
-      });
-      // 接收後端傳回的 id , 加入 row 至陣列
-      state.data.unshift({ ...row, id: docRef.id });
-
-      return {
-        ...state,
-        data: state.data,
-        open: false,
-        rowIndex: -1,
-      };
-
-    // 編輯
-    case "EDIT":
-      return { ...state, open: true, rowIndex: index };
-
-    // 更新
-    case "UPDATE":
-      await updateDoc(doc(db, colName, row.id), {
-        ...row,
-      });
-      Object.assign(state.data[state.rowIndex], row);
-      return {
-        ...state,
-        open: false,
-        data: state.data,
-        rowIndex: -1,
-      };
-
-    // 刪除
-    case "DELETE":
-      const id = action.payload.id;
-      await deleteDoc(doc(db, colName, id));
-      const dataDel = state.data.filter((obj) => obj.id != id);
-
-      return {
-        ...state,
-        data: dataDel,
-        open: false,
-        rowIndex: -1,
-      };
-
-    // 關閉表單
-    case "CLOSE":
-      return { ...state, open: false };
-  } // END SWITCH
+    // return {
+    //   ...state,
+    //   data: state.data.slice().reverse(),
+    //   sortedColumn: action.column,
+    //   direction: state.direction === "ascending" ? "descending" : "ascending",
+    // };
+  }
 };
