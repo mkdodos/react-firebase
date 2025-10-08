@@ -8,6 +8,7 @@ import {
   TableFooter,
 } from "semantic-ui-react";
 import { v4 as uuidv4 } from "uuid";
+import "./style.css"
 
 export default function PivotView({ data }) {
   console.log(data);
@@ -61,7 +62,7 @@ export default function PivotView({ data }) {
 
   return (
     <div>
-      <Table celled unstackable>
+      <Table celled unstackable className="scoreboard">
         <TableHeader>
           <TableRow>
             <TableHeaderCell>姓名/角色</TableHeaderCell>

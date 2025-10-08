@@ -1,0 +1,60 @@
+
+/* 標題列 th 樣式名稱 labor */
+.ui.celled.table.scoreboard th.labor {
+  border-color: #f75270;
+  border-width: 0px 0px 2px 0px;
+  color: #dc143c;
+  /* background-color: #F75270; */
+  /* color: red; */
+}
+
+/* 標題列 th 樣式名稱 labor */
+.ui.celled.table.scoreboard td.labor {
+  /* border-color: #f75270;
+  border-width: 0px 0px 2px 0px; */
+  color: #dc143c;  
+  font-weight: bold;
+}
+
+/* 標題列 th 樣式名稱 cap */
+.ui.celled.table.scoreboard th.cap {
+  color: #2185d0;
+  border-color: #2185d0;
+  border-width: 0px 0px 2px 0px;
+}
+
+.ui.celled.table.scoreboard td.cap {
+  color: #2185d0;
+  font-weight: bold;
+  /* border-color: #2185d0;
+  border-width: 0px 0px 2px 0px; */
+}
+
+/* 標題列 th 樣式名稱  */
+.ui.celled.table.scoreboard th.middle {
+  color: #ffa725;
+  border-color: #ffa725;
+  border-width: 0px 0px 2px 0px;
+}
+
+.ui.celled.table.scoreboard td.middle {
+  color: #ffa725;
+  font-weight: bold;
+  /* border-color: #ffa725;
+  border-width: 0px 0px 2px 0px; */
+}
+
+/* 標題列 th 樣式名稱 labor */
+.ui.celled.table.scoreboard th.gov {
+  color: gray;
+  border-color: gray;
+  border-width: 0px 0px 2px 0px;
+}
+
+.ui.celled.table.scoreboard td.gov {
+  color: gray;
+  font-weight: bold;
+  /* border-color: gray; */
+  /* border-width: 0px 0px 2px 0px; */
+}
+

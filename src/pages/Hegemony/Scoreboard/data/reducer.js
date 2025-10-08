@@ -1,11 +1,19 @@
 import { db } from "../../../../utils/firebase";
-import { collection, getDocs } from "firebase11/firestore/lite";
-
+import {
+  collection,
+  getDocs,
+  doc,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+} from "firebase11/firestore/lite";
 
 export const reducer = async (state, action) => {
   // 集合名稱
   const colName = "hegemonyScoreboard";
-
+  // 編輯列
+  const row = action.payload?.row;
+  const index = action.payload?.index;
   // 執行相關動作
 
   switch (action.type) {
@@ -34,6 +42,65 @@ export const reducer = async (state, action) => {
 
       return { data };
 
+    // 新增
+    case "ADD":
+      console.log("add");
+      return {
+        ...state,
+        open: true,
+        rowIndex: -1,
+      };
+
+    // 儲存新增的資料
+    case "CREATE":
+      console.log(row);
+      const docRef = await addDoc(collection(db, colName), {
+        ...row,
+      });
+      // 接收後端傳回的 id , 加入 row 至陣列
+      state.data.unshift({ ...row, id: docRef.id });
+
+      return {
+        ...state,
+        data: state.data,
+        open: false,
+        rowIndex: -1,
+      };
+
+    // 編輯
+    case "EDIT":
+      return { ...state, open: true, rowIndex: index };
+
+    // 更新
+    case "UPDATE":
+      await updateDoc(doc(db, colName, row.id), {
+        ...row,
+      });
+      Object.assign(state.data[state.rowIndex], row);
+      return {
+        ...state,
+        open: false,
+        data: state.data,
+        rowIndex: -1,
+      };
+
+    // 刪除
+    case "DELETE":
+      const id = action.payload.id;
+      await deleteDoc(doc(db, colName, id));
+      const dataDel = state.data.filter((obj) => obj.id != id);
+
+      return {
+        ...state,
+        data: dataDel,
+        open: false,
+        rowIndex: -1,
+      };
+
+    // 關閉表單
+    case "CLOSE":
+      return { ...state, open: false };
+
     // 排序
     case "CHANGE_SORT":
       // 同一欄位重複按,反向排序
@@ -58,10 +125,9 @@ export const reducer = async (state, action) => {
       }
 
       return {
-        ...state,        
+        ...state,
         sortedColumn: action.column,
         direction: "ascending",
       };
-   
   }
 };

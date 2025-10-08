@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import TableView from "./components/TableView";
 import PivotView from "./components/PivotView";
-// import EditForm from "./components/EditForm";
+import EditForm from "./components/EditForm";
 
 import { reducer } from "./data/reducer";
 import schema from "./data/schema.json";
@@ -21,8 +21,29 @@ export default function index() {
       dispatchState = async (action) => setState(await reducer(state, action));
     return [state, dispatchState];
   }
-
   const [state, dispatch] = useAsyncReducer(reducer, initState);
+
+  // 欄位預設值
+  const defaultRow = {};
+  const { columns } = schema;
+  columns.map((obj) => {
+    defaultRow[obj.dataKey] = "";
+  });
+
+  // 預設當日
+  defaultRow.date = new Date().toISOString().substring(0, 10);
+
+  const [row, setRow] = useState(defaultRow);
+
+  const handleAdd = () => {
+    dispatch({ type: "ADD" });
+    setRow(defaultRow);
+  };
+
+  const handleEdit = (row, index) => {
+    dispatch({ type: "EDIT", payload: { index } });
+    setRow(row);
+  };
 
   useEffect(() => {
     // 讀取資料
@@ -30,14 +51,6 @@ export default function index() {
   }, []);
 
   const panes = [
-    {
-      menuItem: "樞紐分析表",
-      render: () => (
-        <TabPane>
-          <PivotView data={state.data} />
-        </TabPane>
-      ),
-    },
     {
       menuItem: "分數登錄",
       render: () => (
@@ -47,18 +60,36 @@ export default function index() {
             state={state}
             dispatch={dispatch}
             columns={schema.columns}
+            handleAdd={handleAdd}
+            handleEdit={handleEdit}
           />
         </TabPane>
       ),
     },
-   
+    {
+      menuItem: "樞紐分析表",
+      render: () => (
+        <TabPane>
+          <PivotView data={state.data} />
+        </TabPane>
+      ),
+    },
   ];
 
   return (
     <>
-      <Tab panes={panes} menu={{ color:"teal", secondary: true, pointing: true }} />
+      <Tab
+        panes={panes}
+        menu={{ color: "teal", secondary: true, pointing: true }}
+      />
 
-      {/* <EditForm /> */}
+      <EditForm
+        columns={columns}
+        row={row}
+        setRow={setRow}
+        state={state}
+        dispatch={dispatch}
+      />
     </>
   );
 }
