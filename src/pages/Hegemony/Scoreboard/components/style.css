@@ -1,3 +1,8 @@
+/* 表格外框設為0,避免和 Tab 放一起時,太多框線 */
+.ui.celled.table.scoreboard {
+    /* border: 0px solid #000; */
+    border: 0px;
+}
 
 /* 標題列 th 樣式名稱 labor */
 .ui.celled.table.scoreboard th.labor {

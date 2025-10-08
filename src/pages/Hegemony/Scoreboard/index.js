@@ -80,7 +80,7 @@ export default function index() {
     <>
       <Tab
         panes={panes}
-        menu={{ color: "teal", secondary: true, pointing: true }}
+        menu={{ tabular: false, color: "teal", secondary: true, pointing: true }}
       />
 
       <EditForm
