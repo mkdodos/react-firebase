@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 import TableView from "./components/TableView";
+import PivotView from "./components/PivotView";
 // import EditForm from "./components/EditForm";
 
 import { reducer } from "./data/reducer";
 import schema from "./data/schema.json";
+
+import { TabPane, Tab } from "semantic-ui-react";
+import { collection } from "firebase11/firestore";
 
 export default function index() {
   // 預設資料物件
@@ -25,9 +29,35 @@ export default function index() {
     dispatch({ type: "LOAD" });
   }, []);
 
+  const panes = [
+    {
+      menuItem: "樞紐分析表",
+      render: () => (
+        <TabPane>
+          <PivotView data={state.data} />
+        </TabPane>
+      ),
+    },
+    {
+      menuItem: "分數登錄",
+      render: () => (
+        <TabPane>
+          {" "}
+          <TableView
+            state={state}
+            dispatch={dispatch}
+            columns={schema.columns}
+          />
+        </TabPane>
+      ),
+    },
+   
+  ];
+
   return (
     <>
-      <TableView state={state} dispatch={dispatch} columns={schema.columns} />
+      <Tab panes={panes} menu={{ color:"teal", secondary: true, pointing: true }} />
+
       {/* <EditForm /> */}
     </>
   );

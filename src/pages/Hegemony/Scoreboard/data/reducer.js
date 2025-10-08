@@ -1,6 +1,6 @@
 import { db } from "../../../../utils/firebase";
-
 import { collection, getDocs } from "firebase11/firestore/lite";
+
 
 export const reducer = async (state, action) => {
   // 集合名稱
@@ -34,7 +34,7 @@ export const reducer = async (state, action) => {
 
       return { data };
 
-    // 載入資料
+    // 排序
     case "CHANGE_SORT":
       // 同一欄位重複按,反向排序
       if (state.sortedColumn === action.column) {
@@ -46,7 +46,7 @@ export const reducer = async (state, action) => {
         };
       }
 
-      // 第一次按遞增排序, 分數排序需先轉成數字
+      // 第一次按做遞增排序(數字欄位排序需先轉成數字)
       if (action.column == "score") {
         state.data.sort((a, b) =>
           Number(a[action.column]) > Number(b[action.column]) ? 1 : -1
@@ -58,16 +58,10 @@ export const reducer = async (state, action) => {
       }
 
       return {
-        ...state,
+        ...state,        
         sortedColumn: action.column,
         direction: "ascending",
       };
-
-    // return {
-    //   ...state,
-    //   data: state.data.slice().reverse(),
-    //   sortedColumn: action.column,
-    //   direction: state.direction === "ascending" ? "descending" : "ascending",
-    // };
+   
   }
 };
