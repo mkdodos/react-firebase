@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import TableView from "./components/TableView";
 import PivotView from "./components/PivotView";
+import DayView from "./components/DayView";
 import EditForm from "./components/EditForm";
 
 import { reducer } from "./data/reducer";
 import schema from "./data/schema.json";
 
 import { TabPane, Tab } from "semantic-ui-react";
-import { collection } from "firebase11/firestore";
+
 
 export default function index() {
   // 預設資料物件
@@ -51,6 +52,19 @@ export default function index() {
   }, []);
 
   const panes = [
+    {
+      menuItem: "對戰組合",
+      render: () => (
+        <TabPane>
+          {" "}
+          <DayView
+            state={state}
+            dispatch={dispatch}          
+           
+          />
+        </TabPane>
+      ),
+    },
     {
       menuItem: "分數登錄",
       render: () => (
