@@ -4,6 +4,14 @@ import CardPrint from "./CardPrint";
 
 const panes = [
   {
+    menuItem: "卡片列印",
+    render: () => (
+      <TabPane>
+        <CardPrint />
+      </TabPane>
+    ),
+  },
+  {
     menuItem: "計分版",
     render: () => (
       <TabPane>
@@ -11,14 +19,7 @@ const panes = [
       </TabPane>
     ),
   },
-  {
-    menuItem: "卡片列印",
-    render: () => (
-      <TabPane>
-        <CardPrint />
-      </TabPane>
-    ),
-  }
+  
 ];
 
 export default function index() {

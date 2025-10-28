@@ -1,35 +1,1026 @@
 {
   "hegemony": [
     {
-      "id": "1",
-      "title": "Competive Wages",
-      "content": "選擇一間你沒有勞工的公司,將薪資調到L3,然後選擇一間同類型同勞工數的政府公司,將該公司的勞工指派到你這間公司",
+      "title": "Specialization",
       "class": "中產",
-      "requirement":"6A/6C"      
-    },
-     {
-      "id": "2",
-      "title": "COMPETITIVE WAGES",
-      "content": "有勞工的公司,將薪資調到L3,然後選擇一間同類型同勞工數的政府公司,將該公司的勞工指派到你這間公司",
-      "class": "資本家"      
-    },
-     {
-      "id": "3",
-      "title": "COMPETITIVE WAGES",
-      "content": "間你沒有勞工的公司,將薪資調到L3,然後選擇一間同類型同勞工數的政府公司,將該公司的勞工指派到你這間公司",
-      "class": "勞工"      
+      "content": "從供應堆拿取一個有技能的勞工工人到失業工人區然後僱用最多三個失業的勞工工人到你的公司",
+      "requirement": "7B/7C",
+      "legitimacy": "",
+      "date": "2025-08-22",
+      "id": "0YPANbQAikF7nTJhdJjO"
     },
     {
-      "id": "4",
-      "title": "COMPETITIVE WAGES",
-      "content": "間你沒有勞工的公司,將薪資調到L3,然後選擇一間同類型同勞工數的政府公司,將該公司的勞工指派到你這間公司",
-      "class": "政府"      
+      "date": "2025-08-06",
+      "id": "0cwHP5bnaMgPB8wV6vI4",
+      "title": "Growing Business",
+      "class": "資本家",
+      "content": "免費建造一個倉庫\n放在一個指定資源下方\n然後建立一個公司\n如果該間公司生產的資源\n和該倉庫資源相同\n可以少付4元\n\n"
     },
     {
-      "id": "5",
-      "title": "Foreign Market",
-      "content": "間你沒有勞工的公司,將薪資調到L3,然後選擇一間同類型同勞工數的政府公司,將該公司的勞工指派到你這間公司",
-      "class": "勞工"      
+      "title": "bbb",
+      "class": "勞工",
+      "content": "",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-09-01",
+      "id": "0iOZ4HIuDQXw5Ir3Gv3f"
+    },
+    {
+      "title": "Labor Market Deregulation",
+      "class": "勞工",
+      "content": "僱用任意數量的事業功能如果現在的政策是2C的話你可以將任一間公司的人重新僱用到其他公司",
+      "requirement": "2B/2C",
+      "legitimacy": "",
+      "date": "2025-08-22",
+      "id": "1LrBUOvhy2I6uEbtW89V"
+    },
+    {
+      "title": "Unemployment Initiative Program",
+      "class": "資本家",
+      "content": "顧用失業工人到一間你為營業的公司每雇用一個工人和政府拿取5塊",
+      "requirement": "4A/4B",
+      "legitimacy": "+1",
+      "date": "2025-08-22",
+      "id": "1hY1R1XRAk6C8HjoyyX9"
+    },
+    {
+      "title": "aaa",
+      "class": "勞工",
+      "content": "",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-09-01",
+      "id": "1l32weaZm6SQesFi3tXs"
+    },
+    {
+      "title": "Foreign Market Insight",
+      "date": "2025-08-06",
+      "id": "21HXfUsvcuCJr8tD5l1O",
+      "content": "翻開2張出口卡\n選擇1張換掉現在的出口卡\n其餘卡丟棄\n然後,你可以做一次出售到國外的動作",
+      "class": "資本家"
+    },
+    {
+      "title": "Export Subsidy",
+      "content": "出口每筆交易向政府收5元",
+      "requirement": "1A/1B",
+      "date": "2025-08-08",
+      "legitimacy": "滿意度",
+      "id": "2e1Pk8K6ZW4eBY3BROsV",
+      "class": "中產"
+    },
+    {
+      "title": "Small Business Grant",
+      "class": "中產",
+      "content": "蓋一間公司政府幫你付錢",
+      "requirement": "1A/1B",
+      "legitimacy": "+1",
+      "date": "2025-08-22",
+      "id": "3lY4DOTQiZ9W1KQj5cbx"
+    },
+    {
+      "class": "政府",
+      "content": "看牌庫頂的兩張事件卡，如果能夠的話，放置到遊戲版上，然後執行一次事件行動",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-09-15",
+      "id": "3mqyTe1nP3FF8NUC0aJu",
+      "title": "A matter of high priority"
+    },
+    {
+      "class": "政府",
+      "content": "每個玩家付15元給政府然後選擇任意兩個階級獲得-1的滿意度",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-09-15",
+      "id": "4uQNVgaIwym0yFzkSqMz",
+      "title": "Higher Vat"
+    },
+    {
+      "title": "Global Food Crisis",
+      "class": "資本家",
+      "content": "賣資源給國外市場你還可以賣最多四個食物給銀行每個的價錢是15元",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-08-22",
+      "id": "5APdLNExHy2wyNmo05Fm"
+    },
+    {
+      "title": "Industrialization",
+      "class": "資本家",
+      "content": "建造一間藍色或綠色的公司支付一半的價錢（向上取整）剩下的價錢由政府幫你支付",
+      "requirement": "1A/1B",
+      "legitimacy": "+1",
+      "date": "2025-08-22",
+      "id": "5CLhliZLdZPavWUQLhkF"
+    },
+    {
+      "title": "Supplemental Income Program",
+      "class": "政府",
+      "content": "你在公司上班的每個人可以跟政府拿一塊錢然後買東西",
+      "legitimacy": "每10人+1",
+      "date": "2025-08-18",
+      "id": "5h3e6GuE7GPGMwnYn4Ot",
+      "requirement": "2B/2C"
+    },
+    {
+      "title": "Step for representation",
+      "class": "政府",
+      "content": "提供一個私人影響力和兩個投票方塊給一個玩家獲得加2的滿意度",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-09-15",
+      "id": "8EtREOfzCFLFOuH7sGL8"
+    },
+    {
+      "title": "Specialization",
+      "class": "勞工",
+      "content": "從供應堆選擇一個有技能的功能放置到失業工人區然後僱用最多三個工人",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-08-19",
+      "id": "8JA7Emi7CcWAPyrOHtcG"
+    },
+    {
+      "title": "Allowances and subsidy",
+      "class": "政府",
+      "content": "提供20元給任意一個階級，獲得一個滿意度",
+      "requirement": "",
+      "legitimacy": "標記",
+      "date": "2025-09-15",
+      "id": "8qDgrbvW8tTT5OxBr1RM"
+    },
+    {
+      "title": "Signing Bonus",
+      "class": "勞工",
+      "content": "僱用最多四個工人每個工人可以和公司擁有者獲得4元",
+      "requirement": "2B/2C",
+      "legitimacy": "",
+      "date": "2025-08-22",
+      "id": "8vCpZLmNzAASd5JCiIy4"
+    },
+    {
+      "title": "State Scholarship",
+      "class": "勞工",
+      "content": "和政府購買教育最多等同於你的人口支付一半的價錢(向上取整)",
+      "requirement": "5B/5C",
+      "legitimacy": "",
+      "date": "2025-08-22",
+      "id": "9XT6xui74REVBGGsSdS7"
+    },
+    {
+      "title": "Unemployment Benefits ",
+      "class": "勞工",
+      "content": "執行一次罷工你每擁有一個工會你可以再執行一次罷工",
+      "requirement": "4A/4B",
+      "legitimacy": "每3個工人+1",
+      "date": "2025-08-22",
+      "id": "9oD67wpTjTgithugVrVp"
+    },
+    {
+      "title": "Radical Reforms",
+      "class": "勞工",
+      "content": "發起一個投票你可以將投票指示物放置到任意位置你不能使用影響力將這場投票式為立即性",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-08-22",
+      "id": "9rb9NQI88wy94c2Qz6vR"
+    },
+    {
+      "title": "Foreign Parner",
+      "class": "資本家",
+      "content": "製作一筆商業交易你可以賣食物或者是奢食品到國外市場",
+      "requirement": "6B/6C",
+      "legitimacy": "",
+      "date": "2025-08-22",
+      "id": "9sQbfKguaPpJZa18LQta"
+    },
+    {
+      "title": "New Theme Park",
+      "class": "中產",
+      "content": "你每擁有一個人口支付6塊獲得一個幸福指數",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-08-21",
+      "id": "AeuSHwvEEMIRoVBjnibt"
+    },
+    {
+      "title": "Public Sector Overtime",
+      "class": "勞工",
+      "content": "選擇一間政府的營業公司政府必須付給工人薪水接著生產貨物",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-08-19",
+      "id": "B5jpErQEnsWkptIDwmID"
+    },
+    {
+      "title": "Business Expansion",
+      "class": "資本家",
+      "content": "建造兩間公司然後增加兩間新公司到市場",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-08-22",
+      "id": "Coj2Tp7bxTxkIk809d9C"
+    },
+    {
+      "title": "Affordable Housing",
+      "class": "勞工",
+      "content": "付20塊給資本家獲得5分或給中產階級10塊獲得3分",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-08-21",
+      "id": "DVAHAHAlPCY4CBQ7DgSW"
+    },
+    {
+      "title": "Pressing matters",
+      "class": "政府",
+      "content": "提出一場投票，你可以不用花費影響力就立刻投",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-09-15",
+      "id": "E6mVkwmwc46l8ygKO8OJ"
+    },
+    {
+      "title": "Growing Business",
+      "class": "中產",
+      "content": "建造一間免費的倉庫接著蓋一間公司如果那個公司生產的東西和你倉庫放的位置一樣的話少支付4元",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-08-21",
+      "id": "Ex9iUzCkYvz7I8EvisO7"
+    },
+    {
+      "title": "Unemployment Initiative Program",
+      "class": "中產",
+      "content": "僱用最多三個失業勞工工人到你的公司你每雇用一個工人和政府獲得5塊",
+      "requirement": "4A/4B",
+      "legitimacy": "+1",
+      "date": "2025-08-21",
+      "id": "Feudyop9d2toL03FCyk3"
+    },
+    {
+      "title": "Agenda setting",
+      "class": "政府",
+      "content": "每個符合你的政策卡的政策或得一個影響力到你的私人區",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-09-15",
+      "id": "GKQLxe8QXX5e7yctHqb5"
+    },
+    {
+      "title": "State Scholaship",
+      "class": "中產",
+      "content": "和政府購買教育最多等同於你的人口支付一半的價錢（向上取整）",
+      "requirement": "5B/5C",
+      "legitimacy": "+1",
+      "date": "2025-08-21",
+      "id": "HC4hMB0tbCrrtZU3pkZE"
+    },
+    {
+      "class": "政府",
+      "content": "每個符合你政策卡的政策獲得10元",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-09-15",
+      "id": "HcloQVzZZ2mztekSSHnR",
+      "title": "Foreign financial assistance"
+    },
+    {
+      "title": "Literacy Program",
+      "class": "政府",
+      "content": "提供醫療給一個玩家等同於他的人口獲得加一的滿意度",
+      "requirement": "5A/5B",
+      "legitimacy": "中產標記/勞工標記",
+      "date": "2025-09-15",
+      "id": "InaJ04FLxEAqznNNrhpF"
+    },
+    {
+      "title": "Foreign Market Insight",
+      "class": "中產",
+      "content": "你可以抽一張出口卡接著你可以決定是否要將原本的出口卡替換為這一張接著賣給國外市場然後每筆交易你可以執行兩次",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-08-22",
+      "id": "JBKD0xBOtFPwejwQRA9p"
+    },
+    {
+      "title": "Need For Change",
+      "class": "勞工",
+      "content": "發起兩個投票",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-08-21",
+      "id": "JEBvetpIeMVwpEWitDju"
+    },
+    {
+      "title": "Higher Vat",
+      "class": "政府",
+      "content": "每個玩家付15元給政府然後選擇任意兩個階級獲得-1的滿意度",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-09-15",
+      "id": "JfNuCMjBI9qAbiNzNOZ9"
+    },
+    {
+      "title": "Immigration Reform",
+      "class": "勞工",
+      "content": "增加兩個投票方塊的袋子然後發起一個移民投票",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-08-19",
+      "id": "Jr6DUHtKt0t3APnQH7yc"
+    },
+    {
+      "title": "Trade Protectionism Lobby",
+      "class": "資本家",
+      "content": "增加兩個投票方塊裡面擁有一間綠色的公司增加一個投票方塊如果現在的政策是6A你每有一個藍色公司增加一個方塊",
+      "requirement": "6A/6B",
+      "legitimacy": "",
+      "date": "2025-08-22",
+      "id": "K2QrP5fxQDMRwCwydWQ9"
+    },
+    {
+      "title": "Healthcare Movement",
+      "class": "勞工",
+      "content": "增加兩個方塊到袋子然後發起一個第四項的投票",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-08-19",
+      "id": "K5iXs96HfYCJb0Nf3Yy2"
+    },
+    {
+      "title": "Boost Domestic Tourism",
+      "class": "勞工",
+      "content": "和一位玩家購買奢侈品最多等同於你的人口支付一半的價錢（向上取整）剩下的一半由政府幫你出錢",
+      "requirement": "1A/1B",
+      "legitimacy": "",
+      "date": "2025-08-22",
+      "id": "Ksh91dybkpJDmmNTLvD3"
+    },
+    {
+      "date": "2025-08-05",
+      "id": "KzZ6SFcu5EoDhos30HOy",
+      "class": "資本家",
+      "title": "Competitive Wages",
+      "content": "選擇一間你沒有勞工的公司,將薪資調到L3,然後選擇一間同類型同勞工數的政府公司\n將該公司的勞工指派到你這間公司"
+    },
+    {
+      "title": "A matter of high priority",
+      "class": "政府",
+      "content": "看牌庫頂的兩張事件卡，如果能夠的話，放置到遊戲版上，然後執行一次事件行動",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-09-15",
+      "id": "LU0nyq28Pw8kmTWAvtbq"
+    },
+    {
+      "date": "2025-08-05",
+      "id": "LiG1Ks88IKXFbW2uyv70",
+      "title": "TAP Into New Markets",
+      "class": "資本家",
+      "content": "加入2個投票方塊到袋子\n然後發起國外貿易投票"
+    },
+    {
+      "title": "Small Business Grant",
+      "class": "中產",
+      "content": "蓋一間公司政府幫你付錢",
+      "requirement": "1A/1B",
+      "legitimacy": "+1",
+      "date": "2025-08-21",
+      "id": "Ltfx4Zq5PGXqn8qUec4L"
+    },
+    {
+      "title": "Radical Reforms",
+      "class": "資本家",
+      "content": "發起一場投票你可以教你的投票指數放置到任意位置你不能使用影響力來將這場投票式為立即性",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-08-22",
+      "id": "MJOCHiEK8I3rgZCiwtnB"
+    },
+    {
+      "title": "Investment Opportunities",
+      "class": "中產",
+      "content": "建造一間公司少支付8元或者從公司排隊選擇一張公司建造多支付8元",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-08-22",
+      "id": "MNDxkOdrxL39lC0FVTPo"
+    },
+    {
+      "title": "Workplace Accident",
+      "class": "勞工",
+      "content": "選擇一個資源種類每個玩家只要擁有你選擇的那個資源種類的公司每一間必須支付你8元",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-08-22",
+      "id": "MUaCJ7UqC9vtNxiG9ENQ"
+    },
+    {
+      "title": "Public Opinion Polling",
+      "class": "勞工",
+      "content": "發起一次投票然後抽5個方塊你可以將這場投票是為立即性的且不用付影響離如果你那麼做的話使用抽出來的那五個方塊當作這一次投票的結果如果不要的話將那些方塊全部都收回袋子",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-08-19",
+      "id": "NUEhgK96eWUnXYGoCCe5"
+    },
+    {
+      "title": "Buy Private Island",
+      "class": "資本家",
+      "content": "從資本拿50元給政府\n得到7分",
+      "date": "2025-08-06",
+      "id": "P8rDszWn5DSX0fQ4bsJ0"
+    },
+    {
+      "title": "Taxed Enough Already",
+      "class": "資本家",
+      "content": "增加兩個投票方塊然後發起一場第三項的投票",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-08-22",
+      "id": "PBjeL8c9cm3TpNWd4CWR"
+    },
+    {
+      "title": "Foreign financial assistance ",
+      "class": "政府",
+      "content": "每個符合你政策卡的政策獲得10元",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-09-15",
+      "id": "PLWYBTInjjr5uNz5528a"
+    },
+    {
+      "title": "Healthcare Program",
+      "class": "政府",
+      "content": "提供健康給一個玩家等同於他的人口獲得加一滿意度",
+      "legitimacy": "",
+      "date": "2025-09-15",
+      "id": "PguSJ5ebSf3zsuTmEMSl",
+      "requirement": "4A/4B"
+    },
+    {
+      "title": "Quantitative easing ",
+      "class": "政府",
+      "content": "獲得25元如果你擁有貸款獲得35元",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-09-15",
+      "id": "PoL9UnQfh7nXJwDIzKYi"
+    },
+    {
+      "title": "Supplemental Income Program",
+      "content": "選擇一個階級提供他上班人口乘以1的錢給他，每提供10元可以獲得加一個滿意度",
+      "requirement": "2B/2C",
+      "legitimacy": "",
+      "date": "2025-09-15",
+      "id": "Q16rhl84iNr3cs9NNoK4",
+      "class": "政府"
+    },
+    {
+      "class": "政府",
+      "content": "每個符合你的政策卡的政策或得一個影響力到你的私人區",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-09-15",
+      "id": "QB2CQ4WHEraPE0HLPhqx",
+      "title": "Agenda setting"
+    },
+    {
+      "title": "Interest Groups",
+      "class": "資本家",
+      "content": "從袋子抽投票方塊,直到你抽到3個其他玩家顏色的方塊\n將這3個方塊丟棄\n然後放進3個你的投票方塊",
+      "date": "2025-08-06",
+      "id": "QKp03syqXbPc9lEBiZwi"
+    },
+    {
+      "title": "Interest Groups",
+      "class": "中產",
+      "content": "抽取投票方塊直到出現三個和你顏色不同的投票方塊將那三個投標方塊移除加入你的三個投票方塊",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-08-21",
+      "id": "RC48AQdCxRbqZnpHiDCL"
+    },
+    {
+      "title": "Workers Movement",
+      "class": "勞工",
+      "content": "增加兩個投票方塊然後發起一個第二項的投票",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-08-22",
+      "id": "Ssm4ylcTFQLWr3yIOyG3"
+    },
+    {
+      "title": "Higher Education Program",
+      "class": "中產",
+      "content": "賣最多6個教育給政府\n每個10元",
+      "requirement": "",
+      "legitimacy": "每3個教育",
+      "date": "2025-08-08",
+      "id": "U1Qb2uhugymDInYXEqNc"
+    },
+    {
+      "title": "Public Sector Overtime",
+      "class": "中產",
+      "content": "選擇一間政府的營業公司政府必須付給工人薪水然後生產物品你還可以和政府購買物品等同於生產數量",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-08-21",
+      "id": "VR7qNT9kNIC0xSD4QxXi"
+    },
+    {
+      "title": "Emergecy State",
+      "content": "如果場上至少有3個已發起的投票發起一場投票立刻通過",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-09-15",
+      "id": "WiTaeo25ssU7V8AaTUPG",
+      "class": "政府"
+    },
+    {
+      "title": "Nationalization",
+      "class": "政府",
+      "legitimacy": "",
+      "date": "2025-09-15",
+      "id": "XdCGwhPGo7bXu0pWxPFJ",
+      "requirement": "1A/1B",
+      "content": "移除你的一家未營業公司,從資本家拿一間未營業且沒有齒輪的公司到政府區域,你可以僱用任意數量的工人到該公司,如果現在的政策是1b，要付該公司價錢給資本家"
+    },
+    {
+      "title": "Public sector overtime",
+      "class": "勞工",
+      "content": "選擇一間政府的營業公司政府必須付給工人薪水然後生產貨物你還可以和政府購買等同於他生產貨物數量的貨物",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-08-22",
+      "id": "Y7gM4QfsUJQotx8lpf5V"
+    },
+    {
+      "title": "Business Grants",
+      "class": "資本家",
+      "content": "你每擁有一間公司可以和政府拿取五塊",
+      "requirement": "1A/1B",
+      "legitimacy": "每3間公司+1",
+      "date": "2025-08-22",
+      "id": "Y9WRWzw7xyghgDt8ORnd"
+    },
+    {
+      "class": "政府",
+      "content": "提供20元給任意一個階級，獲得一個滿意度",
+      "requirement": "",
+      "date": "2025-09-15",
+      "id": "YMiIkUujRooVDMZfKFTi",
+      "title": "Allowances and subsidy",
+      "legitimacy": "標記"
+    },
+    {
+      "title": "Technological Progress",
+      "class": "資本家",
+      "content": "付20元得到1個齒輪\n或\n付45元得到2個齒輪",
+      "date": "2025-08-07",
+      "id": "YPI9lammHKBFqFERI3a8"
+    },
+    {
+      "title": "Immediate response",
+      "class": "政府",
+      "content": "選擇一張事件卡執行兩次（可以分別提供資源給不同的玩家）",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-09-15",
+      "id": "YTkRKBzDyGK8Sj1WWiZR"
+    },
+    {
+      "class": "中產",
+      "requirement": "1A/1B",
+      "date": "2025-08-08",
+      "id": "ZA0HQoaipVj6eknvy480",
+      "content": "你每間有勞工的公司,可以向政府收取5元\n然後選擇其中一間做加班",
+      "title": "Employment Subsidy",
+      "legitimacy": "每3間公司"
+    },
+    {
+      "title": "Supplemental Income Program",
+      "class": "中產",
+      "content": "你每個在資本家和政府上班的工人和政府獲得兩塊接著你還可以購買資源",
+      "requirement": "2B/2C",
+      "legitimacy": "每5個工人+1",
+      "date": "2025-08-22",
+      "id": "acLuRNFem9s3fb02Dq7x"
+    },
+    {
+      "title": "Medical tourism",
+      "class": "政府",
+      "content": "販售最多8個健康給國外市場參考本地價錢",
+      "legitimacy": "",
+      "date": "2025-09-15",
+      "id": "aiBZgZME8Mudp9lHTnjz",
+      "requirement": "1A/1B"
+    },
+    {
+      "title": "Employment support scheme",
+      "class": "政府",
+      "content": "提供15塊給勞工和中產階級",
+      "requirement": "",
+      "legitimacy": "+1",
+      "date": "2025-09-15",
+      "id": "aqcKQvM3fg5ZZG28DcTr"
+    },
+    {
+      "title": "Migration",
+      "class": "中產",
+      "content": "如果你有至少4個失業勞工\n移除最多2個,每個移除的勞工可以讓你得到\n灰色勞工 5 元\n有色勞工10元",
+      "date": "2025-08-06",
+      "id": "ayeuOfz6j8cihqtWUQ1m"
+    },
+    {
+      "title": "Business Grants",
+      "class": "政府",
+      "content": "資本家美每有一間公司你就必須提供他5塊",
+      "requirement": "1A/1B",
+      "legitimacy": "每3間公司+1",
+      "date": "2025-09-15",
+      "id": "bPZagPYnLCxD9aYwjjnR"
+    },
+    {
+      "title": "Voice of Middle Class Workers",
+      "class": "中產",
+      "content": "增加等同於你在政府和資本家上班的公司數量加2的投票方塊到袋子裡",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-08-21",
+      "id": "bb3ikf4080p18YgdQNwk"
+    },
+    {
+      "title": "Interest Groups",
+      "content": "從袋子裡抽出方塊直到有和自己不一樣的三個方塊將那些方塊替換為你自己的方塊",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-08-18",
+      "id": "bfHQjY00VfIFQQrf5ZWC",
+      "class": "勞工"
+    },
+    {
+      "title": "Unemployment initiative program",
+      "class": "政府",
+      "content": "顧用失業工人到你的一家未營業公司",
+      "requirement": "4A/4B",
+      "legitimacy": "",
+      "date": "2025-09-15",
+      "id": "eAF7bbW0AL7ZcOrVWJSH"
+    },
+    {
+      "title": "Proletarians of the world",
+      "class": "勞工",
+      "content": "增加等同於你的人口的方塊到袋子",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-08-22",
+      "id": "esb6bJv1sivfnWgsxEue"
+    },
+    {
+      "class": "政府",
+      "content": "選擇一張事件卡執行兩次（可以分別提供資源給不同的玩家）",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-09-15",
+      "id": "fCftTxKL7lD3dZ0M4cYj",
+      "title": "Immediate response"
+    },
+    {
+      "title": "Personal Consumption",
+      "class": "中產",
+      "date": "2025-08-06",
+      "id": "fLYqHZTXGhUzjUfgBsxT",
+      "content": "從任意地方購買資源,每個地方可購買數量等於你的人口數\n或者\n從一個地方購買資源,可購買數量等於你的人口數*2\n"
+    },
+    {
+      "title": "Employment Subsidy",
+      "class": "中產",
+      "content": "每個在你公司上班的勞工工人可以和政府拿5塊接著你可以再有勞工工人的公司加班",
+      "requirement": "1A/1B",
+      "legitimacy": "每3間公司+1",
+      "date": "2025-08-21",
+      "id": "fjO73W6oN11QmaoPBxjJ"
+    },
+    {
+      "title": "Global Branding",
+      "class": "資本家",
+      "content": "賣物資源到國外市場你可以再賣給銀行最多6支手機每一支價錢是10元",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-08-22",
+      "id": "h5qyXoywjAItpeKUvVKY"
+    },
+    {
+      "title": "Geopolitical Support",
+      "class": "政府",
+      "content": "獲得金錢等同於6的政策a得到15元b獲得30元C獲得15元",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-09-15",
+      "id": "i1WeE1XchMJR1E4ewbNq"
+    },
+    {
+      "title": "Highlight Social Issues",
+      "class": "中產",
+      "content": "跟政府買三個影響力付15塊",
+      "requirement": "",
+      "legitimacy": "+1",
+      "date": "2025-08-22",
+      "id": "ii90kBXtR1NMGRWqcu5J"
+    },
+    {
+      "class": "政府",
+      "content": "提出一場投票，你可以不用花費影響力就立刻投",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-09-15",
+      "id": "jJy24VmPPKinBAiusUyR",
+      "title": "Pressing matters"
+    },
+    {
+      "title": "Import Subsidy",
+      "class": "中產",
+      "content": "你可以和國外市場買食物或者是奢侈品最多等同於的人口不用付稅給政府",
+      "requirement": "6A/6B",
+      "legitimacy": "每4份資源+1",
+      "date": "2025-08-21",
+      "id": "k8CnPuysqOpjrws1XB2j"
+    },
+    {
+      "title": "Supplemental Income Program",
+      "class": "勞工",
+      "content": "你每個在上班的人跟政府拿一塊然後還可以買東西",
+      "requirement": "2B/2C",
+      "legitimacy": "每10個工人+1",
+      "date": "2025-08-22",
+      "id": "kWSfq7VXIbdnZ74GwvNc"
+    },
+    {
+      "title": "Healthcare Progame",
+      "class": "政府",
+      "content": "提供健康給一個玩家等同於他的人口獲得加一滿意度",
+      "legitimacy": "",
+      "date": "2025-09-15",
+      "id": "lakRK9UWbs4S8f2sg6Wb",
+      "requirement": "4A/4B"
+    },
+    {
+      "title": "Foreign students",
+      "class": "政府",
+      "content": "出售最多8個教育給國外市場參考本地價錢",
+      "legitimacy": "",
+      "date": "2025-09-15",
+      "id": "lk4C8pW3394XEL3tuqVB",
+      "requirement": "1A/1B"
+    },
+    {
+      "title": "Healthcare Benefits",
+      "class": "勞工",
+      "content": "和政府購買健康最多等同於你的人口支付一半的價錢（向上取整）",
+      "requirement": "4B/4C",
+      "legitimacy": "勞工滿意度+1",
+      "date": "2025-08-18",
+      "id": "mmxAzv9WynZoq0BYb3Es"
+    },
+    {
+      "title": "Shift Focus",
+      "class": "政府",
+      "content": "看牌庫頂的兩張事件卡可以選擇一張替換到原有的事件卡接著執行一次事件行動",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-09-15",
+      "id": "ngny430HuWabpViLEupr"
+    },
+    {
+      "title": "Migration",
+      "class": "中產",
+      "content": "如果你擁有至少4個失業工作者移除最多兩個工人每一移除一個沒有技能的功能獲得5塊每移除一個有技能的工作者獲得10塊",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-08-21",
+      "id": "nz7OiJFmbBjDo1UfBGNt"
+    },
+    {
+      "title": "Public sector overtime",
+      "class": "政府",
+      "content": "選擇一間你的公司支付給工人薪水然後生產",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-09-15",
+      "id": "o2U1z9RvcKceqjkl1bEQ"
+    },
+    {
+      "title": "Growth in tourism",
+      "content": "政府、中產階級、資本家階級各得15塊",
+      "requirement": "",
+      "legitimacy": "中產資本+1",
+      "date": "2025-09-15",
+      "id": "o2XD3EhpiWK05IQIqrEf",
+      "class": "政府"
+    },
+    {
+      "title": "Immigration Reform",
+      "class": "中產",
+      "content": "增加兩個投票放快到袋子裡然後發起一個第七項的投票",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-08-21",
+      "id": "ofQixhhPwX2bjd5rar0Z"
+    },
+    {
+      "title": "Competitive Wages",
+      "class": "資本家",
+      "content": "將你的一間會營業公司調成L3的薪水然後選擇一間政府公司他的人數要和你選擇的那一間公司人數一樣將那些工作者移來你的公司",
+      "requirement": "2B/2C",
+      "legitimacy": "",
+      "date": "2025-08-22",
+      "id": "pPcxcQ0bBwhA58LiDdil"
+    },
+    {
+      "title": "Unemployment Initiative Program",
+      "class": "資本家",
+      "content": "指派失業勞工到你公司上班\n向政府拿取 指派的勞工數 * 5元",
+      "requirement": "4A/4B",
+      "date": "2025-08-08",
+      "id": "pVN9P3Jgyy51uTEzzTsl",
+      "legitimacy": "滿意度"
+    },
+    {
+      "title": "Land Of Opportunity",
+      "class": "中產",
+      "content": "建立一間公司,可以從供應堆拿一個你的有顏色工人",
+      "requirement": "7B/7C",
+      "legitimacy": "",
+      "date": "2025-08-08",
+      "id": "qNbj8r51Y4j1X2g3m79A"
+    },
+    {
+      "title": "Export Subsidy",
+      "class": "中產",
+      "content": "賣物品給國外市場沒比交易可以讓你衝政府拿取5塊",
+      "requirement": "1A/1B",
+      "legitimacy": "+1",
+      "date": "2025-08-21",
+      "id": "qUhZFuDSZadLV5T1N20C"
+    },
+    {
+      "title": "Radical reforms",
+      "class": "政府",
+      "content": "發起一場投票你可以將投票標記放置到任意位置",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-09-15",
+      "id": "qc0yZHjqAPgamyrybgwE"
+    },
+    {
+      "title": "Student Movement",
+      "class": "勞工",
+      "content": "增加兩個投票方塊然後發起一個第五項的投票",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-08-22",
+      "id": "s8tlkfT6CCB5puJRjZSE"
+    },
+    {
+      "title": "Denial of Free Speech",
+      "class": "政府",
+      "content": "從媒體區移動兩個影響力到你的私人區域然後選擇最多兩個其他的玩家每個玩家要給予你一個影響力然後每個給你影響力的玩家都必須扣一個滿意度",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-09-15",
+      "id": "sBnNeFOvJ8tfHcElJv1U"
+    },
+    {
+      "title": "Highlight Social Issues",
+      "class": "勞工",
+      "requirement": "",
+      "date": "2025-08-18",
+      "id": "sguV9RhD7zBJkYKyfR3F",
+      "legitimacy": "勞工滿意度+1",
+      "content": "和政府買三個影響力支付\n15塊\n"
+    },
+    {
+      "title": "Cooperative Farm",
+      "class": "勞工",
+      "content": "顧用三個灰色的人到你的公司",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-08-21",
+      "id": "skS3XncUOKysIiACB7AN"
+    },
+    {
+      "class": "勞工",
+      "content": "從袋子裡抽6個投票方塊然後丟棄最多四個投票方塊然後把剩下的放回袋子裡",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-08-22",
+      "id": "uGx4GQFm1drZf85rRoWp",
+      "title": "Fake News"
+    },
+    {
+      "title": "Health Crisis",
+      "class": "中產",
+      "content": "最多賣6個愛心給政府然後每一個愛心賣10塊",
+      "requirement": "",
+      "legitimacy": "每3個愛心",
+      "date": "2025-08-22",
+      "id": "uPlhFTgUVqpQ2dBAvp6Q"
+    },
+    {
+      "title": "Fake News",
+      "class": "勞工",
+      "content": "從袋子裡做出6個投票方塊然後移除最多4個把剩下的放到袋子裡",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-08-21",
+      "id": "ujDVFSmEpfFlE354i0GA"
+    },
+    {
+      "title": "Construction boom",
+      "class": "政府",
+      "content": "政府、勞工、資本家各得15元",
+      "requirement": "",
+      "legitimacy": "勞工資本+1",
+      "date": "2025-09-15",
+      "id": "vHEwT2LTu93gEXHocHNR"
+    },
+    {
+      "title": "Healthcare Benefit",
+      "class": "勞工",
+      "content": "和政府購買健康最多等同於你的人口支付一半的價錢（向上取整）",
+      "requirement": "4B/4C",
+      "legitimacy": "+1",
+      "date": "2025-08-22",
+      "id": "wfgFNoiPTE5iegs36Zki"
+    },
+    {
+      "content": "提供一個私人影響力和兩個投票方塊給一個玩家獲得加2的滿意度",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-09-15",
+      "id": "wroYcOHHnMm9uAt1aexN",
+      "title": "Step for representation",
+      "class": "政府"
+    },
+    {
+      "class": "政府",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-09-15",
+      "id": "xA7wnvLCGAWz59RewFlm",
+      "title": "Public sector overtime",
+      "content": "選擇一間你的公司支付給工人薪水然後生產"
+    },
+    {
+      "title": "Privatization",
+      "class": "政府",
+      "content": "出售你的一間營業公司給資本家然後獲得價錢",
+      "date": "2025-09-15",
+      "legitimacy": "資本家標記",
+      "id": "ywf2BgYhk2klCd9gL15m",
+      "requirement": "1B/1C"
+    },
+    {
+      "title": "Land of Oppotunity",
+      "class": "中產",
+      "content": "該間公司從公營隊拿取一個中產階級的工人僱用到該公司",
+      "requirement": "7B/7C",
+      "legitimacy": "",
+      "date": "2025-08-21",
+      "id": "z326LRh0pgd6bMp7MImk"
+    },
+    {
+      "date": "2025-08-05",
+      "id": "z3JZnMRaUXVskYVj5LYI",
+      "title": "Fake News",
+      "class": "中產",
+      "content": "從袋子抽出6個投票方塊\n移除最多4個,其餘放回袋子"
+    },
+    {
+      "title": "Exit Strategy",
+      "class": "資本家",
+      "content": "出售你的一家非自動化公司,得到2倍金額",
+      "date": "2025-08-07",
+      "id": "zCAFQPxLhULmJGdwh66D"
+    },
+    {
+      "legitimacy": "",
+      "date": "2025-08-16",
+      "id": "zNWBDp9OfOw1yz0oVxk0",
+      "requirement": "2B/2C",
+      "title": "Labor Market Deregulation",
+      "content": "僱用任意數量的失業工人如果現在是2c的話你可以從一間公司重新僱用到另一間公司",
+      "class": "勞工"
+    },
+    {
+      "title": "Personal Consumption",
+      "class": "中產",
+      "content": "可以和任意數量的玩家購買物品或者和一位玩家購買等同於你兩倍人口的物品",
+      "requirement": "",
+      "legitimacy": "",
+      "date": "2025-08-21",
+      "id": "zcDMB1YLpQu24aWqPuK6"
     }
   ]
 }

@@ -8,43 +8,10 @@
       "viewable": "true",
       "width":"4"
     },
-
-     {
-      "dataKey": "class",
-      "title": "階級",
-      "type": "text",
-      "editable": "true",
-      "viewable": "true",
-      "width":"2"
-    },
     {
       "dataKey": "content",
       "title": "內容",
       "type": "text",
-      "editable": "true",
-      "viewable": "true",
-      "width":"7"
-    },
-    {
-      "dataKey": "requirement",
-      "title": "條件",
-      "type": "text",
-      "editable": "true",
-      "viewable": "true",
-      "width":"7"
-    },
-    {
-      "dataKey": "legitimacy",
-      "title": "滿意度",
-      "type": "text",
-      "editable": "true",
-      "viewable": "true",
-      "width":"7"
-    },
-    {
-      "dataKey": "date",
-      "title": "日期",
-      "type": "date",
       "editable": "true",
       "viewable": "true",
       "width":"7"

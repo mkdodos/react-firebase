@@ -1,4 +1,4 @@
-import { db } from "../../../utils/firebase";
+// import { db } from "../../../../utils/firebase";
 import {
   query,
   limit,
@@ -13,7 +13,7 @@ import {
   startAfter,
 } from "firebase11/firestore/lite";
 
-import data from "./db.json";
+import db from "./db.json";
 
 export const reducer = async (state, action) => {
   // 集合名稱
@@ -43,36 +43,36 @@ export const reducer = async (state, action) => {
   switch (action.type) {
     // 載入資料
     case "LOAD":
-      // 預設當日
-      let date = new Date().toISOString().substring(0, 10);
-      let className = "";
-
-      // 查詢參數(日期,階級)
-      if (action.payload) {
-        className = action.payload.className;
-        date = action.payload.date;
-      }
-
-      let q = collection(db, colName);
-
-      // 依所傳參數組合不同查詢
-      if (date) q = query(q, where("date", "==", date));
-
-      if (className)
-        q = query(q, where("class", "==", className));
-
-      const snapshot = await getDocs(q);
-
-      // console.log(snapshot.size);
-
+      // 取得集合
+      // const col = collection(db, colName);
+      // // 資料快照
       // const snapshot = await getDocs(col);
-      const data = snapshot.docs.map((doc) => {
-        return { ...doc.data(), id: doc.id };
-      });
+
+      // const data = snapshot.docs.map((doc) => {
+      //   return { ...doc.data(), id: doc.id };
+      // });
+
+      let data = db.hegemony;
+
+     
+
+      // 依傳來的參數做資料篩選
+      // const role = "勞工";
+      const role = action.className;
+      console.log(data)
+      // const data = data.hegemony.filter(obj=>obj.class==role)
+      // const data = data.hegemony
+      if (role !== undefined)
+        data = db.hegemony
+          .filter((obj) => obj.class == role)
+          .sort((a, b) => (a.title > b.title ? 1 : -1));
+
+      // console.log(db.hegemony)
 
       return {
         ...state,
         // data: data.hegemony,
+        // data: data.hegemony.filter(obj=>obj.class==role),
         data,
         // data: filteredData,
         // 複製一份原始資料做文字查詢用
