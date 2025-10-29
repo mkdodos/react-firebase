@@ -18,32 +18,28 @@ export default function printPDF(data) {
   doc.addFont("name-for-addFont-use", "name-for-setFont-use", "normal");
   doc.setFont("name-for-setFont-use");
   // 字型大小
-  doc.setFontSize(20);
+  doc.setFontSize(14);
   // 標題
   doc.text(data[0].class, pos.title.x, pos.title.y);
   // doc.text(data[0].content, 100, 120);
   // 輸出檔案
   // doc.save("a4.pdf");
 
-  // 欄位標題
-  // var columns = ["英文", "中文"];
+  // 欄位標題  
   var columns = [
     { dataKey: "title", header: "標題" },
     { dataKey: "content", header: "內容" },
   ];
-  // 列內容
-  var rows = [
-    [1, "Shaw", "Tanzania"],
-    [2, "Nelson", "Kazakhstan"],
-    [3, "Garcia", "Madagascar"],
-  ];
+  
 
   autoTable(doc, {
     theme: "grid", // 格線
     columns: columns, //欄位
     body: data, //內容
     margin: { left: pos.content.x, top: pos.content.y },
+    // 欄寬
     columnStyles:{ title: { cellWidth:60 }},
+    // 設定 font, 此版本需再設定 fontStyle, 字型才能正確顯示
     headStyles:{ font: "name-for-setFont-use",fontStyle: 'normal'},
     styles: {
       font: "name-for-setFont-use",

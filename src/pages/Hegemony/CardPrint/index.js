@@ -100,7 +100,9 @@ export default function index() {
 
       <ClassSelector dispatch={dispatch} state={state} />
 
-      <TableView state={state} rows={state.data} columns={schema.columns} />
+      <TableView 
+      handleEdit={handleEdit}
+      state={state} rows={state.data} columns={schema.columns} />
 
       <EditForm
         columns={columns}
@@ -108,6 +110,7 @@ export default function index() {
         setRow={setRow}
         state={state}
         dispatch={dispatch}
+        
       />
     </>
   );

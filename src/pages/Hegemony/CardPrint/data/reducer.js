@@ -1,4 +1,4 @@
-// import { db } from "../../../../utils/firebase";
+import { db } from "../../../../utils/firebase";
 import {
   query,
   limit,
@@ -13,7 +13,7 @@ import {
   startAfter,
 } from "firebase11/firestore/lite";
 
-import db from "./db.json";
+// import db from "./db.json";
 
 export const reducer = async (state, action) => {
   // 集合名稱
@@ -44,26 +44,26 @@ export const reducer = async (state, action) => {
     // 載入資料
     case "LOAD":
       // 取得集合
-      // const col = collection(db, colName);
+      const col = collection(db, colName);
       // // 資料快照
-      // const snapshot = await getDocs(col);
+      const snapshot = await getDocs(col);
 
-      // const data = snapshot.docs.map((doc) => {
-      //   return { ...doc.data(), id: doc.id };
-      // });
+      let data = snapshot.docs.map((doc) => {
+        return { ...doc.data(), id: doc.id };
+      });
 
-      let data = db.hegemony;
+      // let data = db.hegemony;
 
      
 
       // 依傳來的參數做資料篩選
       // const role = "勞工";
       const role = action.className;
-      console.log(data)
+      // console.log(data)
       // const data = data.hegemony.filter(obj=>obj.class==role)
       // const data = data.hegemony
       if (role !== undefined)
-        data = db.hegemony
+        data = data
           .filter((obj) => obj.class == role)
           .sort((a, b) => (a.title > b.title ? 1 : -1));
 

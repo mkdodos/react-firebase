@@ -1,4 +1,4 @@
-import { Form, Button, Modal, Dropdown } from "semantic-ui-react";
+import { Form, Button, Modal, Dropdown, TextArea } from "semantic-ui-react";
 
 export default function EditForm({ columns, state, dispatch, row, setRow }) {
   // 篩選可編輯欄位
@@ -21,60 +21,30 @@ export default function EditForm({ columns, state, dispatch, row, setRow }) {
     setRow({ ...row, [e.target.name]: e.target.value });
   };
 
-  const handlePlayerChange = (e, { value }) => {
-    // setRow({ ...row, player: value });
-    setRow({ ...row, player: value,playerText:e.target.innerText });
-  };
-
   const handleRoleChange = (e, { value }) => {
-    // console.log(e.target.innerText);
-    // 同時存放 role (英文)  roleText (中文)
-    setRow({ ...row, role: value, roleText: e.target.innerText });
+    setRow({ ...row, class: value });
   };
-
-  const players = [
-    {
-      key: "1",
-      text: "馬克",
-      value: "A",
-    },
-    {
-      key: "2",
-      text: "宜君",
-      value: "B",
-    },
-    {
-      key: "3",
-      text: "愷軒",
-      value: "C",
-    },
-    {
-      key: "4",
-      text: "欣妤",
-      value: "D",
-    },
-  ];
 
   const roles = [
     {
       key: "1",
       text: "勞工",
-      value: "labor",
+      value: "勞工",
     },
     {
       key: "2",
       text: "中產",
-      value: "middle",
+      value: "中產",
     },
     {
       key: "3",
-      text: "資本",
-      value: "cap",
+      text: "資本家",
+      value: "資本家",
     },
     {
       key: "4",
       text: "政府",
-      value: "gov",
+      value: "政府",
     },
   ];
 
@@ -82,25 +52,10 @@ export default function EditForm({ columns, state, dispatch, row, setRow }) {
   const formFields = (index, columnsPerRow) => {
     let fields = [];
     columns.slice(index, index + columnsPerRow).map((col, index) => {
+      // console.log(col.dataKey);
       // 依不同欄位顯示不同輸入控制項
       switch (col.dataKey) {
-        case "player":
-          fields.push(
-            <Form.Field key={index}>
-              <label>{col.title}</label>
-              <Dropdown
-                selection
-                search
-                onChange={handlePlayerChange}
-                placeholder="選擇資料"
-                options={players}
-                value={row.player}
-              />
-            </Form.Field>
-          );
-          return;
-
-        case "role":
+        case "class":
           fields.push(
             <Form.Field key={index}>
               <label>{col.title}</label>
@@ -110,10 +65,21 @@ export default function EditForm({ columns, state, dispatch, row, setRow }) {
                 onChange={handleRoleChange}
                 placeholder="選擇資料"
                 options={roles}
-                value={row.role}
+                value={row.class}
               />
             </Form.Field>
           );
+          return;
+
+        case "content":
+          // fields.push(
+          //   <Form.Field key={index}>
+          //     <label>{col.title}</label>
+          //     <TextArea value={row.content}
+          //      name={col.dataKey}
+          //      onChange={handleInputChange} />
+          //   </Form.Field>
+          // );
           return;
 
         default:
@@ -142,7 +108,17 @@ export default function EditForm({ columns, state, dispatch, row, setRow }) {
       >
         <Modal.Header>編輯</Modal.Header>
         <Modal.Content>
-          <Form>{formGroups(2)}</Form>
+          <Form>
+            {formGroups(2)}
+            <Form.Field>
+              <label>內容</label>
+              <TextArea
+                value={row.content}
+                name="content"
+                onChange={handleInputChange}
+              />
+            </Form.Field>
+          </Form>
         </Modal.Content>
         <Modal.Actions>
           <Button
