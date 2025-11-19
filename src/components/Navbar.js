@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu, Dropdown } from 'semantic-ui-react';
+import { Menu, Icon } from 'semantic-ui-react';
 import { Link, useNavigate } from 'react-router-dom';
 
 export default function Navbar() {
@@ -25,6 +25,10 @@ export default function Navbar() {
   return (
     <>
       <Menu color="blue"  pointing secondary>
+        <Menu.Item as={Link} to="/outdoor">
+         <Icon name='columns' />
+          Outdoor
+        </Menu.Item>
         <Menu.Item as={Link} to="/hegemony">
           Hegemony
         </Menu.Item>

@@ -1,0 +1,18 @@
+{
+  "columns": [
+    {
+      "dataKey": "cate",
+      "title": "種類",
+      "type": "text",
+      "editable": "true",
+      "viewable": "true"
+    },
+    {
+      "dataKey": "item",
+      "title": "項目",
+      "type": "text",
+      "editable": "true",
+      "viewable": "true"
+    }    
+  ]
+}

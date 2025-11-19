@@ -29,6 +29,9 @@ import Test from './pages/Test'
 import Hegemony from './pages/Hegemony'
 
 import Mortgage from "./pages/Mortgage"
+import Outdoor from "./pages/Outdoor"
+
+import Group from "./pages/Group"
 
 export default function App() {
   return (
@@ -38,6 +41,8 @@ export default function App() {
         <Routes>
           {/* <Route path="/react-firebase/build" element={<Money />} /> */}
           <Route path="/" element={<Stock2025 />} />
+          <Route path="/outdoor" element={<Outdoor />} />
+          <Route path="/group" element={<Group />} />
           <Route path="/mortgage" element={<Mortgage />} />
           <Route path="/hegemony" element={<Hegemony />} />
           <Route path="/stock-bonus" element={<StockBonus />} />
