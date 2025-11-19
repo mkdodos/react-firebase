@@ -52,7 +52,7 @@ export default function index() {
 
   return (
     <>
-      <CardView data={state.data} />
+      <CardView data={state.data} dispatch={dispatch} />
       <TableView
         state={state}
         columns={columns}

@@ -13,7 +13,7 @@ import {
 } from "semantic-ui-react";
 import { v4 as uuidv4 } from "uuid";
 
-export default function CardView({ data }) {
+export default function CardView({ data, dispatch }) {
   // 群組資料
   const groupedData = Object.groupBy(data, ({ cate }) => cate); //
   // 所有類別
@@ -49,7 +49,7 @@ export default function CardView({ data }) {
     return (
       <Card>
         <CardContent>
-          <CardHeader>
+          <CardHeader textAlign="center">
             <Icon name="github" /> {cate}
           </CardHeader>
         </CardContent>
@@ -58,14 +58,23 @@ export default function CardView({ data }) {
     );
   };
 
+  const checkItem = (item) => {
+    dispatch({ type: "CHECK_ITEM", item });
+  };
+
   // 類別包含的項目用清單呈現
   const itemList = (cateItems) => {
     return (
-      <List divided relaxed size="large">
-        {cateItems.map((obj) => {
+      <List divided relaxed="very"   size="large">
+        {cateItems.map((obj, index) => {
           return (
-            <ListItem key={uuidv4()}>
-              <ListIcon name="square outline" verticalAlign="middle" />
+            <ListItem key={uuidv4()} onClick={() => checkItem(obj)}>
+              {obj.checked ? (
+                <ListIcon name="check square" />
+              ) : (
+                <ListIcon name="square outline" />
+              )}
+
               <ListContent>{obj.item}</ListContent>
             </ListItem>
           );

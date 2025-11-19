@@ -20,29 +20,6 @@ export const reducer = async (state, action) => {
   const row = action.payload?.row;
   const index = action.payload?.index;
 
-   // 群組資料
-  const groupedData = (data) => {
-    const obj = Object.groupBy(data, ({ cate }) => cate);
-   
-    // 類別
-    const cates = Object.keys(obj);
-    
-    cates.map(cate=>{
-     
-      console.log(obj[cate])
-      
-    })
-
-    // 項目
-    // const items = obj[cates[0]]; 
-
-    // console.log(Object.keys(obj))
-    //  console.log(obj[cates[0]])
-
-    // return arr;
-  };
-
-
   // 執行相關動作
   switch (action.type) {
     // 載入資料
@@ -56,8 +33,6 @@ export const reducer = async (state, action) => {
         return { ...doc.data(), id: doc.id };
       });
 
-      groupedData(list)
-
       return {
         ...state,
         data: list,
@@ -65,7 +40,7 @@ export const reducer = async (state, action) => {
       };
 
     // 新增
-    case "ADD":     
+    case "ADD":
       return {
         ...state,
         open: true,
@@ -92,10 +67,11 @@ export const reducer = async (state, action) => {
       return { ...state, open: true, rowIndex: index };
 
     // 更新
-    case "UPDATE":    
-
+    case "UPDATE":
+      console.log(row);
       await updateDoc(doc(db, colName, row.id), {
         ...row,
+        checked: true,
       });
       Object.assign(state.data[state.rowIndex], row);
       return {
@@ -105,10 +81,28 @@ export const reducer = async (state, action) => {
         rowIndex: -1,
       };
 
+    //
+    case "CHECK_ITEM":
+      const item = (element) => element.id == action.item.id;
+      const rowIndex = state.data.findIndex(item);
+      await updateDoc(doc(db, colName, action.item.id), {
+        checked: !action.item.checked,
+      });
+      Object.assign(state.data[rowIndex], {
+        ...action.item,
+        checked: !action.item.checked,
+      });
+      return {
+        ...state,
+        open: false,
+        data: state.data,
+        rowIndex: -1,
+      };
+
     // 刪除
-    case "DELETE":      
+    case "DELETE":
       const id = action.payload.id;
-      await deleteDoc(doc(db, colName, id));     
+      await deleteDoc(doc(db, colName, id));
       const dataDel = state.data.filter((obj) => obj.id != id);
 
       return {
