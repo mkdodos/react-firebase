@@ -1,3 +1,5 @@
+import { tr } from "@faker-js/faker";
+import { useState } from "react";
 import {
   Grid,
   GridRow,
@@ -10,6 +12,8 @@ import {
   CardContent,
   Card,
   Icon,
+  Label,
+  Button,
 } from "semantic-ui-react";
 import { v4 as uuidv4 } from "uuid";
 
@@ -65,7 +69,7 @@ export default function CardView({ data, dispatch }) {
   // 類別包含的項目用清單呈現
   const itemList = (cateItems) => {
     return (
-      <List divided relaxed="very"   size="large">
+      <List divided relaxed="very" size="large">
         {cateItems.map((obj, index) => {
           return (
             <ListItem key={uuidv4()} onClick={() => checkItem(obj)}>
@@ -83,5 +87,33 @@ export default function CardView({ data, dispatch }) {
     );
   };
 
-  return <Grid divided="vertically">{genRows(3)}</Grid>;
+  const [isChecked, setIsChecked] = useState(false);
+
+  const checkAll = () => {
+    setIsChecked(!isChecked);
+    dispatch({ type: "CHECK_ALL", isChecked: !isChecked });
+  };
+
+  return (
+    <>
+      <Grid divided="vertically">
+        <GridRow>
+          <GridColumn>
+            <Button
+              size="large"
+              onClick={checkAll}
+              color="green"
+              basic
+              icon             
+              labelPosition="left"
+            >
+              <Icon name={isChecked ? "check square" : "square outline"} />
+              全選
+            </Button>
+          </GridColumn>
+        </GridRow>
+        {genRows(3)}
+      </Grid>
+    </>
+  );
 }

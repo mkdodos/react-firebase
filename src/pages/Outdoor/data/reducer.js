@@ -85,9 +85,9 @@ export const reducer = async (state, action) => {
     case "CHECK_ITEM":
       const item = (element) => element.id == action.item.id;
       const rowIndex = state.data.findIndex(item);
-      await updateDoc(doc(db, colName, action.item.id), {
-        checked: !action.item.checked,
-      });
+      // await updateDoc(doc(db, colName, action.item.id), {
+      //   checked: !action.item.checked,
+      // });
       Object.assign(state.data[rowIndex], {
         ...action.item,
         checked: !action.item.checked,
@@ -97,6 +97,13 @@ export const reducer = async (state, action) => {
         open: false,
         data: state.data,
         rowIndex: -1,
+      };
+
+    case "CHECK_ALL":
+      state.data.map((obj) => (obj.checked = action.isChecked));
+      return {
+        ...state,
+        data: state.data,
       };
 
     // 刪除
