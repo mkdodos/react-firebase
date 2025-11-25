@@ -1,6 +1,13 @@
 {
   "columns": [
     {
+      "dataKey": "date",
+      "title": "日期",
+      "type": "date",
+      "editable": "true",
+      "viewable": "true"
+    },
+    {
       "dataKey": "cate",
       "title": "種類",
       "type": "text",

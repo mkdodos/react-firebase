@@ -26,8 +26,14 @@ export const reducer = async (state, action) => {
     case "LOAD":
       // 取得集合
       const col = collection(db, colName);
+      // 排序,限制筆數
+      const q = query(col, orderBy("date", "desc"), limit(30));
+
       // 資料快照
-      const snapshot = await getDocs(col);
+      const snapshot = await getDocs(q);
+
+      // const snapshot = await getDocs(q);
+
       // 資料跑迴圈轉成物件陣列
       const list = snapshot.docs.map((doc) => {
         return { ...doc.data(), id: doc.id };

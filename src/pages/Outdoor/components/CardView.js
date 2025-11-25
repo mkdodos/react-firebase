@@ -1,4 +1,4 @@
-import { tr } from "@faker-js/faker";
+
 import { useState } from "react";
 import {
   Grid,

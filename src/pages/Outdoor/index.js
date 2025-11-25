@@ -3,7 +3,9 @@ import schema from "./data/schema.json";
 import { reducer } from "./data/reducer";
 import TableView from "./components/TableView";
 import CardView from "./components/CardView";
+import DateView from "./components/DateView";
 import EditForm from "./components/EditForm";
+import { TabPane, Tab } from "semantic-ui-react";
 
 export default function index() {
   // 預設資料物件
@@ -50,15 +52,46 @@ export default function index() {
     setRow(row);
   };
 
+  const panes = [
+    {
+      menuItem: "Date",
+      render: () => (
+        <TabPane>
+          <DateView data={state.data} dispatch={dispatch} />
+        </TabPane>
+      ),
+    },
+    {
+      menuItem: "Table",
+      render: () => (
+        <TabPane>
+          <TableView
+            state={state}
+            columns={columns}
+            handleAdd={handleAdd}
+            handleEdit={handleEdit}
+          />
+        </TabPane>
+      ),
+    },
+    {
+      menuItem: "Card",
+      render: () => (
+        <TabPane>
+          <CardView data={state.data} dispatch={dispatch} />
+        </TabPane>
+      ),
+    },
+    
+  ];
+
   return (
     <>
-      <CardView data={state.data} dispatch={dispatch} />
-      <TableView
-        state={state}
-        columns={columns}
-        handleAdd={handleAdd}
-        handleEdit={handleEdit}
+      <Tab
+        menu={{ color: "blue", secondary: true, pointing: true }}
+        panes={panes}
       />
+
       <EditForm
         columns={columns}
         row={row}
